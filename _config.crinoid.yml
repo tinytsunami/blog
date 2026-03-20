@@ -10,8 +10,6 @@ rss: false
 mathjax:
   enabled: true 
 
-projects_url: https://github.com/tinytsunami
-
 nav:
   home: /
   articles: /notes/

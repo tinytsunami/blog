@@ -1,6 +1,6 @@
 ---
 title: 關於我 About Me
-type: about
+type: home
 categories: blog
 comments: false
 ---
