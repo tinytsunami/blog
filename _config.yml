@@ -3,18 +3,18 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle: ''
-description: ''
-keywords:
-author: John Doe
-language: en
-timezone: ''
+title: 羊羽手札
+subtitle: Tinytsunami's Blog
+description: 羊羽的個人部落格
+keywords: 技術, 獨立遊戲
+author: Tinytusnami
+language: zh-TW
+timezone: UTC
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://example.com
-permalink: :year/:month/:day/:title/
+url: https://www.tinytsunami.info/
+permalink: :title/
 permalink_defaults:
 pretty_urls:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
@@ -28,7 +28,7 @@ archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
-skip_render:
+skip_render: [game/**]
 
 # Writing
 new_post_name: :title.md # File name of new posts
@@ -54,6 +54,14 @@ prismjs:
   preprocess: true
   line_number: true
   tab_replace: ''
+
+# Security
+encrypt: # hexo-blog-encrypt
+  abstract: 🔒 該文章已加密 Here's something encrypted
+  message: Password
+  theme: simple
+  wrong_pass_message: Password incorrect!
+  wrong_hash_message: Hash wrong!
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
@@ -84,7 +92,7 @@ updated_option: 'mtime'
 
 # Pagination
 ## Set per_page to 0 to disable pagination
-per_page: 10
+per_page: 0
 pagination_dir: page
 
 # Include / Exclude file(s)
@@ -96,9 +104,11 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: next
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  type: git
+  repo: git@github.com:tinytsunami/Web-Blog.git
+  branch: gh-pages
