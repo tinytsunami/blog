@@ -1,7 +1,3 @@
-/**
- * permalink.js | No Native Tag
- */
-
 'use strict';
 
 const fs = require('fs');
