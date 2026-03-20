@@ -1,0 +1,205 @@
+<div class="content" itemprop="articleBody">
+
+  <style>
+    .post-meta {
+      margin: 3px 0 20px 0 !important;
+    }
+
+    #title_photo img {
+      width: 600px;
+    }
+
+    #part2 {
+      clear: left;
+    }
+
+    @media (min-width: 1366px) {
+      #part1 {
+        float: left;
+        width: 70%;
+      }
+
+      .small-head {
+        float: left;
+        border-radius: 100%;
+        width: 20%;
+        margin: 0 5%;
+        padding: 3em 0;
+      }
+    }
+
+    @media (max-width: 1365px) {
+      #part1 {
+        width: 100%;
+      }
+
+      .small-head {
+        display: none !important;
+      }
+    }
+
+    #part1>p:last-child {
+      margin-bottom: 0;
+    }
+
+    hr {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+  </style>
+
+  <span id="title_photo">
+
+    <p><img src="/images/about.jpg"></p>
+  </span>
+
+  <h1 id="簡介-Introduction"><a href="#簡介-Introduction" class="headerlink" title="簡介 Introduction"></a>簡介 Introduction
+  </h1>
+  <div id="part1">
+
+    <p>最早是 RPG Maker VX 的獨立遊戲開發者。<br>在學生時代是網頁設計選手，所以也想要有自己的網站 💣</p>
+    <p>後來唸資訊工程，喜歡在業餘時間研究一些遊戲有關的要素，<br>像是地圖雲、NPC 尋路/視野、道具整理、遊戲光影之類的東西 🎮</p>
+    <p>隨著深耕在電腦科學領域，發現很多數學、演算法的東西，<br>實際用在程式設計（或遊戲）裡會有很神奇的效果 ✨</p>
+    <p>目前主要在 RPG Maker 社群裡活動 🐑</p>
+  </div>
+  <img class="small-head" src="/images/head.jpg">
+
+  <div id="part2">
+
+    <hr>
+    <p>I was an indie game developer using RPG Maker VX early, and web design contestant in the student period 🐑</p>
+    <p>And then, I study computer science, and enjoy game design topics during my spare time 🎮<br>For instance, how to
+      generate/draw cloud using a few image fragments in the 2d screen, NPCs vision/routing, item sorting in the bag,
+      game lighting, etc.</p>
+    <p>With learning in computer science, I discovered that is interesting if you put some mathematics or algorithm into
+      your program (or indie game) ✨</p>
+    <p>Now, I am active in the Taiwan RPG Maker community 🐑</p>
+  </div>
+
+  <h1 id="MY-VSINDER-🎲"><a href="#MY-VSINDER-🎲" class="headerlink" title="MY VSINDER 🎲"></a>MY VSINDER 🎲</h1>
+  <figure class="highlight js">
+    <table>
+      <tbody>
+        <tr>
+          <td class="gutter">
+            <pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre>
+          </td>
+          <td class="code">
+            <pre><span class="line"><span class="keyword">const</span> epsilon = <span class="number">1e-4</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> differential = <span class="keyword">function</span>(<span class="params">f</span>) {</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="params">x</span> =&gt;</span> (<span class="title function_">f</span>(x + epsilon) - <span class="title function_">f</span>(x)) / epsilon;</span><br><span class="line">};</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> integral = <span class="keyword">function</span>(<span class="params">f, f0</span>) {</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="params">x</span> =&gt;</span> f0 + [...<span class="title class_">Array</span>(x / epsilon &gt;&gt; <span class="number">0</span>).<span class="title function_">keys</span>()].<span class="title function_">reduce</span>(<span class="function">(<span class="params">s, k</span>) =&gt;</span> {</span><br><span class="line">    <span class="keyword">return</span> s + <span class="title function_">f</span>(x - k * epsilon);</span><br><span class="line">  }, <span class="number">0</span>) * epsilon;</span><br><span class="line">};</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="title function_">f</span> = (<span class="params">x</span>) =&gt; x * x;    <span class="comment">// f(x) = x^2;</span></span><br><span class="line"><span class="keyword">let</span> g = <span class="title function_">differential</span>(f); <span class="comment">// g(x) = 2*x;</span></span><br><span class="line"><span class="keyword">let</span> h = <span class="title function_">integral</span>(g, <span class="number">0</span>);  <span class="comment">// h(x) = x^2;</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">f</span>(<span class="number">2</span>), <span class="title function_">f</span>(<span class="number">4</span>), <span class="title function_">f</span>(<span class="number">6</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">g</span>(<span class="number">2</span>), <span class="title function_">g</span>(<span class="number">4</span>), <span class="title function_">g</span>(<span class="number">6</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">h</span>(<span class="number">2</span>), <span class="title function_">h</span>(<span class="number">4</span>), <span class="title function_">h</span>(<span class="number">6</span>));</span><br></pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </figure>
+
+  <h1 id="我的旅途-Journey"><a href="#我的旅途-Journey" class="headerlink" title="我的旅途 Journey"></a>我的旅途 Journey</h1>
+  我把一些簡歷放在這裡，因為數量不多就湊合一下 💣
+
+
+  <table>
+    <thead>
+      <tr>
+        <th align="left">名稱 Name</th>
+        <th align="center">類型 Type</th>
+        <th align="center">時間 Timestamp</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td align="left">全國大專電腦軟體設計競賽（應用軟體組）第二名<br> National Collegiate Programming Contest 2rd place (application
+          software design)</td>
+        <td align="center">獎項 Honor</td>
+        <td align="center">Nov. 2018</td>
+      </tr>
+      <tr>
+        <td align="left">全國大專電腦軟體設計競賽（應用軟體組）佳作<br> National Collegiate Programming Contest honorable mention
+          (application software design)</td>
+        <td align="center">獎項 Honor</td>
+        <td align="center">Nov. 2017</td>
+      </tr>
+      <tr>
+        <td align="left">全國大專電腦軟體設計競賽（應用軟體組）第三名<br> National Collegiate Programming Contest 3rd place (application
+          software design)</td>
+        <td align="center">獎項 Honor</td>
+        <td align="center">Nov. 2016</td>
+      </tr>
+      <tr>
+        <td align="left">全國工科技藝競賽志工<br> National High School Skills Competition</td>
+        <td align="center">志工 Volunteer</td>
+        <td align="center">Nov. 2013</td>
+      </tr>
+    </tbody>
+  </table>
+  <h1 id="網站歷程-History"><a href="#網站歷程-History" class="headerlink" title="網站歷程 History"></a>網站歷程 History</h1>
+  「更新歷程」系列文章之後只會發表更新時比較值得描述的情況 🚧
+
+
+  <table>
+    <thead>
+      <tr>
+        <th align="left">描述 Description</th>
+        <th align="center">時間 Timestamp</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td align="left">羊羽手札v1（PHP）</td>
+        <td align="center">2016.10.24</td>
+      </tr>
+      <tr>
+        <td align="left">羊羽手札v2（Vue.js+Express）</td>
+        <td align="center">2017.12.18</td>
+      </tr>
+      <tr>
+        <td align="left">羊羽手札v3（Hexo）</td>
+        <td align="center">2017.02.25</td>
+      </tr>
+      <tr>
+        <td align="left">更新歷程 01 發表</td>
+        <td align="center">2017.02.25</td>
+      </tr>
+      <tr>
+        <td align="left">更新歷程 02 發表</td>
+        <td align="center">2018.07.01</td>
+      </tr>
+      <tr>
+        <td align="left">暫停更新</td>
+        <td align="center">2018.09.24</td>
+      </tr>
+      <tr>
+        <td align="left">更新歷程 03 發表</td>
+        <td align="center">2018.09.24</td>
+      </tr>
+      <tr>
+        <td align="left">重啟更新</td>
+        <td align="center">2019.03.28</td>
+      </tr>
+      <tr>
+        <td align="left">羊羽手札v4（Hexo/Next Update）</td>
+        <td align="center">2019.04.20</td>
+      </tr>
+      <tr>
+        <td align="left">更新歷程 04 發表</td>
+        <td align="center">2019.04.20</td>
+      </tr>
+      <tr>
+        <td align="left">更新歷程 05 發表</td>
+        <td align="center">2020.02.25</td>
+      </tr>
+      <tr>
+        <td align="left">羊羽手札v5（Hexo/Next Update）</td>
+        <td align="center">2022.02.12</td>
+      </tr>
+      <tr>
+        <td align="left">更新歷程 06 發表</td>
+        <td align="center">2022.02.12</td>
+      </tr>
+      <tr>
+        <td align="left">公開「關於我」頁面</td>
+        <td align="center">2022.02.19</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+</div>

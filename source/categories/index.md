@@ -1,6 +1,5 @@
 ---
-title: 文章分類
+title: Categories
 type: categories
-categories: blog
 comments: false
 ---
