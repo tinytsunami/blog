@@ -26,8 +26,6 @@ favicon:
   apple_touch_icon: /images/apple-touch-icon-next.png
   safari_pinned_tab: /images/logo.svg
 
-custom_logo: /images/icon.png
-
 # Creative Commons 4.0 International License.
 creative_commons:
   license: cc-zero
