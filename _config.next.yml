@@ -115,6 +115,19 @@ motion:
 # Comments Settings
 # ---------------------------------------------------------------
 
+giscus:
+  enable: true
+  repo: "tinytsunami/blog"
+  repo_id: "MDEwOlJlcG9zaXRvcnkxMjI3MTEwNTY="
+  category: "Blog Comments"
+  category_id: "DIC_kwDOB1BsEM4C42Ww"
+  mapping: pathname
+  reactions_enabled: 1
+  emit_metadata: 1
+  theme: preferred_color_scheme
+  lang: zh-TW
+  input_position: top
+  loading: lazy
 
 # ---------------------------------------------------------------
 # Search Services
