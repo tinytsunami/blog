@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.tinytsunami.info","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="這篇文章是某同學跟我說消去法不好寫，所以才出現的，原本當初在上線性代數時，其實也有這樣的感覺，覺得消去法的細節有點多。 想清楚之後就覺得消去法本身不會很困難，精度的維持才是最艱難之處。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高斯喬登消去法 Gauss-Jordan Elimination">
+<meta property="og:url" content="https://www.tinytsunami.info/Gauss-Jordan-elimination/index.html">
+<meta property="og:site_name" content="羊羽手札">
+<meta property="og:description" content="這篇文章是某同學跟我說消去法不好寫，所以才出現的，原本當初在上線性代數時，其實也有這樣的感覺，覺得消去法的細節有點多。 想清楚之後就覺得消去法本身不會很困難，精度的維持才是最艱難之處。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2018-05-21T21:09:49.000Z">
+<meta property="article:modified_time" content="2026-03-20T08:43:52.245Z">
+<meta property="article:author" content="Tinytusnami">
+<meta property="article:tag" content="技術, 獨立遊戲">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.tinytsunami.info/Gauss-Jordan-elimination/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://www.tinytsunami.info/Gauss-Jordan-elimination/","path":"/Gauss-Jordan-elimination/","title":"高斯喬登消去法 Gauss-Jordan Elimination"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>高斯喬登消去法 Gauss-Jordan Elimination | 羊羽手札</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">羊羽手札</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Tinytsunami's Blog</p>
+      <img class="custom-logo-image" src="/images/icon.png" alt="羊羽手札">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-game"><a href="https://tinytsunami.itch.io/" rel="section" target="_blank"><i class="fas fa-gamepad fa-fw"></i>game</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9F%A9%E9%99%A3%E9%81%8B%E7%AE%97"><span class="nav-number">1.</span> <span class="nav-text">矩陣運算</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A2%9E%E5%BB%A3%E7%9F%A9%E9%99%A3"><span class="nav-number">1.1.</span> <span class="nav-text">增廣矩陣</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A9%E5%88%97%E4%BA%A4%E6%8F%9B"><span class="nav-number">1.2.</span> <span class="nav-text">兩列交換</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A9%E5%88%97%E5%8A%A0%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">兩列加法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%96%AE%E5%88%97%E7%B8%AE%E6%94%BE"><span class="nav-number">1.4.</span> <span class="nav-text">單列縮放</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B6%88%E5%8E%BB%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">消去法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%96%E5%BE%97%E8%BB%B8"><span class="nav-number">2.1.</span> <span class="nav-text">取得軸</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%B0%8F%E5%80%BC%E8%A8%BB%E6%A8%99"><span class="nav-number">2.2.</span> <span class="nav-text">最小值註標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E6%96%AF%E9%83%A8%E5%88%86"><span class="nav-number">2.3.</span> <span class="nav-text">高斯部分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%96%AC%E7%99%BB%E9%83%A8%E5%88%86"><span class="nav-number">2.4.</span> <span class="nav-text">喬登部分</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%99%A4%E9%8C%AF%E6%8A%80%E5%B7%A7"><span class="nav-number">3.</span> <span class="nav-text">除錯技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%8B%95%E6%B8%AC%E8%B3%87"><span class="nav-number">3.1.</span> <span class="nav-text">自動測資</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%B0%E5%87%BA%E7%9F%A9%E9%99%A3"><span class="nav-number">3.2.</span> <span class="nav-text">印出矩陣</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BC%94%E7%A4%BA"><span class="nav-number">4.</span> <span class="nav-text">演示</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Tinytusnami"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">Tinytusnami</p>
+  <div class="site-description" itemprop="description">羊羽的個人部落格</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/tinytsunami" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;tinytsunami" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/TaipeiTsunami" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;TaipeiTsunami" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/profile.php?id=100000736195394" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;profile.php?id&#x3D;100000736195394" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCtqp9w_uA_LohDm0YXNWqSA" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCtqp9w_uA_LohDm0YXNWqSA" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+          連結
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://blog.cyris.tw/" title="https:&#x2F;&#x2F;blog.cyris.tw" rel="noopener" target="_blank">Cyris's Blog</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://poyu-liao.github.io/blog" title="https:&#x2F;&#x2F;poyu-liao.github.io&#x2F;blog" rel="noopener" target="_blank">Robert's Blog</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/Gauss-Jordan-elimination/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="Tinytusnami">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="羊羽手札">
+      <meta itemprop="description" content="羊羽的個人部落格">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="高斯喬登消去法 Gauss-Jordan Elimination | 羊羽手札">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          高斯喬登消去法 Gauss-Jordan Elimination
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2018-05-21 21:09:49" itemprop="dateCreated datePublished" datetime="2018-05-21T21:09:49Z">2018-05-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/legacy-math/" itemprop="url" rel="index"><span itemprop="name">(legacy) math</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>這篇文章是某同學跟我說消去法不好寫，所以才出現的，<br>原本當初在上線性代數時，其實也有這樣的感覺，覺得消去法的細節有點多。</p>
+<p>想清楚之後就覺得消去法本身不會很困難，精度的維持才是最艱難之處。</p>
+<span id="more"></span>
+
+<h1 id="矩陣運算"><a href="#矩陣運算" class="headerlink" title="矩陣運算"></a>矩陣運算</h1><p>消去法有一些基本運算，包含：</p>
+<ol>
+<li>交換 A、B 兩個列</li>
+<li>將一列 A 加到另一列 B</li>
+<li>將一列 A 乘上一個倍數 c</li>
+</ol>
+<p>此外，建立「增廣矩陣」也要處理。</p>
+<div class="note warning"><p>注意這裡使用「直行橫列」意即列（Row）與行（Column）</p>
+</div>
+
+<h2 id="增廣矩陣"><a href="#增廣矩陣" class="headerlink" title="增廣矩陣"></a>增廣矩陣</h2><p>輸入係數矩陣 M 與列向量 b 建立增廣矩陣 A。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 取得增廣矩陣</span></span><br><span class="line"><span class="comment"> * 輸入係數矩陣 M 及列向量 b 組合</span></span><br><span class="line"><span class="comment"> * 回傳增廣矩陣 A</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">let</span> augmented = <span class="keyword">function</span>(<span class="params">M, b</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> A = <span class="title class_">Array</span>.<span class="title function_">from</span>(M, <span class="keyword">function</span>(<span class="params">v, k</span>) &#123;  <span class="comment">// 建立增廣矩陣 A</span></span><br><span class="line">    <span class="keyword">return</span> v.<span class="title function_">concat</span>(b[k]);                <span class="comment">// 將 M 的每一列都加上 b 的列</span></span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> A;                               <span class="comment">// 回傳增廣矩陣 A</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>為了某些時候需要，<br>也可以撰寫將增廣矩陣 A 分解成係數矩陣 M 與列向量 b 的函數。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 分解增廣矩陣</span></span><br><span class="line"><span class="comment"> * 輸入增廣矩陣 A 分解</span></span><br><span class="line"><span class="comment"> * 回傳為包含係數矩陣 M 及列向量 b 的物件</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">let</span> unaugmented = <span class="keyword">function</span>(<span class="params">A</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;                                <span class="comment">// 回傳包含 M 及 b 的物件</span></span><br><span class="line">    <span class="attr">M</span>: <span class="title class_">Array</span>.<span class="title function_">from</span>(A, <span class="keyword">function</span>(<span class="params">r</span>) &#123;        <span class="comment">// 從增廣矩陣 A 建立</span></span><br><span class="line">      <span class="keyword">return</span> r.<span class="title function_">filter</span>(<span class="keyword">function</span>(<span class="params">v, i</span>) &#123;    <span class="comment">// 過濾掉 A 每一列的最後一個元素則為係數矩陣 M</span></span><br><span class="line">        <span class="keyword">return</span> i != (r.<span class="property">length</span> - <span class="number">1</span>);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="attr">b</span>: <span class="title class_">Array</span>.<span class="title function_">from</span>(A, <span class="keyword">function</span>(<span class="params">r</span>) &#123;        <span class="comment">// 從增廣矩陣 A 建立</span></span><br><span class="line">      <span class="keyword">return</span> r.<span class="title function_">filter</span>(<span class="keyword">function</span>(<span class="params">v, i</span>) &#123;    <span class="comment">// 過濾掉非 A 每一列的最後一個元素則為列向量 b</span></span><br><span class="line">        <span class="keyword">return</span> i == (r.<span class="property">length</span> - <span class="number">1</span>);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="兩列交換"><a href="#兩列交換" class="headerlink" title="兩列交換"></a>兩列交換</h2><p>交換兩個列，多用於軸（pivot）為零的情況。</p>
+<div class="note info"><p>「樞」為 pivot 而「軸」為 axis；<br>不過這裡的軸是指 pivot 才對，鑒於溝通上不太使用「樞」故此用「軸」稱呼。</p>
+</div>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 兩列交換</span></span><br><span class="line"><span class="comment"> * 輸入矩陣 A 交換 a 及 b 兩列</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">let</span> exchange = <span class="keyword">function</span>(<span class="params">A, a, b</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> T = <span class="title class_">Array</span>.<span class="title function_">from</span>(A[a]);               <span class="comment">// 複製第 a 列</span></span><br><span class="line">  A[a] = A[b];                            <span class="comment">// 令第 a 列為第 b 列</span></span><br><span class="line">  A[b] = T;                               <span class="comment">// 令第 b 列為複製的 a 列</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="兩列加法"><a href="#兩列加法" class="headerlink" title="兩列加法"></a>兩列加法</h2><p>將一列乘上一個倍數加到另一列上。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 兩列加法</span></span><br><span class="line"><span class="comment"> * 輸入矩陣 A 將第 a 列乘 scalar 加到第 b 列</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">let</span> addition = <span class="keyword">function</span>(<span class="params">A, a, b, scalar</span>) &#123;</span><br><span class="line">  A[b] = A[b].<span class="title function_">map</span>(<span class="keyword">function</span>(<span class="params">v, k</span>) &#123;        <span class="comment">// 使第 b 列變化</span></span><br><span class="line">    <span class="keyword">return</span> v + A[a][k] * scalar;          <span class="comment">// 將第 a 列乘 scalar 加上</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="單列縮放"><a href="#單列縮放" class="headerlink" title="單列縮放"></a>單列縮放</h2><p>將一列乘上一個常數。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 單列縮放</span></span><br><span class="line"><span class="comment"> * 輸入矩陣 A 將第 a 列乘上 scalar</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">let</span> scalar = <span class="keyword">function</span>(<span class="params">A, a, scalar</span>) &#123;</span><br><span class="line">  A[a] = A[a].<span class="title function_">map</span>(<span class="keyword">function</span>(<span class="params">v, k</span>) &#123;        <span class="comment">// 將第 a 列變化</span></span><br><span class="line">    <span class="keyword">return</span> v * scalar;                    <span class="comment">// 將元素乘上 scalar</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="消去法"><a href="#消去法" class="headerlink" title="消去法"></a>消去法</h1><p>通過剛剛寫的副程式，可以使消去法變得更容易完成，<br>但考慮到一些情形，必須要在撰寫一些函數。</p>
+<h2 id="取得軸"><a href="#取得軸" class="headerlink" title="取得軸"></a>取得軸</h2><p>取得矩陣 A 的從第 k 列開始的軸。<br>考慮到如果當前軸那個位置的元素為零，這個函數可以幫我們找到可以交換的列。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 取得軸</span></span><br><span class="line"><span class="comment"> * 輸入矩陣 A 及第 k 列</span></span><br><span class="line"><span class="comment"> * 建立一個 row(A) - k 長度的陣列</span></span><br><span class="line"><span class="comment"> * 陣列元素值 e 為第 k 列開始第 e 行元素不為零</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">let</span> findPivots = <span class="keyword">function</span>(<span class="params">A, k</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="title class_">Array</span>.<span class="title function_">from</span>(&#123;</span><br><span class="line">    <span class="attr">length</span>: (A.<span class="property">length</span> - k)                        <span class="comment">// 建立長度為 row(A) - k 的陣列</span></span><br><span class="line">  &#125;, <span class="keyword">function</span>(<span class="params">e, i</span>) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; A[k + i].<span class="property">length</span>; j++) &#123;   <span class="comment">// 遍歷 A 第 k + i 列的每個元素</span></span><br><span class="line">      <span class="keyword">if</span> (A[k + i][j] != <span class="number">0</span>) &#123;                     <span class="comment">// 如果 A 第 k + i 列的第 j 個元素不為零</span></span><br><span class="line">        <span class="keyword">return</span> j;                                 <span class="comment">// 返回 j</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> A[<span class="number">0</span>].<span class="property">length</span>;                           <span class="comment">// 第 k + i 列的所有元素都為零返回行的數量</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>這個函數是之後消去法的關鍵，也是最難理解的部分。<br>為幫助理解可以看一個例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> A = [[ <span class="number">0</span>, -<span class="number">2</span>,  <span class="number">4</span>,  <span class="number">7</span>],</span><br><span class="line">         [ <span class="number">0</span>,  <span class="number">0</span>,  <span class="number">5</span>,  <span class="number">8</span>],</span><br><span class="line">         [ <span class="number">0</span>,  <span class="number">0</span>,  <span class="number">0</span>,  <span class="number">0</span>],</span><br><span class="line">         [ <span class="number">3</span>, -<span class="number">3</span>,  <span class="number">6</span>,  <span class="number">9</span>]]</span><br><span class="line"></span><br><span class="line"><span class="title function_">findPivots</span>(A, <span class="number">0</span>);   <span class="comment">// [1, 2, 4, 0]</span></span><br><span class="line"><span class="title function_">findPivots</span>(A, <span class="number">1</span>);   <span class="comment">// [4, 2, 0]</span></span><br><span class="line"><span class="title function_">findPivots</span>(A, <span class="number">2</span>);   <span class="comment">// [4, 0]</span></span><br><span class="line"><span class="title function_">findPivots</span>(A, <span class="number">3</span>);   <span class="comment">// [0]</span></span><br></pre></td></tr></table></figure>
+
+<p>之所以有這個函數，考慮如果第 k 列的軸為零，<br>只要透過這個函數取得從第 k 列開始的軸，找到陣列中最小值交換就好。</p>
+<p>考慮剛才的例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[[ <span class="number">0</span>, -<span class="number">2</span>,  <span class="number">4</span>,  <span class="number">7</span>],</span><br><span class="line"> [ <span class="number">0</span>,  <span class="number">0</span>,  <span class="number">5</span>,  <span class="number">8</span>],</span><br><span class="line"> [ <span class="number">0</span>,  <span class="number">0</span>,  <span class="number">0</span>,  <span class="number">0</span>],</span><br><span class="line"> [ <span class="number">3</span>, -<span class="number">3</span>,  <span class="number">6</span>,  <span class="number">9</span>]]</span><br></pre></td></tr></table></figure>
+
+<p>其中第 0 列的軸位置為零，故計算第 0 列開始的軸位置為 [1, 2, 4, 0]<br>最小值為 0 註標為 3 則交換第 0 列與第 3 列。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[[ <span class="number">3</span>, -<span class="number">3</span>,  <span class="number">6</span>,  <span class="number">9</span>],</span><br><span class="line"> [ <span class="number">0</span>,  <span class="number">0</span>,  <span class="number">5</span>,  <span class="number">8</span>],</span><br><span class="line"> [ <span class="number">0</span>,  <span class="number">0</span>,  <span class="number">0</span>,  <span class="number">0</span>],</span><br><span class="line"> [ <span class="number">0</span>, -<span class="number">2</span>,  <span class="number">4</span>,  <span class="number">7</span>]]</span><br></pre></td></tr></table></figure>
+
+<p>同樣的，再換一次為：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[[ <span class="number">3</span>, -<span class="number">3</span>,  <span class="number">6</span>,  <span class="number">9</span>],</span><br><span class="line"> [ <span class="number">0</span>, -<span class="number">2</span>,  <span class="number">4</span>,  <span class="number">7</span>],</span><br><span class="line"> [ <span class="number">0</span>,  <span class="number">0</span>,  <span class="number">0</span>,  <span class="number">0</span>],</span><br><span class="line"> [ <span class="number">0</span>,  <span class="number">0</span>,  <span class="number">5</span>,  <span class="number">8</span>]]</span><br></pre></td></tr></table></figure>
+
+<h2 id="最小值註標"><a href="#最小值註標" class="headerlink" title="最小值註標"></a>最小值註標</h2><p>取得最小值註標是個簡單的功能。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 取得陣列最小值的註標</span></span><br><span class="line"><span class="comment"> * 輸入陣列 arr 最小值為 arr[i] 回傳 i</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">let</span> minIndex = <span class="keyword">function</span>(<span class="params">arr</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> index = <span class="number">0</span>;                          <span class="comment">// 假設最小值註標為 0</span></span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; arr.<span class="property">length</span>; i++) &#123;   <span class="comment">// 遍歷陣列</span></span><br><span class="line">    <span class="keyword">if</span>(arr[i] &lt; arr[index]) &#123;             <span class="comment">// 如果值更小</span></span><br><span class="line">      index = i;                          <span class="comment">// 改變最小值註標</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> index;                           <span class="comment">// 回傳最小值註標</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="高斯部分"><a href="#高斯部分" class="headerlink" title="高斯部分"></a>高斯部分</h2><p>消去法的這個部分主要是將下三角的元素變為零，<br>即使矩陣 A 變成上三角矩陣。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 高斯消去法</span></span><br><span class="line"><span class="comment"> * 輸入增廣矩陣 A 使之變成上三角矩陣</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">let</span> <span class="title class_">Gauss</span> = <span class="keyword">function</span>(<span class="params">A</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> m = A.<span class="property">length</span>;                               <span class="comment">// A 有 m 個列</span></span><br><span class="line">  <span class="keyword">let</span> n = A[<span class="number">0</span>].<span class="property">length</span>;                            <span class="comment">// A 有 n 個行</span></span><br><span class="line">  <span class="keyword">let</span> r = <span class="title class_">Math</span>.<span class="title function_">min</span>(m, n);                         <span class="comment">// A 最大會有 r 個軸</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; m; i++) &#123;                   <span class="comment">// 對第 i 個列操作</span></span><br><span class="line">    <span class="keyword">let</span> pivots = <span class="title function_">findPivots</span>(A, i);                <span class="comment">// 計算從第 i 列開始的軸位置</span></span><br><span class="line">    <span class="keyword">let</span> p = &#123;                                     <span class="comment">// 建立目前軸 p 的位置</span></span><br><span class="line">      <span class="attr">i</span>: <span class="number">0</span>,</span><br><span class="line">      <span class="attr">j</span>: <span class="number">0</span></span><br><span class="line">    &#125;;</span><br><span class="line">    p.<span class="property">i</span> = <span class="title function_">minIndex</span>(pivots);                       <span class="comment">// 取得最小軸位置的列</span></span><br><span class="line">    p.<span class="property">j</span> = pivots[p.<span class="property">i</span>];                            <span class="comment">// 取得最小軸位置</span></span><br><span class="line">    <span class="keyword">if</span> (p.<span class="property">j</span> == n) &#123;                               <span class="comment">// p.j 為 n 即整列是零</span></span><br><span class="line">      <span class="keyword">return</span>;                                     <span class="comment">// 已經不能再做下去了</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_">exchange</span>(A, i, i + p.<span class="property">i</span>);                      <span class="comment">// 交換最小軸位置的列到本列</span></span><br><span class="line">    <span class="title function_">scalar</span>(A, i, <span class="number">1</span> / A[i][p.<span class="property">j</span>]);                  <span class="comment">// 縮放本列的大小使軸為 1</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = i + <span class="number">1</span>; j &lt; m; j++) &#123;             <span class="comment">// 遍歷軸下面的列</span></span><br><span class="line">      <span class="title function_">addition</span>(A, i, j, -A[j][p.<span class="property">j</span>] / A[i][p.<span class="property">j</span>]);  <span class="comment">// 將其變為 0</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="喬登部分"><a href="#喬登部分" class="headerlink" title="喬登部分"></a>喬登部分</h2><p>消去法的這個部分是透過代入法，<br>使矩陣 A 只有對角線上的元素有值（且為 1）。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 代入法</span></span><br><span class="line"><span class="comment"> * 重複代入使軸上方元素為零</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">let</span> <span class="title class_">Jordan</span> = <span class="keyword">function</span>(<span class="params">A</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> m = A.<span class="property">length</span>;                               <span class="comment">// A 有 m 個列</span></span><br><span class="line">  <span class="keyword">let</span> n = A[<span class="number">0</span>].<span class="property">length</span>;                            <span class="comment">// A 有 n 個行</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = m - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;              <span class="comment">// 對第 i 個列操作</span></span><br><span class="line">    <span class="keyword">let</span> pivots = <span class="title function_">findPivots</span>(A, i);                <span class="comment">// 計算從第 i 列開始的軸位置</span></span><br><span class="line">    <span class="keyword">let</span> p = &#123;                                     <span class="comment">// 建立目前軸 p 的位置</span></span><br><span class="line">      <span class="attr">i</span>: <span class="literal">null</span>,</span><br><span class="line">      <span class="attr">j</span>: pivots[<span class="number">0</span>]</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">if</span>(p.<span class="property">j</span> == n) &#123;                                <span class="comment">// p.j 為 n 即整列是零</span></span><br><span class="line">      <span class="keyword">continue</span>;                                   <span class="comment">// 跳過這個列</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = i - <span class="number">1</span>; j &gt;= <span class="number">0</span>; j--) &#123;            <span class="comment">// 遍歷軸上面的列</span></span><br><span class="line">      <span class="title function_">addition</span>(A, i, j, -A[j][p.<span class="property">j</span>] / A[i][p.<span class="property">j</span>]);  <span class="comment">// 將其變為 0</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="除錯技巧"><a href="#除錯技巧" class="headerlink" title="除錯技巧"></a>除錯技巧</h1><p>這裡整理一些除錯的技巧。</p>
+<h2 id="自動測資"><a href="#自動測資" class="headerlink" title="自動測資"></a>自動測資</h2><p>人工設定測資可能也可以完成，<br>但如果能自動生成測資的話，就可以做比較大量的測試。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 產生測資矩陣</span></span><br><span class="line"><span class="comment"> * 建立大小為 (m, n) 的矩陣 M 及大小為 (m, 1) 的列向量 b</span></span><br><span class="line"><span class="comment"> * 組合出元素值 [a, b] 整數的增廣矩陣 A</span></span><br><span class="line"><span class="comment"> * 其中 m 與 n 為 [4, 7]</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">let</span> generateMatrix = <span class="keyword">function</span>(<span class="params">a, b</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> v = <span class="keyword">function</span>(<span class="params"></span>) &#123;                                <span class="comment">// 取得述職的函數</span></span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Math</span>.<span class="title function_">floor</span>(<span class="title class_">Math</span>.<span class="title function_">random</span>() * (b - a)) + a;   <span class="comment">// 數值為 [a, b]</span></span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">let</span> m = <span class="title class_">Math</span>.<span class="title function_">floor</span>(<span class="title class_">Math</span>.<span class="title function_">random</span>() * <span class="number">3</span>) + <span class="number">4</span>;          <span class="comment">// 取得 m = [4, 7]</span></span><br><span class="line">  <span class="keyword">let</span> n = <span class="title class_">Math</span>.<span class="title function_">floor</span>(<span class="title class_">Math</span>.<span class="title function_">random</span>() * <span class="number">3</span>) + <span class="number">4</span>;          <span class="comment">// 取得 n = [4, 7]</span></span><br><span class="line">  <span class="keyword">let</span> M = <span class="title class_">Array</span>.<span class="title function_">from</span>(&#123;<span class="attr">length</span>: m&#125;, <span class="keyword">function</span>(<span class="params"></span>) &#123;        <span class="comment">// 建立矩陣 M</span></span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Array</span>.<span class="title function_">from</span>(&#123;<span class="attr">length</span>: n&#125;, <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="title function_">v</span>();</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">let</span> b = <span class="title class_">Array</span>.<span class="title function_">from</span>(&#123;<span class="attr">length</span>: m&#125;, <span class="keyword">function</span>(<span class="params"></span>) &#123;        <span class="comment">// 建立列向量 b</span></span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Array</span>.<span class="title function_">from</span>(&#123;<span class="attr">length</span>: <span class="number">1</span>&#125;, <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="title function_">v</span>();</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">  A = <span class="title function_">augmented</span>(M, b);                                <span class="comment">// 組合出增廣矩陣 A</span></span><br><span class="line">  <span class="keyword">if</span>(<span class="title class_">Math</span>.<span class="title function_">random</span>() &gt; <span class="number">0.5</span>) &#123;                           <span class="comment">// 是否建立空列</span></span><br><span class="line">    <span class="title function_">scalar</span>(A, <span class="title class_">Math</span>.<span class="title function_">floor</span>(<span class="title class_">Math</span>.<span class="title function_">random</span>() * m), <span class="number">0</span>);      <span class="comment">// 使隨機一列元素為 0</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span>(<span class="title class_">Math</span>.<span class="title function_">random</span>() &gt; <span class="number">0.5</span>) &#123;                           <span class="comment">// 是否建立相同列</span></span><br><span class="line">    <span class="keyword">let</span> z = <span class="title class_">Math</span>.<span class="title function_">floor</span>(<span class="title class_">Math</span>.<span class="title function_">random</span>() * m);            <span class="comment">// 使隨機一列 z 等於另一列</span></span><br><span class="line">    <span class="title function_">scalar</span>(A, z, <span class="number">0</span>);                                  <span class="comment">// 先使 z 列變成 0</span></span><br><span class="line">    <span class="title function_">addition</span>(A, <span class="title class_">Math</span>.<span class="title function_">floor</span>(<span class="title class_">Math</span>.<span class="title function_">random</span>() * m), z, <span class="number">1</span>); <span class="comment">// 隨機找一列加到 z 列</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> A;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="印出矩陣"><a href="#印出矩陣" class="headerlink" title="印出矩陣"></a>印出矩陣</h2><p>陣列在 JavaScript 中屬於參考的變數，<br>意思是，如果寫的方法為：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A);</span><br><span class="line"><span class="comment">/* 更改 A 矩陣（陣列） */</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A);</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>則兩個輸出會完全一樣。<br>為了正常印出矩陣，可以建立矩陣的副本：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A.<span class="title function_">slice</span>());</span><br><span class="line"><span class="comment">/* 更改 A 矩陣（陣列） */</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A.<span class="title function_">slice</span>());</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h1 id="演示"><a href="#演示" class="headerlink" title="演示"></a>演示</h1>
+    <div class="iframe-container" style="width:100%;">
+    <iframe
+        src="https://jsfiddle.net/6j4ru96n/embedded/result,js,html,css/dark"
+        width="100%"
+        height="460px"
+        allowfullscreen="allowfullscreen"
+        loading="lazy"
+        frameborder="0">
+    </iframe>
+    </div>
+    
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/gomoku/" rel="prev" title="五子棋 Gomoku">
+                  <i class="fa fa-angle-left"></i> 五子棋 Gomoku
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/tinytsunami-update-02/" rel="next" title="羊羽手札更新歷程 02">
+                  羊羽手札更新歷程 02 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  
+  <div class="comments giscus-container">
+  </div>
+  
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-bomb"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Tinytusnami</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="giscus" type="application/json">{"enable":true,"repo":"tinytsunami/blog","repo_id":"MDEwOlJlcG9zaXRvcnkxMjI3MTEwNTY=","category":"Blog Comments","category_id":"DIC_kwDOB1BsEM4C42Ww","mapping":"pathname","strict":0,"reactions_enabled":1,"emit_metadata":1,"theme":"preferred_color_scheme","lang":"zh-TW","crossorigin":"anonymous","input_position":"top","loading":"lazy"}</script>
+
+<script>
+document.addEventListener('page:loaded', () => {
+  if (!CONFIG.page.comments) return;
+
+  NexT.utils.loadComments('.giscus-container')
+    .then(() => NexT.utils.getScript('https://giscus.app/client.js', {
+      attributes: {
+        async                   : true,
+        crossOrigin             : 'anonymous',
+        'data-repo'             : CONFIG.giscus.repo,
+        'data-repo-id'          : CONFIG.giscus.repo_id,
+        'data-category'         : CONFIG.giscus.category,
+        'data-category-id'      : CONFIG.giscus.category_id,
+        'data-mapping'          : CONFIG.giscus.mapping,
+        'data-strict'           : CONFIG.giscus.strict,
+        'data-reactions-enabled': CONFIG.giscus.reactions_enabled,
+        'data-emit-metadata'    : CONFIG.giscus.emit_metadata,
+        'data-theme'            : CONFIG.giscus.theme,
+        'data-lang'             : CONFIG.giscus.lang,
+        'data-input-position'   : CONFIG.giscus.input_position,
+        'data-loading'          : CONFIG.giscus.loading
+      },
+      parentNode: document.querySelector('.giscus-container')
+    }));
+});
+</script>
+
+</body>
+</html>

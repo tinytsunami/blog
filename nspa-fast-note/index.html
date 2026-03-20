@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.tinytsunami.info","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="這篇是之前跑去考 NSPA 證照的筆記。 原為筆者 Evernote 的私人筆記，重新排版後公開。（初版：2016-03-14）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NSPA 封包檢測速記">
+<meta property="og:url" content="https://www.tinytsunami.info/nspa-fast-note/index.html">
+<meta property="og:site_name" content="羊羽手札">
+<meta property="og:description" content="這篇是之前跑去考 NSPA 證照的筆記。 原為筆者 Evernote 的私人筆記，重新排版後公開。（初版：2016-03-14）">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-08-05T00:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-20T08:43:52.247Z">
+<meta property="article:author" content="Tinytusnami">
+<meta property="article:tag" content="技術, 獨立遊戲">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.tinytsunami.info/nspa-fast-note/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://www.tinytsunami.info/nspa-fast-note/","path":"/nspa-fast-note/","title":"NSPA 封包檢測速記"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>NSPA 封包檢測速記 | 羊羽手札</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">羊羽手札</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Tinytsunami's Blog</p>
+      <img class="custom-logo-image" src="/images/icon.png" alt="羊羽手札">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-game"><a href="https://tinytsunami.itch.io/" rel="section" target="_blank"><i class="fas fa-gamepad fa-fw"></i>game</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%81%E5%8C%85%E5%88%97%E8%A1%A8%E6%AA%A2%E6%B8%AC%E5%8E%9F%E5%89%87"><span class="nav-number">1.</span> <span class="nav-text">封包列表檢測原則</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%99%82%E9%96%93%E6%96%B7%E9%BB%9E%EF%BC%88Time-Gap%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">時間斷點（Time Gap）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP%E4%BD%8D%E7%BD%AE"><span class="nav-number">1.2.</span> <span class="nav-text">IP位置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%A8%8A%E5%8D%94%E5%AE%9A"><span class="nav-number">1.3.</span> <span class="nav-text">通訊協定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%A8%8A%E5%9F%A0%EF%BC%88Port%EF%BC%89"><span class="nav-number">1.4.</span> <span class="nav-text">通訊埠（Port）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%82%B3%E9%80%81%E8%B3%87%E6%96%99"><span class="nav-number">1.5.</span> <span class="nav-text">傳送資料</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%9A%E8%A8%8A%E5%8D%94%E5%AE%9A-HTTP"><span class="nav-number">2.</span> <span class="nav-text">通訊協定 HTTP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%B3%87%E8%A8%8A"><span class="nav-number">2.1.</span> <span class="nav-text">基本資訊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E4%BB%A4%E9%9B%86"><span class="nav-number">2.2.</span> <span class="nav-text">指令集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web-DEV%E6%8C%87%E4%BB%A4%E9%9B%86"><span class="nav-number">2.3.</span> <span class="nav-text">Web DEV指令集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E7%8B%80%E6%85%8B%E7%A2%BC"><span class="nav-number">2.4.</span> <span class="nav-text">常見狀態碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%81%E5%8C%85%E5%85%A7%E5%AE%B9"><span class="nav-number">2.5.</span> <span class="nav-text">封包內容</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%9A%E8%A8%8A%E5%8D%94%E5%AE%9ASMTP"><span class="nav-number">3.</span> <span class="nav-text">通訊協定SMTP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%B3%87%E8%A8%8A-1"><span class="nav-number">3.1.</span> <span class="nav-text">基本資訊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E4%BB%A4%E9%9B%86-1"><span class="nav-number">3.2.</span> <span class="nav-text">指令集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E7%8B%80%E6%85%8B%E7%A2%BC-1"><span class="nav-number">3.3.</span> <span class="nav-text">常見狀態碼</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%9A%E8%A8%8A%E5%8D%94%E5%AE%9APOP3"><span class="nav-number">4.</span> <span class="nav-text">通訊協定POP3</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%B3%87%E8%A8%8A-2"><span class="nav-number">4.1.</span> <span class="nav-text">基本資訊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E4%BB%A4%E9%9B%86-2"><span class="nav-number">4.2.</span> <span class="nav-text">指令集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E7%8B%80%E6%85%8B%E7%A2%BC-2"><span class="nav-number">4.3.</span> <span class="nav-text">常見狀態碼</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%9A%E8%A8%8A%E5%8D%94%E5%AE%9AIMAP"><span class="nav-number">5.</span> <span class="nav-text">通訊協定IMAP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%B3%87%E8%A8%8A-3"><span class="nav-number">5.1.</span> <span class="nav-text">基本資訊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E4%BB%A4%E9%9B%86-3"><span class="nav-number">5.2.</span> <span class="nav-text">指令集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E7%8B%80%E6%85%8B%E7%A2%BC-3"><span class="nav-number">5.3.</span> <span class="nav-text">常見狀態碼</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%9A%E8%A8%8A%E5%8D%94%E5%AE%9AICMP"><span class="nav-number">6.</span> <span class="nav-text">通訊協定ICMP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%B3%87%E8%A8%8A-4"><span class="nav-number">6.1.</span> <span class="nav-text">基本資訊</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%9A%E8%A8%8A%E5%8D%94%E5%AE%9ACIFS-SMB"><span class="nav-number">7.</span> <span class="nav-text">通訊協定CIFS&#x2F;SMB</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%B3%87%E8%A8%8A-5"><span class="nav-number">7.1.</span> <span class="nav-text">基本資訊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E7%8B%80%E6%85%8B%E7%A2%BC-4"><span class="nav-number">7.2.</span> <span class="nav-text">常見狀態碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%BB%E6%93%8A%E5%88%A4%E6%96%B7"><span class="nav-number">7.3.</span> <span class="nav-text">攻擊判斷</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%9A%E8%A8%8A%E5%8D%94%E5%AE%9AMMS"><span class="nav-number">8.</span> <span class="nav-text">通訊協定MMS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%B3%87%E8%A8%8A-6"><span class="nav-number">8.1.</span> <span class="nav-text">基本資訊</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E5%BA%AB%E8%88%87SQL"><span class="nav-number">9.</span> <span class="nav-text">資料庫與SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%B3%87%E8%A8%8A-7"><span class="nav-number">9.1.</span> <span class="nav-text">基本資訊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4"><span class="nav-number">9.2.</span> <span class="nav-text">基本指令</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">10.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E6%93%8D%E4%BD%9C%E6%8C%87%E4%BB%A4"><span class="nav-number">10.1.</span> <span class="nav-text">常見操作指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%81%E5%8C%85%E9%8C%84%E8%A3%BD%E7%9A%84%E5%8E%9F%E5%89%87"><span class="nav-number">10.2.</span> <span class="nav-text">封包錄製的原則</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E8%A3%9C%E5%85%85"><span class="nav-number">10.3.</span> <span class="nav-text">其他補充</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Tinytusnami"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">Tinytusnami</p>
+  <div class="site-description" itemprop="description">羊羽的個人部落格</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/tinytsunami" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;tinytsunami" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/TaipeiTsunami" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;TaipeiTsunami" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/profile.php?id=100000736195394" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;profile.php?id&#x3D;100000736195394" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCtqp9w_uA_LohDm0YXNWqSA" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCtqp9w_uA_LohDm0YXNWqSA" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+          連結
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://blog.cyris.tw/" title="https:&#x2F;&#x2F;blog.cyris.tw" rel="noopener" target="_blank">Cyris's Blog</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://poyu-liao.github.io/blog" title="https:&#x2F;&#x2F;poyu-liao.github.io&#x2F;blog" rel="noopener" target="_blank">Robert's Blog</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/nspa-fast-note/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="Tinytusnami">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="羊羽手札">
+      <meta itemprop="description" content="羊羽的個人部落格">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="NSPA 封包檢測速記 | 羊羽手札">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          NSPA 封包檢測速記
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2020-08-05 00:00:00" itemprop="dateCreated datePublished" datetime="2020-08-05T00:00:00Z">2020-08-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/legacy-other/" itemprop="url" rel="index"><span itemprop="name">(legacy) other</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>這篇是之前跑去考 NSPA 證照的筆記。</p>
+<div class="note success"><p>原為筆者 Evernote 的私人筆記，重新排版後公開。（初版：2016-03-14）</p>
+</div>
+
+<span id="more"></span>
+
+<h1 id="封包列表檢測原則"><a href="#封包列表檢測原則" class="headerlink" title="封包列表檢測原則"></a>封包列表檢測原則</h1><h2 id="時間斷點（Time-Gap）"><a href="#時間斷點（Time-Gap）" class="headerlink" title="時間斷點（Time Gap）"></a>時間斷點（Time Gap）</h2><ol>
+<li>兩個封包時間間隔大於一秒，精確到小數點第二位。</li>
+<li>存在時間斷點，即使同個會話（Seesion）也代表沒有持續傳送。</li>
+<li>斷點有不定間距，代表造成原因是人為的，反之。</li>
+<li>斷點有固定間距，先判斷是否為攻擊，如果是，則為APT攻擊完後的殘留，或是使用軟體暴力破解密碼。</li>
+<li>斷點在命令與命令中間，代表是使用者延遲（User Delay）應注意。</li>
+<li>斷點在命令與回應中間，代表是伺服器忙碌（Server Buzy）代表不是資訊安全問題。</li>
+</ol>
+<h2 id="IP位置"><a href="#IP位置" class="headerlink" title="IP位置"></a>IP位置</h2><ol>
+<li>本機位置（Local host）：127.0.0.1</li>
+<li>LAN（區域網路）DHCP第一個定址封包：0.0.0.0<br>192.168.XXX.XXX<br>10.10.XXX.XXX<br>172.16X-18X.XXX.XXX</li>
+<li>其他幾乎都是網際網路（WAN）的封包位置。</li>
+</ol>
+<h2 id="通訊協定"><a href="#通訊協定" class="headerlink" title="通訊協定"></a>通訊協定</h2><ol>
+<li>常見的有TCP、UDP、ICMP、ARP等。</li>
+<li>通訊協定中，僅有TCP具法律意義。</li>
+<li>TCP具有特殊的三向交握（3-way hand shanking）特性。</li>
+<li>TCP具有時間戳記，封包錯置時可以修正。</li>
+<li>TCP在封包遺失時，會重新傳送。</li>
+<li>由於TCP具三向交握特性，一旦經過網際網路（Internet WAN）則具不可否認性，可以作為法庭證據。</li>
+</ol>
+<h2 id="通訊埠（Port）"><a href="#通訊埠（Port）" class="headerlink" title="通訊埠（Port）"></a>通訊埠（Port）</h2><ol>
+<li>封包傳送紀錄中，通常通訊埠（Port）小於1024者，為伺服端（Server）；反之。</li>
+<li>若攻擊事件發生，則伺服端（Server）必為被駭主機，攻擊者為對向客戶端（Client）IP位置。</li>
+<li>TCP通訊協定中，傳送、接收雙方的通訊埠同時小於1024的情況幾乎不存在；而兩端同時大於1024，則尋找已知的通訊埠編號，其通常為伺服端。</li>
+</ol>
+<h2 id="傳送資料"><a href="#傳送資料" class="headerlink" title="傳送資料"></a>傳送資料</h2><ol>
+<li>通常只分析明碼（Plain Text），是指有意義的英文字詞。</li>
+<li>亂碼（Mess Text）不分析，其可能是媒體資料（圖片、音樂）、或是特殊格式的壓縮檔、加密檔。</li>
+<li>如果傳送資料，一段時間都沒有內容（空資料），則代表有問題。</li>
+<li>如果同時具有明碼、亂碼，則稱作亂碼1&#x2F;2，代表的是亞洲語言碼，是亞洲地區特殊狀況。</li>
+<li>走80通訊埠，結果不符合HTTP格式，代表有問題。</li>
+<li>若任何指令後，跟隨大量單一文字並在最後加入跳轉指令（Shell Code），則為緩存溢位攻擊（Buffer Overflow）。</li>
+</ol>
+<h1 id="通訊協定-HTTP"><a href="#通訊協定-HTTP" class="headerlink" title="通訊協定 HTTP"></a>通訊協定 HTTP</h1><h2 id="基本資訊"><a href="#基本資訊" class="headerlink" title="基本資訊"></a>基本資訊</h2><ol>
+<li>預設通訊埠：80 Port。</li>
+<li>如果在伺服端（Server）錄封包，則會得到一個封包。</li>
+<li>如果在客戶端（Client）錄封包，則會得到二個封包，其中一個是DNS封包。</li>
+<li>如果客戶端（Client）使用跳板（Proxy），則IP位置不同。</li>
+<li>如果客戶端（Client）使用防火牆（Firewall），則IP位置相同（除非有NAT技術）。</li>
+<li>通常HTTP協定不進行伺服器端對客戶端的先行封包通知。</li>
+</ol>
+<h2 id="指令集"><a href="#指令集" class="headerlink" title="指令集"></a>指令集</h2><ol>
+<li>瀏覽器命令（Browser Command）：GET、POST。<br>GET與POST的差異，僅差在資料在封包中的位置。會回傳網站內容。客戶端GET命令之後，接著http:&#x2F;&#x2F;字串，代表有Proxy。</li>
+<li>測試命令（Test Command）：HEAD、OPTIONS、TRACE。<br>當初設計給網管使用，但現在多被駭客做為漏洞掃描的工具。測試命令是法律的灰色地帶，不足以定罪。都不會回傳網站內容。HEAD命令詢問網站存在與否。OPTIONS命令詢問存取權限。TRACE命令詢問服務的狀態。</li>
+<li>駭客命令（Hack Command）：PUT、DELETE以及其他命令。<br>屬於Web DEV指令集。</li>
+</ol>
+<h2 id="Web-DEV指令集"><a href="#Web-DEV指令集" class="headerlink" title="Web DEV指令集"></a>Web DEV指令集</h2><ol>
+<li>設計來給網管的指令集，如PUT、DELETE、MOVE、PUT等。</li>
+<li>常被駭客用來作為攻擊工具。</li>
+<li>預設值通常是關閉。</li>
+</ol>
+<h2 id="常見狀態碼"><a href="#常見狀態碼" class="headerlink" title="常見狀態碼"></a>常見狀態碼</h2><ol>
+<li>2XX代表網站存在。<br>206代表連續傳送，多用於媒體串流。</li>
+<li>3XX代表網站不存在。<br>301代表主機維護中，站點已遷移。302代表位置轉向，常用於分流。304代表網站內容沒有修改，要求客戶端使用快取資料（代表有重複請求）。</li>
+<li>4XX代表客戶端錯誤。<br>400代表指令格式錯誤。401代表僅允許特定IP存取，通常是指未經授權。403代表所有人都不能存取。404代表資料不在。</li>
+<li>5XX代表伺服端錯誤。<br>500網站有BUG，或是代表資料注入攻擊（SQL Injection）。發生500時，向下搜尋可以找到許多500錯誤，代表這是網站BUG。<br>發生500時，向上搜尋對向封包，<br>若資料找到「’」、「”」、「;」以及「,」四個符號，代表是資料注入攻擊（SQL Injection）。</li>
+</ol>
+<h2 id="封包內容"><a href="#封包內容" class="headerlink" title="封包內容"></a>封包內容</h2><ol>
+<li>無參考來源（Referer）：可能被設為首頁、書籤或是直接輸入網址。</li>
+<li>無主機名稱（Host）、或有主機名稱但為IP位址時，應提高警覺。</li>
+<li>無前端瀏覽器名稱（User-Agent）或是無法辨識的名稱，應提高警覺。</li>
+<li>若出現UPnP字樣，則代表是UPnP協定（用於無線基地台），則指令集可以與HTTP不同。</li>
+</ol>
+<h1 id="通訊協定SMTP"><a href="#通訊協定SMTP" class="headerlink" title="通訊協定SMTP"></a>通訊協定SMTP</h1><h2 id="基本資訊-1"><a href="#基本資訊-1" class="headerlink" title="基本資訊"></a>基本資訊</h2><ol>
+<li>預設通訊埠：25 Port。</li>
+<li>SMTP用於郵件寄信。</li>
+<li>SMTP伺服器可以被稱作MTA（Mail Transfer Agent）。</li>
+<li>寄件人相當容易偽造，故無法成為法律依據。</li>
+<li>法律依據通常是軟體配予唯一的Message-ID（Client）、以及伺服器給予的信件ID（Server ID）。</li>
+</ol>
+<h2 id="指令集-1"><a href="#指令集-1" class="headerlink" title="指令集"></a>指令集</h2><ol>
+<li>伺服器應答命令：HELO、EHLO。<br>HELO：一般使用。EHLO：除了回答，同時也回覆擴充指令。此類命令提供客戶端兩個訊息：版本、身份確認。通常由伺服器端先通知客戶端。</li>
+<li>一般使用命令：RCPT TO、MAIL FROM、DATA、QUIT。<br>RCPT TO：收件人地址。MAIL FROM：寄件人地址。DATA：資料。QUIT：斷開連線。</li>
+<li>認證指令（擴充）：AUTH、PASS。<br>AUTH：帳號。PASS：密碼。由於一般寄件不需要帳密，故屬擴充命令。設計時採用Base64編碼（編碼不是加密）。</li>
+<li>網管命令：VRFY、EXPN。<br>VRFY：詢問使用者清單。EXPN：詢問郵件清單。此類命令常被駭客確認帳戶的存在與否。常被漏洞掃描程式當成真的漏洞。</li>
+</ol>
+<h2 id="常見狀態碼-1"><a href="#常見狀態碼-1" class="headerlink" title="常見狀態碼"></a>常見狀態碼</h2><ol>
+<li>1XX：初始化狀態，是少見的代碼。</li>
+<li>2XX：指令成功。<br>220伺服器應答。250指令成功。</li>
+<li>3XX：佇列狀態、指令暫存且未執行。<br>354開始郵件輸入。</li>
+<li>4XX：暫時拒絕。</li>
+<li>5XX：正式拒絕請求。<br>502不支援該指令。550不執行該指令。</li>
+</ol>
+<h1 id="通訊協定POP3"><a href="#通訊協定POP3" class="headerlink" title="通訊協定POP3"></a>通訊協定POP3</h1><h2 id="基本資訊-2"><a href="#基本資訊-2" class="headerlink" title="基本資訊"></a>基本資訊</h2><ol>
+<li>預設通訊埠：110 Port。</li>
+<li>POP3用於郵件收信。</li>
+<li>POP3是POP通訊協定系列的第三版。</li>
+<li>POP3需要確認帳號密碼。</li>
+<li>POP3是少數命令大小寫通用的協定。</li>
+</ol>
+<h2 id="指令集-2"><a href="#指令集-2" class="headerlink" title="指令集"></a>指令集</h2><ol>
+<li>登入、出命令：USER、PASS、QUIT。<br>USER：傳送帳號。PASS：傳送密碼。QUIT：離開、登出。</li>
+<li> 管理命令：STAT、LIST。<br>STAT：詢問信件數量。LIST：詢問信件列表。</li>
+<li> 收信命令：RETR、DELE。<br>RETR：收信（請求信件內容）。DELE：刪除信件。</li>
+</ol>
+<h2 id="常見狀態碼-2"><a href="#常見狀態碼-2" class="headerlink" title="常見狀態碼"></a>常見狀態碼</h2><ol>
+<li>符號+：允許、核准。</li>
+<li>符號-：不允許、不核准。</li>
+</ol>
+<h1 id="通訊協定IMAP"><a href="#通訊協定IMAP" class="headerlink" title="通訊協定IMAP"></a>通訊協定IMAP</h1><h2 id="基本資訊-3"><a href="#基本資訊-3" class="headerlink" title="基本資訊"></a>基本資訊</h2><ol>
+<li>預設通訊埠：143 Port。</li>
+<li>POP3的改良版。</li>
+<li>支援多客戶連線、目錄夾層管理以及閱讀標記。</li>
+</ol>
+<h2 id="指令集-3"><a href="#指令集-3" class="headerlink" title="指令集"></a>指令集</h2><ol>
+<li>CAPABILITY：詢問支援的命令。</li>
+<li>LOGIN：登入（帳號、密碼）</li>
+<li>SELECT：切換目錄。</li>
+<li>LIST：列表、或條件（過濾）列表。</li>
+<li>FETCH：收信。</li>
+<li>STARTTLS：採用SSL加密。</li>
+<li>LOGOUT：登出。</li>
+<li>NOOP：不做任何事。</li>
+</ol>
+<h2 id="常見狀態碼-3"><a href="#常見狀態碼-3" class="headerlink" title="常見狀態碼"></a>常見狀態碼</h2><ol>
+<li>符號*後接字串，沒有特別的狀態碼。</li>
+<li>為因應多人連線，命令時會回傳命令編號。</li>
+</ol>
+<h1 id="通訊協定ICMP"><a href="#通訊協定ICMP" class="headerlink" title="通訊協定ICMP"></a>通訊協定ICMP</h1><h2 id="基本資訊-4"><a href="#基本資訊-4" class="headerlink" title="基本資訊"></a>基本資訊</h2><ol>
+<li>預設通訊埠：Null Port。</li>
+<li>ICMP是網路診斷的通訊協定。</li>
+<li>常常沒有顯示Port，也有可能出現0 Port。</li>
+<li>傳出去的資料，若網路有通，則會以原本的樣子回傳。</li>
+<li>Windows OS中Win7以前的版本（不含）是以abcdefghi…作為Ping的資料。</li>
+<li>Windows OS中Win7以後的版本（含）是以ABCDEFGHI…作為Ping的資料。</li>
+</ol>
+<h1 id="通訊協定CIFS-SMB"><a href="#通訊協定CIFS-SMB" class="headerlink" title="通訊協定CIFS&#x2F;SMB"></a>通訊協定CIFS&#x2F;SMB</h1><h2 id="基本資訊-5"><a href="#基本資訊-5" class="headerlink" title="基本資訊"></a>基本資訊</h2><ol>
+<li>CIFS是微軟推廣的、SMB是IBM提出的。</li>
+<li>即網路芳鄰。</li>
+<li>預設通訊埠TCP：139、445 Port。<br>預設通訊埠UDP：135、136、137、138 Port。<br>微軟宣稱版本Windows 7（含）以前，使用139 Port；<br> 而Windows 7（不含）後則採用445 Port，且445 Port是加密的資料。<br>實際情況是，Windows 7（含）以前，使用139 Port；<br> 而Windows 7（不含）後則兩者皆採用，且445 Port預設沒有加密。</li>
+<li>基本上，以下四個用途皆無的情況，應關閉此功能。<br>登入、出AD Server。<br>區域網路送訊息。目錄分享。列印印支援（點陣列印）。</li>
+</ol>
+<h2 id="常見狀態碼-4"><a href="#常見狀態碼-4" class="headerlink" title="常見狀態碼"></a>常見狀態碼</h2><ol>
+<li>SMBr：準備登入。</li>
+<li>SMBs：回覆登錄訊息。</li>
+<li>代表登入失敗的訊息<br>SMBsm：登入失敗。SMBt：伺服器請求中斷。</li>
+<li>代表登入成功的訊息<br>SMBu：發送授權。SMB%：發送資料。</li>
+</ol>
+<h2 id="攻擊判斷"><a href="#攻擊判斷" class="headerlink" title="攻擊判斷"></a>攻擊判斷</h2><ol>
+<li>網路芳鄰的UDP，雙方的Port必須匹配。<br> 如果沒有匹配，則代表客戶端不是Windows OS；<br> 但如果確定是Windows OS，則代表此電腦中毒或異常。</li>
+<li>網路芳鄰的TCP&#x2F;UDP雙方的IP，如果其中一方是WAN IP則代表中毒或異常。</li>
+<li>SMBr、SMBs之後出現多次（3次以上）SMBsm、SMBt，則代表對方嘗試用多組密碼入侵。</li>
+</ol>
+<h1 id="通訊協定MMS"><a href="#通訊協定MMS" class="headerlink" title="通訊協定MMS"></a>通訊協定MMS</h1><h2 id="基本資訊-6"><a href="#基本資訊-6" class="headerlink" title="基本資訊"></a>基本資訊</h2><ol>
+<li>預設80、554 Port。</li>
+<li>繞過Proxy，可以抓到真的IP。</li>
+</ol>
+<h1 id="資料庫與SQL"><a href="#資料庫與SQL" class="headerlink" title="資料庫與SQL"></a>資料庫與SQL</h1><h2 id="基本資訊-7"><a href="#基本資訊-7" class="headerlink" title="基本資訊"></a>基本資訊</h2><ol>
+<li>MS-SQL預設通訊埠：TCP-1433 Port、UDP-1434 Port。</li>
+<li>MySQL預設通訊埠：TCP-3306 Port（有可能改變）。</li>
+<li>Oracle SQL預設通訊埠：TCP-1520、1521…… Port。</li>
+<li>IBM-DB2預設通訊埠：TCP-50000 Port（有可能改變）。</li>
+<li>Sybase預設通訊埠：TCP-5000 Port（有可能改變）。</li>
+</ol>
+<h2 id="基本指令"><a href="#基本指令" class="headerlink" title="基本指令"></a>基本指令</h2><ol>
+<li>資料定義語言（Data Definition Language, DDL）：CREATE、ALTER、DROP。<br>IIS、Apache的Log中出現，代表異常。SQL的Log中出現，代表異常。</li>
+<li>資料操縱語言（Data Manipulation Language, DML）：SELECT、INSERT（單筆）、UPDATE、DELETE。<br>IIS、Apache的Log代表異常。SQL的Log中出現，代表正常。</li>
+<li>資料控制語言 (Data Control Language, DCL)：GRANT、REVOKE、COMMIT、ROLLBACK。<br>COMMIT、ROLLBACK在SQL的Log中是正常的、而出現在IIS、Apache的Log中，則代表異常。<br>GRANT、REVOKE在SQL的Log、IIS、Apache的Log中，則代表異常。</li>
+<li>擴充指令：sp_xxx…（Stroe Procedure）、xp_xxx…（Extention Procedure）。<br>Stroe Procedure中有文字檔、SQL指令。Extention Procedure中有可執行檔（.exe、.dll）、CPU指令。xp_cmdshell相當於命令提示字元，只存在於MS-SQL中。sp_cursoropen可用於頁籤的資料流量減少。</li>
+</ol>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><h2 id="常見操作指令"><a href="#常見操作指令" class="headerlink" title="常見操作指令"></a>常見操作指令</h2><ol>
+<li>netstat -ano（用於尋找應用程式的PID）。</li>
+<li>tasklist（確認應用程式）。</li>
+<li>nc ip port（連接到伺服器）。</li>
+<li>net user username&#x2F;password（創建一個使用者）。</li>
+</ol>
+<h2 id="封包錄製的原則"><a href="#封包錄製的原則" class="headerlink" title="封包錄製的原則"></a>封包錄製的原則</h2><ol>
+<li>伺服器端的原則是忽略。<br>忽略該伺服器的工作（Web Server忽略80、443 Port等）。</li>
+<li>客戶端的原則是時段。區域網路內流通的封包不檢查。<br>開機、上班時段：<br>DNS封包。80 Port以外的封包。<br>半夜、維修時段：<br>作業系統更新封包。防毒系統更新封包。</li>
+<li>同時有伺服器端、客戶端時，應進行時間校準。</li>
+</ol>
+<h2 id="其他補充"><a href="#其他補充" class="headerlink" title="其他補充"></a>其他補充</h2><ol>
+<li>流量資訊前幾名透漏資管問題，後幾名透漏資安問題。</li>
+<li>有種壓縮叫做Run Length（RLE），也是BMP的使用算法。特性是相當簡單、直觀。</li>
+<li>前端瀏覽器名稱（User-Agent）為NSPlayer，代表是iPhone等Apple系列i字頭產品，<br> 來源是賈伯斯離開Apple後，創立的另一間公司NextStep的API。</li>
+<li>TermService 是 3389 port（WTS&#x2F;RDP）。</li>
+<li>遭入侵後，應看Event Log尋找問題軟體（Application）經由Dr.Watson取得入侵時間，再由時間尋找Securtiy。</li>
+<li>通常犯罪後，刪除Event Log的事件，都是台灣人做的。</li>
+<li>日本與德國研究的離散積分，是為了計算網路流量，其是根據IBM在2002年提出的網路流量用一階離散微分（即差分）。</li>
+<li>錄製Wi-Fi封包需要特殊裝置（如：AirPcap™ 802.11 Packet Capture）。</li>
+<li>錄製3、4G封包需要特殊裝置。</li>
+<li>漏洞資料網站：<a target="_blank" rel="noopener" href="https://www.exploit-db.com/%E3%80%81https://www.cvedetails.com/%E3%80%82">https://www.exploit-db.com/、https://www.cvedetails.com/。</a></li>
+<li>加密Encrypt-ion、解密Decrypt-ion。</li>
+<li>常見的封包讀取英文：READ、GET、RETRIEVE、RECEIVE、FETCH。</li>
+<li>美國NASA使用許多老舊的系統、通訊協定，原因是70年前的人造衛星在太空難以更新。</li>
+<li>Windows 95有許許多多的客群，多半是運作得當、但更新困難的獨立系統，比如：航海雷達。</li>
+<li>維持老舊系統中，由於硬體時脈的關係，常需要讓CPU變慢的程式，全世界約有三家公司專門製作，其中美國就有兩家。</li>
+<li>錄製封包，在OSI模型的第二層，將不會錄到MAC位置。</li>
+<li>筆電應該關閉無線網路的網路芳鄰。<br>將網路介面卡的Client of Microsoft Networks打勾取消。將網路介面卡的File and Printer Sharing Microsoft Networks打勾取消。將TCP&#x2F;IPv4進階中WINS頁籤的NetBIOS over TCP&#x2F;IP停用。</li>
+<li>妨礙名譽可以是事實、偽造內容；而毀謗成立要是偽造訊息。大小寫英文、數字組合的內容，通常為Base64編碼（或MIME）。<br>毀謗罪，以圖片、文字或影片表達，加重50%刑責。</li>
+<li>大多數通訊協定的指令需大寫。</li>
+<li>若攻擊者的Port在攻擊時的封包呈現單位漸增，代表是針對性攻擊；<br> 反之，如果是跳躍性漸增，則是攻擊一整個網段，也可以從跳躍的數量判斷遭攻擊的電腦數量。</li>
+<li>APT攻擊的痕跡，呈現固定的時間斷點、並不斷地送出空封包。</li>
+<li>情資蒐索有兩個重點：精確性、隱匿性。<br> 中國、沒經驗的情資蒐索，常一次大量、快速的掃描Port。<br> 而韓國的掃描為了隱匿，大約30秒才送一個封包，這個做法的專業術語叫做「慢速掃描」。</li>
+<li>早期UNIX的一個漏洞是0 Port漏洞，當接收到0 Port將當機。</li>
+<li>Web漏洞大致上有兩種：SQL-Injection資料庫注入攻擊、Cross Site Script(XSS)跨站腳本攻擊。<br>SQL-Injection：HTTP（夾雜SQL）攻擊WebSite後的Database。<br>Cross Site Script(XSS)：HTTP（夾雜JS）攻擊WebSite的Client。</li>
+<li>Domino是冷門的Web Server。</li>
+<li>Content Management System（CMS）內容管理系統。</li>
+<li>Packet Storm Security：專門報導資訊安全的新聞網站。</li>
+<li>Native library（原生Lib）、ODBC（異植資料庫）。</li>
+<li>封包Payload中，存在符號「.」這是微軟創造的Unicode（2Bytes）的關係，英文多出的1Bytes用此符號代替。<br>存在3Bytes的Unicode用於阿拉伯文的文字方向控制。</li>
+<li>一個MAC有多個IP看這個是否為閘道、防火牆，屬正常現象；但不是則異常。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/pointer/" rel="prev" title="指標 Pointer">
+                  <i class="fa fa-angle-left"></i> 指標 Pointer
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/divide-and-partition/" rel="next" title="分治與分割 Divide and Partition">
+                  分治與分割 Divide and Partition <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  
+  <div class="comments giscus-container">
+  </div>
+  
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-bomb"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Tinytusnami</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="giscus" type="application/json">{"enable":true,"repo":"tinytsunami/blog","repo_id":"MDEwOlJlcG9zaXRvcnkxMjI3MTEwNTY=","category":"Blog Comments","category_id":"DIC_kwDOB1BsEM4C42Ww","mapping":"pathname","strict":0,"reactions_enabled":1,"emit_metadata":1,"theme":"preferred_color_scheme","lang":"zh-TW","crossorigin":"anonymous","input_position":"top","loading":"lazy"}</script>
+
+<script>
+document.addEventListener('page:loaded', () => {
+  if (!CONFIG.page.comments) return;
+
+  NexT.utils.loadComments('.giscus-container')
+    .then(() => NexT.utils.getScript('https://giscus.app/client.js', {
+      attributes: {
+        async                   : true,
+        crossOrigin             : 'anonymous',
+        'data-repo'             : CONFIG.giscus.repo,
+        'data-repo-id'          : CONFIG.giscus.repo_id,
+        'data-category'         : CONFIG.giscus.category,
+        'data-category-id'      : CONFIG.giscus.category_id,
+        'data-mapping'          : CONFIG.giscus.mapping,
+        'data-strict'           : CONFIG.giscus.strict,
+        'data-reactions-enabled': CONFIG.giscus.reactions_enabled,
+        'data-emit-metadata'    : CONFIG.giscus.emit_metadata,
+        'data-theme'            : CONFIG.giscus.theme,
+        'data-lang'             : CONFIG.giscus.lang,
+        'data-input-position'   : CONFIG.giscus.input_position,
+        'data-loading'          : CONFIG.giscus.loading
+      },
+      parentNode: document.querySelector('.giscus-container')
+    }));
+});
+</script>
+
+</body>
+</html>

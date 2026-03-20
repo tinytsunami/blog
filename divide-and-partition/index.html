@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.tinytsunami.info","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="這篇算是心得總結，不太會按照傳統演算法的順序來講分治；分治法是演算法中很基礎的東西。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分治與分割 Divide and Partition">
+<meta property="og:url" content="https://www.tinytsunami.info/divide-and-partition/index.html">
+<meta property="og:site_name" content="羊羽手札">
+<meta property="og:description" content="這篇算是心得總結，不太會按照傳統演算法的順序來講分治；分治法是演算法中很基礎的東西。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.imgur.com/rtMlrEh.png">
+<meta property="og:image" content="https://i.imgur.com/DAvvxOa.png">
+<meta property="og:image" content="https://i.imgur.com/kXm0YJw.png">
+<meta property="og:image" content="https://i.imgur.com/kWFHiAm.png">
+<meta property="article:published_time" content="2021-09-20T00:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-20T08:43:52.150Z">
+<meta property="article:author" content="Tinytusnami">
+<meta property="article:tag" content="技術, 獨立遊戲">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/rtMlrEh.png">
+
+
+<link rel="canonical" href="https://www.tinytsunami.info/divide-and-partition/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://www.tinytsunami.info/divide-and-partition/","path":"/divide-and-partition/","title":"分治與分割 Divide and Partition"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>分治與分割 Divide and Partition | 羊羽手札</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">羊羽手札</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Tinytsunami's Blog</p>
+      <img class="custom-logo-image" src="/images/icon.png" alt="羊羽手札">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-game"><a href="https://tinytsunami.itch.io/" rel="section" target="_blank"><i class="fas fa-gamepad fa-fw"></i>game</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E5%88%86%E5%89%B2"><span class="nav-number">1.</span> <span class="nav-text">算法分割</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E5%88%86%E6%B2%BB"><span class="nav-number">2.</span> <span class="nav-text">算法分治</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E5%AE%9A%E7%90%86"><span class="nav-number">2.1.</span> <span class="nav-text">主定理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%84%A1%E6%95%88%E7%9A%84%E5%88%86%E6%B2%BB"><span class="nav-number">2.2.</span> <span class="nav-text">無效的分治</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E8%88%87%E6%9C%80%E4%BD%B3%E5%8C%96"><span class="nav-number">2.3.</span> <span class="nav-text">分析與最佳化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%B2%E4%B8%80%E6%AD%A5%E6%9C%80%E4%BD%B3%E5%8C%96"><span class="nav-number">2.4.</span> <span class="nav-text">進一步最佳化</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Tinytusnami"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">Tinytusnami</p>
+  <div class="site-description" itemprop="description">羊羽的個人部落格</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/tinytsunami" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;tinytsunami" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/TaipeiTsunami" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;TaipeiTsunami" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/profile.php?id=100000736195394" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;profile.php?id&#x3D;100000736195394" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCtqp9w_uA_LohDm0YXNWqSA" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCtqp9w_uA_LohDm0YXNWqSA" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+          連結
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://blog.cyris.tw/" title="https:&#x2F;&#x2F;blog.cyris.tw" rel="noopener" target="_blank">Cyris's Blog</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://poyu-liao.github.io/blog" title="https:&#x2F;&#x2F;poyu-liao.github.io&#x2F;blog" rel="noopener" target="_blank">Robert's Blog</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/divide-and-partition/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="Tinytusnami">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="羊羽手札">
+      <meta itemprop="description" content="羊羽的個人部落格">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="分治與分割 Divide and Partition | 羊羽手札">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          分治與分割 Divide and Partition
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-09-20 00:00:00" itemprop="dateCreated datePublished" datetime="2021-09-20T00:00:00Z">2021-09-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/legacy-algorithm/" itemprop="url" rel="index"><span itemprop="name">(legacy) algorithm</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>這篇算是心得總結，不太會按照傳統演算法的順序來講分治；分治法是演算法中很基礎的東西。</p>
+<span id="more"></span>
+
+<p>有趣的是，我在尚未了解算法前，一直沒有掌握分治法的核心想法，<br>總覺得就是「系統上地」將複雜的系統切成小塊再拼合，<br>於是很長一段時間裡，都覺得分治僅適用於系統。</p>
+<p>但實際上，分治不只系統可以做，邏輯上也可以。</p>
+<p>隱約記得某次演算法課上提過，分割（partition）跟分治（divide and conquer）是不同的。<br>兩者基本上差在一個合併的步驟。</p>
+<h1 id="算法分割"><a href="#算法分割" class="headerlink" title="算法分割"></a>算法分割</h1><p>算法的分割（partition）是指邏輯上的。用 <a target="_blank" rel="noopener" href="https://leetcode.com/problems/sort-colors/">LeetCode 75</a> 考慮，<br>題目大意是：「排序數字，數字只有三種，但會重複。」</p>
+<p>這個實作起來很容易，隨意一個排序演算法（可能需要稍做修改）都可以處理。</p>
+<div class="note success"><p>請參考 <a href="/sort">排序 Sort</a></p>
+</div>
+
+<p>看到下面另一句話：<br>Follow up: Could you come up with a one-pass algorithm using only constant extra space?<br>這話暗示了類似 Bitonic Sort 之類的東西。</p>
+<p>同樣是 $O(n)$ 我們可以從另一個角度來看，<br>如果我能保證下列三件事，那代表這個數列已經排序完成：</p>
+<ul>
+<li>所有的 0 都在 1 前面 </li>
+<li>所有的 1 都在 2 前面</li>
+<li>所有的 0 都在 2 前面</li>
+</ul>
+<p>至於為何不是兩個條件的原因留給讀者自己思考。</p>
+<p>邏輯上來說，我只要寫一個函數，讓 $a$ 永遠在 $b$ 之前，然後依序把條件帶入即可：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">swapWith</span><span class="params">(<span class="type">int</span> *nums, <span class="type">int</span> numsSize, <span class="type">int</span> a, <span class="type">int</span> b)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> t;</span><br><span class="line">    <span class="type">int</span> i = <span class="number">0</span>;                                    <span class="comment">// 從頭開始</span></span><br><span class="line">    <span class="type">int</span> j = numsSize - <span class="number">1</span>;                         <span class="comment">// 從尾開始</span></span><br><span class="line">    <span class="keyword">while</span> (i &lt; j)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span>(i &lt; numsSize &amp;&amp; nums[i] != b) i++;  <span class="comment">// i 去找 j 前面的 b</span></span><br><span class="line">        <span class="keyword">while</span>(j &gt;= <span class="number">0</span>       &amp;&amp; nums[j] != a) j--;  <span class="comment">// j 去找 i 後面的 a</span></span><br><span class="line">        <span class="keyword">if</span> (i &lt; j) </span><br><span class="line">        &#123;</span><br><span class="line">            t = nums[i];                          <span class="comment">// 交換兩個數</span></span><br><span class="line">            nums[i] = nums[j];</span><br><span class="line">            nums[j] = t;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>然後：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">sortColors</span><span class="params">(<span class="type">int</span>* nums, <span class="type">int</span> numsSize)</span></span><br><span class="line">&#123;</span><br><span class="line">    swapWith(nums, numsSize, <span class="number">0</span>, <span class="number">1</span>); <span class="comment">// 確保所有的 0 在 1 前</span></span><br><span class="line">    swapWith(nums, numsSize, <span class="number">0</span>, <span class="number">2</span>); <span class="comment">// 確保所有的 0 在 2 前</span></span><br><span class="line">    swapWith(nums, numsSize, <span class="number">1</span>, <span class="number">2</span>); <span class="comment">// 確保所有的 1 在 2 前</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>另一個類似的東西：<a target="_blank" rel="noopener" href="https://leetcode.com/problems/valid-parentheses/">LeetCode 20</a>。</p>
+<h1 id="算法分治"><a href="#算法分治" class="headerlink" title="算法分治"></a>算法分治</h1><p>分治法還是以合併排序最經典，但通常的合併階段沒有合併排序那麼單純；</p>
+<p>通常第一步是粗估暴力破解的時間，然後提出一個分治法的假設，<br>如果光是合併就跟暴力破解的複雜度一樣或是接近，那基本上就是做白工。</p>
+<h2 id="主定理"><a href="#主定理" class="headerlink" title="主定理"></a>主定理</h2><p>由於分治多跟遞迴有關，此時主定理（master theorem）就可以幫我們估計時間：</p>
+<p>$$<br>T(n) &#x3D; aT(\frac{n}{b}) + f(n)<br>$$</p>
+<p>這裡的 $T(n)$ 是大問題的耗時，而 $f(n)$ 是合併的耗時；<br>然後 $a$ 是子問題數，$\frac{n}{b}$ 是子問題規模。</p>
+<p>然後拿 $f(n)$ 跟 $\log_{b}(a)$ 比大小，不嚴謹地表示：</p>
+<ul>
+<li>如果 $f(n) &#x3D; O(n^{\log_{b}(a)})$，則 $T(n) &#x3D; \Theta(n^{\log_{b}(a)})$</li>
+<li>如果 $f(n) &#x3D; \Omega(n^{\log_{b}(a)})$，則 $T(n) &#x3D; \Theta(f(n))$</li>
+<li>如果 $f(n) &#x3D; \Theta(n^{\log_{b}(a)}\log^{k}(n))$，而 $k \geq 0$，則 $T(n) &#x3D; \Theta(n^{\log_{b}(a)}\log^{k+1}(n))$</li>
+</ul>
+<p>簡易的白話文如下：</p>
+<ul>
+<li>如果「各個擊破的時間」比「合併結果的時間」長，那時間是「各個擊破的時間」</li>
+<li>如果「合併結果的時間」比「各個擊破的時間」長，那時間是「合併結果的時間」</li>
+<li>如果「合併結果的時間」跟「各個擊破的時間」只差 $\log^{k}$ 時間，那時間是「各個擊破的時間，再多一點 $\log^{k+1}$」</li>
+</ul>
+<h2 id="無效的分治"><a href="#無效的分治" class="headerlink" title="無效的分治"></a>無效的分治</h2><p>考慮一個例子 <a target="_blank" rel="noopener" href="https://leetcode.com/problems/count-of-range-sum/">LeetCode 327</a>。<br>題目大意是，給定一個序列跟範圍，數一數有多少連續子序列和在這個範圍內。</p>
+<p>我們粗估暴力破解，也就是以 $i$ 及 $j$ 找出所有的開頭及結尾，並以 $k$ 從 $i$ 累計到 $j$，<br>這樣的話，時間複雜度為 $O(n^3)$。顯然，如果我們希望做得更好，那麼至少得少於這個數字。</p>
+<p>現在我們提出一個無效分治法的例子：</p>
+<ul>
+<li>首先將序列均分成兩部分 $[0, \frac{n}{2}]$ 及 $[\frac{n}{2}, n]$ </li>
+<li>兩個部分各自計算數量</li>
+<li>然後讓 $i &#x3D; [0, \frac{n}{2}] \in Z$ 且 $j &#x3D; [\frac{n}{2}, n] \in Z$ 為兩部分註標</li>
+<li>計算合併的結果</li>
+</ul>
+<p>以他的 Example 1 為例：</p>
+<ul>
+<li>$[-2, 5, -1]$ 被分成 $[-2]$ 及 $[5, -1]$ 兩塊</li>
+<li>$[-2]$ 有 1 個（從 0 累計到 0，也就是 $-2$）</li>
+<li>$[5, -1]$ 有 1 個（從 1 累計到 1，也就是 $-1$）</li>
+<li>然後 $i &#x3D; \{0\}$ 且 $j &#x3D; \{0, 1\}$ 計算</li>
+<li>$i &#x3D; 0, j &#x3D; 0$ 有 $-2 + 5 &#x3D; 3$ 不合</li>
+<li>$i &#x3D; 0, j &#x3D; 1$ 有 $-2 + 5 + -1 &#x3D; 2$ 總計 1 個</li>
+<li>合計共 3 組連續子序列落在 $[-2, 2]$ 中</li>
+</ul>
+<p>為什麼這個做法會無效呢？我們用主定理估計看看……</p>
+<p>$$<br>T(n) &#x3D; 2T(n&#x2F;2) + f(n)<br>$$</p>
+<p>其中合併時間 $f(n)$ 的粗估如下，首先考量 $i$ 跟 $j$ 兩個註標至多是序列長的一半，即 $\frac{n}{2}$，</p>
+<p>那麼，顯然計算從 $i$ 到 $j$ 需要 $k_1$（累計 $i$ 到第一部分結尾） 跟 $k_2$（累計第二部分開頭到 $j$），</p>
+<p>而 $k_1$ 及 $k_2$ 的範圍是 $\frac{n}{2}$。</p>
+<p>也就是說 $f(n) &#x3D; O(\frac{n}{2}^3) &#x3D; O(\frac{1}{8}n^3)$，基本上 $f(n) &#x3D; O(n^3)$；</p>
+<p>主定理條件 $f(n) &#x3D; \Omega(n^{\log_{2}(2)}) &#x3D; \Omega(n)$ 有 $T(n) &#x3D; \Theta(f(n)) &#x3D; \Theta(n^3)$，顯然跟暴力破解相比，沒有任何好處。</p>
+<h2 id="分析與最佳化"><a href="#分析與最佳化" class="headerlink" title="分析與最佳化"></a>分析與最佳化</h2><p>從主定理可以觀察到一個很重要的事實：反過來說，如果能壓低 $f(n)$ 的值，就能一定程度壓低 $T(n)$。</p>
+<p>這裡我們利用「連續」的性質，考慮圖一。如果已經計算出兩個部份的結果，而我們額外計算的，必然是中間藍色（A 部分）及橘色（B 部分）的結果，也就是從中間向兩側延伸的序列。</p>
+<p><img src="https://i.imgur.com/rtMlrEh.png" alt="圖一、連續子序列合併"></p>
+<p>如果是這樣，那我們可以直接用暫存空間累計，考慮圖二。</p>
+<p><img src="https://i.imgur.com/DAvvxOa.png" alt="圖二、轉換成累加序列"></p>
+<p>這樣一來，我們就可以在 $f(n) &#x3D; O((\frac{n}{2})^2)$ 內計算完 $i$ 及 $j$，<br>累計也不需要 $k$，直接將暫存空間相加即可。根據主定理，總複雜度被降到 $T(n) &#x3D; \Theta(f(n)) &#x3D; \Theta(n^2)$。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">inline</span> <span class="type">bool</span> <span class="title function_">in</span><span class="params">(<span class="type">long</span> x, <span class="type">int</span> lower, <span class="type">int</span> upper)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> x &gt;= lower &amp;&amp; x &lt;= upper;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">countRangeSum</span><span class="params">(<span class="type">int</span>* nums, <span class="type">int</span> numsSize, <span class="type">int</span> lower, <span class="type">int</span> upper)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Boundary</span></span><br><span class="line">    <span class="keyword">if</span> (numsSize == <span class="number">0</span>) </span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (numsSize == <span class="number">1</span>) </span><br><span class="line">        <span class="keyword">return</span> in(nums[<span class="number">0</span>], lower, upper) ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Divide</span></span><br><span class="line">    <span class="type">int</span> half = numsSize / <span class="number">2</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> *partA = nums;</span><br><span class="line">    <span class="type">int</span> *partB = nums + half;</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> sizeA = half;</span><br><span class="line">    <span class="type">int</span> sizeB = numsSize - half;</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> countA = countRangeSum(partA, sizeA, lower, upper);</span><br><span class="line">    <span class="type">int</span> countB = countRangeSum(partB, sizeB, lower, upper);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Merge</span></span><br><span class="line">    <span class="type">long</span> *tmp = (<span class="type">long</span> *) <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">long</span>) * numsSize);</span><br><span class="line">    </span><br><span class="line">    tmp[half - <span class="number">1</span>] = nums[half - <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = half - <span class="number">2</span>; i &gt;= <span class="number">0</span>; i--) </span><br><span class="line">        tmp[i] = tmp[i + <span class="number">1</span>] + nums[i];</span><br><span class="line">    </span><br><span class="line">    tmp[half] = nums[half];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = half + <span class="number">1</span>; j &lt; numsSize; j++) </span><br><span class="line">        tmp[j] = tmp[j - <span class="number">1</span>] + nums[j];</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> countM = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; sizeA; i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = sizeA; j &lt; numsSize; j++)</span><br><span class="line">            <span class="keyword">if</span> (in(tmp[i] + tmp[j], lower, upper))</span><br><span class="line">                countM++;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">free</span>(tmp);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> countA + countB + countM;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div class="note warning"><p>注意程式碼的 <code>long</code> 型別，這裡沒針對範圍處理，使用 <code>int</code> 會出錯；<br>而且這個程式碼還不夠快，會超時（TLE, Time Limit Exceeded）</p>
+</div>
+
+<h2 id="進一步最佳化"><a href="#進一步最佳化" class="headerlink" title="進一步最佳化"></a>進一步最佳化</h2><div class="note success"><p>接下來的內容是參考 Discuss 中排名最高的解</p>
+</div>
+
+<p>透過壓低 $f(n)$ 所能觸及的下界（如果能辦到），透過主定理也能大概猜到，是 $T(n) &#x3D; \Theta(n\log(n))$，<br>這個值出現在 $f(n)$ 被壓到只有 $\Theta(n)$ 時，為 $k&#x3D;0$ 的 $\log^{k}(n)$ 倍得到。</p>
+<p>那麼，如何讓 $f(n)$ 進一步變小呢？</p>
+<p>從上面程式可以發現，導致問題是 39 至 42 行，這裡的瓶頸導致 $f(n) &#x3D; O(n^2)$ 的結果。</p>
+<p>就像第一次最佳化一樣，題目不需要子序列的總和。這代表打從一開始就應該用「累加序列」運算，而元素的差就是子序列的總和，見圖三：累加序列 $n$ 中，元素的差（任意 $n_j - n_i$）對應原始序列 $i$ 到 $j$ 的累加。圖中有 $n_6 - n_3 &#x3D; 10 - 4 &#x3D; 6$ 為 5、-6、7 三元素的和。</p>
+<p><img src="https://i.imgur.com/kXm0YJw.png" alt="圖三、累加序列的元素差"></p>
+<p>然後，一旦用累加序列取代，那麼只要在子問題合併前不打亂，順序就不重要了，可以透過排序處理。換句話說，由於我們合併階段，關心的是「跨越兩個子問題的序列和」，所以個別排序不會出問題。</p>
+<p>考慮圖四，其中有 $\text{sorted}_5 - \text{sorted}_1 &#x3D; 9 - 1 &#x3D; 7$ 它對應的序列「不為原序列第 1 至第 5 個元素」而是對應「第 0 至第 4 個元素（$n_4 - n_0$）」。只要任意 $\text{sorted}_j - \text{sorted}_i$ 的 $i$ 都落在前半段，而 $j$ 落在後半段，那麼就一定唯一對應原序列的一段序列和，只是對應的註標不同。</p>
+<p><img src="https://i.imgur.com/kWFHiAm.png" alt="圖四、累加序列排序的意義"></p>
+<p>同樣地，我們透過切割兩半的方法去處理，假設子問題的區塊都有單調性（即已排序過），看看能不能省略計數的步驟。</p>
+<ul>
+<li>如果某個元素 $n_i$ 在第一區塊中、而 $n_j$ 在第二區塊，且兩個區塊都有單調性</li>
+<li>我們遍歷所有的 $n_i$ 並尋找跟 $n_j$ 的關係</li>
+<li>如果有註標 $k$ 有 $n_k - n_i \leq \text{lower}$ 則對於某個 $n_i$ 來說，元素 $n_k$ 不能再小</li>
+<li>如果有註標 $j$ 有 $n_j - n_i \geq \text{upper}$ 則對於某個 $n_i$ 來說，元素 $n_j$ 不能再大</li>
+</ul>
+<p>然後關鍵是，由於單調性存在，所以遍歷 $i$ 時，值 $n_i$ 只會遞增，也就是說：</p>
+<ul>
+<li>當 $i$ 遞增，則 $n_i$ 變大</li>
+<li>所以 $n_k - n_i$ 變小，之前的 $k$ 為首個滿足條件（恰好大於 $\text{lower}$）的註標</li>
+<li>為了再次滿足條件，$n_k$ 必須變大，使 $n_k - n_i$ 變大</li>
+<li>故 $k$ 必須遞增</li>
+</ul>
+<p>觀察另一個註標 $j$ 也有類似的狀況，只是這次要求找「不滿足」條件的註標：</p>
+<ul>
+<li>當 $i$ 遞增，則 $n_i$ 變大</li>
+<li>所以 $n_j - n_i$ 變小，之前的 $j$ 為首個「不滿足」條件（恰好大於 $\text{upper}$）的註標</li>
+<li>為了再次「不滿足」條件，$n_j$ 必須變大，使 $n_j - n_i$ 變大</li>
+<li>故 $j$ 必須遞增</li>
+</ul>
+<p>計算完成後，兩個註標：</p>
+<ul>
+<li>註標 $k$ 對應的值 $n_k$ 為滿足 $n_k - n_i \geq \text{lower}$ 的首個註標</li>
+<li>註標 $j$ 對應的值 $n_j$ 為滿足 $n_j - n_i &gt; \text{upper}$ 的首個註標</li>
+</ul>
+<p>則 $j - k$ 為兩個子問題合併情況的解。</p>
+<p>剩下最後一個問題，就是子問題的單調性如何確保。實際上，可以直接透過合併排序的合併階段來實現。</p>
+<p>稍微重新整理一下剛剛的流程：</p>
+<ul>
+<li>把整個序列轉換成累加序列，共花 $O(n)$</li>
+<li>將問題切割成兩個子問題</li>
+<li>遍歷第一區塊所有的 $n_i$ 計算 $n_j - n_i$ 及 $n_k - n_i$（注意 $j$ 跟 $k$ 只會變大，花費 $O(n)$）</li>
+<li>每個子問題透過合併階段，花費 $O(n)$ 維持單調性</li>
+<li>將兩個子問題解加上 $j - k$ 為答案</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">countRangeSum</span><span class="params">(<span class="type">int</span>* nums, <span class="type">int</span> numsSize, <span class="type">int</span> lower, <span class="type">int</span> upper)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 累加序列</span></span><br><span class="line">    <span class="type">int</span> sumsSize = numsSize;</span><br><span class="line">    <span class="type">long</span> *sums = (<span class="type">long</span> *) <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">long</span>) * sumsSize);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 建立累加序列</span></span><br><span class="line">    sums[<span class="number">0</span>] = nums[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt; sumsSize; i++)</span><br><span class="line">        sums[i] = sums[i - <span class="number">1</span>] + nums[i];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 遞迴解區間 [0, sumsSize)</span></span><br><span class="line">    <span class="keyword">return</span> f(sums, <span class="number">0</span>, sumsSize, lower, upper);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">f</span><span class="params">(<span class="type">long</span> *sums, <span class="type">int</span> start, <span class="type">int</span> end, <span class="type">int</span> lower, <span class="type">int</span> upper)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 單個元素則直接判斷範圍</span></span><br><span class="line">    <span class="keyword">if</span> (end - start &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> sums[start] &gt;= lower &amp;&amp; sums[start] &lt;= upper ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 將問題切割成子問題</span></span><br><span class="line">    <span class="type">int</span> mid = (end + start) / <span class="number">2</span>;</span><br><span class="line">    <span class="type">int</span> count = f(sums, start, mid, lower, upper) <span class="comment">// 子問題 A</span></span><br><span class="line">              + f(sums, mid, end, lower, upper);  <span class="comment">// 子問題 B</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 合併階段的暫存序列</span></span><br><span class="line">    <span class="type">long</span> *tmps = (<span class="type">long</span> *) <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">long</span>) * (end - start));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 用於計算的註標群</span></span><br><span class="line">    <span class="type">int</span> k = mid; <span class="comment">// 尋找累加序列的下界（首個符合條件的註標）</span></span><br><span class="line">    <span class="type">int</span> j = mid; <span class="comment">// 尋找累加序列的上界（首個不符合條件的註標）</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 用於合併的註標群</span></span><br><span class="line">    <span class="type">int</span> t = mid; <span class="comment">// 子問題 B 的元素註標</span></span><br><span class="line">    <span class="type">int</span> r = <span class="number">0</span>;   <span class="comment">// 合併暫存序列的註標</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 遍歷子問題 A 的累加序列</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = start; i &lt; mid; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 計算數量</span></span><br><span class="line">        <span class="keyword">while</span>(k &lt; end &amp;&amp; sums[k] - sums[i] &lt;  lower) k++; <span class="comment">// 尋找下界</span></span><br><span class="line">        <span class="keyword">while</span>(j &lt; end &amp;&amp; sums[j] - sums[i] &lt;= upper) j++; <span class="comment">// 尋找上界</span></span><br><span class="line">        count += j - k;                                   <span class="comment">// 計算數量</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 合併階段</span></span><br><span class="line">        <span class="comment">// 跟「子問題 A 首個的元素」比較</span></span><br><span class="line">        <span class="comment">// 如果「子問題 B 的元素」比較小，則放進合併序列中</span></span><br><span class="line">        <span class="keyword">while</span>(t &lt; end &amp;&amp; sums[t] &lt; sums[i])</span><br><span class="line">            tmps[r++] = sums[t++];</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 跳出迴圈後，保證子問題 A 首個元素比較小，直接放進序列中</span></span><br><span class="line">        tmps[r++] = sums[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 把合併序列剩下的複製進原序列</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; r; i++)</span><br><span class="line">        sums[start + i] = tmps[i];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 釋放掉合併暫存序列</span></span><br><span class="line">    <span class="built_in">free</span>(tmps);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 回傳答案</span></span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/nspa-fast-note/" rel="prev" title="NSPA 封包檢測速記">
+                  <i class="fa fa-angle-left"></i> NSPA 封包檢測速記
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/array/" rel="next" title="陣列 Array">
+                  陣列 Array <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  
+  <div class="comments giscus-container">
+  </div>
+  
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-bomb"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Tinytusnami</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="giscus" type="application/json">{"enable":true,"repo":"tinytsunami/blog","repo_id":"MDEwOlJlcG9zaXRvcnkxMjI3MTEwNTY=","category":"Blog Comments","category_id":"DIC_kwDOB1BsEM4C42Ww","mapping":"pathname","strict":0,"reactions_enabled":1,"emit_metadata":1,"theme":"preferred_color_scheme","lang":"zh-TW","crossorigin":"anonymous","input_position":"top","loading":"lazy"}</script>
+
+<script>
+document.addEventListener('page:loaded', () => {
+  if (!CONFIG.page.comments) return;
+
+  NexT.utils.loadComments('.giscus-container')
+    .then(() => NexT.utils.getScript('https://giscus.app/client.js', {
+      attributes: {
+        async                   : true,
+        crossOrigin             : 'anonymous',
+        'data-repo'             : CONFIG.giscus.repo,
+        'data-repo-id'          : CONFIG.giscus.repo_id,
+        'data-category'         : CONFIG.giscus.category,
+        'data-category-id'      : CONFIG.giscus.category_id,
+        'data-mapping'          : CONFIG.giscus.mapping,
+        'data-strict'           : CONFIG.giscus.strict,
+        'data-reactions-enabled': CONFIG.giscus.reactions_enabled,
+        'data-emit-metadata'    : CONFIG.giscus.emit_metadata,
+        'data-theme'            : CONFIG.giscus.theme,
+        'data-lang'             : CONFIG.giscus.lang,
+        'data-input-position'   : CONFIG.giscus.input_position,
+        'data-loading'          : CONFIG.giscus.loading
+      },
+      parentNode: document.querySelector('.giscus-container')
+    }));
+});
+</script>
+
+</body>
+</html>

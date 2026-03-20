@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.tinytsunami.info","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="總之一個因緣際會複習微積分，所以寫下這篇文章。本篇文章部分要仰賴一些先備知識：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="三角函數的微分">
+<meta property="og:url" content="https://www.tinytsunami.info/differential-trigonometric-functions/index.html">
+<meta property="og:site_name" content="羊羽手札">
+<meta property="og:description" content="總之一個因緣際會複習微積分，所以寫下這篇文章。本篇文章部分要仰賴一些先備知識：">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2017-05-22T00:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-20T08:43:52.244Z">
+<meta property="article:author" content="Tinytusnami">
+<meta property="article:tag" content="技術, 獨立遊戲">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.tinytsunami.info/differential-trigonometric-functions/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://www.tinytsunami.info/differential-trigonometric-functions/","path":"/differential-trigonometric-functions/","title":"三角函數的微分"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>三角函數的微分 | 羊羽手札</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">羊羽手札</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Tinytsunami's Blog</p>
+      <img class="custom-logo-image" src="/images/icon.png" alt="羊羽手札">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-game"><a href="https://tinytsunami.itch.io/" rel="section" target="_blank"><i class="fas fa-gamepad fa-fw"></i>game</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#sin-x-%E6%AD%A3%E5%BC%A6"><span class="nav-number">1.</span> <span class="nav-text">sin(x) 正弦</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cos-x-%E9%A4%98%E5%BC%A6"><span class="nav-number">2.</span> <span class="nav-text">cos(x) 餘弦</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#tan-x-%E6%AD%A3%E5%88%87"><span class="nav-number">3.</span> <span class="nav-text">tan(x) 正切</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#csc-x-%E9%A4%98%E5%89%B2"><span class="nav-number">4.</span> <span class="nav-text">csc(x) 餘割</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sec-x-%E6%AD%A3%E5%89%B2"><span class="nav-number">5.</span> <span class="nav-text">sec(x) 正割</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cot-x-%E9%A4%98%E5%88%87"><span class="nav-number">6.</span> <span class="nav-text">cot(x) 餘切</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">7.</span> <span class="nav-text">其他</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Tinytusnami"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">Tinytusnami</p>
+  <div class="site-description" itemprop="description">羊羽的個人部落格</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/tinytsunami" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;tinytsunami" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/TaipeiTsunami" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;TaipeiTsunami" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/profile.php?id=100000736195394" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;profile.php?id&#x3D;100000736195394" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCtqp9w_uA_LohDm0YXNWqSA" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCtqp9w_uA_LohDm0YXNWqSA" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+          連結
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://blog.cyris.tw/" title="https:&#x2F;&#x2F;blog.cyris.tw" rel="noopener" target="_blank">Cyris's Blog</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://poyu-liao.github.io/blog" title="https:&#x2F;&#x2F;poyu-liao.github.io&#x2F;blog" rel="noopener" target="_blank">Robert's Blog</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/differential-trigonometric-functions/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="Tinytusnami">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="羊羽手札">
+      <meta itemprop="description" content="羊羽的個人部落格">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="三角函數的微分 | 羊羽手札">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          三角函數的微分
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2017-05-22 00:00:00" itemprop="dateCreated datePublished" datetime="2017-05-22T00:00:00Z">2017-05-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/legacy-math/" itemprop="url" rel="index"><span itemprop="name">(legacy) math</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>總之一個因緣際會複習微積分，所以寫下這篇文章。<br>本篇文章部分要仰賴一些先備知識：</p>
+<span id="more"></span>
+
+<p>$\displaystyle{ \lim_{\theta \to 0} \frac{sin(\theta)}{\theta} &#x3D; 1 }$</p>
+<p>（證明可以參考：<a target="_blank" rel="noopener" href="http://mathtrain.jp/sinc/">sinx&#x2F;xについて覚えておくべき２つのこと</a>）</p>
+<p>題外話，在 tutor 板上出現過為什麼不可以用羅必達法則（l’H&ocirc;pital’s Rule）證明的問題。<br>有興趣可以自己前去觀看：<a target="_blank" rel="noopener" href="https://www.ptt.cc/man/tutor/DFC5/D338/D20E/M.1174228073.A.6B3.html">[討論] limsinx&#x2F;x＝1 when x&rarr;0</a></p>
+<p>另一個部分是：</p>
+<p>$\displaystyle{ \lim_{\theta \to 0} \frac{cos(\theta) - 1}{\theta} &#x3D; 0 }$</p>
+<p>推倒如下。</p>
+<p>$\displaystyle{ \lim_{\theta \to 0} \frac{cos(\theta) - 1}{\theta} &#x3D; \lim_{\theta \to 0} \frac{cos(\theta) - 1}{\theta} \cdot \frac{cos(\theta) + 1}{cos(\theta) + 1}}$</p>
+<p>$\displaystyle{ &#x3D; \lim_{\theta \to 0} \frac{cos^{2}(\theta) - 1^{2}}{\theta [cos(\theta) + 1]} &#x3D; \lim_{\theta \to 0} \frac{-sin^{2}(\theta)}{\theta [cos(\theta) + 1]}}$</p>
+<p>$\displaystyle{ &#x3D; - \lim_{\theta \to 0} \frac{sin(\theta)}{\theta}\frac{sin(\theta)}{cos(\theta) + 1} &#x3D; - { \lim_{\theta \to 0} \frac{sin(\theta)}{\theta} \cdot \lim_{\theta \to 0} \frac{sin(\theta)}{cos(\theta) + 1} }}$</p>
+<p>$\displaystyle{ &#x3D; - { 1 \cdot \frac{0}{1 + 1} } &#x3D; 0 }$ </p>
+<h1 id="sin-x-正弦"><a href="#sin-x-正弦" class="headerlink" title="sin(x) 正弦"></a>sin(x) 正弦</h1><p>利用微分定義推導：</p>
+<p>$\displaystyle{ \frac{d}{dx} sin(x) &#x3D; \lim_{h \to 0} \frac{sin(x + h) - sin(x)}{h} }$</p>
+<p>$\displaystyle{ &#x3D; \lim_{h \to 0} \frac{sin(x)cos(h) + cos(x)sin(h) - sin(x)}{h} \text{（※ 正弦和角公式）} }$</p>
+<p>$\displaystyle{ &#x3D; \lim_{h \to 0} \frac{sin(x)cos(h) - sin(x) + cos(x)sin(h)}{h} }$</p>
+<p>$\displaystyle{ &#x3D; \lim_{h \to 0} \frac{sin(x) [cos(h) - 1]}{h} + \lim_{h \to 0} \frac{cos(x)sin(h)}{h} }$</p>
+<p>$\displaystyle{ &#x3D; sin(x) \cdot \lim_{h \to 0} \frac{cos(h) - 1}{h} + cos(x) \cdot \lim_{h \to 0} \frac{sin(h)}{h} }$</p>
+<p>$\displaystyle{ &#x3D; sin(x) \cdot 0 + cos(x) \cdot 1 &#x3D; cos(x) }$</p>
+<h1 id="cos-x-餘弦"><a href="#cos-x-餘弦" class="headerlink" title="cos(x) 餘弦"></a>cos(x) 餘弦</h1><p>利用微分定義推導：</p>
+<p>$\displaystyle{ \frac{d}{dx} cos(x) &#x3D; \lim_{h \to 0} \frac{cos(x + h) - cos(x)}{h} }$</p>
+<p>$\displaystyle{ &#x3D; \lim_{h \to 0} \frac{cos(x)cos(h) - sin(x)sin(h) - cos(x)}{h} \text{（※ 餘弦和角公式）} }$</p>
+<p>$\displaystyle{ &#x3D; \lim_{h \to 0} \frac{cos(x)cos(h) - cos(x) - sin(x)sin(h)}{h} }$</p>
+<p>$\displaystyle{ &#x3D; \lim_{h \to 0} \frac{cos(x) [cos(h) - 1]}{h} - \lim_{h \to 0} \frac{sin(x)sin(h)}{h} }$</p>
+<p>$\displaystyle{ &#x3D; cos(x) \cdot \lim_{h \to 0} \frac{cos(h) - 1}{h} - sin(x) \cdot \lim_{h \to 0} \frac{sin(h)}{h} }$</p>
+<p>$\displaystyle{ &#x3D; cos(x) \cdot 0 - sin(x) \cdot 1 &#x3D; - sin(x) }$</p>
+<h1 id="tan-x-正切"><a href="#tan-x-正切" class="headerlink" title="tan(x) 正切"></a>tan(x) 正切</h1><p>由 $tan(x) &#x3D; \frac{sin(x)}{cos(x)}$ 開始：</p>
+<p>$\frac{d}{dx} tan(x) &#x3D; \frac{d}{dx} \frac{sin(x)}{cos(x)}$</p>
+<p>$ &#x3D; \frac{\frac{d}{dx}sin(x) \cdot cos(x) - sin(x) \cdot \frac{d}{dx}cos(x)}{cos^{2}(x)} \text{（※ 微分除法公式）}$</p>
+<p>$ &#x3D; \frac{cos(x) \cdot cos(x) - sin(x) \cdot [-sin(x)]}{cos^{2}(x)} &#x3D; \frac{cos^{2}(x) + sin^{2}(x)}{cos^{2}(x)}$</p>
+<p>$ &#x3D; \frac{1}{cos^{2}(x)} &#x3D; sec^{2}(x)$</p>
+<p>（※ 使用了 $sin^{2}(x) + cos^{2}(x) &#x3D; 1$ 這條式子，證明請參考：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=91Jxfu4FntM">sin^2+cos^2&#x3D;1</a>）</p>
+<h1 id="csc-x-餘割"><a href="#csc-x-餘割" class="headerlink" title="csc(x) 餘割"></a>csc(x) 餘割</h1><p>由 $csc(x) &#x3D; \frac{1}{sin(x)}$ 開始：</p>
+<p>$\frac{d}{dx} csc(x) &#x3D; \frac{d}{dx} \frac{1}{sin(x)}$</p>
+<p>$ &#x3D; \frac{\frac{d}{dx} 1 \cdot sin(x) - 1 \cdot \frac{d}{dx} sin(x)}{sin^{2}(x)} \text{（※ 微分除法公式）}$</p>
+<p>$ &#x3D; \frac{0 \cdot sin(x) - 1 \cdot cos(x)}{sin^{2}(x)} &#x3D; - \frac{cos(x)}{sin^{2}(x)}$</p>
+<p>$ &#x3D; - \frac{cos(x)}{sin(x)} \cdot \frac{1}{sin(x)} &#x3D; - cot(x) csc(x)$</p>
+<h1 id="sec-x-正割"><a href="#sec-x-正割" class="headerlink" title="sec(x) 正割"></a>sec(x) 正割</h1><p>由 $sec(x) &#x3D; \frac{1}{cos(x)}$ 開始：</p>
+<p>$\frac{d}{dx} sec(x) &#x3D; \frac{d}{dx} \frac{1}{cos(x)}$</p>
+<p>$ &#x3D; \frac{\frac{d}{dx} 1 \cdot cos(x) - 1 \cdot \frac{d}{dx} cos(x)}{cos^{2}(x)} \text{（※ 微分除法公式）}$</p>
+<p>$ &#x3D; \frac{0 \cdot cos(x) - 1 \cdot [-sin(x)] }{cos^{2}(x)} &#x3D; \frac{sin(x)}{cos^{2}(x)}$</p>
+<p>$ &#x3D; \frac{sin(x)}{cos(x)} \cdot \frac{1}{cos(x)} &#x3D; tan(x) sec(x)$</p>
+<h1 id="cot-x-餘切"><a href="#cot-x-餘切" class="headerlink" title="cot(x) 餘切"></a>cot(x) 餘切</h1><p>由 $cot(x) &#x3D; \frac{cos(x)}{sin(x)}$ 開始：</p>
+<p>$\frac{d}{dx} cot(x) &#x3D; \frac{d}{dx} \frac{cos(x)}{sin(x)}$</p>
+<p>$ &#x3D; \frac{\frac{d}{dx}cos(x) \cdot sin(x) - cos(x) \cdot \frac{d}{dx} sin(x)}{sin^{2}(x)} \text{（※ 微分除法公式）}$</p>
+<p>$ &#x3D; \frac{[-sin(x)] \cdot sin(x) - cos(x) \cdot cos(x)}{sin^{2}(x)} &#x3D; \frac{ - sin^{2}(x) - cos^{2}(x)}{sin^{2}(x)}$</p>
+<p>$ &#x3D; - {\frac{sin^{2}(x) + cos^{2}(x)}{sin^{2}(x)}} &#x3D; - \frac{1}{sin^{2}(x)} &#x3D; -csc^{2}(x)$</p>
+<p>（※ 跟 $tan(x)$ 一樣使用了 $sin^{2}(x) + cos^{2}(x) &#x3D; 1$ 這條式子，證明請參考上面的資料。）</p>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>可以發現一些手法，除了 $sin(x)$ 以及 $cos(x)$ 要從定義來之外，<br>其他的有兩兩對應的步驟，像是 $tan(x)$ 跟 $cot(x)$ 就很類似、而 $csc(x)$ 跟 $sec(x)$ 也很相像。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/apriori-algorithm/" rel="prev" title="先驗算法 Apriori Algorithm">
+                  <i class="fa fa-angle-left"></i> 先驗算法 Apriori Algorithm
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/linear-regression-and-gradient-descent/" rel="next" title="線性回歸與梯度下降 Linear Regression and Gradient Descent">
+                  線性回歸與梯度下降 Linear Regression and Gradient Descent <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  
+  <div class="comments giscus-container">
+  </div>
+  
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-bomb"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Tinytusnami</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="giscus" type="application/json">{"enable":true,"repo":"tinytsunami/blog","repo_id":"MDEwOlJlcG9zaXRvcnkxMjI3MTEwNTY=","category":"Blog Comments","category_id":"DIC_kwDOB1BsEM4C42Ww","mapping":"pathname","strict":0,"reactions_enabled":1,"emit_metadata":1,"theme":"preferred_color_scheme","lang":"zh-TW","crossorigin":"anonymous","input_position":"top","loading":"lazy"}</script>
+
+<script>
+document.addEventListener('page:loaded', () => {
+  if (!CONFIG.page.comments) return;
+
+  NexT.utils.loadComments('.giscus-container')
+    .then(() => NexT.utils.getScript('https://giscus.app/client.js', {
+      attributes: {
+        async                   : true,
+        crossOrigin             : 'anonymous',
+        'data-repo'             : CONFIG.giscus.repo,
+        'data-repo-id'          : CONFIG.giscus.repo_id,
+        'data-category'         : CONFIG.giscus.category,
+        'data-category-id'      : CONFIG.giscus.category_id,
+        'data-mapping'          : CONFIG.giscus.mapping,
+        'data-strict'           : CONFIG.giscus.strict,
+        'data-reactions-enabled': CONFIG.giscus.reactions_enabled,
+        'data-emit-metadata'    : CONFIG.giscus.emit_metadata,
+        'data-theme'            : CONFIG.giscus.theme,
+        'data-lang'             : CONFIG.giscus.lang,
+        'data-input-position'   : CONFIG.giscus.input_position,
+        'data-loading'          : CONFIG.giscus.loading
+      },
+      parentNode: document.querySelector('.giscus-container')
+    }));
+});
+</script>
+
+</body>
+</html>

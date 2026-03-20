@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.tinytsunami.info","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="這篇最早是 Evernote 的筆記，整理之後就放到部落格這裡來了；忘記最早是為了要做什麼，總之就是利用牛頓法計算開根號函數的作法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="牛頓法計算 sqrt 函數">
+<meta property="og:url" content="https://www.tinytsunami.info/newton-method-sqrt/index.html">
+<meta property="og:site_name" content="羊羽手札">
+<meta property="og:description" content="這篇最早是 Evernote 的筆記，整理之後就放到部落格這裡來了；忘記最早是為了要做什麼，總之就是利用牛頓法計算開根號函數的作法。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-10-03T00:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-20T08:43:52.187Z">
+<meta property="article:author" content="Tinytusnami">
+<meta property="article:tag" content="技術, 獨立遊戲">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.tinytsunami.info/newton-method-sqrt/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://www.tinytsunami.info/newton-method-sqrt/","path":"/newton-method-sqrt/","title":"牛頓法計算 sqrt 函數"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>牛頓法計算 sqrt 函數 | 羊羽手札</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">羊羽手札</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Tinytsunami's Blog</p>
+      <img class="custom-logo-image" src="/images/icon.png" alt="羊羽手札">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-game"><a href="https://tinytsunami.itch.io/" rel="section" target="_blank"><i class="fas fa-gamepad fa-fw"></i>game</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%BD%E6%95%B8%E5%8C%96"><span class="nav-number">1.</span> <span class="nav-text">函數化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B3%B0%E5%8B%92%E5%B1%95%E9%96%8B"><span class="nav-number">2.</span> <span class="nav-text">泰勒展開</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E9%97%9C%E4%BF%82"><span class="nav-number">3.</span> <span class="nav-text">迭代關係</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A8%8B%E5%BC%8F%E8%A7%A3"><span class="nav-number">4.</span> <span class="nav-text">程式解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8B%98%E8%AA%A4%E8%88%87%E8%87%B4%E8%AC%9D"><span class="nav-number">5.</span> <span class="nav-text">勘誤與致謝</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Tinytusnami"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">Tinytusnami</p>
+  <div class="site-description" itemprop="description">羊羽的個人部落格</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/tinytsunami" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;tinytsunami" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/TaipeiTsunami" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;TaipeiTsunami" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/profile.php?id=100000736195394" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;profile.php?id&#x3D;100000736195394" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCtqp9w_uA_LohDm0YXNWqSA" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCtqp9w_uA_LohDm0YXNWqSA" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+          連結
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://blog.cyris.tw/" title="https:&#x2F;&#x2F;blog.cyris.tw" rel="noopener" target="_blank">Cyris's Blog</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://poyu-liao.github.io/blog" title="https:&#x2F;&#x2F;poyu-liao.github.io&#x2F;blog" rel="noopener" target="_blank">Robert's Blog</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/newton-method-sqrt/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="Tinytusnami">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="羊羽手札">
+      <meta itemprop="description" content="羊羽的個人部落格">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="牛頓法計算 sqrt 函數 | 羊羽手札">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          牛頓法計算 sqrt 函數
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-10-03 00:00:00" itemprop="dateCreated datePublished" datetime="2021-10-03T00:00:00Z">2021-10-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/legacy-algorithm/" itemprop="url" rel="index"><span itemprop="name">(legacy) algorithm</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>這篇最早是 Evernote 的筆記，整理之後就放到部落格這裡來了；<br>忘記最早是為了要做什麼，總之就是利用牛頓法計算開根號函數的作法。</p>
+<span id="more"></span>
+
+<h1 id="函數化"><a href="#函數化" class="headerlink" title="函數化"></a>函數化</h1><p>當要估計 $\text{sqrt}(a) &#x3D; \sqrt{a}$ 時，<br>可以先令 $x_k$  為一近似解，即 $x_k \approx \sqrt{a}$。</p>
+<p>接著整理：</p>
+<p>$x^{2}_{k} \approx a$ </p>
+<p>$x^{2}_{k} - a \approx 0$</p>
+<p>將 $x^{2}_{k} - a$ 視為一函數 $f(p) &#x3D; p^{2} - a$</p>
+<p>令 $p &#x3D; x_{k}$ 就有 $f(x_{k}) &#x3D; x_{k}^{2} - a \approx 0$</p>
+<p>則 $x_k$ 恰為函數近似解 $f(x_k) \approx 0$ 之值。</p>
+<h1 id="泰勒展開"><a href="#泰勒展開" class="headerlink" title="泰勒展開"></a>泰勒展開</h1><p>對函數 $f(p)$ 在 $x_{k}$ 處取泰勒展開（Taylor series）有：</p>
+<p>$f(p) &#x3D; \frac{f(x_{k})}{0!}(p-x_{k})^0  + \frac{f’(x_{k})}{1!}(p-x_{k})^1 + R(p)$</p>
+<p>整理後得：</p>
+<p>$f(p) &#x3D; f(x_{k}) + f’(x_{k})(p-x_{k}) + R(p)$</p>
+<p>其中 $R(p)$ 為餘項。</p>
+<h1 id="迭代關係"><a href="#迭代關係" class="headerlink" title="迭代關係"></a>迭代關係</h1><p>回憶最早的假設 $x_k \approx \sqrt{a}$；</p>
+<p>我們現在考慮迭代法，即 $x_{k+1}$ 比 $x_{k}$ 的答案更精準：</p>
+<p>$x_{k+1} \approx \sqrt{a}$</p>
+<p>取 $p &#x3D; x_{k+1}$ 帶入泰勒展開：</p>
+<p>$f(x_{k+1}) &#x3D; f(x_{k}) + f’(x_{k})(x_{k+1}-x_{k}) + R(x_{k+1})$</p>
+<p>由於是近似解，故捨去餘項 $R(p)$ 有：</p>
+<p>$f(x_{k+1}) \approx f(x_{k}) + f’(x_{k})(x_{k+1}-x_{k})$</p>
+<p>這兩者都可以視做原函數的近似，即 $f(x_k) \approx f(x_{k+1})$ 只是 $f(x_{k+1})$ 更精確。</p>
+<div class="note warning"><p>注意對象目前是 $f(p) &#x3D; p^{2} - a$ 而 $f(p) \neq \sqrt{p}$</p>
+</div>
+
+<p>之前的函數 $f(p) &#x3D; p^{2} - a$；</p>
+<p>我們現在帶入更精確的 $x_{k+1} \approx \sqrt{a}$ 於是：</p>
+<p>$f(x_{k+1}) &#x3D; x_{k+1}^{2} - a \approx 0$</p>
+<p>同時，展開式：</p>
+<p>$f(x_{k+1}) \approx f(x_{k}) + f’(x_{k})(x_{k+1}-x_{k})$</p>
+<p>兩式串接可得：</p>
+<p>$f(x_{k}) + f’(x_{k})(x_{k+1}-x_{k}) \approx 0$</p>
+<p>$f’(x_{k})(x_{k+1}-x_{k}) \approx -f(x_{k})$</p>
+<p>$x_{k+1}-x_{k} \approx \frac{-f(x_{k})}{f’(x_{k})}$</p>
+<p>$x_{k+1} \approx \frac{-f(x_{k})}{f’(x_{k})} + x_{k}$</p>
+<p>$x_{k+1} \approx x_{k} - \frac{f(x_{k})}{f’(x_{k})}$</p>
+<p>我們現在找到近似關係了，一旦我們確定 $x_{k}$ 那就可以計算右項來推得 $x_{k+1}$。</p>
+<h1 id="程式解"><a href="#程式解" class="headerlink" title="程式解"></a>程式解</h1><p>函數 $f(x_{k}) &#x3D; x_k^2 - a$</p>
+<p>一階微分函數 $f’(x_{k}) &#x3D; 2 \cdot x_k$</p>
+<div class="note info"><p>這裡的 $a$ 為一常數，也是確定的輸入參數值 $\text{sqrt}(a) &#x3D; \sqrt{a}$</p>
+</div>
+
+<p>整個合併整理：</p>
+<p>$x_{k+1} \approx x_{k} - \frac{\displaystyle x_k^2 - a}{\displaystyle 2 x_k}$</p>
+<p>$x_{k+1} \approx \frac{\displaystyle 2 x_{k}^2}{\displaystyle 2 x_k} - \frac{\displaystyle x_k^2 - a}{\displaystyle 2 x_k}$</p>
+<p>$x_{k+1} \approx \frac{\displaystyle 2 x_{k}^2 - (x_k^2 - a)}{\displaystyle 2 x_k}$</p>
+<p>$x_{k+1} \approx \frac{\displaystyle 2 x_{k}^2 - x_k^2 + a}{\displaystyle 2 x_k}$</p>
+<p>$x_{k+1} \approx \frac{\displaystyle x_{k}^2 + a}{\displaystyle 2 x_k}$</p>
+<p>$x_{k+1} \approx \frac{\displaystyle x_{k}}{\displaystyle 2} + \frac{\displaystyle a}{\displaystyle 2 x_k}$</p>
+<p>$x_{k+1} \approx \frac{\displaystyle 1}{\displaystyle 2} \left( \displaystyle x_{k} + \frac{\displaystyle a}{\displaystyle x_k} \right)$</p>
+<p>所以說 $\text{sqrt}(a)$ 的值為 $x_{k+1} \approx \frac{1}{2} \left(x_{k} + \frac{a}{x_k} \right)$</p>
+<p>只要先隨便令一個 $x_k$ 為任意值，就透過計算 $x_{k+1}$ 得到更精確地解：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">sqrt</span>(<span class="params">a</span>)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">let</span> epsilon = <span class="number">1e-6</span>;        <span class="comment">// 迭代到精準度 1e-6</span></span><br><span class="line">  <span class="keyword">let</span> x0;                    <span class="comment">// x[k]</span></span><br><span class="line">  <span class="keyword">let</span> x1;                    <span class="comment">// x[k+1]</span></span><br><span class="line">  x1 = a;                    <span class="comment">// 隨便猜一個數</span></span><br><span class="line">  <span class="keyword">do</span>&#123;</span><br><span class="line">    x0 = x1;                 <span class="comment">// 讓 k 遞增（x[k] 變成 x[k+1]）</span></span><br><span class="line">    x1 = (x0 + a/x0) / <span class="number">2</span>;    <span class="comment">// 公式 x[k+1] = (1/2)(x[k] + a/x[k])</span></span><br><span class="line">  &#125;<span class="keyword">while</span>(x0 - x1 &gt; epsilon); <span class="comment">// 不夠精準則繼續</span></span><br><span class="line">  <span class="keyword">return</span> x1;                 <span class="comment">// 答案在 x[k+1]</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div class="note info"><p>程式上的一個細節是，初始猜的值跟終止條件有關。</p>
+<p>若初始條件 $x_{k} &gt; \sqrt a$ 則收斂時 $x_{k+1}$ 會比 $x_{k}$ 更小；<br>反之，初始條件 $x_{k} &lt; \sqrt a$ 則收斂時 $x_{k+1}$ 會比 $x_{k}$ 更大。</p>
+<p>考慮 $a \in N$ 則必有 $a \geq \sqrt a$，<br>則初始條件給 $x_{k} &#x3D; a$ 則必向更小的方向收斂，終止條件就可以避免使用另外的判斷式。</p>
+</div>
+
+<h1 id="勘誤與致謝"><a href="#勘誤與致謝" class="headerlink" title="勘誤與致謝"></a>勘誤與致謝</h1><ul>
+<li>2022&#x2F;09&#x2F;14 感謝 JyhChenHwang 指出程式解段落中的錯誤。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/array/" rel="prev" title="陣列 Array">
+                  <i class="fa fa-angle-left"></i> 陣列 Array
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/tinytsunami-update-06/" rel="next" title="羊羽手札更新歷程 06">
+                  羊羽手札更新歷程 06 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  
+  <div class="comments giscus-container">
+  </div>
+  
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-bomb"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Tinytusnami</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="giscus" type="application/json">{"enable":true,"repo":"tinytsunami/blog","repo_id":"MDEwOlJlcG9zaXRvcnkxMjI3MTEwNTY=","category":"Blog Comments","category_id":"DIC_kwDOB1BsEM4C42Ww","mapping":"pathname","strict":0,"reactions_enabled":1,"emit_metadata":1,"theme":"preferred_color_scheme","lang":"zh-TW","crossorigin":"anonymous","input_position":"top","loading":"lazy"}</script>
+
+<script>
+document.addEventListener('page:loaded', () => {
+  if (!CONFIG.page.comments) return;
+
+  NexT.utils.loadComments('.giscus-container')
+    .then(() => NexT.utils.getScript('https://giscus.app/client.js', {
+      attributes: {
+        async                   : true,
+        crossOrigin             : 'anonymous',
+        'data-repo'             : CONFIG.giscus.repo,
+        'data-repo-id'          : CONFIG.giscus.repo_id,
+        'data-category'         : CONFIG.giscus.category,
+        'data-category-id'      : CONFIG.giscus.category_id,
+        'data-mapping'          : CONFIG.giscus.mapping,
+        'data-strict'           : CONFIG.giscus.strict,
+        'data-reactions-enabled': CONFIG.giscus.reactions_enabled,
+        'data-emit-metadata'    : CONFIG.giscus.emit_metadata,
+        'data-theme'            : CONFIG.giscus.theme,
+        'data-lang'             : CONFIG.giscus.lang,
+        'data-input-position'   : CONFIG.giscus.input_position,
+        'data-loading'          : CONFIG.giscus.loading
+      },
+      parentNode: document.querySelector('.giscus-container')
+    }));
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.tinytsunami.info","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="這篇文章主要是為了之後的文章做鋪墊，原本是想說跟特殊的圖論算法文章一起發的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="圖 Graph">
+<meta property="og:url" content="https://www.tinytsunami.info/graph/index.html">
+<meta property="og:site_name" content="羊羽手札">
+<meta property="og:description" content="這篇文章主要是為了之後的文章做鋪墊，原本是想說跟特殊的圖論算法文章一起發的。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.imgur.com/xCacvlo.png">
+<meta property="og:image" content="https://i.imgur.com/H7I3OFK.png">
+<meta property="og:image" content="https://i.imgur.com/R8glOLi.png">
+<meta property="og:image" content="https://i.imgur.com/g8tri0h.png">
+<meta property="og:image" content="https://i.imgur.com/wXKkzUx.png">
+<meta property="og:image" content="https://i.imgur.com/RKkf3ru.png">
+<meta property="og:image" content="https://i.imgur.com/LP04A3K.png">
+<meta property="og:image" content="https://i.imgur.com/RBI2Mym.png">
+<meta property="og:image" content="https://i.imgur.com/lZFNx8h.png">
+<meta property="og:image" content="https://i.imgur.com/TFOTy29.png">
+<meta property="og:image" content="https://i.imgur.com/GDdqduy.png">
+<meta property="og:image" content="https://i.imgur.com/LxgKFbm.png">
+<meta property="og:image" content="https://i.imgur.com/wFQ5Nnj.png">
+<meta property="og:image" content="https://i.imgur.com/QJWY1bu.png">
+<meta property="og:image" content="https://i.imgur.com/llMue6n.png">
+<meta property="og:image" content="https://i.imgur.com/uWL8N3X.png">
+<meta property="article:published_time" content="2022-02-12T00:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-20T08:43:52.158Z">
+<meta property="article:author" content="Tinytusnami">
+<meta property="article:tag" content="技術, 獨立遊戲">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/xCacvlo.png">
+
+
+<link rel="canonical" href="https://www.tinytsunami.info/graph/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://www.tinytsunami.info/graph/","path":"/graph/","title":"圖 Graph"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>圖 Graph | 羊羽手札</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">羊羽手札</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Tinytsunami's Blog</p>
+      <img class="custom-logo-image" src="/images/icon.png" alt="羊羽手札">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-game"><a href="https://tinytsunami.itch.io/" rel="section" target="_blank"><i class="fas fa-gamepad fa-fw"></i>game</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%83%E7%B5%84"><span class="nav-number">1.</span> <span class="nav-text">元組</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%9B%E5%8D%A1%E5%85%92%E7%A9%8D"><span class="nav-number">1.1.</span> <span class="nav-text">笛卡兒積</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9C%96%E7%9A%84%E5%AE%9A%E7%BE%A9"><span class="nav-number">2.</span> <span class="nav-text">圖的定義</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E7%BD%AE%E6%AC%8A%E9%87%8D"><span class="nav-number">2.1.</span> <span class="nav-text">設置權重</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%B4%E5%9C%88%E8%88%87%E7%92%B0%E8%B7%AF"><span class="nav-number">2.2.</span> <span class="nav-text">迴圈與環路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%89%E5%90%91%E8%88%87%E7%84%A1%E5%90%91"><span class="nav-number">2.3.</span> <span class="nav-text">有向與無向</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%BB%9E%E7%9A%84%E5%BA%A6%E6%95%B8"><span class="nav-number">2.4.</span> <span class="nav-text">點的度數</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9C%96%E7%9A%84%E7%B8%AE%E5%AF%AB"><span class="nav-number">3.</span> <span class="nav-text">圖的縮寫</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9C%96%E7%9A%84%E8%A1%A8%E7%A4%BA"><span class="nav-number">4.</span> <span class="nav-text">圖的表示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%84%B0%E6%8E%A5%E7%9F%A9%E9%99%A3"><span class="nav-number">4.1.</span> <span class="nav-text">鄰接矩陣</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%84%B0%E6%8E%A5%E4%B8%B2%E5%88%97"><span class="nav-number">4.2.</span> <span class="nav-text">鄰接串列</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Tinytusnami"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">Tinytusnami</p>
+  <div class="site-description" itemprop="description">羊羽的個人部落格</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/tinytsunami" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;tinytsunami" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/TaipeiTsunami" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;TaipeiTsunami" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/profile.php?id=100000736195394" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;profile.php?id&#x3D;100000736195394" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCtqp9w_uA_LohDm0YXNWqSA" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCtqp9w_uA_LohDm0YXNWqSA" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+          連結
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://blog.cyris.tw/" title="https:&#x2F;&#x2F;blog.cyris.tw" rel="noopener" target="_blank">Cyris's Blog</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://poyu-liao.github.io/blog" title="https:&#x2F;&#x2F;poyu-liao.github.io&#x2F;blog" rel="noopener" target="_blank">Robert's Blog</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/graph/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="Tinytusnami">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="羊羽手札">
+      <meta itemprop="description" content="羊羽的個人部落格">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="圖 Graph | 羊羽手札">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          圖 Graph
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-02-12 00:00:00" itemprop="dateCreated datePublished" datetime="2022-02-12T00:00:00Z">2022-02-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/legacy-algorithm/" itemprop="url" rel="index"><span itemprop="name">(legacy) algorithm</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>這篇文章主要是為了之後的文章做鋪墊，<br>原本是想說跟特殊的圖論算法文章一起發的。</p>
+<span id="more"></span>
+
+<h1 id="元組"><a href="#元組" class="headerlink" title="元組"></a>元組</h1><p>元組（tuple）是一種數學結構：</p>
+<ul>
+<li>有序元組通常以小括號表示 $(a_0, a_1, a_2, …)$</li>
+<li>無序元組通常以大括號表示 $\{a_0, a_1, a_2, …\}$</li>
+</ul>
+<p>另外，如果一個元組有 $k$ 個元素，我們會稱為 k 元組（k-tuple），例如：$(1,2)$ 為二元組。</p>
+<p>有序元組的元素「順序」不能改變，如果改變，則不為同樣的有序元組，例如： </p>
+<p>$$<br>(1, 2) \neq (2, 1)<br>$$</p>
+<p>無序元組的元素「順序」能夠改變，改變後仍為同樣的元組，例如：</p>
+<p>$$<br>\{1, 2\} &#x3D; \{2, 1\}<br>$$</p>
+<p>元組跟集合最大的兩點不同是：</p>
+<ul>
+<li>元組允許重複元素（這個性質跟多重集一樣），例如：$(1, 2, 2) \neq (1, 2)$</li>
+<li>元組必為有限個元素，集合允許無限個元素</li>
+</ul>
+<div class="note info"><p>包含 $n$ 個有限元素的 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Multiset">多重集（multiset）</a>是一個無序 n 元組</p>
+</div>
+
+<div class="note info"><p>二元組又稱為對（pair），對學生來說，最常見的有序對可能是平面座標上的點 $(x, y)$</p>
+</div>
+
+<h2 id="笛卡兒積"><a href="#笛卡兒積" class="headerlink" title="笛卡兒積"></a>笛卡兒積</h2><p>笛卡兒積（Cartesian product）也被稱為卡氏積，定義是：</p>
+<p>$$<br>A \times B &#x3D; \{(a, b) :|: a \in A ,; b \in B \}<br>$$</p>
+<p>也就是將兩個集合的元素構成對，再包進一個集合中，例子：</p>
+<p>$$<br>\{\text{a}, \text{b}\} \times \{1, 2, 3\} &#x3D; \{(a, 1), (a, 2), (a, 3), (b, 1), (b, 2), (b, 3)\}<br>$$</p>
+<h1 id="圖的定義"><a href="#圖的定義" class="headerlink" title="圖的定義"></a>圖的定義</h1><p>圖（graph）是由點（vertex）的集合、邊（edge）的集合構成的有序對：</p>
+<p>$$<br>G &#x3D; (V, E)<br>$$</p>
+<p>其中：</p>
+<ul>
+<li>圖表示為 $G$</li>
+<li>點集表示為 $V$ 是構成點的集合</li>
+<li>邊集表示為 $E$ 是構成邊的多重集</li>
+</ul>
+<div class="note info"><p>若邊集元素皆唯一（無重邊）則有 $E \subseteq V \times V$ 的關係</p>
+</div>
+
+<p>圖的例子：</p>
+<p>$$<br>G &#x3D; (V, E), ;\text{where}; V &#x3D; \{a,b,c\},; E&#x3D;\{(a,a), (a,b)\}<br>$$</p>
+<p>通常會畫成：</p>
+<p><img src="https://i.imgur.com/xCacvlo.png"></p>
+<p>上圖為不連通的圖。</p>
+<p>圖若連通（connected）則沒有斷開。更精確地說，任兩點皆存在一條路徑抵達另外一點。</p>
+<h2 id="設置權重"><a href="#設置權重" class="headerlink" title="設置權重"></a>設置權重</h2><p>可以為點或邊設置權重，數學上會使用函數處理：</p>
+<ul>
+<li>定義「點權重」為函數 $W_v(u)$ 帶入點 $u$ 可得該點權重。</li>
+<li>定義「邊權重」為函數 $W_e(u, v)$ 帶入邊 $(u, v)$ 可得該邊權重。</li>
+</ul>
+<div class="note info"><p>這邊有一個很彆扭的地方是，數學上常常將元組「直接拆開」作為函數輸入</p>
+<p>比方說，函數 $f(x, y) &#x3D; \sqrt{x^2 + y^2}$ 可以代入 $(2, 3)$ 作為參數</p>
+<p>通常不會保留其原本的結構（但偶爾會）即寫為 $f((x, y))$ 或 $f(p)$</p>
+</div>
+
+<h2 id="迴圈與環路"><a href="#迴圈與環路" class="headerlink" title="迴圈與環路"></a>迴圈與環路</h2><p>迴圈（loop）是指有自己到自己的邊：</p>
+<p><img src="https://i.imgur.com/H7I3OFK.png"></p>
+<p>環路（cycle）是圖上可以走一圈到自己：</p>
+<p><img src="https://i.imgur.com/R8glOLi.png"></p>
+<div class="note info"><p>若圖有負環路（negative cycle）即環路上的所有邊權重和為負，則最短路徑問題的正解為無限小（不存在）；因為從任一點出發抵達負環路後，會持續在環路中繞，權重和會越來越小。<br>可是由於演算法設計的關係，有可能可以解出負環路圖的最短路徑解，但不為最佳解。</p>
+</div>
+
+<h2 id="有向與無向"><a href="#有向與無向" class="headerlink" title="有向與無向"></a>有向與無向</h2><p>有向圖（directed graph）是指圖上的邊是單行道、單向通行：</p>
+<p><img src="https://i.imgur.com/g8tri0h.png"></p>
+<p>無向圖（undirected graph）是指圖上的邊雙向通行：</p>
+<p><img src="https://i.imgur.com/wXKkzUx.png"></p>
+<div class="note info"><p>無論有向無向，邊集 $E$ 元素皆用小括號表示。無向圖的情況下，寫 $(a, b)$ 跟 $(b, a)$ 的意義是相同的，儘管以大括號表示會更加貼近它的意義，但習慣上不太會這樣表示。</p>
+</div>
+
+<h2 id="點的度數"><a href="#點的度數" class="headerlink" title="點的度數"></a>點的度數</h2><p>無向圖的度數（degree）是指點有多少邊與之相聯，通常點 $u$ 的度數表示為 $deg(u)$</p>
+<p><img src="https://i.imgur.com/RKkf3ru.png"></p>
+<p>有向圖分成：</p>
+<ul>
+<li>入度數（in-degree）而點 $u$ 的度數表示為 $id(u)$</li>
+<li>出度數（out-degree）而點 $u$ 的出度數表示為 $od(u)$</li>
+</ul>
+<p><img src="https://i.imgur.com/LP04A3K.png"></p>
+<h1 id="圖的縮寫"><a href="#圖的縮寫" class="headerlink" title="圖的縮寫"></a>圖的縮寫</h1><p>這裡列出一些常見的圖縮寫：</p>
+<table>
+<thead>
+<tr>
+<th align="center">名稱</th>
+<th align="center">縮寫</th>
+<th align="center">簡述</th>
+<th align="center">例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">完全圖（complete graph）</td>
+<td align="center">$K_n$</td>
+<td align="center">每點都跟其他點恰一邊相連</td>
+<td align="center">$K_5$ <img src="https://i.imgur.com/RBI2Mym.png"></td>
+</tr>
+<tr>
+<td align="center">環圖（cycle graph）</td>
+<td align="center">$C_n$</td>
+<td align="center">點與邊數相同，且每點的度數皆為 2</td>
+<td align="center">$C_5$ <img src="https://i.imgur.com/lZFNx8h.png"></td>
+</tr>
+<tr>
+<td align="center">完全雙分圖（complete bipartite graph）</td>
+<td align="center">$K_{m,n}$</td>
+<td align="center">點分成兩組，每點都跟另一組所有點恰一邊相連</td>
+<td align="center">$K_{2,3}$ <img src="https://i.imgur.com/TFOTy29.png"></td>
+</tr>
+<tr>
+<td align="center">立方圖（cubical graph）</td>
+<td align="center">$Q_n$</td>
+<td align="center">立方形</td>
+<td align="center">$Q_3$ <img src="https://i.imgur.com/GDdqduy.png"></td>
+</tr>
+<tr>
+<td align="center">有向完全圖（complete graph）</td>
+<td align="center">$K^*_n$</td>
+<td align="center">同 $K_n$ 只是邊有方向</td>
+<td align="center">$K^*_5$ <img src="https://i.imgur.com/LxgKFbm.png"></td>
+</tr>
+<tr>
+<td align="center">輪圖（wheel graph）</td>
+<td align="center">$W_n$</td>
+<td align="center">同 $C_n$ 只是多放一點跟所有點相連</td>
+<td align="center">$W_5$ <img src="https://i.imgur.com/wFQ5Nnj.png"></td>
+</tr>
+</tbody></table>
+<h1 id="圖的表示"><a href="#圖的表示" class="headerlink" title="圖的表示"></a>圖的表示</h1><p>圖在電腦中的表示大致上有兩種，一種基於陣列，另一種基於串列。</p>
+<h2 id="鄰接矩陣"><a href="#鄰接矩陣" class="headerlink" title="鄰接矩陣"></a>鄰接矩陣</h2><p>鄰接矩陣（adjacency matrix）用點跟點的關係做標記：</p>
+<p><img src="https://i.imgur.com/QJWY1bu.png" alt="例 1、有權重無向圖的例子"></p>
+<p>有權重時，為了搭配演算法，常常會將沒有連接的邊，設為 <code>0x7fffffff</code> 即 4 bytes 的整數最大值，其他的邊會放入該邊權重。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 沒有連接權重無限大</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> X 0x7FFFFFFF</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 鄰接矩陣</span></span><br><span class="line"><span class="type">int</span> G[<span class="number">5</span>][<span class="number">5</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">//        0  1  2  3  4</span></span><br><span class="line"><span class="comment">//        a  b  c  d  e</span></span><br><span class="line"><span class="comment">//  0  a  3  2  1  X  X</span></span><br><span class="line"><span class="comment">//  1  b  2  X  3  4  X</span></span><br><span class="line"><span class="comment">//  2  c  1  3  X  1  X</span></span><br><span class="line"><span class="comment">//  3  d  X  4  1  X  X</span></span><br><span class="line"><span class="comment">//  4  e  X  X  X  X  X</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">G[<span class="number">2</span>][<span class="number">3</span>]; <span class="comment">// 邊權重 (c, d) = 1</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/llMue6n.png" alt="例 2、無權重有向圖的例子"></p>
+<p>如果沒有權重，通常會將沒有連接的邊設為 <code>0</code> 做標記。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 鄰接矩陣</span></span><br><span class="line"><span class="type">int</span> G[<span class="number">5</span>][<span class="number">5</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">//        0  1  2  3  4</span></span><br><span class="line"><span class="comment">//        a  b  c  d  e</span></span><br><span class="line"><span class="comment">//  0  a  1  1  0  0  0</span></span><br><span class="line"><span class="comment">//  1  b  0  0  1  1  0</span></span><br><span class="line"><span class="comment">//  2  c  1  0  0  0  0</span></span><br><span class="line"><span class="comment">//  3  d  0  0  1  0  0</span></span><br><span class="line"><span class="comment">//  4  e  0  0  0  0  0</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">G[<span class="number">2</span>][<span class="number">3</span>]; <span class="comment">// 邊 (c, d) 無連接</span></span><br></pre></td></tr></table></figure>
+
+<div class="note info"><p>還有一種比較少見的接合矩陣（incidence matrix）是以點跟邊構成的表示法。</p>
+</div>
+
+<h2 id="鄰接串列"><a href="#鄰接串列" class="headerlink" title="鄰接串列"></a>鄰接串列</h2><p>鄰接矩陣的一個問題是當 $|E| &lt;&lt; |V|^2$ 時，稱為稀疏圖（sparse graph），很浪費空間，另外在演算法中，搜索邊還要翻找一大堆 <code>0</code> 會浪費時間。故此，鄰接串列（adjacency list）只記錄存在的邊，既可節省空間，也可省去一些常數時間。</p>
+<p><img src="https://i.imgur.com/uWL8N3X.png" alt="例 3、稀疏圖的例子"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 鄰接串列</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span> &#123;</span></span><br><span class="line"> <span class="type">int</span> id;</span><br><span class="line"> <span class="class"><span class="keyword">struct</span> <span class="title">Node</span> * <span class="title">next</span>;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Node</span> <span class="title">G</span>[12];</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//  0  a -&gt; c -&gt; NULL</span></span><br><span class="line"><span class="comment">//  1  b -&gt; NULL</span></span><br><span class="line"><span class="comment">//  2  c -&gt; NULL</span></span><br><span class="line"><span class="comment">//  3  d -&gt; NULL</span></span><br><span class="line"><span class="comment">//  4  e -&gt; NULL</span></span><br><span class="line"><span class="comment">//  5  f -&gt; NULL</span></span><br><span class="line"><span class="comment">//  6  g -&gt; NULL</span></span><br><span class="line"><span class="comment">//  7  h -&gt; NULL</span></span><br><span class="line"><span class="comment">//  8  i -&gt; NULL</span></span><br><span class="line"><span class="comment">//  9  j -&gt; NULL</span></span><br><span class="line"><span class="comment">// 10  k -&gt; NULL</span></span><br><span class="line"><span class="comment">// 11  l -&gt; NULL</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">(G[<span class="number">0</span>].next)-&gt;id; <span class="comment">// a -&gt; c, 2</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/tinytsunami-update-06/" rel="prev" title="羊羽手札更新歷程 06">
+                  <i class="fa fa-angle-left"></i> 羊羽手札更新歷程 06
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/rmmz-plugin-common/" rel="next" title="RMMZ 插件說明">
+                  RMMZ 插件說明 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  
+  <div class="comments giscus-container">
+  </div>
+  
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-bomb"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Tinytusnami</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="giscus" type="application/json">{"enable":true,"repo":"tinytsunami/blog","repo_id":"MDEwOlJlcG9zaXRvcnkxMjI3MTEwNTY=","category":"Blog Comments","category_id":"DIC_kwDOB1BsEM4C42Ww","mapping":"pathname","strict":0,"reactions_enabled":1,"emit_metadata":1,"theme":"preferred_color_scheme","lang":"zh-TW","crossorigin":"anonymous","input_position":"top","loading":"lazy"}</script>
+
+<script>
+document.addEventListener('page:loaded', () => {
+  if (!CONFIG.page.comments) return;
+
+  NexT.utils.loadComments('.giscus-container')
+    .then(() => NexT.utils.getScript('https://giscus.app/client.js', {
+      attributes: {
+        async                   : true,
+        crossOrigin             : 'anonymous',
+        'data-repo'             : CONFIG.giscus.repo,
+        'data-repo-id'          : CONFIG.giscus.repo_id,
+        'data-category'         : CONFIG.giscus.category,
+        'data-category-id'      : CONFIG.giscus.category_id,
+        'data-mapping'          : CONFIG.giscus.mapping,
+        'data-strict'           : CONFIG.giscus.strict,
+        'data-reactions-enabled': CONFIG.giscus.reactions_enabled,
+        'data-emit-metadata'    : CONFIG.giscus.emit_metadata,
+        'data-theme'            : CONFIG.giscus.theme,
+        'data-lang'             : CONFIG.giscus.lang,
+        'data-input-position'   : CONFIG.giscus.input_position,
+        'data-loading'          : CONFIG.giscus.loading
+      },
+      parentNode: document.querySelector('.giscus-container')
+    }));
+});
+</script>
+
+</body>
+</html>

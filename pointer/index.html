@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.tinytsunami.info","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="本篇是紀載了關於指標的筆記。我稍微調整了撰寫的順序。另外就是增加了一些額外的知識來補足一些內容。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="指標 Pointer">
+<meta property="og:url" content="https://www.tinytsunami.info/pointer/index.html">
+<meta property="og:site_name" content="羊羽手札">
+<meta property="og:description" content="本篇是紀載了關於指標的筆記。我稍微調整了撰寫的順序。另外就是增加了一些額外的知識來補足一些內容。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-08-04T00:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-20T08:43:52.174Z">
+<meta property="article:author" content="Tinytusnami">
+<meta property="article:tag" content="技術, 獨立遊戲">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.tinytsunami.info/pointer/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://www.tinytsunami.info/pointer/","path":"/pointer/","title":"指標 Pointer"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>指標 Pointer | 羊羽手札</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">羊羽手札</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Tinytsunami's Blog</p>
+      <img class="custom-logo-image" src="/images/icon.png" alt="羊羽手札">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-game"><a href="https://tinytsunami.itch.io/" rel="section" target="_blank"><i class="fas fa-gamepad fa-fw"></i>game</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%81%8B%E7%AE%97%E5%AD%90"><span class="nav-number">1.</span> <span class="nav-text">運算子</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%96%E5%9D%80%E9%81%8B%E7%AE%97%E5%AD%90"><span class="nav-number">1.1.</span> <span class="nav-text">取址運算子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%96%E5%80%BC%E9%81%8B%E7%AE%97%E5%AD%90"><span class="nav-number">1.2.</span> <span class="nav-text">取值運算子</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%87%E6%A8%99%E8%88%87%E8%AE%8A%E6%95%B8"><span class="nav-number">2.</span> <span class="nav-text">指標與變數</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%82%B3%E5%80%BC"><span class="nav-number">2.1.</span> <span class="nav-text">傳值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%82%B3%E5%9D%80"><span class="nav-number">2.2.</span> <span class="nav-text">傳址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%82%B3%E5%8F%83%E8%80%83"><span class="nav-number">2.3.</span> <span class="nav-text">傳參考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%B0%E5%87%BA%E6%8C%87%E6%A8%99"><span class="nav-number">2.4.</span> <span class="nav-text">印出指標</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8B%95%E6%85%8B%E5%AE%A3%E5%91%8A"><span class="nav-number">3.</span> <span class="nav-text">動態宣告</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%87%E6%A8%99%E7%9A%84%E6%8C%87%E6%A8%99"><span class="nav-number">4.</span> <span class="nav-text">指標的指標</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%BD%E6%95%B8%E6%8C%87%E6%A8%99"><span class="nav-number">5.</span> <span class="nav-text">函數指標</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#void-%E6%8C%87%E6%A8%99"><span class="nav-number">6.</span> <span class="nav-text">void 指標</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BE%8C%E8%A8%98"><span class="nav-number">7.</span> <span class="nav-text">後記</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Tinytusnami"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">Tinytusnami</p>
+  <div class="site-description" itemprop="description">羊羽的個人部落格</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/tinytsunami" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;tinytsunami" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/TaipeiTsunami" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;TaipeiTsunami" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/profile.php?id=100000736195394" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;profile.php?id&#x3D;100000736195394" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCtqp9w_uA_LohDm0YXNWqSA" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCtqp9w_uA_LohDm0YXNWqSA" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+          連結
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://blog.cyris.tw/" title="https:&#x2F;&#x2F;blog.cyris.tw" rel="noopener" target="_blank">Cyris's Blog</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://poyu-liao.github.io/blog" title="https:&#x2F;&#x2F;poyu-liao.github.io&#x2F;blog" rel="noopener" target="_blank">Robert's Blog</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/pointer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="Tinytusnami">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="羊羽手札">
+      <meta itemprop="description" content="羊羽的個人部落格">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="指標 Pointer | 羊羽手札">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          指標 Pointer
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2020-08-04 00:00:00" itemprop="dateCreated datePublished" datetime="2020-08-04T00:00:00Z">2020-08-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/legacy-algorithm/" itemprop="url" rel="index"><span itemprop="name">(legacy) algorithm</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>本篇是紀載了關於指標的筆記。我稍微調整了撰寫的順序。<br>另外就是增加了一些額外的知識來補足一些內容。</p>
+<span id="more"></span>
+
+<div class="note warning"><p>為避免冗餘，本文的程式範例皆省略起始函數及標頭檔，即 <code>main</code> 跟 <code>include</code> 等程式碼請自行補完</p>
+</div>
+
+<h1 id="運算子"><a href="#運算子" class="headerlink" title="運算子"></a>運算子</h1><p>指標的運算子，書中大致上會寫兩種：</p>
+<ul>
+<li>取址運算子</li>
+<li>取值運算子</li>
+</ul>
+<p>但是如果考慮可以作用在位置上的運算子，其數量應該更多，比方說加法。</p>
+<h2 id="取址運算子"><a href="#取址運算子" class="headerlink" title="取址運算子"></a>取址運算子</h2><p>取址運算子是「取得位置」的運算子。<br>它的符號 <code>&amp;</code> 加在變數前面可以取得存放這個變數的位置。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> num;</span><br><span class="line">&amp;num;    <span class="comment">// 取得位置</span></span><br></pre></td></tr></table></figure>
+
+<p>這是指標最基本的運算子，也是較不複雜的一個。</p>
+<h2 id="取值運算子"><a href="#取值運算子" class="headerlink" title="取值運算子"></a>取值運算子</h2><p>取值運算子有兩個用途：</p>
+<ul>
+<li>宣告指標</li>
+<li>取得資料</li>
+</ul>
+<p>如果一開始不分離兩個功能，可能會在之後搞得亂七八糟，<br>它的符號 <code>*</code> 加在變數前面可能有兩種作用，請看它所在的位置判斷。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> *num; <span class="comment">// 功能 1：宣告指標</span></span><br><span class="line">*num;     <span class="comment">// 功能 2：取得資料</span></span><br></pre></td></tr></table></figure>
+
+<div class="note info"><p>如果 <code>*</code> 出現在宣告，則代表宣告指標；除此之外是取得資料</p>
+</div>
+
+<h1 id="指標與變數"><a href="#指標與變數" class="headerlink" title="指標與變數"></a>指標與變數</h1><p>搭配取址運算子，可以寫出普通程式設計教科書的範例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> iNum;               <span class="comment">// 宣告變數</span></span><br><span class="line"><span class="type">int</span> *pNum;              <span class="comment">// 宣告指標</span></span><br><span class="line">iNum = <span class="number">10</span>;              <span class="comment">// 設定變數值</span></span><br><span class="line">pNum = &amp;iNum;           <span class="comment">// 設定指標指向變數</span></span><br><span class="line">*pNum += <span class="number">2</span>;             <span class="comment">// 指標指向的變數加 2</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, iNum);     <span class="comment">// 印出 12</span></span><br></pre></td></tr></table></figure>
+
+<p>我會建議讀者能把指標想成變數：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> iNum;               <span class="comment">// 宣告變數</span></span><br><span class="line"><span class="type">int</span> *pNum;              <span class="comment">// 宣告指標</span></span><br><span class="line">iNum = <span class="number">10</span>;              <span class="comment">// 設定變數值</span></span><br><span class="line">pNum = &amp;iNum;           <span class="comment">// 設定指標值</span></span><br><span class="line">*pNum += <span class="number">2</span>;             <span class="comment">// 指標「存放的」變數加 2</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, iNum);     <span class="comment">// 印出 12</span></span><br></pre></td></tr></table></figure>
+
+<p>以上面範例來說，傳統的畫法：</p>
+<table>
+<thead>
+<tr>
+<th align="center">名稱</th>
+<th align="center">資料</th>
+<th align="center">指向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">iNum</td>
+<td align="center">10</td>
+<td align="center">x</td>
+</tr>
+<tr>
+<td align="center">pNum</td>
+<td align="center">10</td>
+<td align="center">↑</td>
+</tr>
+</tbody></table>
+<div class="note warning"><p>筆者實際上不喜歡使用箭頭的指標畫法（因為其實他是「位置的值」）；<br>原因是會使初學者混亂，但如果彼此對此都很熟悉，那討論時使用倒無所謂。</p>
+</div>
+
+<p>筆者剛剛提到「把指標想成變數」這件事情，<br>原因是一旦這樣想像，很多事情就變得更清晰了：</p>
+<table>
+<thead>
+<tr>
+<th align="center">變數名稱</th>
+<th align="center">變數資料</th>
+<th align="center">變數位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">iNum</td>
+<td align="center">10</td>
+<td align="center">0x7fffffffdc74</td>
+</tr>
+<tr>
+<td align="center">pNum</td>
+<td align="center"><code>0x7fffffffdc74</code></td>
+<td align="center">0x7fffffffdc78</td>
+</tr>
+</tbody></table>
+<p>當我們執行：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pNum = &amp;iNum; <span class="comment">// 設定指標值</span></span><br></pre></td></tr></table></figure>
+
+<p>此時的 pNum 的「變數資料」會寫入「iNum 的位置」（也就是 &amp;iNum）<br>然後一連串的事情，就是「使用 pNum 保存的資料來做某些事」</p>
+<p>接下來我們可以看看函數在傳值、傳址，傳參考分別的情況。</p>
+<div class="note info"><p>C 語言只有傳值、傳址，傳參考是 C++ 中新加入的內容；<br>不過實際上這三件事情，都是「傳值」才對。</p>
+</div>
+
+<h2 id="傳值"><a href="#傳值" class="headerlink" title="傳值"></a>傳值</h2><p>我們先從傳值開始，程式應該很好理解：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">add_by_value</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span><br><span class="line">&#123;</span><br><span class="line">    a += b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> iNum = <span class="number">10</span>;             <span class="comment">// 宣告變數</span></span><br><span class="line">add_by_value(iNum, <span class="number">2</span>);     <span class="comment">// 調用傳值的函數</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, iNum);        <span class="comment">// 10</span></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="center">變數名稱</th>
+<th align="center">變數資料</th>
+<th align="center">變數位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">iNum</td>
+<td align="center">10</td>
+<td align="center">0x7fffffffdc7c</td>
+</tr>
+<tr>
+<td align="center">a</td>
+<td align="center">10</td>
+<td align="center">0x7fffffffdc5c</td>
+</tr>
+<tr>
+<td align="center">b</td>
+<td align="center">2</td>
+<td align="center">0x7fffffffdc58</td>
+</tr>
+</tbody></table>
+<p>當 <code>add_by_value</code> 調用時，程式另外建立 <code>a</code> 跟 <code>b</code> 區域變數；<br>生命週期是直到函數結束。很單純的小程式。</p>
+<h2 id="傳址"><a href="#傳址" class="headerlink" title="傳址"></a>傳址</h2><p>接著我們看傳址：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">add_by_pointer</span><span class="params">(<span class="type">int</span> *a, <span class="type">int</span> b)</span></span><br><span class="line">&#123;</span><br><span class="line">    *a += b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> iNum = <span class="number">10</span>;              <span class="comment">// 宣告變數</span></span><br><span class="line">add_by_pointer(&amp;iNum, <span class="number">2</span>);   <span class="comment">// 調用傳值的函數</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, iNum);         <span class="comment">// 12</span></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="center">變數名稱</th>
+<th align="center">變數資料</th>
+<th align="center">變數位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">iNum</td>
+<td align="center">10</td>
+<td align="center"><code>0x7fffffffdc7c</code></td>
+</tr>
+<tr>
+<td align="center">a</td>
+<td align="center"><code>0x7fffffffdc7c</code></td>
+<td align="center">0x7fffffffdc5c</td>
+</tr>
+<tr>
+<td align="center">b</td>
+<td align="center">2</td>
+<td align="center">0x7fffffffdc58</td>
+</tr>
+</tbody></table>
+<p>當使用傳址後，當 <code>a</code> 傳入時，實際上是傳入 <code>iNum</code> 的記憶體位置；<br>所以才有「傳址」也是「傳值」一說。</p>
+<h2 id="傳參考"><a href="#傳參考" class="headerlink" title="傳參考"></a>傳參考</h2><p>最後來看傳參考。是三者中最特別的東西。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">add_by_reference</span><span class="params">(<span class="type">int</span> &amp;a, <span class="type">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    a += b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> iNum = <span class="number">10</span>;              <span class="comment">// 宣告變數</span></span><br><span class="line"><span class="built_in">add_by_reference</span>(iNum, <span class="number">2</span>);  <span class="comment">// 調用傳值的函數</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, iNum);         <span class="comment">// 12</span></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="center">變數名稱</th>
+<th align="center">變數資料</th>
+<th align="center">變數位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">iNum</td>
+<td align="center">10</td>
+<td align="center"><code>0x7fffffffdc7c</code></td>
+</tr>
+<tr>
+<td align="center">a</td>
+<td align="center">10</td>
+<td align="center"><code>0x7fffffffdc7c</code></td>
+</tr>
+<tr>
+<td align="center">b</td>
+<td align="center">2</td>
+<td align="center">0x7fffffffdc5c</td>
+</tr>
+</tbody></table>
+<p>從表很容易看出，實際上傳參考就是當成把傳入的值，取個別名而已；<br>從例子來看，變數 <code>a</code> 其實就是 <code>iNum</code> 的別名。</p>
+<h2 id="印出指標"><a href="#印出指標" class="headerlink" title="印出指標"></a>印出指標</h2><p>如果要觀察指標，可以透過 <code>printf(&quot;%p&quot;, ...)</code> 輸出。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> x = <span class="number">0</span>;</span><br><span class="line"><span class="type">int</span> *y = &amp;x;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d (%p)\n&quot;</span>, x, &amp;x);                     <span class="comment">// 0 (0x7ffd8443024c)</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%p (%p)\n&quot;</span>, y, &amp;y);                     <span class="comment">// 0x7ffd8443024c (0x7ffd84430240)</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s (%p)\n&quot;</span>, <span class="string">&quot;constant&quot;</span>, &amp;<span class="string">&quot;constant&quot;</span>);   <span class="comment">// constant (0x55fdd9cbc016)</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s (%p)\n&quot;</span>, <span class="string">&quot;constant&quot;</span>, &amp;<span class="string">&quot;constant&quot;</span>);   <span class="comment">// constant (0x55fdd9cbc016)</span></span><br></pre></td></tr></table></figure>
+
+<p>這裡可以看出，當編譯器處理常數字串時，不會記錄多餘的資訊，<br>常數字串 <code>constant</code> 被存在 <code>0x55fdd9cbc016</code> 位置，而重複存取會到同一個位置找來用。</p>
+<div class="note info"><p>這裡的參數 <code>%p</code> 是輸出位置、而 <code>%d</code> 是輸出整數、然後 <code>%s</code> 是輸出字串。<br>請參閱 <a target="_blank" rel="noopener" href="http://www.cplusplus.com/reference/cstdio/printf/">cplusplus: printf</a></p>
+</div>
+
+<h1 id="動態宣告"><a href="#動態宣告" class="headerlink" title="動態宣告"></a>動態宣告</h1><p>指標的用法中，很常見的是動態宣告，其實就是執行期間去跟 OS 拿記憶體來用。</p>
+<p>C 語言常使用：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> *arr;                                   <span class="comment">// 宣告指標</span></span><br><span class="line">arr = (<span class="type">int</span>*) <span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(<span class="type">int</span>) * <span class="number">10</span>);      <span class="comment">// 拿記憶體（10個int），起始位置給 arr</span></span><br><span class="line"><span class="comment">/* Do Something */</span>                          <span class="comment">// 使用記憶體</span></span><br><span class="line"><span class="built_in">free</span>(arr);                                  <span class="comment">// 把空間還給 OS</span></span><br></pre></td></tr></table></figure>
+
+<div class="note info"><p>另一個常見的是使用 <code>calloc</code> 它會幫你初始化記憶體為 <code>0</code>。<br>請參閱 <a target="_blank" rel="noopener" href="http://www.cplusplus.com/reference/cstdlib/calloc/">cplusplus: calloc</a></p>
+</div>
+
+<p>在 C 語言中，我們會在使用後透過 <code>free</code> 來釋放記憶體空間。</p>
+<p>C++ 風格則是：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> *arr;               <span class="comment">// 宣告指標</span></span><br><span class="line">arr = <span class="keyword">new</span> <span class="type">int</span>[<span class="number">10</span>];      <span class="comment">// 拿記憶體（10個int），起始位置給 arr</span></span><br><span class="line"><span class="comment">/* Do Something */</span>      <span class="comment">// 使用記憶體</span></span><br><span class="line"><span class="keyword">delete</span> arr;             <span class="comment">// 把空間還給 OS</span></span><br></pre></td></tr></table></figure>
+
+<p>在 C 語言中，我們會在使用後透過 <code>delete</code> 來釋放記憶體空間。</p>
+<div class="note warning"><p>請務必在動態配置記憶體後，釋放掉記憶體。</p>
+</div>
+
+<h1 id="指標的指標"><a href="#指標的指標" class="headerlink" title="指標的指標"></a>指標的指標</h1><p>到這個部份，解釋會開始變得複雜，<br>主要只是因為指標的指標講起來比較繞口。</p>
+<p>實際上如果接受儲存的值為位置這個概念，<br>那指標的指標也會很容易理解。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> iNum = <span class="number">0</span>;</span><br><span class="line"><span class="type">int</span> *a = &amp;iNum; </span><br><span class="line"><span class="type">int</span> **b = &amp;a;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="center">變數名稱</th>
+<th align="center">變數資料</th>
+<th align="center">變數位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">iNum</td>
+<td align="center">10</td>
+<td align="center">0x7fffffffdc7c</td>
+</tr>
+<tr>
+<td align="center">a</td>
+<td align="center">0x7fffffffdc7c</td>
+<td align="center">0x7fffffffdc70</td>
+</tr>
+<tr>
+<td align="center">b</td>
+<td align="center">0x7fffffffdc70</td>
+<td align="center">0x7fffffffdc68</td>
+</tr>
+</tbody></table>
+<p>指標的指標也是有動態宣告，用法跟單一指標一樣。<br>只是多重指向的指標動態宣告出來的必須是少一個指標：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> **matrix;</span><br><span class="line">matrix = (<span class="type">int</span> **) <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span> *) * <span class="number">10</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">    matrix[i] = (<span class="type">int</span> *) <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>) * <span class="number">10</span>);</span><br></pre></td></tr></table></figure>
+
+<p>或是 C++ 風格：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> **matrix;</span><br><span class="line">matrix = <span class="keyword">new</span> <span class="type">int</span>*[<span class="number">10</span>];</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">    matrix[i] = <span class="keyword">new</span> <span class="type">int</span>[<span class="number">10</span>];</span><br></pre></td></tr></table></figure>
+
+<p>不過，如果理解記憶體配置，也許可以這樣分配：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> *matrix;</span><br><span class="line">matrix = (<span class="type">int</span> *) <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>) * <span class="number">10</span> * <span class="number">10</span>);</span><br><span class="line">matrix[i * <span class="number">10</span> + j]; <span class="comment">// 當成一個陣列來用</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="函數指標"><a href="#函數指標" class="headerlink" title="函數指標"></a>函數指標</h1><p>除了資料有指標外，實際上函數在宣告的時候也有位置：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">foo</span><span class="params">(<span class="type">int</span> a)</span> &#123; </span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> (*p)(<span class="type">int</span>) = foo;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%p&quot;</span>, &amp;foo); <span class="comment">// 0x555555555149</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%p&quot;</span>, p);    <span class="comment">// 0x555555555149</span></span><br></pre></td></tr></table></figure>
+
+<p>在 GDB 中，顯示的位址：</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x0000555555555149</span> &lt;+<span class="number">0</span>&gt;:  endbr64 </span><br><span class="line"><span class="number">0x000055555555514d</span> &lt;+<span class="number">4</span>&gt;:  <span class="keyword">push</span>   %rbp</span><br><span class="line"><span class="number">0x000055555555514e</span> &lt;+<span class="number">5</span>&gt;:  <span class="keyword">mov</span>    %rsp,%rbp</span><br><span class="line"><span class="number">0x0000555555555151</span> &lt;+<span class="number">8</span>&gt;:  <span class="keyword">mov</span>    %edi,-<span class="number">0x4</span>(%rbp)</span><br><span class="line"><span class="number">0x0000555555555154</span> &lt;+<span class="number">11</span>&gt;: <span class="keyword">mov</span>    <span class="number">$0</span>x0,%eax</span><br><span class="line"><span class="number">0x0000555555555159</span> &lt;+<span class="number">16</span>&gt;: <span class="keyword">pop</span>    %rbp</span><br><span class="line"><span class="number">0x000055555555515a</span> &lt;+<span class="number">17</span>&gt;: retq   </span><br></pre></td></tr></table></figure>
+
+<div class="note info"><p>請參閱 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/GNU_Debugger">Wikipedia: GNU Debugger</a></p>
+</div>
+
+<p>函數的位置其實就是指令開始的位置。<br>至於函數指標宣告有一個細節，就是當不寫括號時：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> *<span class="title function_">p</span><span class="params">(<span class="type">int</span>)</span> = foo; <span class="comment">// error</span></span><br></pre></td></tr></table></figure>
+
+<p>而 <code>int *p</code> 相當於把 <code>int*</code> 看做一組，等價於 <code>(int*) p(int)</code><br>編譯器看到 <code>int *p (int)</code> 的 <code>(int)</code> 就不知道你在寫什麼，會出錯：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="type">int</span> *) p(<span class="type">int</span>) = foo; <span class="comment">// error</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./main.c:10:15: error: expected expression before ‘int’</span><br><span class="line">   10 |     (int *) p(int) = foo; // error</span><br><span class="line">      |               ^~~</span><br></pre></td></tr></table></figure>
+
+<p>函數指標呼叫時：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(*p)();                 <span class="comment">// 完整的寫法</span></span><br><span class="line">p();                    <span class="comment">// 簡寫</span></span><br></pre></td></tr></table></figure>
+
+<p>相同地，函數其實也是簡寫：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> (*p)(<span class="type">int</span>) = &amp;foo;   <span class="comment">// 完整的寫法</span></span><br><span class="line"><span class="type">int</span> (*p)(<span class="type">int</span>) = foo;    <span class="comment">// 簡寫</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="void-指標"><a href="#void-指標" class="headerlink" title="void 指標"></a>void 指標</h1><p>指標跟其他型別一樣，是可以強制轉型的。<br>比較特別的是指標存在一個稱為 <code>void *</code> 的東西。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> *p;</span><br></pre></td></tr></table></figure>
+
+<p>簡單說，這個 <code>void *</code> 是為了讓使用者「強制轉型」，從而確定型別；<br>像是 <code>void *malloc(size_t size);</code> 就是回傳 <code>void *</code>。</p>
+<p>所以如果你不轉型，是無法使用的：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> *p = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">*p = <span class="number">10</span>;                        <span class="comment">// 無法使用</span></span><br><span class="line">*((<span class="type">int</span> *) p) = <span class="number">10</span>;              <span class="comment">// 強制轉型後可用</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h1><p>這一節就真的是個人筆記了，初學者看看就好（雖然說順便學個 GDB 不是壞事），<br>所有東西在記憶體中都是有位置的，參考先前出現過的例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> iNum;               <span class="comment">// 宣告變數</span></span><br><span class="line"><span class="type">int</span> *pNum;              <span class="comment">// 宣告指標</span></span><br><span class="line">iNum = <span class="number">10</span>;              <span class="comment">// 設定變數值</span></span><br><span class="line">pNum = &amp;iNum;           <span class="comment">// 設定指標值</span></span><br><span class="line">*pNum += <span class="number">2</span>;             <span class="comment">// 指標「存放的」變數加 2</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, iNum);     <span class="comment">// 印出 12</span></span><br></pre></td></tr></table></figure>
+
+<p>我們編譯過後，透過 GDB 追蹤：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">gcc ./main.c -o ./main -fno-stack-protector</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">gdb ./main</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">run</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">disas main</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash"><span class="built_in">break</span> *0x0000555555555173</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">run</span></span><br></pre></td></tr></table></figure>
+
+<p>中斷點 break 後的位置請參考自己環境下的位置。</p>
+<div class="note info"><p>這邊關閉了緩衝區防撞保護（Stack Smashing Protector）<br>請參閱 <a target="_blank" rel="noopener" href="https://wiki.osdev.org/Stack_Smashing_Protector">OSDEV wiki: Stack SmashingProtector</a></p>
+</div>
+
+<p>反組譯的結果應該是：</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x0000555555555149</span> &lt;+<span class="number">0</span>&gt;:  endbr64 </span><br><span class="line"><span class="number">0x000055555555514d</span> &lt;+<span class="number">4</span>&gt;:  <span class="keyword">push</span>   %rbp</span><br><span class="line"><span class="number">0x000055555555514e</span> &lt;+<span class="number">5</span>&gt;:  <span class="keyword">mov</span>    %rsp,%rbp</span><br><span class="line"><span class="number">0x0000555555555151</span> &lt;+<span class="number">8</span>&gt;:  <span class="keyword">sub</span>    <span class="number">$0</span>x10,%rsp</span><br><span class="line"><span class="number">0x0000555555555155</span> &lt;+<span class="number">12</span>&gt;: movl   <span class="number">$0</span>xa,-<span class="number">0xc</span>(%rbp)</span><br><span class="line"><span class="number">0x000055555555515c</span> &lt;+<span class="number">19</span>&gt;: <span class="keyword">lea</span>    -<span class="number">0xc</span>(%rbp),%rax</span><br><span class="line"><span class="number">0x0000555555555160</span> &lt;+<span class="number">23</span>&gt;: <span class="keyword">mov</span>    %rax,-<span class="number">0x8</span>(%rbp)</span><br><span class="line"><span class="number">0x0000555555555164</span> &lt;+<span class="number">27</span>&gt;: <span class="keyword">mov</span>    -<span class="number">0x8</span>(%rbp),%rax</span><br><span class="line"><span class="number">0x0000555555555168</span> &lt;+<span class="number">31</span>&gt;: <span class="keyword">mov</span>    (%rax),%eax</span><br><span class="line"><span class="number">0x000055555555516a</span> &lt;+<span class="number">33</span>&gt;: <span class="keyword">lea</span>    <span class="number">0x2</span>(%rax),%edx</span><br><span class="line"><span class="number">0x000055555555516d</span> &lt;+<span class="number">36</span>&gt;: <span class="keyword">mov</span>    -<span class="number">0x8</span>(%rbp),%rax</span><br><span class="line"><span class="number">0x0000555555555171</span> &lt;+<span class="number">40</span>&gt;: <span class="keyword">mov</span>    %edx,(%rax)</span><br><span class="line"><span class="number">0x0000555555555173</span> &lt;+<span class="number">42</span>&gt;: <span class="keyword">mov</span>    -<span class="number">0xc</span>(%rbp),%eax</span><br><span class="line"><span class="number">0x0000555555555176</span> &lt;+<span class="number">45</span>&gt;: <span class="keyword">mov</span>    %eax,%esi</span><br><span class="line"><span class="number">0x0000555555555178</span> &lt;+<span class="number">47</span>&gt;: <span class="keyword">lea</span>    <span class="number">0xe85</span>(%rip),%rdi   # <span class="number">0x555555556004</span></span><br><span class="line"><span class="number">0x000055555555517f</span> &lt;+<span class="number">54</span>&gt;: <span class="keyword">mov</span>    <span class="number">$0</span>x0,%eax</span><br><span class="line"><span class="number">0x0000555555555184</span> &lt;+<span class="number">59</span>&gt;: callq  <span class="number">0x555555555050</span> &lt;printf@plt&gt;</span><br><span class="line"><span class="number">0x0000555555555189</span> &lt;+<span class="number">64</span>&gt;: <span class="keyword">mov</span>    <span class="number">$0</span>x0,%eax</span><br><span class="line"><span class="number">0x000055555555518e</span> &lt;+<span class="number">69</span>&gt;: leaveq </span><br><span class="line"><span class="number">0x000055555555518f</span> &lt;+<span class="number">70</span>&gt;: retq   </span><br></pre></td></tr></table></figure>
+
+<p>我用 <code>#</code> 當成註解，標示成下面這樣：</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x0000555555555149</span> &lt;+<span class="number">0</span>&gt;:  endbr64                    # 標記為有效分支（系統安全操作）</span><br><span class="line"></span><br><span class="line">                                                     # 函數呼叫操作</span><br><span class="line"><span class="number">0x000055555555514d</span> &lt;+<span class="number">4</span>&gt;:  <span class="keyword">push</span>   %rbp                # 紀錄舊的 $<span class="built_in">rbp</span> 暫存器</span><br><span class="line"><span class="number">0x000055555555514e</span> &lt;+<span class="number">5</span>&gt;:  <span class="keyword">mov</span>    %rsp,%rbp           # 移動 $<span class="built_in">rbp</span> 到 $<span class="built_in">rsp</span>（紀錄 $<span class="built_in">rsp</span>）</span><br><span class="line"><span class="number">0x0000555555555151</span> &lt;+<span class="number">8</span>&gt;:  <span class="keyword">sub</span>    <span class="number">$0</span>x10,%rsp          # 將舊的 $<span class="built_in">rsp</span> 減去 <span class="number">16</span> Bytes（宣告記憶體空間）</span><br><span class="line"></span><br><span class="line">                                                     # iNum = <span class="number">10</span><span class="comment">;</span></span><br><span class="line">                                                     # iNum 的位置是 $<span class="built_in">rbp</span>-<span class="number">12</span></span><br><span class="line">                                                     # 常數 <span class="number">10</span> 為 <span class="number">0xA</span></span><br><span class="line"><span class="number">0x0000555555555155</span> &lt;+<span class="number">12</span>&gt;: movl   <span class="number">$0</span>xa,-<span class="number">0xc</span>(%rbp)     # 移動 <span class="number">10</span> 到 iNum 的位置</span><br><span class="line"></span><br><span class="line">                                                     # pNum = &amp;iNum<span class="comment">;</span></span><br><span class="line">                                                     # pNum 的位置是 $<span class="built_in">rbp</span>-<span class="number">8</span></span><br><span class="line"><span class="number">0x000055555555515c</span> &lt;+<span class="number">19</span>&gt;: <span class="keyword">lea</span>    -<span class="number">0xc</span>(%rbp),%rax     # 將 iNum 的位置給 $<span class="built_in">rax</span></span><br><span class="line">                                                     # <span class="keyword">lea</span> mem,reg 指令不載入內容，mem 做完偏移就放到 reg</span><br><span class="line"><span class="number">0x0000555555555160</span> &lt;+<span class="number">23</span>&gt;: <span class="keyword">mov</span>    %rax,-<span class="number">0x8</span>(%rbp)     # 移動 %rax 的值給 pNum</span><br><span class="line"></span><br><span class="line">                                                     # *pNum += <span class="number">2</span><span class="comment">;</span></span><br><span class="line">                                                     # 等價於 *pNum = *pNum + <span class="number">2</span><span class="comment">;</span></span><br><span class="line">                                                     # 分兩個部份做，先加 <span class="number">2</span> 再賦值</span><br><span class="line"></span><br><span class="line">                                                     # *pNum + <span class="number">2</span></span><br><span class="line"><span class="number">0x0000555555555164</span> &lt;+<span class="number">27</span>&gt;: <span class="keyword">mov</span>    -<span class="number">0x8</span>(%rbp),%rax     # 移動 pNum 的值給 $<span class="built_in">rax</span>（iNum 的位置）</span><br><span class="line"><span class="number">0x0000555555555168</span> &lt;+<span class="number">31</span>&gt;: <span class="keyword">mov</span>    (%rax),%eax         # 移動 $<span class="built_in">rax</span> 存的那個位置上的值給 $<span class="built_in">eax</span>（<span class="number">10</span>）</span><br><span class="line"><span class="number">0x000055555555516a</span> &lt;+<span class="number">33</span>&gt;: <span class="keyword">lea</span>    <span class="number">0x2</span>(%rax),%edx      # 加載 $<span class="built_in">rax</span>（<span class="number">10</span>） 的值+<span class="number">2</span> 放到 $<span class="built_in">edx</span>（<span class="number">12</span>）</span><br><span class="line"></span><br><span class="line">                                                     # *pNum = *pNum + <span class="number">2</span></span><br><span class="line"><span class="number">0x000055555555516d</span> &lt;+<span class="number">36</span>&gt;: <span class="keyword">mov</span>    -<span class="number">0x8</span>(%rbp),%rax     # 讀取 pNum 的值給 $<span class="built_in">rax</span>（iNum 的位置）</span><br><span class="line"><span class="number">0x0000555555555171</span> &lt;+<span class="number">40</span>&gt;: <span class="keyword">mov</span>    %edx,(%rax)         # 將 $<span class="built_in">edx</span>（<span class="number">12</span>） 的值給 $<span class="built_in">rax</span>（iNum 的位置）的值</span><br><span class="line"></span><br><span class="line">                                                              # printf(<span class="string">&quot;%d&quot;</span>, iNum)<span class="comment">;</span></span><br><span class="line"><span class="number">0x0000555555555173</span> &lt;+<span class="number">42</span>&gt;: <span class="keyword">mov</span>    -<span class="number">0xc</span>(%rbp),%eax              # 讀取 iNum 的值給 $<span class="built_in">eax</span></span><br><span class="line"><span class="number">0x0000555555555176</span> &lt;+<span class="number">45</span>&gt;: <span class="keyword">mov</span>    %eax,%esi                    # 移動 $<span class="built_in">eax</span> 的值給 $<span class="built_in">esi</span></span><br><span class="line"><span class="number">0x0000555555555178</span> &lt;+<span class="number">47</span>&gt;: <span class="keyword">lea</span>    <span class="number">0xe85</span>(%rip),%rdi             # 將 $<span class="built_in">rip</span>+<span class="number">0xe85</span>（<span class="string">&quot;%d\n&quot;</span>）給 $<span class="built_in">rdi</span></span><br><span class="line"><span class="number">0x000055555555517f</span> &lt;+<span class="number">54</span>&gt;: <span class="keyword">mov</span>    <span class="number">$0</span>x0,%eax                    # 清空 $<span class="built_in">eax</span></span><br><span class="line"><span class="number">0x0000555555555184</span> &lt;+<span class="number">59</span>&gt;: callq  <span class="number">0x555555555050</span> &lt;printf@plt&gt;  # 呼叫 printf</span><br><span class="line"><span class="number">0x0000555555555189</span> &lt;+<span class="number">64</span>&gt;: <span class="keyword">mov</span>    <span class="number">$0</span>x0,%eax                    # 清空 $<span class="built_in">eax</span></span><br><span class="line"></span><br><span class="line">                                                     # 函數離開操作，等價於：</span><br><span class="line"><span class="number">0x000055555555518e</span> &lt;+<span class="number">69</span>&gt;: leaveq                     # <span class="keyword">movq</span> %rbp, %rsp</span><br><span class="line">                                                     # popq %rbp</span><br><span class="line"><span class="number">0x000055555555518f</span> &lt;+<span class="number">70</span>&gt;: retq                       # 回傳</span><br></pre></td></tr></table></figure>
+<div class="note info"><p>GDB 採 AT&amp;T 格式，顯示順序跟 Intel 是顛倒，請參閱 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/X86_assembly_language">Wikipedia: X86 assembly language</a></p>
+</div>
+
+<p>在輸出位置前檢查（設中斷點），可以檢查我們的區域變數：</p>
+<table>
+<thead>
+<tr>
+<th align="center">變數名稱</th>
+<th align="center">變數資料</th>
+<th align="center">變數位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">iNum</td>
+<td align="center">0x0c</td>
+<td align="center">0x7fffffffdc74</td>
+</tr>
+<tr>
+<td align="center">pNum</td>
+<td align="center">0x7fffffffdc74</td>
+<td align="center">0x7fffffffdc78</td>
+</tr>
+</tbody></table>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">(gdb) x/32xb <span class="variable">$rsp</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x7fffffffdc70</span>: <span class="number">0x70</span>  <span class="number">0xdd</span>  <span class="number">0xff</span>  <span class="number">0xff</span>  <span class="number">0x0c</span>  <span class="number">0x00</span>  <span class="number">0x00</span>  <span class="number">0x00</span></span><br><span class="line"><span class="number">0x7fffffffdc78</span>: <span class="number">0x74</span>  <span class="number">0xdc</span>  <span class="number">0xff</span>  <span class="number">0xff</span>  <span class="number">0xff</span>  <span class="number">0x7f</span>  <span class="number">0x00</span>  <span class="number">0x00</span></span><br><span class="line"><span class="number">0x7fffffffdc80</span>: <span class="number">0x00</span>  <span class="number">0x00</span>  <span class="number">0x00</span>  <span class="number">0x00</span>  <span class="number">0x00</span>  <span class="number">0x00</span>  <span class="number">0x00</span>  <span class="number">0x00</span></span><br><span class="line"><span class="number">0x7fffffffdc88</span>: <span class="number">0xb3</span>  <span class="number">0x70</span>  <span class="number">0xde</span>  <span class="number">0xf7</span>  <span class="number">0xff</span>  <span class="number">0x7f</span>  <span class="number">0x00</span>  <span class="number">0x00</span></span><br></pre></td></tr></table></figure>
+
+<div class="note info"><p>注意顯示單位，這樣一組 <code>0x00</code> 相當於二進制的 <code>b00000000</code> 共 8 個位元；<br>所以一個 <code>int</code> 需要 4 組，而筆者電腦是 64-bits 需要 8 組。</p>
+</div>
+
+<p><code>0x7fffffffdc78</code> 儲存的內容看起來雖然是 <code>0x74dcffffff7f</code>，不過 x86 系統採用小端序（little endian），<br>所以實際的值是 <code>0x7fffffffdc74</code>；同樣地，<code>iNum</code> 是 <code>0x0000000c</code> 而非 <code>0x0c000000</code>。</p>
+<p>注意！是 Bytes 的組合順序顛倒（不是位元順序、也不是顯示的順序），<br>以 <code>0x01 0x02 0x03 0x04</code>（<code>b00000001000000100000001100000101</code>）為例：</p>
+<ul>
+<li>真正的值（小端序）：<code>0x04 0x03 0x02 0x01</code> 即 <code>0x04030201</code></li>
+<li>位元順序顛倒：<code>b10100000110000000100000010000000</code> 即 <code>0xA0C04080</code></li>
+<li>顯示順序顛倒：<code>0x40 0x30 0x20 0x10</code> 即 <code>0x40302010</code></li>
+</ul>
+<p>這 3 種結果完全不同。</p>
+<div class="note info"><p><code>mov</code> 跟 <code>lea</code> 的差別；假設有兩個暫存器 <code>$A = 0xfc</code> 及 <code>$B</code>、一個記憶體 <code>0xfa = 777</code>。<br>    <figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mov</span> -<span class="number">0x2</span>($A),$B     # $B = <span class="number">777</span></span><br><span class="line"><span class="keyword">lea</span> -<span class="number">0x2</span>($A),$B     # $B = <span class="number">0xfa</span></span><br></pre></td></tr></table></figure></p>
+</div>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/image-filter/" rel="prev" title="影像濾波 Image Filter">
+                  <i class="fa fa-angle-left"></i> 影像濾波 Image Filter
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/nspa-fast-note/" rel="next" title="NSPA 封包檢測速記">
+                  NSPA 封包檢測速記 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  
+  <div class="comments giscus-container">
+  </div>
+  
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-bomb"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Tinytusnami</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="giscus" type="application/json">{"enable":true,"repo":"tinytsunami/blog","repo_id":"MDEwOlJlcG9zaXRvcnkxMjI3MTEwNTY=","category":"Blog Comments","category_id":"DIC_kwDOB1BsEM4C42Ww","mapping":"pathname","strict":0,"reactions_enabled":1,"emit_metadata":1,"theme":"preferred_color_scheme","lang":"zh-TW","crossorigin":"anonymous","input_position":"top","loading":"lazy"}</script>
+
+<script>
+document.addEventListener('page:loaded', () => {
+  if (!CONFIG.page.comments) return;
+
+  NexT.utils.loadComments('.giscus-container')
+    .then(() => NexT.utils.getScript('https://giscus.app/client.js', {
+      attributes: {
+        async                   : true,
+        crossOrigin             : 'anonymous',
+        'data-repo'             : CONFIG.giscus.repo,
+        'data-repo-id'          : CONFIG.giscus.repo_id,
+        'data-category'         : CONFIG.giscus.category,
+        'data-category-id'      : CONFIG.giscus.category_id,
+        'data-mapping'          : CONFIG.giscus.mapping,
+        'data-strict'           : CONFIG.giscus.strict,
+        'data-reactions-enabled': CONFIG.giscus.reactions_enabled,
+        'data-emit-metadata'    : CONFIG.giscus.emit_metadata,
+        'data-theme'            : CONFIG.giscus.theme,
+        'data-lang'             : CONFIG.giscus.lang,
+        'data-input-position'   : CONFIG.giscus.input_position,
+        'data-loading'          : CONFIG.giscus.loading
+      },
+      parentNode: document.querySelector('.giscus-container')
+    }));
+});
+</script>
+
+</body>
+</html>

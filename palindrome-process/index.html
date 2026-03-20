@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.tinytsunami.info","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="之前在弄演算法題目的時候，曾經遇過迴文類的問題，當時並沒有很了解問題的本質跟相關算法，所以都是窮舉。然而有些超時、有些則否。 後來的某一天又碰到這類的問題，誘發我去把相關的算法看了幾遍。這篇文章算是從中衍伸的筆記。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="迴文處理 Palindrome Process">
+<meta property="og:url" content="https://www.tinytsunami.info/palindrome-process/index.html">
+<meta property="og:site_name" content="羊羽手札">
+<meta property="og:description" content="之前在弄演算法題目的時候，曾經遇過迴文類的問題，當時並沒有很了解問題的本質跟相關算法，所以都是窮舉。然而有些超時、有些則否。 後來的某一天又碰到這類的問題，誘發我去把相關的算法看了幾遍。這篇文章算是從中衍伸的筆記。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.imgur.com/nHa3cFa.png">
+<meta property="og:image" content="https://i.imgur.com/tfCrpQK.png">
+<meta property="og:image" content="https://i.imgur.com/7SZausI.png">
+<meta property="og:image" content="https://i.imgur.com/FNDjVzx.png">
+<meta property="og:image" content="https://i.imgur.com/w0qvUvc.png">
+<meta property="og:image" content="https://i.imgur.com/lqoxeMM.png">
+<meta property="og:image" content="https://i.imgur.com/DWPcioH.png">
+<meta property="og:image" content="https://i.imgur.com/oFrlWBu.png">
+<meta property="og:image" content="https://i.imgur.com/HxHNCdO.png">
+<meta property="og:image" content="https://i.imgur.com/XBMucHa.png">
+<meta property="og:image" content="https://i.imgur.com/nQpuNnT.png">
+<meta property="og:image" content="https://i.imgur.com/PV6Rhy6.png">
+<meta property="og:image" content="https://i.imgur.com/vWWUxuQ.png">
+<meta property="og:image" content="https://i.imgur.com/oxOiQd8.png">
+<meta property="og:image" content="https://i.imgur.com/7WElE0N.png">
+<meta property="og:image" content="https://i.imgur.com/HorUIoW.png">
+<meta property="og:image" content="https://i.imgur.com/jNptBcw.png">
+<meta property="article:published_time" content="2017-11-05T00:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-20T08:43:52.204Z">
+<meta property="article:author" content="Tinytusnami">
+<meta property="article:tag" content="技術, 獨立遊戲">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/nHa3cFa.png">
+
+
+<link rel="canonical" href="https://www.tinytsunami.info/palindrome-process/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://www.tinytsunami.info/palindrome-process/","path":"/palindrome-process/","title":"迴文處理 Palindrome Process"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>迴文處理 Palindrome Process | 羊羽手札</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">羊羽手札</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Tinytsunami's Blog</p>
+      <img class="custom-logo-image" src="/images/icon.png" alt="羊羽手札">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-game"><a href="https://tinytsunami.itch.io/" rel="section" target="_blank"><i class="fas fa-gamepad fa-fw"></i>game</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%90%E5%AD%97%E4%B8%B2%E8%88%87%E5%AD%90%E5%BA%8F%E5%88%97"><span class="nav-number">1.</span> <span class="nav-text">子字串與子序列</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%B4%E6%96%87%E5%AD%90%E5%AD%97%E4%B8%B2%EF%BC%9A%E7%AA%AE%E8%88%89"><span class="nav-number">2.</span> <span class="nav-text">迴文子字串：窮舉</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A4%87%E9%9B%9C%E5%BA%A6"><span class="nav-number">2.1.</span> <span class="nav-text">複雜度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%94%E7%A4%BA"><span class="nav-number">2.2.</span> <span class="nav-text">演示</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%B4%E6%96%87%E5%AD%90%E5%AD%97%E4%B8%B2%EF%BC%9A%E7%AD%96%E7%95%A5"><span class="nav-number">3.</span> <span class="nav-text">迴文子字串：策略</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A4%87%E9%9B%9C%E5%BA%A6-1"><span class="nav-number">3.1.</span> <span class="nav-text">複雜度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%94%E7%A4%BA-1"><span class="nav-number">3.2.</span> <span class="nav-text">演示</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%B4%E6%96%87%E5%AD%90%E5%BA%8F%E5%88%97%EF%BC%9A%E7%AA%AE%E8%88%89"><span class="nav-number">4.</span> <span class="nav-text">迴文子序列：窮舉</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A4%87%E9%9B%9C%E5%BA%A6-2"><span class="nav-number">4.1.</span> <span class="nav-text">複雜度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%94%E7%A4%BA-2"><span class="nav-number">4.2.</span> <span class="nav-text">演示</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%B4%E6%96%87%E5%AD%90%E5%BA%8F%E5%88%97%EF%BC%9A%E7%AD%96%E7%95%A5"><span class="nav-number">5.</span> <span class="nav-text">迴文子序列：策略</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A4%87%E9%9B%9C%E5%BA%A6-3"><span class="nav-number">5.1.</span> <span class="nav-text">複雜度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%94%E7%A4%BA-3"><span class="nav-number">5.2.</span> <span class="nav-text">演示</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">6.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Tinytusnami"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">Tinytusnami</p>
+  <div class="site-description" itemprop="description">羊羽的個人部落格</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/tinytsunami" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;tinytsunami" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/TaipeiTsunami" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;TaipeiTsunami" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/profile.php?id=100000736195394" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;profile.php?id&#x3D;100000736195394" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCtqp9w_uA_LohDm0YXNWqSA" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCtqp9w_uA_LohDm0YXNWqSA" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+          連結
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://blog.cyris.tw/" title="https:&#x2F;&#x2F;blog.cyris.tw" rel="noopener" target="_blank">Cyris's Blog</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://poyu-liao.github.io/blog" title="https:&#x2F;&#x2F;poyu-liao.github.io&#x2F;blog" rel="noopener" target="_blank">Robert's Blog</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/palindrome-process/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="Tinytusnami">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="羊羽手札">
+      <meta itemprop="description" content="羊羽的個人部落格">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="迴文處理 Palindrome Process | 羊羽手札">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          迴文處理 Palindrome Process
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2017-11-05 00:00:00" itemprop="dateCreated datePublished" datetime="2017-11-05T00:00:00Z">2017-11-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/legacy-algorithm/" itemprop="url" rel="index"><span itemprop="name">(legacy) algorithm</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>之前在弄演算法題目的時候，曾經遇過迴文類的問題，<br>當時並沒有很了解問題的本質跟相關算法，所以都是窮舉。然而有些超時、有些則否。</p>
+<p>後來的某一天又碰到這類的問題，誘發我去把相關的算法看了幾遍。這篇文章算是從中衍伸的筆記。</p>
+<span id="more"></span>
+
+<h1 id="子字串與子序列"><a href="#子字串與子序列" class="headerlink" title="子字串與子序列"></a>子字串與子序列</h1><p>迴文問題通常不會以簡單的形式出現，<br>通常來說，大致上會類似「最長迴文子字串」、「最長迴文子序列」的形式出現，<br>正因如此，先理解兩者的差異是重要的。</p>
+<p>子字串跟子序列大致上有這樣的關係：</p>
+<ul>
+<li>子字串、子序列都是依照閱讀的順序擷取（以英文來說，橫書是由左至右）</li>
+<li>子字串要求資料連續、子序列不要求</li>
+</ul>
+<p>從這個角度來看，可以發現子字串的限制較子序列嚴格。</p>
+<p>更進一步說，只要是子字串，就一定會是子序列，<br>而某筆資料所有的子字串集合，會是其資料子序列集合的子集合。</p>
+<p>我們來看個例子：「TheQuickBrownFoxJumpsOverTheLazyDog」</p>
+<table>
+<thead>
+<tr>
+<th align="left">字串</th>
+<th align="left">位置</th>
+<th align="center">類型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">QuickBrown</td>
+<td align="left">The<code>QuickBrown</code>FoxJumpsOverTheLazyDog</td>
+<td align="center">子字串、也是子序列</td>
+</tr>
+<tr>
+<td align="left">LazyDog</td>
+<td align="left">TheQuickBrownFoxJumpsOverThe<code>LazyDog</code></td>
+<td align="center">子字串、也是子序列</td>
+</tr>
+<tr>
+<td align="left">QuickFox</td>
+<td align="left">The<code>Quick</code>Brown<code>Fox</code>JumpsOverTheLazyDog</td>
+<td align="center">子序列</td>
+</tr>
+<tr>
+<td align="left">BrownDog</td>
+<td align="left">TheQuick<code>Brown</code>FoxJumpsOverTheLazy<code>Dog</code></td>
+<td align="center">子序列</td>
+</tr>
+<tr>
+<td align="left">LazyFox</td>
+<td align="left">TheQuickBrownFoxJumpsOverTheLazyDog</td>
+<td align="center">不是子字串或子序列</td>
+</tr>
+</tbody></table>
+<div class="note info"><p>範例中的「TheQuickBrownFoxJumpsOverTheLazyDog」是全字母句（Pangram）使用了所有英文字母。</p>
+</div>
+
+<div class="note warning"><p>演示或本文撰寫完畢時，筆者發現有一處容易混淆：<br>「LPS」代表是「Longest Palindrome Substrings&#x2F;Subsequences」；<br>其中「S」並無指定為字串或序列，亦即最長子字串或子序列都有可能使用「LPS」做縮寫。<br>請根據段落判斷「LPS」的意義。</p>
+</div>
+
+<h1 id="迴文子字串：窮舉"><a href="#迴文子字串：窮舉" class="headerlink" title="迴文子字串：窮舉"></a>迴文子字串：窮舉</h1><p>因為子字串的限制較為嚴格，我們先從子字串下手。<br>對於迴文子字串的窮舉法邏輯很簡單：「找到所有的子字串，然後檢驗是否迴文。」</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">// 檢驗是否迴文</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">checkPalindrome</span><span class="params">(string text)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> half = text.<span class="built_in">length</span>() / <span class="number">2</span>;            <span class="comment">// 取長度的一半</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i =<span class="number">0</span>; i &lt; half; i++)            <span class="comment">// 註標 i 對應字串前半</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> j = text.<span class="built_in">length</span>() - i <span class="number">-1</span>;        <span class="comment">// 註標 j 對應字串後半</span></span><br><span class="line">        <span class="keyword">if</span>(text[i] != text[j]) <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">// 如果不對則直接返回</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;                             <span class="comment">// 確實屬於迴文</span></span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>迴文檢測的邏輯不難，不過還是解釋一下。</p>
+<p>字串能夠分成兩種：偶數字串、奇數字串。<br>如果是偶數時，長度除以二，會剛好是一半；然而是奇數的話，除以二會是一半捨去小數。</p>
+<p>簡單的例子：</p>
+<p>當字串為 <code>abcd</code> 時，長度為 $4$ 則一半為 $\lfloor 4 \rfloor &#x3D; 2$ 這樣的話，<br/><br>註標 <code>i = 0, 1</code> 而同時註標 <code>j = 3, 2</code> 形成依序比對字串前後兩邊的字元是否相等。</p>
+<p>如果字串為 <code>abcba</code> 時，長度為 $5$ 則  $\lfloor 5 \rfloor &#x3D; 2$ 這樣的話，<br/><br>註標 <code>i = 0, 1</code> 而同時 註標 <code>j = 4, 3</code> 可以發現剛好奇數中間的字元並不需要比對。</p>
+<p>接著，我們需要得到所有的子字串，在 <code>std::string</code> 中有 <code>substr</code> 函數可以使用。<br>那要取得所有的子字串，則需要註標 $a$ 表示子字串開頭的位置，而註標 $b$ 表示結束的位置，<br>對於所有的 $a$ 及 $b$ 有 $a \leq b$ 的關係：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> a = <span class="number">0</span>; a &lt; str.<span class="built_in">length</span>(); a++)        <span class="comment">// 子字串開始位置的註標</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> b = a; b &lt; str.<span class="built_in">length</span>(); b++)    <span class="comment">// 子字串結束位置的註標</span></span><br><span class="line">    &#123;</span><br><span class="line">        tmp = str.<span class="built_in">substr</span>(a, (b - a + <span class="number">1</span>));     <span class="comment">// 從開始位置，取對應長度</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">checkPalindrome</span>(tmp)) ...;         <span class="comment">// 檢查迴文，並處理</span></span><br><span class="line">    &#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>這樣我們問題就解決了。</p>
+<p>不過仔細想想，我們其實並不需要另外合成字串，<br>直接在原字串比對就好，我們修正檢測：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">// 迴文檢測（使用參考）</span></span><br><span class="line"><span class="comment">// 傳入字串的參考、開始位置、結束位置</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">checkPalindrome</span><span class="params">(string &amp;text, <span class="type">int</span> a, <span class="type">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> len = b - a + <span class="number">1</span>;                     <span class="comment">// 取得子字串長度</span></span><br><span class="line">    <span class="type">int</span> half = len / <span class="number">2</span>;                      <span class="comment">// 取的一半的長度</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; half; i++)           <span class="comment">// 註標 i 表示取前後多少字元</span></span><br><span class="line">        <span class="keyword">if</span>(text[a + i] != text[b - i])       <span class="comment">// 從前面取 i 個及從後面取 i 個比對</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;                    <span class="comment">// 如果不符則傳回</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;                             <span class="comment">// 確實為迴文</span></span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>直接傳入參考以避免生成一堆子字串，<br>利用母字串的註標 $a$ 與 $b$ 取得子字串的長度運算即可。</p>
+<h2 id="複雜度"><a href="#複雜度" class="headerlink" title="複雜度"></a>複雜度</h2><p>在分析之前，我們從例子著手。<br>比方說，當原字串為 <code>abc</code> 其長度為 $3$ 則存在子字串：</p>
+<p>substr(<code>abc</code>) &#x3D; {<code>空字串</code>, <code>a</code>, <code>ab</code>, <code>abc</code>, <code>b</code>, <code>bc</code>, <code>c</code>}</p>
+<div class="note warning"><p>其實包含空字串在內也是子字串；只是我們不需要，所以沒有實做出來。</p>
+</div>
+
+<p>可以發現，子字串的數量為 $3 + 2 + 1 + 1 &#x3D; 7$ 個，如果不含空字串則是 $3 + 2 + 1 &#x3D; 6$ 個，<br>於是我們大概可以假設如下：</p>
+<p>長度為 $n$ 的原字串，不含空字串的話，有 $\sum\limits_{x&#x3D;1}^n x &#x3D; \frac{1}{2}(1+n)n$ 個子字串。</p>
+<p>假設只是從觀察中發現，實際推算看看是否正確：</p>
+<p>設原字串的長度為 $n$ 的話，<br>註標 $a$ 的範圍在 $[0, n-1]$ 而註標 $b$ 的範圍在 $[a, n-1]$</p>
+<p>因為子字串的數量就是所有註標匹配的數量：</p>
+<p>$\sum\limits_{a &#x3D; 0}^{n - 1} \sum\limits_{b &#x3D; a}^{n - 1} 1$</p>
+<p>後面的取和直接算有幾個，得到：</p>
+<p>$&#x3D; \sum\limits_{a &#x3D; 0}^{n - 1} [(n - 1) - a + 1] &#x3D; \sum\limits_{a &#x3D; 0}^{n - 1} (n - a) &#x3D; \sum\limits_{a &#x3D; 0}^{n - 1} n - \sum\limits_{a &#x3D; 0}^{n - 1} a$</p>
+
+$= n \sum\limits_{a = 0}^{n - 1} 1 - \frac{1}{2}[(n - 1) + 0][(n - 1) - 0 + 1]$
+
+
+<p>$&#x3D; n^{2} - \frac{1}{2} (n - 1)n &#x3D; n^{2} - \frac{1}{2} (n^2 - n)$</p>
+<p>$&#x3D; n^{2} - \frac{1}{2} n^2 + \frac{1}{2} n &#x3D; \frac{1}{2} n^2 + \frac{1}{2} n$</p>
+<p>$&#x3D; \frac{1}{2} (n^2 + n) &#x3D; \frac{1}{2} (n + 1)n$</p>
+<p>看來我們的推測試是正確的。</p>
+<p>試想檢測一個字串是否為迴文，需要掃描一半的字串，<br>把原本取和裡面的 $1$ 改成子字串長度的一半也就是 $\frac{1}{2} (b - a + 1)$ 的話：</p>
+<p>$\sum\limits_{a &#x3D; 0}^{n - 1} \sum\limits_{b &#x3D; a}^{n - 1} \frac{1}{2} (b - a + 1) &#x3D; \frac{1}{2} \sum\limits_{a &#x3D; 0}^{n - 1} \sum\limits_{b &#x3D; a}^{n - 1} (b - a + 1)$</p>
+<p>$&#x3D; \frac{1}{2} \sum\limits_{a &#x3D; 0}^{n - 1} ( \sum\limits_{b &#x3D; a}^{n - 1} b - \sum\limits_{b &#x3D; a}^{n - 1} a + \sum\limits_{b &#x3D; a}^{n - 1} 1 )$</p>
+
+$= \frac{1}{2} \sum\limits_{a = 0}^{n - 1} \{ \frac{1}{2}[(n - 1) + a](n - a) - a(n - a) + (n - a) \}$
+
+
+<p>$&#x3D; \frac{1}{2} \sum\limits_{a &#x3D; 0}^{n - 1} [ \frac{1}{2}(n + a -1)(n - a) - an + a^{2} + n - a ]$</p>
+<p>$&#x3D; \frac{1}{2} \sum\limits_{a &#x3D; 0}^{n - 1} [ \frac{1}{2}(n^{2} - an + an - a^{2} - n + a) - an + a^{2} + n - a ]$</p>
+<p>$&#x3D; \frac{1}{2} \sum\limits_{a &#x3D; 0}^{n - 1} [ \frac{1}{2} n^{2} + \frac{1}{2} a^{2} + \frac{1}{2} n - \frac{1}{2} a - an ]$</p>
+<p>$&#x3D; \frac{1}{4} \sum\limits_{a &#x3D; 0}^{n - 1} ( n^{2} + a^{2} + n - a ) - \frac{1}{2} n\sum\limits_{a &#x3D; 0}^{n - 1} a$</p>
+<p>$&#x3D; \frac{1}{4} [ \sum\limits_{a &#x3D; 0}^{n - 1} n^{2} + \sum\limits_{a &#x3D; 0}^{n - 1} a^{2} +  \sum\limits_{a &#x3D; 0}^{n - 1} n - \sum\limits_{a &#x3D; 0}^{n - 1} a ] - \frac{1}{4} n^{2}(n - 1) $</p>
+<p>$&#x3D; \frac{1}{4} [ n^{2} \sum\limits_{a &#x3D; 0}^{n - 1} 1 + \sum\limits_{a &#x3D; 0}^{n - 1} a^{2} +  n \sum\limits_{a &#x3D; 0}^{n - 1} 1 - \frac{1}{2} n (n - 1) ] - \frac{1}{4} n^{2}(n - 1) $</p>
+<p>$&#x3D; \frac{1}{4} [ n^{3} + \sum\limits_{a &#x3D; 0}^{n - 1} a^{2} +  n^{2} - \frac{1}{2} n (n - 1) ] - \frac{1}{4} n^{2}(n - 1) $</p>
+<p>把中間 $\sum\limits_{a &#x3D; 0}^{n - 1} a^{2}$ 項拿一個 $0^{2}$ 出來，<br>然後多加 $n^{2}$ 進去取和，後面再扣掉：</p>
+<p>$\sum\limits_{a &#x3D; 0}^{n - 1} a^{2} &#x3D; 0^{2} + \sum\limits_{a &#x3D; 1}^{n} a^{2} - n^{2} &#x3D; \sum\limits_{a &#x3D; 1}^{n} a^{2} - n^{2}$</p>
+<p>利用公式：$\sum\limits_{k &#x3D; 1}^{n} k^{2} &#x3D; \frac{1}{6} n(n+1)(2n+1)$</p>
+<p>$&#x3D; \frac{1}{4} [ n^{3} + \frac{1}{6}n(n + 1)(2n + 1) - n^{2} +  n^{2} - \frac{1}{2} n (n - 1) ] - \frac{1}{4} n^{2}(n - 1) $</p>
+<p>$&#x3D; \frac{1}{4} [ n^{3} + \frac{1}{6}n(n + 1)(2n + 1) - \frac{1}{2} n(n - 1) ] - \frac{1}{4} n^{2}(n - 1) $</p>
+<p>$&#x3D; \frac{1}{4} n^{3} + \frac{1}{24}(n^{2} + n)(2n + 1) - \frac{1}{8} n(n - 1)  - \frac{1}{4} n^{2}(n - 1) $</p>
+<p>$&#x3D; \frac{1}{4} n^{3} + \frac{1}{24}(2n^{3} + n^{2} + 2n^{2} + n) - \frac{1}{8} n^{2} + \frac{1}{8} n  - \frac{1}{4} n^{3} + \frac{1}{4} n^{2}$</p>
+<p>$&#x3D; \frac{1}{4} n^{3} + \frac{1}{12} n^{3} + \frac{1}{24} n^{2} + \frac{1}{12} n^{2} + \frac{1}{24}n - \frac{1}{8} n^{2} + \frac{1}{8} n  - \frac{1}{4} n^{3} + \frac{1}{4} n^{2}$</p>
+<p>$&#x3D; \frac{2}{24} n^{3} + \frac{6}{24} n^{2} + \frac{4}{24} n$</p>
+<p>$&#x3D; \frac{1}{12} n^{3} + \frac{1}{4} n^{2} + \frac{1}{6} n$</p>
+<p>對於搜索全部的子字串、並且暴力檢測迴文的複雜度是：</p>
+<p>$\frac{1}{2} \sum\limits_{a &#x3D; 0}^{n - 1} \sum\limits_{b &#x3D; a}^{n - 1} (b - a + 1) &#x3D; \frac{1}{12} n^{3} + \frac{1}{4} n^{2} + \frac{1}{6} n &#x3D; O(n^{3})$</p>
+<div class="note warning"><p>注意：本式中存在一個瑕疵，由於子字串長度 $\frac{1}{2} (b - a + 1)$ 有可能為奇數，<br>精確的應寫為 $\lfloor \frac{1}{2} (b - a + 1) \rfloor$ 並將奇、偶數分開討論。</p>
+</div>
+
+<h2 id="演示"><a href="#演示" class="headerlink" title="演示"></a>演示</h2><div class="note info"><p>本演示的最糟測資是所有子字串都是迴文的情況，也就是單個字元構成的字串。</p>
+</div>
+
+
+    <div class="iframe-container" style="width:100%;">
+    <iframe
+        src="https://jsfiddle.net/3d7z04uh/embedded/result,js,html,css/dark"
+        width="100%"
+        height="230px"
+        allowfullscreen="allowfullscreen"
+        loading="lazy"
+        frameborder="0">
+    </iframe>
+    </div>
+    
+
+<h1 id="迴文子字串：策略"><a href="#迴文子字串：策略" class="headerlink" title="迴文子字串：策略"></a>迴文子字串：策略</h1><p>對於這樣的問題 Manacher algorithm 提供了思考的策略：「大的迴文包含了小的迴文」<br>Manacher algorithm 的步驟：  </p>
+<ul>
+<li>字元間插入字符，使原字串都變成奇數長度</li>
+<li>依序掃描字元、長度，找到最長的迴文</li>
+</ul>
+<p>關於步驟 1 的部份，實際上是這樣的：<br>假設有 <code>abcdcpa</code> 改變成 <code>#a#b#c#d#c#p#a#</code> （其中的 <code>#</code> 是任意字符）</p>
+<p>數數看，我們插入了多少字元呢？如果把尾巴的 <code>#</code> 拿走的話：</p>
+<ul>
+<li><code>abcdcpa</code></li>
+<li><code>#a#b#c#d#c#p#a</code> + <code>#</code></li>
+<li><code>#a #b #c #d #c #p #a</code> + <code>#</code></li>
+</ul>
+<p>在長度為 $n$ 的字串中，我們插入了 $n$ 個 <code>#</code> 並在尾巴多加了一個 <code>#</code> 使得長度變成 $2n + 1$<br/><br>考慮長度為 $n$ 的字串，其中 $n$ 可能為偶數、或著奇數：</p>
+<ul>
+<li>如果 $n$ 為偶數，則 $2n$ 也是偶數，那 $2n + 1$ 為奇數</li>
+<li>如果 $n$ 為奇數，則 $2n$ 變成偶數，那 $2n + 1$ 為奇數</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">// 插入符號到字元間</span></span><br><span class="line"><span class="function">string <span class="title">insertSign</span><span class="params">(string str, <span class="type">char</span> sign)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    string nstr;                          <span class="comment">// 建立新字串</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; str.<span class="built_in">length</span>(); i++) <span class="comment">// 遍歷原字串</span></span><br><span class="line">    &#123;</span><br><span class="line">        nstr += sign;                     <span class="comment">// 加上符號</span></span><br><span class="line">        nstr += str[i];                   <span class="comment">// 插入字元到新字串</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nstr + sign;                   <span class="comment">// 新字串尾巴補上符號</span></span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"><span class="built_in">insertSign</span>(<span class="string">&quot;ABC&quot;</span>, \<span class="string">&#x27;#\&#x27;</span>);                   <span class="comment">// 調用時：&quot;#A#B#C#&quot;</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>能理解這個部份的話，我們進入算法核心：<br>如果我們字串比對由左至右來處理的話，一直到圖 1 的問號處：</p>
+<p><img src="https://i.imgur.com/nHa3cFa.png" alt="圖 1、用已知資料推測問號處的值"></p>
+<p>問號處應該填入多少呢？我們利用已知的資料做推測，<br>圖 2 橘色的部份就是已知區域最大的迴文：</p>
+<p><img src="https://i.imgur.com/tfCrpQK.png" alt="圖 2、已經有的資料值（橘色）"></p>
+<p>我們可以合理推測，正因為左右淡橘色以深橘色（Index &#x3D; $7$）對稱，<br>在 <code>a</code> 處（Index &#x3D; $9$）的 Palindrome 會與左邊的綠色 <code>a</code> 處（Index &#x3D; $5$）相等，如圖 3。</p>
+<p><img src="https://i.imgur.com/7SZausI.png" alt="圖 3、透過已知值（綠色）推測問號處的值"></p>
+<p>換句話說，我們會認為它等於 $1$（因為左邊的 Palindrome &#x3D; $1$）如圖 4：</p>
+<p><img src="https://i.imgur.com/FNDjVzx.png" alt="圖 4、推測出問號處的值（綠色框為該位置的迴文範圍）"></p>
+<p>我們接下來看第二種情況：</p>
+<p><img src="https://i.imgur.com/w0qvUvc.png" alt="圖 5、不能直接推測的情況"></p>
+<div class="note danger"><p>錯誤的推測：這邊的 <code>b</code> 處（Index &#x3D; $11$）會跟左邊的 <code>b</code> 處（Index &#x3D; $3$）相等。</p>
+</div>
+
+<p>因為左邊的 <code>b</code> 處（Index &#x3D; $3$）紀錄的迴文長度，<br>向左延伸超出了 <code>c</code> 處（Index &#x3D; $7$）所紀錄的保證範圍，如圖 6：</p>
+<p><img src="https://i.imgur.com/lqoxeMM.png" alt="圖 6、錯誤的推測值（紅色框為 $b$ 的迴文範圍）"></p>
+<p>既然一直到 <code>#</code> 處（Index &#x3D; $12$）都跟左邊對稱的話，<br>右邊的 <code>b</code> 處（Index &#x3D; $11$）、搭配左邊的 <code>b</code> 處（Index &#x3D; $3$）紀錄的數字，<br>可以得到 $12 - 11 &#x3D; 1 &lt; 3$</p>
+<p>也就是說，雖然左邊提供資訊為 3 的迴文長度，<br>但 <code>c</code> 處（Index &#x3D; $7$）只保證至少有 1 的迴文長度。</p>
+<p>可以觀察出一個結論：  </p>
+<ul>
+<li>我們必須紀錄目前保護範圍到哪裡</li>
+<li>如果延伸沒有超過保護範圍，則直接填入左邊對稱的數字</li>
+<li>如果延伸超過了保護範圍，則利用左邊對稱的數字做保守估計</li>
+</ul>
+<p>我們用變數表示可以理解的更清楚，如圖 7 所示：</p>
+<p><img src="https://i.imgur.com/DWPcioH.png" alt="圖 7、變數表示"></p>
+<p>觀察之後的結論：</p>
+<ul>
+<li>若以 $k$ 為對稱，則對應於 $i$ 的 $j &#x3D; k - (i - k) &#x3D; 2k - i$</li>
+<li>僅考慮右邊的保護範圍只到 $k + P_{k}$</li>
+<li>如果 $i + P_{j} &lt; k + P_{k}$ 則 $P_{i} &#x3D; P_{j}$</li>
+<li>如果 $i + P_{j} \geq k + P_{k}$ 則至少保證 $P_{i} \geq (k + P_{k}) - i$</li>
+</ul>
+<p>更簡潔地表示：</p>
+<ul>
+<li>令 $j &#x3D; k - (i - k) &#x3D; 2k - i$</li>
+<li>令 $m &#x3D; k + P_{k}$</li>
+<li>$P_{i} = \left\{\begin{array}{l} P_{j} && \text{if } (i + P_{j}) < m \\ m - i + c && \text{if } (i + P_{j}) \geq m \end{array}\right .$</li>
+<li>上式 $c \in \mathbb{N}^{0}$ 須另外估計（延伸是否迴文）</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">LPS</span><span class="params">(string s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> len = s.<span class="built_in">length</span>();                             <span class="comment">// 字串長度</span></span><br><span class="line">    <span class="type">int</span> i, j;                                         <span class="comment">// 兩個以 k 為對稱的註標</span></span><br><span class="line">    <span class="type">int</span> m = <span class="number">0</span>;                                        <span class="comment">// 保護範圍的註標</span></span><br><span class="line">    <span class="type">int</span> k = <span class="number">0</span>;                                        <span class="comment">// 對稱中心的註標</span></span><br><span class="line">    <span class="type">int</span> *p = <span class="keyword">new</span> <span class="type">int</span>[len];                            <span class="comment">// 紀錄迴文長度的表</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; len; i++)                          <span class="comment">// 遍歷所有字元</span></span><br><span class="line">    &#123;</span><br><span class="line">        j = <span class="number">2</span>*k - i;                                  <span class="comment">// 找到另一對稱的註標</span></span><br><span class="line">        <span class="keyword">if</span>(i + p[j] &lt; m)                              <span class="comment">// 在保護範圍內</span></span><br><span class="line">            p[i] = p[j];                              <span class="comment">// 此迴文長度與對稱的迴文長度相等</span></span><br><span class="line">        <span class="keyword">else</span>                                          <span class="comment">// 超出保護範圍內</span></span><br><span class="line">        &#123;</span><br><span class="line">            p[i] = m - i;                             <span class="comment">// 至少有保護範圍到該註標的長度</span></span><br><span class="line">            <span class="keyword">while</span>(s[i + p[i]] == s[i - p[i]])         <span class="comment">// 拓展新長度</span></span><br><span class="line">            &#123;</span><br><span class="line">                p[i]++;</span><br><span class="line">                <span class="keyword">if</span>(i + p[i] &gt;= len || i - p[i] &lt; <span class="number">0</span>)   <span class="comment">// 超出邊界就要停止</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            k = i; m = k + p[k];                      <span class="comment">// 以目前為新對稱中，拓寬保護範圍</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">findMax</span>(p, len);                           <span class="comment">// 尋找最大值</span></span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="複雜度-1"><a href="#複雜度-1" class="headerlink" title="複雜度"></a>複雜度</h2><p>Manacher algorithm 的最差情況，即是「毫無資訊可利用」的情形（不存在迴文），<br>即便無資訊可用，使 $i$ 必須逐步配對，也會使得 $m$ 逐漸遞增。<br>（此一情況下，會有 $m &#x3D; i$ 的關係）</p>
+<p>由於僅需要掃描一次原字串，Manacher algorithm 複雜度為 $O(n)$</p>
+<h2 id="演示-1"><a href="#演示-1" class="headerlink" title="演示"></a>演示</h2><div class="note info"><p>建議利用相同的測資，比較窮舉與策略的速度差異。</p>
+</div>
+
+
+    <div class="iframe-container" style="width:100%;">
+    <iframe
+        src="https://jsfiddle.net/uc3vyr6f/embedded/result,js,html,css/dark"
+        width="100%"
+        height="230px"
+        allowfullscreen="allowfullscreen"
+        loading="lazy"
+        frameborder="0">
+    </iframe>
+    </div>
+    
+
+<h1 id="迴文子序列：窮舉"><a href="#迴文子序列：窮舉" class="headerlink" title="迴文子序列：窮舉"></a>迴文子序列：窮舉</h1><div class="note info"><p>字串可以看作是字元的序列。</p>
+</div>
+
+<p>迴文子序列的暴力破解比子字串更糟糕，<br>原因在於，子序列的條件比子字串更寬鬆， 以至於任意長度字串的子序列數量極多。</p>
+<p>窮舉的邏輯跟子字串是一樣的：找到所有的子序列，並且檢測迴文。<br>跟子字串不一樣的地方是：沒辦法利用傳入字串參考及兩個註標來解決生成一堆子序列。</p>
+<p>以 <code>ABCD</code> 三個字元為例：</p>
+<ul>
+<li>長度為 $0$ 時，存在 $1$ 個子序列：<code>ø</code></li>
+<li>長度為 $1$ 時，存在 $4$ 個子序列：<code>A</code>, <code>B</code>, <code>C</code>, <code>D</code></li>
+<li>長度為 $2$ 時，存在 $6$ 個子序列：<code>AB</code>, <code>AC</code>, <code>AD</code>, <code>BC</code>, <code>BD</code>, <code>CD</code></li>
+<li>長度為 $3$ 時，存在 $4$ 個子序列：<code>ABC</code>, <code>ABD</code>, <code>ACD</code>, <code>BCD</code></li>
+<li>長度為 $4$ 時，存在 $1$ 個子序列：<code>ABCD</code></li>
+</ul>
+<p>不難發現，其實存在的關係跟排列組合中的組合有關，<br>當原字串長度為 $n$ 時，子序列的數量是：</p>
+<p>$\sum\limits_{k &#x3D; 0}^{n}\binom{n}{k}$</p>
+<p>以剛剛的例子來說：</p>
+<p>$\because n &#x3D; 4$</p>
+<p>$\therefore \sum\limits_{k &#x3D; 0}^{4}\binom{4}{k}$</p>
+<p>$\sum\limits_{k &#x3D; 0}^{4}\binom{4}{k} &#x3D; \binom{4}{0} + \binom{4}{1} + \binom{4}{2} + \binom{4}{3} + \binom{4}{4}$</p>
+<p>$&#x3D; 1+4+6+4+1 &#x3D; 16$</p>
+<p>從另一角度看，子序列的問題其實就是這堆字取任意個有多少種取法，<br>以 <code>ABCD</code> 來說，以 $0$ 表示不取、以 $1$ 表示有取到的話：</p>
+<table>
+<thead>
+<tr>
+<th align="center">A</th>
+<th align="center">B</th>
+<th align="center">C</th>
+<th align="center">D</th>
+<th align="center">Subsequence</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center"><code>ø</code></td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center"><code>D</code></td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center"><code>C</code></td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center"><code>CD</code></td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center"><code>B</code></td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center"><code>BD</code></td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center"><code>BC</code></td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center"><code>BCD</code></td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center"><code>A</code></td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center"><code>AD</code></td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center"><code>AC</code></td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center"><code>ACD</code></td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center"><code>AB</code></td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center"><code>ABD</code></td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center"><code>ABC</code></td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center"><code>ABCD</code></td>
+</tr>
+</tbody></table>
+<p>同時它也長的像二進位的真值表，<br>更進一步的解釋了：$\sum\limits_{k &#x3D; 0}^{n}\binom{k}{n} &#x3D; 2^{n}$</p>
+<p>要證明這件事情，我們得從二項式定理開始：<br>$(x + y)^{n} &#x3D; \sum\limits_{k &#x3D; 0}^{n} x^{k}y^{(n - k)}\binom{k}{n}$</p>
+<p>只要令 $x &#x3D; 1, y &#x3D; 1$ 則：<br>$(1 + 1)^{n} &#x3D; \sum\limits_{k &#x3D; 0}^{n} 1^{k}1^{(n - k)}\binom{k}{n} &#x3D; 2^{n}$</p>
+<p>換言之，對於長度為 $n$ 的原字串來說，存在 $2^{n}$ 種子序列。<br>利用遞迴關係，可以很簡單的找到所有的子序列：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">// 利用遞迴關係取得子序列</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">getSubseq</span><span class="params">(string subseq, string str)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 若子序列不為空集合，則處理</span></span><br><span class="line">    <span class="keyword">if</span>(subseq != <span class="string">&quot;&quot;</span>) <span class="built_in">process</span>(subseq);</span><br><span class="line">    <span class="comment">// 將子序列增加一個字元，其字元後的子字串傳到下一層</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; str.<span class="built_in">length</span>(); i++)</span><br><span class="line">        <span class="built_in">getSubseq</span>(subseq + str[i], str.<span class="built_in">substr</span>(i, str.<span class="built_in">length</span>()));</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">getSubseq</span>(<span class="string">&quot;&quot;</span>, <span class="string">&quot;ABC&quot;</span>); <span class="comment">// 調用時</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>對於檢查迴文，使用子字串中提供的第一種檢查方法（也是一般的檢查法）較簡單。</p>
+<h2 id="複雜度-2"><a href="#複雜度-2" class="headerlink" title="複雜度"></a>複雜度</h2><p>我們在上面已經曉得，<br>長度為 $n$ 的序列，子序列的數量為：$\sum\limits_{k &#x3D; 0}^{n}\binom{k}{n} &#x3D; 2^{n}$</p>
+<p>在組合構成的多項式每一項 $\binom{k}{n}$ 都是子字串的數量，<br>透過變數 $k$ 可以抓到子序列的長度（檢測迴文需要一半長度），<br>於是複雜度是：$\sum\limits_{k &#x3D; 0}^{n} \frac{1}{2}k\binom{k}{n}$</p>
+<p>由於已知光是子序列數量 $\sum\limits_{k &#x3D; 0}^{n}\binom{k}{n} &#x3D; 2^{n} &#x3D; O(2^{n})$</p>
+<p>$\sum\limits_{k &#x3D; 0}^{n} \frac{1}{2}k\binom{k}{n}$ 複雜度必超過 $O(2^{n})$</p>
+<p>因此算法並不堪用，得另尋出路！</p>
+<div class="note warning"><p>注意！與子字串相同，長度 $\frac{1}{2} k$ 不一定為偶數，應討論其奇偶性。</p>
+</div>
+
+<h2 id="演示-2"><a href="#演示-2" class="headerlink" title="演示"></a>演示</h2><div class="note warning"><p>由於時間複雜度高，輸入太長的測資容易當機。</p>
+</div>
+
+
+    <div class="iframe-container" style="width:100%;">
+    <iframe
+        src="https://jsfiddle.net/qu8j1nda/embedded/result,js,html,css/dark"
+        width="100%"
+        height="230px"
+        allowfullscreen="allowfullscreen"
+        loading="lazy"
+        frameborder="0">
+    </iframe>
+    </div>
+    
+
+<h1 id="迴文子序列：策略"><a href="#迴文子序列：策略" class="headerlink" title="迴文子序列：策略"></a>迴文子序列：策略</h1><p>由於子序列數量實在增長的很快，有沒有其他方法呢？<br>使用動態規劃可以有效解決這個問題：</p>
+<p><img src="https://i.imgur.com/oFrlWBu.png" alt="圖 8、長度為 $5$ 的字串"></p>
+<p>考慮圖 8，也就是一個長度為 $5$ 的字串。</p>
+<p>透過註標 $0$ 及註標 $4$ 的字元不相等這件事情，<br>我們可以肯定的說，最長迴文子序列的長度不會是 $5$</p>
+<p>那麼，有沒有可能長度為 $4$ 呢？<br>如果已知註標 $0$ 及註標 $4$ 的字元不相等，且長度為 $4$ 此事為真，<br>則註標 $3$ 可能為 <code>A</code>，即圖 9 的情況：</p>
+<p><img src="https://i.imgur.com/HxHNCdO.png" alt="圖 9、註標 $3$ 可能為 A 的情況"></p>
+<p>或註標 $1$ 為 <code>C</code>，即圖 10 的情況：</p>
+<p><img src="https://i.imgur.com/XBMucHa.png" alt="圖 10、註標 $1$ 可能為 C 的情況"></p>
+<p>因為我們還不知道註標 $3$ 及註標 $1$ 的字元，我們可以肯定的是：<br>最長迴文子序列應該是「註標 $0$ 到註標 $3$」或「註標 $1$ 到註標 $4$」其中一個較長的。</p>
+<p><img src="https://i.imgur.com/nQpuNnT.png" alt="圖 11、「最長的」迴文子序列一定是「長度較長的」那一個"></p>
+<p>圖 11 顯示出一個肯定的答案：</p>
+<ul>
+<li>「註標 $0$ 到註標 $3$」的最長迴文子序列長度為 $3$  </li>
+<li>「註標 $1$ 到註標 $4$」的最長迴文子序列長度為 $4$  </li>
+<li>則「註標 $0$ 到註標 $4$」的最長迴文子序列長度就會是 $4$</li>
+</ul>
+<p>我們觀察了第一種字元不相等的情況，那如果相等呢？參考圖 12：</p>
+<p><img src="https://i.imgur.com/PV6Rhy6.png" alt="圖 12、最長迴文子序列至少為 $2$"></p>
+<p>此時我們可以肯定，至少最長迴文子序列為 $2$<br>記得子字串、子序列的差異，這邊暗示如果註標 $1$ 到註標 $3$ 的字元通通不取，<br>則子序列為 <code>AA</code> 就是長度為 $2$ 的迴文。</p>
+<p>一旦字元相等，我們就保證長度至少為 $2$ 還要在加上「註標 $1$ 到註標 $3$」最長的長度。  </p>
+<p>考慮圖 13 的情況，由於註標 $0$ 及註標 $4$ 字元相等，<br>則保證長度為 $2$ + 「註標 $1$ 到註標 $3$ 最長迴文子序列的長度」<br>這個情況下，長度就是 $2 + 3 &#x3D; 5$</p>
+<p><img src="https://i.imgur.com/vWWUxuQ.png" alt="圖 13、最長迴文子序列長度為 $2 + 3 &#x3D; 5$"></p>
+<p>如果實際下去比對，還有兩種情況：  </p>
+<p>其一是「註標 $2$ 到註標 $2$ 最長迴文子序列的長度」<br>由於只有一個字元，當註標相同時，必為 $1$，參考圖 14：</p>
+<p><img src="https://i.imgur.com/oxOiQd8.png" alt="圖 14、只有一個字元的情況"></p>
+<p>最後一種情形是「註標 $1$ 到註標 $2$ 最長迴文子序列的長度」在碰到兩個字元相等時<br>很顯然地，這種情況只能給出長度 $2$ 當作答案，參考圖 15：</p>
+<p><img src="https://i.imgur.com/7WElE0N.png" alt="圖 15、只有一個字元的情況"></p>
+<p>根據上述一些推理，可以得到一些結論。</p>
+<p>假設：</p>
+<ul>
+<li>原字串長度為 $n$</li>
+<li>註標 $i$ 及註標 $j$ 存在 $i \leq j$</li>
+<li>原字串第 $i$ 個字元為 $S_{i}$ </li>
+<li>從註標 $i$ 到註標 $j$ 的最長迴文子序列長度為 $P_{i, j}$</li>
+</ul>
+<p>則：</p>
+<ul>
+<li>當 $S_{i} \neq S_{j}$ 且 $i \neq j$ 則 $P_{i, j} &#x3D; max(P_{i + 1, j}, P_{i, j - 1})$</li>
+<li>當 $S_{i} &#x3D; S_{j}$ 且 $|i - j| &gt; 1$ 則 $P_{i, j} &#x3D; P_{i + 1, j - 1}$</li>
+<li>當 $S_{i} &#x3D; S_{j}$ 且 $|i - j| &#x3D; 1$ 則 $P_{i, j} &#x3D; 2$</li>
+<li>當 $i &#x3D; j$ 則 $P_{i, j} &#x3D; 1$</li>
+</ul>
+<div class="note info"><p>條件 $|i - j| &gt; 1$ 或 $|i - j| &#x3D; 1$ 都隱含著 $i \neq j$ 這個關係</p>
+</div>
+
+<p>簡潔地表示：</p>
+<ul>
+<li>
+$P_{i, j} = \left\{\begin{array}{l}
+max(P_{i + 1, j}, P_{i, j - 1}) && \text{if } S_{i} \neq S_{j}, i \neq j \\
+P_{i, j} = P_{i + 1, j - 1} && \text{if } S_{i} = S_{j}, |i - j| > 1 \\
+2 && \text{if } S_{i} = S_{j}, |i - j| = 1 \\
+1 && \text{if } i = j
+\end{array}\right .$
+</li>
+</ul>
+<p>看一個簡單的例子，參考下圖 16（例子已將可能的四種情況納入）：  </p>
+<p><img src="https://i.imgur.com/HorUIoW.png" alt="圖 16、簡單的例子"></p>
+<p>我們的目標是找到 $P_{0, 4}$<br>由於 $S_{0} \neq S_{4}$ 且 $i \neq j$ 所以：</p>
+<ul>
+<li>$P_{0, 4} &#x3D; max(P_{1, 4}, P_{0, 3})$（規則一）</li>
+</ul>
+<p>對於 $P_{1, 4}$ 的部份：</p>
+<ul>
+<li>$P_{1, 4} &#x3D; max(P_{2, 4}, P_{1, 3})$（規則一）</li>
+<li>$P_{2, 4} &#x3D; max(P_{3, 4}, P_{2, 3})$（規則一）</li>
+<li>$P_{1, 3} &#x3D; max(P_{2, 3}, P_{1, 2})$（規則一）</li>
+<li>$P_{3, 4} &#x3D; 2$（規則四 $\because S_{3} &#x3D; S_{4}, |3 - 4| &#x3D; 1$）</li>
+<li>$P_{2, 3} &#x3D; max(P_{3, 3}, P_{2, 2}) &#x3D; 1$（規則一）</li>
+<li>$P_{1, 2} &#x3D; max(P_{2, 2}, P_{1, 1}) &#x3D; 1$（規則一）</li>
+<li>$P_{1, 1} &#x3D; P_{2, 2} &#x3D; P_{3, 3} &#x3D; 1$（規則三）</li>
+</ul>
+<p>對於 $P_{0, 3}$ 的部份：</p>
+<ul>
+<li>$P_{0, 3} &#x3D; max(P_{1, 3}, P_{0, 2})$（規則一）</li>
+<li>$P_{1, 3} &#x3D; max(P_{2, 3}, P_{1, 2})$（規則一）</li>
+<li>$P_{2, 3} &#x3D; max(P_{3, 3}, P_{2, 2}) &#x3D; 1$（規則一）</li>
+<li>$P_{1, 2} &#x3D; max(P_{2, 2}, P_{1, 1}) &#x3D; 1$（規則一）</li>
+<li>$P_{1, 1} &#x3D; P_{2, 2} &#x3D; P_{3, 3} &#x3D; 1$（規則三）</li>
+<li>$P_{0, 2} &#x3D; 2 + P_{1, 1} &#x3D; 3$（規則二）</li>
+</ul>
+<p>所以 $P_{0, 4} &#x3D; 3$</p>
+<p>程式碼的部份，利用遞迴可以輕易達成：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">...                                                  <span class="comment">// 初始化或輸入</span></span><br><span class="line"><span class="type">int</span> **p = <span class="keyword">new</span> <span class="type">int</span>* [str.<span class="built_in">length</span>()];                   <span class="comment">// 建立儲存表</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; str.<span class="built_in">length</span>(); i++)</span><br><span class="line">&#123;</span><br><span class="line">    p[i] = <span class="keyword">new</span> <span class="type">int</span> [str.<span class="built_in">length</span>()];</span><br><span class="line">    <span class="built_in">memset</span>(p[i], <span class="number">-1</span>, <span class="built_in">sizeof</span>(p[i]));                  <span class="comment">// 初始化儲存表為 -1</span></span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"><span class="comment">// 動態規劃找最長迴文子序列</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">LPS</span><span class="params">(<span class="type">int</span> i, <span class="type">int</span> j)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(p[i][j] &gt; <span class="number">0</span>) <span class="keyword">return</span> p[i][j];                  <span class="comment">// 若有儲存則直接使用</span></span><br><span class="line">    <span class="keyword">if</span>(i == j)                                       <span class="comment">// 若只有一字元</span></span><br><span class="line">        p[i][j] = <span class="number">1</span>;                                 <span class="comment">// 長度為 1</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(i + <span class="number">1</span> == j &amp;&amp; str[i] == str[j])          <span class="comment">// 只有兩字元，且兩字元一樣</span></span><br><span class="line">        p[i][j] = <span class="number">2</span>;                                 <span class="comment">// 長度為 2</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(i != j &amp;&amp; str[i] == str[j])              <span class="comment">// 首、尾字元相等</span></span><br><span class="line">        p[i][j] = <span class="built_in">LPS</span>(s, i + <span class="number">1</span>, j - <span class="number">1</span>) + <span class="number">2</span>;          <span class="comment">// 長度至少為 2 還要加上內部的最大長度</span></span><br><span class="line">    <span class="keyword">else</span> <span class="comment">//(i != j &amp;&amp; str[i] != str[j])              // 首、尾字元相異</span></span><br><span class="line">        p[i][j] = <span class="built_in">max</span>(<span class="built_in">LPS</span>(i + <span class="number">1</span>, j), <span class="built_in">LPS</span>(i, j - <span class="number">1</span>)); <span class="comment">// 長度為刪除首、尾字元其一後的最大長度</span></span><br><span class="line">    <span class="keyword">return</span> p[i][j];                                  <span class="comment">// 回傳長度</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">LPS</span>(<span class="number">0</span>, str.<span class="built_in">length</span>() - <span class="number">1</span>);                            <span class="comment">// 調用時</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<div class="note warning"><p>調用時，因為傳入值為註標，第二個參數應為 <code>str.length() - 1</code> 而非 <code>str.length()</code></p>
+</div>
+
+<h2 id="複雜度-3"><a href="#複雜度-3" class="headerlink" title="複雜度"></a>複雜度</h2><p>如果採用遞迴的方法處理（即沒紀錄重複計算的部份），<br>這個算法的複雜度也相當高：</p>
+<p>僅考慮最糟情況，也就是不斷計算 $P_{i, j} &#x3D; max(P_{i + 1, j}, P_{i, j - 1})$ 的狀況。</p>
+<p>令長度 $n &#x3D; j - i + 1$ 則有遞迴式：</p>
+<p>$$T(n) &#x3D; 2T(n - 1), \forall n \in N^{0}$$ </p>
+<p>透過猜測複雜度來解遞迴式的方法，我們先猜測複雜度為 $O(n^{2})$，假設：</p>
+<p>$$\forall c &gt; 0,\quad T(n) &#x3D; 2T(n - 1),\quad T(n - 1) \leq c(n - 1)^{2}$$</p>
+<p>結合兩個條件：</p>
+<p>$$T(n) &#x3D; 2T(n - 1) \leq 2c(n - 1)^{2} \leq cn^{2}$$</p>
+<p>經過整理後有：</p>
+<p>$$2cn^{2} - 4cn + 1 \leq cn^{2}$$</p>
+<p>假設不成立，顯然 $T(n) &gt; O(n^{2})$</p>
+<hr>
+<p>這次改假設為 $T(n) &#x3D; O(2^{n})$</p>
+<p>假設 </p>
+<p>$$\forall c &gt; 0,\quad T(n) &#x3D; 2T(n - 1),\quad T(n - 1) \leq c2^{(n - 1)}$$</p>
+<p>結合兩個條件：</p>
+<p>$$T(n) &#x3D; 2T(n - 1) \leq 2c(2)^{n - 1} \leq c2^{n}$$</p>
+<p>滿足：</p>
+<p>$$c2^{n} \leq c2^{n}$$</p>
+<p>假設成立，且可知道對於 $c &#x3D; 1$ 只要 $n_{0} &#x3D; 1$ 就有 $T(n) &#x3D; O(2^{n})$</p>
+<div class="note warning"><p>完整的遞迴式原先應標記在 $n \leq k$ 的情況下 $T(n) &#x3D; O(1)$<br/><br>故此處隱含了當 $n$ 足夠小，則複雜度為 $O(1)$ 的概念，<br/><br>此外從式中可知 $n_{0} &#x3D; 0$ 時 $T(n_{0} - 1) &#x3D; T(-1)$ 是未定義的。</p>
+</div>
+
+<p>做最後一步確認，透過遞迴樹如圖 1：  </p>
+<p><img src="https://i.imgur.com/jNptBcw.png" alt="圖 1、遞迴樹"></p>
+<p>已知深度為 $k$ 且根節點層為 $1$ 的二元樹有 $2^{k-1}$ 個葉節點，<br>則由於 $T(n) &#x3D; 2T(n - 1)$ 每次讓 $n$ 遞減，二元樹層數為 $n$ 則葉節點數目為 $2^{n-1}$<br>經累計則可確認，若以不紀錄的方式遞歸，複雜度會達到 $O(2^{n})$</p>
+<p>若經紀錄，則會避開重複計算的節點（如上例中的 $P_{1, 1}, P_{2, 2}, P_{3, 3}$）<br>相當於在二維陣列中填表，且只需要填入 $i \leq j$ 的部份即可。</p>
+<p>此時，最糟情況下，每次填入都須依賴 $P_{i, j}, i &#x3D; j$ 的值（對角線）<br>但，至多也只需要填入 $\frac{1}{2} n^{2}$ 個位置，則複雜度為 $O(n^{2})$</p>
+<h2 id="演示-3"><a href="#演示-3" class="headerlink" title="演示"></a>演示</h2><div class="note info"><p>取得最長序列的方法，可以改變 <code>p[i][j]</code> 同時記錄長度及序列；本演示即是如此。</p>
+</div>
+
+
+    <div class="iframe-container" style="width:100%;">
+    <iframe
+        src="https://jsfiddle.net/o28vt6cc/embedded/result,js,html,css/dark"
+        width="100%"
+        height="230px"
+        allowfullscreen="allowfullscreen"
+        loading="lazy"
+        frameborder="0">
+    </iframe>
+    </div>
+    
+
+<h1 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Substring">Wikipedia: Substring</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Subsequence">Wikipedia: Subsequence</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Longest_palindromic_substring">Wikipedia: Longest Palindromic Substring</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.csie.ntnu.edu.tw/~u91029/Palindrome.html">演算法筆記：迴文</a></li>
+<li><a target="_blank" rel="noopener" href="http://algorithms.tutorialhorizon.com/longest-palindromic-subsequence/">Algorithms @tutorialhorizo​​n</a></li>
+<li><a target="_blank" rel="noopener" href="https://wcipeg.com/wiki/Longest_palindromic_subsequence">PEGWiki: Longest Palindromic Subsequence</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.felix021.com/blog/read.php?2040">Felix021：Manacher’s ALGORITHM: O(n)时间求字符串的最长回文子串</a></li>
+<li>《算法導論》（第 2 章到第 4 章，主要用於參考「分析遞迴關係式」）</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/javascript-file-process/" rel="prev" title="JavaScript 檔案處理">
+                  <i class="fa fa-angle-left"></i> JavaScript 檔案處理
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/tinytsunami-update-01/" rel="next" title="羊羽手札更新歷程 01">
+                  羊羽手札更新歷程 01 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  
+  <div class="comments giscus-container">
+  </div>
+  
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-bomb"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Tinytusnami</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="giscus" type="application/json">{"enable":true,"repo":"tinytsunami/blog","repo_id":"MDEwOlJlcG9zaXRvcnkxMjI3MTEwNTY=","category":"Blog Comments","category_id":"DIC_kwDOB1BsEM4C42Ww","mapping":"pathname","strict":0,"reactions_enabled":1,"emit_metadata":1,"theme":"preferred_color_scheme","lang":"zh-TW","crossorigin":"anonymous","input_position":"top","loading":"lazy"}</script>
+
+<script>
+document.addEventListener('page:loaded', () => {
+  if (!CONFIG.page.comments) return;
+
+  NexT.utils.loadComments('.giscus-container')
+    .then(() => NexT.utils.getScript('https://giscus.app/client.js', {
+      attributes: {
+        async                   : true,
+        crossOrigin             : 'anonymous',
+        'data-repo'             : CONFIG.giscus.repo,
+        'data-repo-id'          : CONFIG.giscus.repo_id,
+        'data-category'         : CONFIG.giscus.category,
+        'data-category-id'      : CONFIG.giscus.category_id,
+        'data-mapping'          : CONFIG.giscus.mapping,
+        'data-strict'           : CONFIG.giscus.strict,
+        'data-reactions-enabled': CONFIG.giscus.reactions_enabled,
+        'data-emit-metadata'    : CONFIG.giscus.emit_metadata,
+        'data-theme'            : CONFIG.giscus.theme,
+        'data-lang'             : CONFIG.giscus.lang,
+        'data-input-position'   : CONFIG.giscus.input_position,
+        'data-loading'          : CONFIG.giscus.loading
+      },
+      parentNode: document.querySelector('.giscus-container')
+    }));
+});
+</script>
+
+</body>
+</html>

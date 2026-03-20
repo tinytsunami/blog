@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.tinytsunami.info","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="這篇是 Coursera 中 Machine Learning 的筆記。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="線性回歸與梯度下降 Linear Regression and Gradient Descent">
+<meta property="og:url" content="https://www.tinytsunami.info/linear-regression-and-gradient-descent/index.html">
+<meta property="og:site_name" content="羊羽手札">
+<meta property="og:description" content="這篇是 Coursera 中 Machine Learning 的筆記。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2017-06-25T00:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-20T08:43:52.196Z">
+<meta property="article:author" content="Tinytusnami">
+<meta property="article:tag" content="技術, 獨立遊戲">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.tinytsunami.info/linear-regression-and-gradient-descent/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://www.tinytsunami.info/linear-regression-and-gradient-descent/","path":"/linear-regression-and-gradient-descent/","title":"線性回歸與梯度下降 Linear Regression and Gradient Descent"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>線性回歸與梯度下降 Linear Regression and Gradient Descent | 羊羽手札</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">羊羽手札</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Tinytsunami's Blog</p>
+      <img class="custom-logo-image" src="/images/icon.png" alt="羊羽手札">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-game"><a href="https://tinytsunami.itch.io/" rel="section" target="_blank"><i class="fas fa-gamepad fa-fw"></i>game</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D"><span class="nav-number">1.</span> <span class="nav-text">梯度下降</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9E%E6%AD%B8%E5%95%8F%E9%A1%8C"><span class="nav-number">2.</span> <span class="nav-text">回歸問題</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E5%BE%B5%E8%88%87%E6%A8%99%E7%B1%A4"><span class="nav-number">2.1.</span> <span class="nav-text">特徵與標籤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A0%90%E6%B8%AC%E5%87%BD%E6%95%B8"><span class="nav-number">3.</span> <span class="nav-text">預測函數</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%88%90%E6%9C%AC%E5%87%BD%E6%95%B8"><span class="nav-number">4.</span> <span class="nav-text">成本函數</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%90%E6%9C%AC%E7%9A%84%E6%A2%AF%E5%BA%A6"><span class="nav-number">4.1.</span> <span class="nav-text">成本的梯度</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BC%94%E7%A4%BA"><span class="nav-number">5.</span> <span class="nav-text">演示</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Tinytusnami"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">Tinytusnami</p>
+  <div class="site-description" itemprop="description">羊羽的個人部落格</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/tinytsunami" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;tinytsunami" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/TaipeiTsunami" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;TaipeiTsunami" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/profile.php?id=100000736195394" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;profile.php?id&#x3D;100000736195394" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCtqp9w_uA_LohDm0YXNWqSA" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCtqp9w_uA_LohDm0YXNWqSA" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+          連結
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://blog.cyris.tw/" title="https:&#x2F;&#x2F;blog.cyris.tw" rel="noopener" target="_blank">Cyris's Blog</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://poyu-liao.github.io/blog" title="https:&#x2F;&#x2F;poyu-liao.github.io&#x2F;blog" rel="noopener" target="_blank">Robert's Blog</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/linear-regression-and-gradient-descent/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="Tinytusnami">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="羊羽手札">
+      <meta itemprop="description" content="羊羽的個人部落格">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="線性回歸與梯度下降 Linear Regression and Gradient Descent | 羊羽手札">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          線性回歸與梯度下降 Linear Regression and Gradient Descent
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2017-06-25 00:00:00" itemprop="dateCreated datePublished" datetime="2017-06-25T00:00:00Z">2017-06-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/legacy-algorithm/" itemprop="url" rel="index"><span itemprop="name">(legacy) algorithm</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>這篇是 Coursera 中 Machine Learning 的筆記。</p>
+<span id="more"></span>
+
+<div class="note info"><p>課程在：<a target="_blank" rel="noopener" href="https://www.coursera.org/learn/machine-learning/home/welcome/">Coursera Machine Learning</a>，這是機器學習入門的推薦課程。</p>
+</div>
+
+<h1 id="梯度下降"><a href="#梯度下降" class="headerlink" title="梯度下降"></a>梯度下降</h1><p>梯度下降是理解演算法的人，應該不會太陌生的東西，<br>因為類似的還有爬山算法、模擬退火等等。</p>
+<p>有些人會分不清楚爬山算法跟梯度下降的差別，<br>根據 Wikipedia 的說明，二維函數上的爬山演算法大致上是：  </p>
+<ul>
+<li>找一點 $p$ 當起點</li>
+<li>代入函數 $f(x)$ 並紀錄 $f(p)$ 以及 $p$ 的值</li>
+<li>調整 $p$ 成為 $p+k$</li>
+<li>檢查 $f(p+k) &gt; f(p)$ （大、小於，根據找最大、小值而定）</li>
+<li>如果為真，則 $p :&#x3D; p+k$</li>
+<li>重複 2 ～ 5 步驟，直到 $f(p)$ 到達滿意為止</li>
+</ul>
+<p>而梯度下降法，是這樣操作的：  </p>
+<ul>
+<li>找一點 $p$ 當起點</li>
+<li>微分 $f(x)$ 成為 $\frac{d}{dx}f(x)$</li>
+<li>使 $p :&#x3D; p - \frac{d}{dx}f(p)$（正負號，根據尋找最大、小值而定）</li>
+<li>重複 2～3 步驟，直到 $f(p)$ 到達滿意為止</li>
+</ul>
+<p>換而言之，兩者最大的差別是：<br>對於爬山算法是代函數找新值，如果新值更好則替換，<br>而梯度下降則利用了微分的性質，直接往正確的方向前進。</p>
+<div class="note info"><p>梯度下降比爬山算法更有效嗎？為什麼？<br>函數難以微分（或不可微分、越微分越複雜）時，梯度下降、爬山算法哪個更有效？<br>當函數屬於多變數函數時，梯度下降、爬山算法哪個更有效？</p>
+</div>
+
+<div class="note success"><p>這是 ANN 的系列文章<br>下一篇是 <a href="/logistic-regression-and-perceptron/" title="邏輯回歸與感知器 Logistic Regression and Perceptron">邏輯回歸與感知器 Logistic Regression and Perceptron</a></p>
+</div>
+
+<div class="note success"><p>筆者於大學專題時，曾向組員介紹過相關內容，如有需要可以參考 <a target="_blank" rel="noopener" href="https://docs.google.com/presentation/d/1WMTRxJnfNmJozAB6M-CQkB4zPzCLj4aw0ip1D8sStbs/edit?usp=sharing">Multiple Linear Regression 簡報</a></p>
+</div>
+
+<h1 id="回歸問題"><a href="#回歸問題" class="headerlink" title="回歸問題"></a>回歸問題</h1><p>在 Machine Learning 中，算是最容易的東西。同時也是跟統計學重複的內容。  </p>
+<p>這邊簡單描述問題，大意是這樣：  </p>
+
+給一組 $S = \{(x^{(1)}_{1}, x^{(1)}_{2}, ..., x^{(1)}_{n}, y^{(1)}), (x^{(2)}_{1}, x^{(2)}_{2}, ..., x^{(2)}_{n}, y^{(2)}), ..., (x^{(m)}_{1}, x^{(m)}_{2}, ..., x^{(m)}_{n}, y^{(m)})\}$ 
+
+
+<p>你要找到一個函數 $h_{\theta}(x_{1}, x_{2}, …, x_{n})$ 使的每一筆資料代入後： $Cost(h_{\theta}(x_{1}, x_{2}, …, x_{n}), y)$ 為最小。<br>在二維平面上的情況（單個 $x$ 對應一個 $y$ 的狀況）</p>
+<p>大概就是：找一條線盡可能的擬合資料的趨勢，但是也不可以過度的擬合，<br>這裡的 $Cost(…)$ 是指成本函數，稍後會介紹。</p>
+<div class="note info"><p>試想想插值（interpolation）與過擬合回歸（overfitting regression）間的差異。</p>
+</div>
+
+<h2 id="特徵與標籤"><a href="#特徵與標籤" class="headerlink" title="特徵與標籤"></a>特徵與標籤</h2><p>我們剛剛提到了集合，我們現在單獨把裡面的元素搬出來看：</p>
+
+$(x^{(1)}_{1}, x^{(1)}_{2}, ..., x^{(1)}_{n}, y^{(1)})$
+
+
+<p>這樣的資料組成，我們理解成兩個部份：特徵以及標籤。<br>其中 $x$ 的部份稱作特徵，而 $y$ 的部份叫做標籤，比方說我們的問題是：</p>
+<p>以資工系學生某些科目的期中考分數（程式設計、線性代數），預測所有科目的平均。<br>那我們的元素會變成類似這樣：  </p>
+<ul>
+<li>$x_{1} &#x3D; 程式設計分數$</li>
+<li>$x_{2} &#x3D; 線性代數分數$</li>
+<li>$y &#x3D; 科目平均$</li>
+</ul>
+<p>元素為 $(x_{1}, x_{2}, y)$ 這樣，當然 Machine Learning 領域跟統計學一樣，<br>資料量得到達一定的大小，預測才會較為準確。<br>為了方便之後的解釋，我們就繼續採用這個預測科目平均的例子，<br>不過我們把兩個科目換成一個科目（方便我們之後的演示，畢竟雙變數要畫三維圖形）<br>元素變成：$(程式設計分數, 學期平均)$ 這樣。</p>
+<h1 id="預測函數"><a href="#預測函數" class="headerlink" title="預測函數"></a>預測函數</h1><p>我們在討論接下來的操作以前，得先處理上面提到的 $h_{\theta}(x)$ 函數才行，<br>基本上 $h_{\theta}(x)$ 是由設計模型的人提出的，跟資料的分佈有相應的關係。<br>由於我們是預測科目的平均，且特徵只取一個，</p>
+<p>那麼對應的 $h_{\theta}(x)$ 函數應該只是一個簡單的函數：</p>
+<p>$h_{\theta}(x) &#x3D; \theta_{0} + \theta_{1}x$</p>
+<p>其中的 $\theta$ 在 Machine Learning 中叫做權重，同時也是我們搜尋的目標。<br>有時為了方便計算會變成向量的形式：</p>
+<p>$h_{\theta}(x) &#x3D; \theta^{T}x$</p>
+<p>在這樣的情況下，應該多增加 $x_{0} &#x3D; 1$ 使的大小相等。<br>為了理解，還是在說明一次，預測函數跟系統的設計有關，</p>
+<p>當然也可以設計成更為複雜的函數。</p>
+<h1 id="成本函數"><a href="#成本函數" class="headerlink" title="成本函數"></a>成本函數</h1><p>成本函數（Cost Function，又名做代價函數）<br>成本函數的意義，是用於評估回歸線在擬合資料集的時候，</p>
+<p>到底擬合的好不好（換言之，也就是 $h_{\theta}(x)$ 函數好不好）<br>以剛才的預測學期平均的例子來說，</p>
+<p>一個很簡單的概念是，代入函數值跟理想值的差為成本：</p>
+<p>$Cost(\theta) &#x3D; h_{\theta}(x) - y$</p>
+<p>不過應該很容易發現問題點，如果出來的值是負的，<br>難道我的成本變成獲利？函數非常好嗎？<br>並不是，事實上這兩者的在數線上的距離差越大越糟糕，<br>於是我們習慣上加上平方來消除負號：</p>
+<p>$Cost(\theta) &#x3D; (h_{\theta}(x) - y)^{2}$</p>
+<div class="note info"><p>為什麼這裡不使用絕對值函數？<br>請參閱：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/24095027/">在进行线性回归时，为什么最小二乘法是最优方法？</a></p>
+</div>
+
+<p>不過，我們的特徵有很多筆，<br>假設有 $m$ 筆資料好了，於是乎成本函數又有了變化：</p>
+<p>$Cost(\theta) &#x3D; \frac{1}{2m}\sum\limits_{i&#x3D;1}^{m} (h_{\theta}(x) - y)^{2}$</p>
+<p>乘 $\frac{1}{m}$ 的原因是我們想算誤差的平均數，</p>
+<p>而乘 $\frac{1}{2}$ 是因為等等微分可以消掉常數倍。<br>我們的目標已經很明確了找到一組 $\theta$ 使得 $Cost(\theta)$ 最小化，<br>你可能注意到了，成本函數 $Cost(\theta)$ 的變數是 $\theta$ 而非 $x$<br>第一次看到可能不習慣，不過如果你把 $h_{\theta}(x)$ 整個內容寫出來應該就不難理解。</p>
+<h2 id="成本的梯度"><a href="#成本的梯度" class="headerlink" title="成本的梯度"></a>成本的梯度</h2><p>由於我們想要找成本函數的最小值（全域最大值）的關係，<br>理所當然有一些方法能夠處理這個問題，比方說直接解方程式之類的，<br>而這個叫做正規方程，也是類似公式解的東西，不過我們沒有打算在這裡說明。</p>
+<p>我們採用的是梯度下降找區域極值的方法。</p>
+<p>微分成本函數（把 $\theta$ 當成向量同時微分）：  </p>
+<p>$\frac{d}{d\theta}Cost(\theta) &#x3D; \frac{d}{d\theta} \frac{1}{2m}\sum\limits_{i&#x3D;1}^{m} (h_{\theta}(x^{(i)}) - y^{(i)})^{2}$</p>
+<p>套用鏈鎖法則：  </p>
+<p>$\frac{d}{d\theta}Cost(\theta) &#x3D; \frac{1}{2m}\sum\limits_{i&#x3D;1}^{m} (\frac{d}{d(h_{\theta}(x^{(i)}) - y^{(i)})} (h_{\theta}(x^{(i)}) - y^{(i)})^{2} \frac{d}{d\theta} h_{\theta}(x^{(i)}) - y^{(i)})$</p>
+<p>$\frac{d}{d\theta}Cost(\theta) &#x3D; \frac{1}{m}\sum\limits_{i&#x3D;1}^{m} ((h_{\theta}(x^{(i)}) - y^{(i)})x^{(i)})$</p>
+<p>因為我們將 $\theta$ 當成向量，梯度下降法則會：  </p>
+<p>$\theta_{j} :&#x3D; \theta_{j} - \alpha\frac{1}{m}\sum\limits_{i&#x3D;1}^{m} ((h_{\theta}(x^{(i)}) - y)x^{(i)}_{j})$</p>
+
+如果你有注意到 $x^{(i)}_{j}$ 的話，我們剛才只有出現 $x_{1} = x$ 對應著 $\theta_{1}$
+
+
+<p>那這邊的 $\theta_{0}$ 只要令 $x_{0} &#x3D; 1$ 使得 $h_{\theta}(x) &#x3D; \theta_{0}x_{0} + \theta_{1}x_{1}$ 成立就好。<br>不必擔心這邊 $x$ 上下標一堆的問題，上標 $(i)$ 代表每個資料要輪流代入，下標 $j$ 可以看成是 $\theta_{j}$ 的係數。其中 $\alpha$ 被稱為學習率，是自行設定的常數。</p>
+<div class="note warning"><p>學習率 $\alpha$ 太高會造成發散，導致無法收斂到最佳解。</p>
+</div>
+
+<div class="note warning"><p>更新 $\theta$ 時，應同時改變 $\theta_{0}$ 及 $\theta_{1}$ 才是正確的。</p>
+</div>
+
+<h1 id="演示"><a href="#演示" class="headerlink" title="演示"></a>演示</h1><p>這是一個簡單線性回歸（Simple Linear Regression）的演示。</p>
+<div class="note warning"><p>本演示為了使回歸更快，把在 $\theta_{0}$ 處的梯度加大了。</p>
+</div>
+
+
+    <div class="iframe-container" style="width:100%;">
+    <iframe
+        src="https://jsfiddle.net/2nga2mnm/embedded/result,js,html,css/dark"
+        width="100%"
+        height="550px"
+        allowfullscreen="allowfullscreen"
+        loading="lazy"
+        frameborder="0">
+    </iframe>
+    </div>
+    
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/differential-trigonometric-functions/" rel="prev" title="三角函數的微分">
+                  <i class="fa fa-angle-left"></i> 三角函數的微分
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/logistic-regression-and-perceptron/" rel="next" title="邏輯回歸與感知器 Logistic Regression and Perceptron">
+                  邏輯回歸與感知器 Logistic Regression and Perceptron <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  
+  <div class="comments giscus-container">
+  </div>
+  
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-bomb"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Tinytusnami</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="giscus" type="application/json">{"enable":true,"repo":"tinytsunami/blog","repo_id":"MDEwOlJlcG9zaXRvcnkxMjI3MTEwNTY=","category":"Blog Comments","category_id":"DIC_kwDOB1BsEM4C42Ww","mapping":"pathname","strict":0,"reactions_enabled":1,"emit_metadata":1,"theme":"preferred_color_scheme","lang":"zh-TW","crossorigin":"anonymous","input_position":"top","loading":"lazy"}</script>
+
+<script>
+document.addEventListener('page:loaded', () => {
+  if (!CONFIG.page.comments) return;
+
+  NexT.utils.loadComments('.giscus-container')
+    .then(() => NexT.utils.getScript('https://giscus.app/client.js', {
+      attributes: {
+        async                   : true,
+        crossOrigin             : 'anonymous',
+        'data-repo'             : CONFIG.giscus.repo,
+        'data-repo-id'          : CONFIG.giscus.repo_id,
+        'data-category'         : CONFIG.giscus.category,
+        'data-category-id'      : CONFIG.giscus.category_id,
+        'data-mapping'          : CONFIG.giscus.mapping,
+        'data-strict'           : CONFIG.giscus.strict,
+        'data-reactions-enabled': CONFIG.giscus.reactions_enabled,
+        'data-emit-metadata'    : CONFIG.giscus.emit_metadata,
+        'data-theme'            : CONFIG.giscus.theme,
+        'data-lang'             : CONFIG.giscus.lang,
+        'data-input-position'   : CONFIG.giscus.input_position,
+        'data-loading'          : CONFIG.giscus.loading
+      },
+      parentNode: document.querySelector('.giscus-container')
+    }));
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.tinytsunami.info","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="排序是演算法最基本內容。 當初給我這樣印象似乎是網路上某篇文章，雖然已經找不到來源，但隨著瞄過《算法導論》以及上過大學演算法後，這個想法深植心中。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="排序 Sort">
+<meta property="og:url" content="https://www.tinytsunami.info/sort/index.html">
+<meta property="og:site_name" content="羊羽手札">
+<meta property="og:description" content="排序是演算法最基本內容。 當初給我這樣印象似乎是網路上某篇文章，雖然已經找不到來源，但隨著瞄過《算法導論》以及上過大學演算法後，這個想法深植心中。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2018-03-30T21:43:57.000Z">
+<meta property="article:modified_time" content="2026-03-20T08:43:52.179Z">
+<meta property="article:author" content="Tinytusnami">
+<meta property="article:tag" content="技術, 獨立遊戲">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.tinytsunami.info/sort/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://www.tinytsunami.info/sort/","path":"/sort/","title":"排序 Sort"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>排序 Sort | 羊羽手札</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">羊羽手札</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Tinytsunami's Blog</p>
+      <img class="custom-logo-image" src="/images/icon.png" alt="羊羽手札">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-game"><a href="https://tinytsunami.itch.io/" rel="section" target="_blank"><i class="fas fa-gamepad fa-fw"></i>game</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B8%AC%E8%B3%87"><span class="nav-number">1.</span> <span class="nav-text">測資</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Bubble-Sort"><span class="nav-number">2.</span> <span class="nav-text">Bubble Sort</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C"><span class="nav-number">2.1.</span> <span class="nav-text">實作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Selection-Sort"><span class="nav-number">3.</span> <span class="nav-text">Selection Sort</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C-1"><span class="nav-number">3.1.</span> <span class="nav-text">實作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Insertion-Sort"><span class="nav-number">4.</span> <span class="nav-text">Insertion Sort</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C-2"><span class="nav-number">4.1.</span> <span class="nav-text">實作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cocktail-Sort"><span class="nav-number">5.</span> <span class="nav-text">Cocktail Sort</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C-3"><span class="nav-number">5.1.</span> <span class="nav-text">實作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Comb-Sort"><span class="nav-number">6.</span> <span class="nav-text">Comb Sort</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C-4"><span class="nav-number">6.1.</span> <span class="nav-text">實作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Gnome-Sort"><span class="nav-number">7.</span> <span class="nav-text">Gnome Sort</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C-5"><span class="nav-number">7.1.</span> <span class="nav-text">實作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Odd-Even-Sort"><span class="nav-number">8.</span> <span class="nav-text">Odd-Even Sort</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C-6"><span class="nav-number">8.1.</span> <span class="nav-text">實作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Shell-Sort"><span class="nav-number">9.</span> <span class="nav-text">Shell Sort</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C-7"><span class="nav-number">9.1.</span> <span class="nav-text">實作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Bucket-Sort"><span class="nav-number">10.</span> <span class="nav-text">Bucket Sort</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C-8"><span class="nav-number">10.1.</span> <span class="nav-text">實作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Counting-Sort"><span class="nav-number">11.</span> <span class="nav-text">Counting Sort</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C-9"><span class="nav-number">11.1.</span> <span class="nav-text">實作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Radix-Sort"><span class="nav-number">12.</span> <span class="nav-text">Radix Sort</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C-10"><span class="nav-number">12.1.</span> <span class="nav-text">實作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Merge-Sort"><span class="nav-number">13.</span> <span class="nav-text">Merge Sort</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C-11"><span class="nav-number">13.1.</span> <span class="nav-text">實作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Quick-Sort"><span class="nav-number">14.</span> <span class="nav-text">Quick Sort</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C-12"><span class="nav-number">14.1.</span> <span class="nav-text">實作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Binary-Search-Tree"><span class="nav-number">15.</span> <span class="nav-text">Binary Search Tree</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C-13"><span class="nav-number">15.1.</span> <span class="nav-text">實作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Heap-Sort"><span class="nav-number">16.</span> <span class="nav-text">Heap Sort</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C-14"><span class="nav-number">16.1.</span> <span class="nav-text">實作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Stooge-Sort"><span class="nav-number">17.</span> <span class="nav-text">Stooge Sort</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C-15"><span class="nav-number">17.1.</span> <span class="nav-text">實作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Sleep-Sort"><span class="nav-number">18.</span> <span class="nav-text">Sleep Sort</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C-16"><span class="nav-number">18.1.</span> <span class="nav-text">實作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Bogo-Sort"><span class="nav-number">19.</span> <span class="nav-text">Bogo Sort</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C-17"><span class="nav-number">19.1.</span> <span class="nav-text">實作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B6%9C%E5%90%88%E8%A9%95%E4%BC%B0"><span class="nav-number">20.</span> <span class="nav-text">綜合評估</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E5%8B%95%E7%95%AB%E6%BC%94%E7%A4%BA"><span class="nav-number">21.</span> <span class="nav-text">排序動畫演示</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%88%E8%83%BD%E8%A9%95%E4%BC%B0%E6%BC%94%E7%A4%BA"><span class="nav-number">22.</span> <span class="nav-text">效能評估演示</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">23.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Tinytusnami"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">Tinytusnami</p>
+  <div class="site-description" itemprop="description">羊羽的個人部落格</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/tinytsunami" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;tinytsunami" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/TaipeiTsunami" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;TaipeiTsunami" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/profile.php?id=100000736195394" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;profile.php?id&#x3D;100000736195394" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCtqp9w_uA_LohDm0YXNWqSA" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCtqp9w_uA_LohDm0YXNWqSA" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+          連結
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://blog.cyris.tw/" title="https:&#x2F;&#x2F;blog.cyris.tw" rel="noopener" target="_blank">Cyris's Blog</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://poyu-liao.github.io/blog" title="https:&#x2F;&#x2F;poyu-liao.github.io&#x2F;blog" rel="noopener" target="_blank">Robert's Blog</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/sort/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="Tinytusnami">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="羊羽手札">
+      <meta itemprop="description" content="羊羽的個人部落格">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="排序 Sort | 羊羽手札">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          排序 Sort
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2018-03-30 21:43:57" itemprop="dateCreated datePublished" datetime="2018-03-30T21:43:57Z">2018-03-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/legacy-algorithm/" itemprop="url" rel="index"><span itemprop="name">(legacy) algorithm</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>排序是演算法最基本內容。</p>
+<p>當初給我這樣印象似乎是網路上某篇文章，雖然已經找不到來源，<br>但隨著瞄過《算法導論》以及上過大學演算法後，這個想法深植心中。</p>
+<span id="more"></span>
+
+<p>那時學校作業好像只要求實作兩種排序並比較速度，<br>基於興趣，我實作了許多排序。</p>
+<div class="note warning"><p>當時未收入睡眠排序；且初次實作大量排序，程式碼品質似乎欠佳。</p>
+</div>
+
+<h1 id="測資"><a href="#測資" class="headerlink" title="測資"></a>測資</h1><p>本篇所有的程式全都是「由小到大」排序，<br>另外對於所有程式碼的函數，你可以預設存在這樣一筆測資：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="type">int</span> len = <span class="number">5</span>;                    <span class="comment">// 陣列長度</span></span><br><span class="line"><span class="type">int</span> *arr = <span class="keyword">new</span> <span class="type">int</span>[<span class="number">5</span>];          <span class="comment">// 測資陣列</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++)    <span class="comment">// 設定初始值</span></span><br><span class="line">  arr[i] = <span class="built_in">rand</span>() % <span class="number">100</span>;        <span class="comment">// 範圍為 [0, 100)</span></span><br><span class="line">...</span><br><span class="line"><span class="built_in">sort</span>(arr, len);                 <span class="comment">// 調用排序函數</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<div class="note warning"><p>陣列大小設定為變數不是所有編譯器都支援，故此採用動態宣告。</p>
+</div>
+<h1 id="Bubble-Sort"><a href="#Bubble-Sort" class="headerlink" title="Bubble Sort"></a>Bubble Sort</h1><p>中文為「氣泡排序」<br>應該是最容易理解的排序之一，同時程式設計課程幾乎都會提及，<br>以 C 語言初學者來說，不熟練 STL 與其他排序時，會用上的排序技巧。</p>
+<p>大致上的想法是，掃描陣列的兩個值，<br>保持兩個值一前一後，如果出現前值大於後值，則交換兩個值。</p>
+<h2 id="實作"><a href="#實作" class="headerlink" title="實作"></a>實作</h2><div class="note primary"><p>筆者在這裡致歉，舊版文章的 Bubble sort 沒有符合相鄰元素才交換的要件；使得程式碼更接近插入排序，在後續 Odd-Even Sort 會造成理解困難，特此聲明。</p>
+</div>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/* 整數交換函數 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">swap</span><span class="params">(<span class="type">int</span> *a, <span class="type">int</span> *b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> t = *a;                             <span class="comment">// 保存 a 值</span></span><br><span class="line">    *a = *b;                                <span class="comment">// 以 b 值覆蓋 a 值</span></span><br><span class="line">    *b = t;                                 <span class="comment">// 以 a 值覆蓋 b 值</span></span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"><span class="comment">/* 氣泡排序 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">bubble_sort</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++)            <span class="comment">// 選取第 i 個值（前項）</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = i + <span class="number">1</span>; j &lt; len; j++)    <span class="comment">// 選取第 j 個值（後項）</span></span><br><span class="line">            <span class="keyword">if</span>(arr[j<span class="number">-1</span>] &gt; arr[j])           <span class="comment">// 如果前項比後項大</span></span><br><span class="line">                <span class="built_in">swap</span>(&amp;arr[j<span class="number">-1</span>], &amp;arr[j]);   <span class="comment">// 交換前項與後項</span></span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>可以發現 <code>i</code> 最小為 0，而 <code>j</code> 最小為 <code>i+1</code> 即 1，可以推得 <code>j-1</code> 最小為 0 不會超出邊界。</p>
+<div class="note warning"><p>交換函數 (swap) 在 C++ 中有預先定義，請參考 <a target="_blank" rel="noopener" href="http://www.cplusplus.com/reference/algorithm/swap/">cplusplus std::swap</a></p>
+</div>
+
+<h1 id="Selection-Sort"><a href="#Selection-Sort" class="headerlink" title="Selection Sort"></a>Selection Sort</h1><p>中文為「選擇排序」<br>選擇排序是很直觀的一種排序，可以視作氣泡排序的加強版，<br>雖然概念很簡單，但註標的設定對於初學者來說是有可能混亂的。</p>
+<p>原先氣泡排序要不斷地交換陣列的元素，<br>選擇排序提供了一種思路：「找到最小的交換」取代了「每次比較的交換」。</p>
+<p>與氣泡排序相同，要掃描兩個值，<br>但這次將前值固定，後值從未排序的元素中選擇最小的跟前值換。<br>（未排序的陣列包含前值那個位置）</p>
+<h2 id="實作-1"><a href="#實作-1" class="headerlink" title="實作"></a>實作</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/* 選擇排序 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">selection_sort</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++)           <span class="comment">// 對於每個元素</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> min = i;                        <span class="comment">// 假設元素 i 是 [i, len) 內最小</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = i + <span class="number">1</span>; j &lt; len; j++)   <span class="comment">// 尋找 [i+1, len) 內更小的 j 元素</span></span><br><span class="line">            <span class="keyword">if</span> (arr[min] &gt; arr[j])          <span class="comment">// 如果元素 j 更小</span></span><br><span class="line">                min = j;                    <span class="comment">// 取代原本的最小假設</span></span><br><span class="line">        <span class="built_in">swap</span>(&amp;arr[i], &amp;arr[min]);           <span class="comment">// 使元素 i 的位置為 [i, len) 內最小值</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<div class="note info"><p>交換函數 (swap) 於前面段落有提及，有需要請參考 <a href="#Bubble-Sort">氣泡排序</a></p>
+</div>
+
+<h1 id="Insertion-Sort"><a href="#Insertion-Sort" class="headerlink" title="Insertion Sort"></a>Insertion Sort</h1><p>中文為「插入排序」<br>插入排序是《算法導論》起初就介紹的排序方法。</p>
+<p>概念其實很容易，就像是在玩撲克牌，<br>如果你整理你的手牌，你會把需要整理的牌取出，<br>然後一張張挪動比他大的牌，直到找到插入的位置。</p>
+<h2 id="實作-2"><a href="#實作-2" class="headerlink" title="實作"></a>實作</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/* 插入排序 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">insertion_sort</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> i, j;                                           <span class="comment">// 註標 i, j</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; len; i++)                           <span class="comment">// 檢查每一個元素</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> tmp = arr[i];                               <span class="comment">// 取出要排序的元素</span></span><br><span class="line">        <span class="keyword">for</span> (j = i; j &gt; <span class="number">0</span> &amp;&amp; tmp &lt; arr[j - <span class="number">1</span>]; j--)     <span class="comment">// 往前尋找插入點</span></span><br><span class="line">            arr[j] = arr[j - <span class="number">1</span>];                        <span class="comment">// 挪動元素的位置</span></span><br><span class="line">        arr[j] = tmp;                                   <span class="comment">// 插入元素</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h1 id="Cocktail-Sort"><a href="#Cocktail-Sort" class="headerlink" title="Cocktail Sort"></a>Cocktail Sort</h1><p>中文為「雞尾酒排序」<br>可以視為氣泡排序的加強版，氣泡排序從單邊處理；<br>而雞尾酒的想法是從陣列的兩端，像在搖瓶子那樣把兩頭逐漸處理完。</p>
+<h2 id="實作-3"><a href="#實作-3" class="headerlink" title="實作"></a>實作</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/* 雞尾酒排序 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cocktail_sort</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> left = <span class="number">0</span>;                               <span class="comment">// 一方面從左邊開始</span></span><br><span class="line">    <span class="type">int</span> right = len - <span class="number">1</span>;                        <span class="comment">// 一方面從右邊開始</span></span><br><span class="line">    <span class="keyword">while</span> (left &lt; right)                        <span class="comment">// 尚未結束</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = left; j &lt; right; j++)      <span class="comment">// 最大的元素會被換到右邊</span></span><br><span class="line">            <span class="keyword">if</span> (arr[j] &gt; arr[j + <span class="number">1</span>])</span><br><span class="line">                <span class="built_in">swap</span>(&amp;arr[j], &amp;arr[j + <span class="number">1</span>]);</span><br><span class="line">        right--;                                <span class="comment">// 最右邊排序完成</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = right; j &gt; left; j--)      <span class="comment">// 最小的元素會被換到左邊</span></span><br><span class="line">            <span class="keyword">if</span> (arr[j] &lt; arr[j - <span class="number">1</span>])</span><br><span class="line">                <span class="built_in">swap</span>(&amp;arr[j], &amp;arr[j - <span class="number">1</span>]);</span><br><span class="line">        left++;                                 <span class="comment">// 最左邊排序完成</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<div class="note info"><p>交換函數 (swap) 於前面段落有提及，有需要請參考 <a href="#Bubble-Sort">氣泡排序</a></p>
+</div>
+
+<h1 id="Comb-Sort"><a href="#Comb-Sort" class="headerlink" title="Comb Sort"></a>Comb Sort</h1><p>中文為「梳排序」<br>梳排序意思就是「梳子排序」借用了梳子的想法。</p>
+<p>與氣泡排序一樣，每次掃描兩個元素，<br>但每次掃描的當下，掃描的元素距離是固定的，<br>並隨著每次掃描，寬度逐漸縮小。</p>
+<p>就像是梳理凌亂的頭髮，<br>一開始會用齒距大的梳子，後來越用越小，<br>當然也會越來越整齊了。</p>
+<h2 id="實作-4"><a href="#實作-4" class="headerlink" title="實作"></a>實作</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/* 梳排序 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">comb_sort</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> width = len - <span class="number">1</span>; width &gt; <span class="number">0</span>; width--)               <span class="comment">// 兩元素的間距逐漸遞減</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> begin = <span class="number">0</span>; (begin + width) &lt; len; begin++)     <span class="comment">// 掃描每個元素</span></span><br><span class="line">            <span class="keyword">if</span> (arr[begin] &gt; arr[begin + width])                <span class="comment">// 比較兩個元素大小</span></span><br><span class="line">                <span class="built_in">swap</span>(&amp;arr[begin], &amp;arr[begin + width]);         <span class="comment">// 交換元素</span></span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<div class="note info"><p>交換函數 (swap) 於前面段落有提及，有需要請參考 <a href="#Bubble-Sort">氣泡排序</a></p>
+</div>
+
+<h1 id="Gnome-Sort"><a href="#Gnome-Sort" class="headerlink" title="Gnome Sort"></a>Gnome Sort</h1><p>中文為「地精排序」<br>這個排序特別的地方在於，實作出來往往只有一層迴圈結構，<br>大量交換元素使的整體類似氣泡排序，不是實用的算法。</p>
+<p>具體來說，它透過進入未排序的範圍，<br>透過相鄰的兩兩交換，把元素換到正確的位置上。</p>
+<h2 id="實作-5"><a href="#實作-5" class="headerlink" title="實作"></a>實作</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/* 地精排序 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">gnome_sort</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> i = <span class="number">0</span>;                              <span class="comment">// 初始化註標</span></span><br><span class="line">    <span class="keyword">while</span> (i &lt; (len - <span class="number">1</span>))                   <span class="comment">// 設定註標範圍</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (arr[i] &lt;= arr[i + <span class="number">1</span>])           <span class="comment">// 如果目前這裡已經排好</span></span><br><span class="line">            i++;                            <span class="comment">// 移動到未排序的範圍</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">swap</span>(&amp;arr[i], &amp;arr[i + <span class="number">1</span>]);     <span class="comment">// 把未排序的元素往前換</span></span><br><span class="line">            i--;                            <span class="comment">// 註標跟著這個未換好的元素</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; <span class="number">0</span>)                          <span class="comment">// 處理邊界問題</span></span><br><span class="line">            i = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<div class="note info"><p>交換函數 (swap) 於前面段落有提及，有需要請參考 <a href="#Bubble-Sort">氣泡排序</a></p>
+</div>
+
+
+<h1 id="Odd-Even-Sort"><a href="#Odd-Even-Sort" class="headerlink" title="Odd-Even Sort"></a>Odd-Even Sort</h1><p>中文為「奇偶排序」，跟氣泡排序類似的排序算法。</p>
+<p>排序的特性會透過排序奇數位的元素及偶數位的元素，來達成整體的排序，<br>實際上是氣泡排序的平行化版本，在 SIMD (Single-Instruction Multiple-Data) 的假設下，可以壓到 O(n)。</p>
+<h2 id="實作-6"><a href="#實作-6" class="headerlink" title="實作"></a>實作</h2><p>這裡僅實做序列版：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/* 奇偶排序 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ood_even_sort</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">bool</span> sorted = <span class="literal">false</span>;                                <span class="comment">// 宣告排序完成旗標</span></span><br><span class="line">    <span class="keyword">while</span> (sorted == <span class="literal">false</span>)                             <span class="comment">// 如果排序未完成則排序</span></span><br><span class="line">    &#123;</span><br><span class="line">        sorted = <span class="literal">true</span>;                                  <span class="comment">// 假設已經排序完畢</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> base = <span class="number">0</span>; base &lt; <span class="number">2</span>; base++)            <span class="comment">// 依序操作奇數位元素、偶數位元素</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> i = base; i &lt; (len - <span class="number">1</span>); i += <span class="number">2</span>)</span><br><span class="line">                <span class="keyword">if</span> (arr[i] &gt; arr[i + <span class="number">1</span>])                <span class="comment">// 比較相鄰奇、偶數的元素</span></span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="built_in">swap</span>(&amp;arr[i], &amp;arr[i + <span class="number">1</span>]);         <span class="comment">// 如果位置不對則交換</span></span><br><span class="line">                    sorted = <span class="literal">false</span>;                     <span class="comment">// 假設錯誤目前未排完</span></span><br><span class="line">                &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h1 id="Shell-Sort"><a href="#Shell-Sort" class="headerlink" title="Shell Sort"></a>Shell Sort</h1><p>中文為「希爾排序」<br>可以看成是插入排序的加強版。</p>
+<p>實作上，將固定間距的數字先做插入排序，<br>然後使間距逐漸遞減。</p>
+<h2 id="實作-7"><a href="#實作-7" class="headerlink" title="實作"></a>實作</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/* 希爾排序 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">shell_sort</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> gap = len; gap &gt; <span class="number">0</span>; gap /= <span class="number">2</span>)                                      <span class="comment">// 間距逐次減半</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> shift = <span class="number">0</span>; shift &lt; gap; shift++)                               <span class="comment">// 找到間距中的所有元素</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> i, j;                                                           <span class="comment">// 註標 i, j</span></span><br><span class="line">            <span class="keyword">for</span> (i = shift; i &lt; len; i += gap)                                  <span class="comment">// 對特定間距的插入排序</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="type">int</span> tmp = arr[i];                                               <span class="comment">// 取出要排序的元素</span></span><br><span class="line">                <span class="keyword">for</span> (j = i; tmp &lt; arr[j - gap] &amp;&amp; j &gt; shift; j -= gap)          <span class="comment">// 往前尋找插入點</span></span><br><span class="line">                    arr[j] = arr[j - gap];                                      <span class="comment">// 挪動元素的位置</span></span><br><span class="line">                arr[j] = tmp;                                                   <span class="comment">// 插入元素</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h1 id="Bucket-Sort"><a href="#Bucket-Sort" class="headerlink" title="Bucket Sort"></a>Bucket Sort</h1><p>中文為「桶子排序」<br>這是一個混合式的方法，必須先將元素分配到不同的桶子，<br>然後再將每個桶子內排序完成，最後再組合起來。對於平行系統似乎是個好選擇。</p>
+<div class="note info"><p>每個桶子內的排序，這裡使用了 <a href="#Insertion-Sort">插入排序</a></p>
+</div>
+
+<p>如果還記得複雜度分析的方法：<br>當 $c$ 為一常數，且 $n &gt; n_{0}$ 時，<br>存在 $f(n) &lt; cg(n)$ 這樣的關係，<br>可以表示為 $f(n) &#x3D; O(g(n))$</p>
+<p>也就是說，桶子排序的排序算法，<br>可以選擇一些 $n$ 在 $n_{0}$ 之下，速度很快的方法。</p>
+<div class="note warning"><p>有些中文書的桶子排序是指 <a href="#Counting-Sort">Counting Sort</a></p>
+</div>
+
+<h2 id="實作-8"><a href="#實作-8" class="headerlink" title="實作"></a>實作</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/* 桶子排序 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">bucket_sort</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> **bucket = <span class="keyword">new</span> <span class="type">int</span>*[<span class="number">10</span>];                                <span class="comment">// 建立一些桶子（這裡是 10 個）</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)                                <span class="comment">// 初始化每個桶子</span></span><br><span class="line">    &#123;</span><br><span class="line">        bucket[i] = <span class="keyword">new</span> <span class="type">int</span>[len];                               <span class="comment">// 設定桶子大小</span></span><br><span class="line">        bucket[i][<span class="number">0</span>] = <span class="number">0</span>;                                       <span class="comment">// 桶子第 0 個位置存放元素個數   </span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++)                               <span class="comment">// 分配每個元素到 10 個桶子中</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; <span class="number">10</span>; j++)</span><br><span class="line">            <span class="keyword">if</span> (arr[i] &gt;= j * <span class="number">10</span> &amp;&amp; arr[i] &lt; (j + <span class="number">1</span>) * <span class="number">10</span>)      <span class="comment">// [10*j, 10*(j+1)] 分配到 j</span></span><br><span class="line">                bucket[j][<span class="number">1</span> + bucket[j][<span class="number">0</span>]++] = arr[i];         <span class="comment">// 每個從 1 號位置開始放元素</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)                                <span class="comment">// 對每個桶子執行插入排序</span></span><br><span class="line">        <span class="built_in">insertion_sort</span>(&amp;bucket[i][<span class="number">1</span>], bucket[i][<span class="number">0</span>]);</span><br><span class="line">    <span class="type">int</span> index = <span class="number">0</span>;                                              <span class="comment">// 拼回原本的陣列</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; bucket[i][<span class="number">0</span>]; j++)</span><br><span class="line">            arr[index++] = bucket[i][j + <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">delete</span>[] bucket;                                            <span class="comment">// 清理空間</span></span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<div class="note info"><p>注意桶子的大小跟數量，分配需要涵蓋到所有元素。事先知道資料分布情況是很有幫助的。</p>
+</div>
+
+<div class="note danger"><p>不要忘記使用 delete 與 delete[] 來清理記憶體空間。</p>
+</div>
+
+<h1 id="Counting-Sort"><a href="#Counting-Sort" class="headerlink" title="Counting Sort"></a>Counting Sort</h1><p>中文為「計數排序」<br>非比較排序，所以不受上限 $\Omega(nlg(n))$ 的限制。  </p>
+<p>大致上的概念是說，數數看有哪些元素，<br>比方說有 5 則在 5 號箱子加一，最後再整合蒐集來的資訊。</p>
+<p>通常情況下很浪費空間，但速度相當快，<br>對於位數相當敏感，而非個數，所以也可將 $n$ 視為元素位數。</p>
+<h2 id="實作-9"><a href="#實作-9" class="headerlink" title="實作"></a>實作</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/* 計數排序 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">counting_sort</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> *count = <span class="keyword">new</span> <span class="type">int</span>[<span class="number">99</span>];               <span class="comment">// 宣告計數空間</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">99</span>; i++)            <span class="comment">// 範圍是 [0, 100)</span></span><br><span class="line">        count[i] = <span class="number">0</span>;                       <span class="comment">// 初始化數量為 0</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++)           <span class="comment">// 紀錄每個元素的數量</span></span><br><span class="line">        count[arr[i]]++;</span><br><span class="line">    <span class="type">int</span> index = <span class="number">0</span>;                          <span class="comment">// 拼回原本的陣列</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">99</span>; i++)</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; count[i]; j++)</span><br><span class="line">            arr[index++] = i;</span><br><span class="line">    <span class="keyword">delete</span> count;                            <span class="comment">// 清理空間</span></span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h1 id="Radix-Sort"><a href="#Radix-Sort" class="headerlink" title="Radix Sort"></a>Radix Sort</h1><p>中文為「基數排序」<br>基數排序是很特別的排序算法，<br>依照元素的每個位數排好，最終結果就會是排好的元素。</p>
+<h2 id="實作-10"><a href="#實作-10" class="headerlink" title="實作"></a>實作</h2><p>縱使算法看起來要將元素顛三倒四，<br>但實作上有非常精巧的方法，<br>透過記錄元素位數的偏移量來將元素放置到正確的位置上。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cmath&gt;</span></span></span><br><span class="line">...</span><br><span class="line"><span class="comment">/* 取得數字的某位數 */</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">get_digit</span><span class="params">(<span class="type">int</span> number, <span class="type">int</span> digit)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> a = (<span class="type">int</span>) <span class="built_in">pow</span>(<span class="number">10</span>, digit);                           <span class="comment">// 取得目標位數 10 的冪次</span></span><br><span class="line">    <span class="type">int</span> b = (<span class="type">int</span>) <span class="built_in">pow</span>(<span class="number">10</span>, digit - <span class="number">1</span>);                       <span class="comment">// 取的低一位數 10 的冪次</span></span><br><span class="line">    number = number % a / b;                                <span class="comment">// 取的目標位數</span></span><br><span class="line">    <span class="keyword">return</span> (<span class="type">int</span>) <span class="built_in">floor</span>(number);                             <span class="comment">// 取整返回</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 取得目前最大的元素 */</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">get_max_number</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> number = <span class="number">-1</span>;                                        <span class="comment">// 如果沒有元素則回傳 -1</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++)                           <span class="comment">// 遍歷所有元素</span></span><br><span class="line">        <span class="keyword">if</span> (number &lt; arr[i])                                <span class="comment">// 比對最大的元素</span></span><br><span class="line">            number = arr[i];                                <span class="comment">// 紀錄最大值</span></span><br><span class="line">    <span class="keyword">return</span> number;                                          <span class="comment">// 回傳最大值</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 基數排序 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">radix_sort</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> max_number = <span class="built_in">get_max_number</span>(arr, len);              <span class="comment">// 取得最大的數字</span></span><br><span class="line">    <span class="type">int</span> max_digit = (<span class="type">int</span>) <span class="built_in">ceil</span>(<span class="built_in">log10</span>(max_number));          <span class="comment">// 取的最大數字的位數</span></span><br><span class="line">    <span class="type">int</span> *tmp = <span class="keyword">new</span> <span class="type">int</span>[len];                                <span class="comment">// 暫存的陣列</span></span><br><span class="line">    <span class="type">int</span> index[<span class="number">11</span>];                                          <span class="comment">// 記錄某位數的偏移量</span></span><br><span class="line">    <span class="type">int</span> count[<span class="number">11</span>];                                          <span class="comment">// 記錄某位數的數量</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= max_digit; i++)                    <span class="comment">// 遍歷位數</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; <span class="number">10</span>; j++)                        <span class="comment">// 清空紀錄位數數量</span></span><br><span class="line">            count[j] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; len; j++)                       <span class="comment">// 紀錄位數的數量</span></span><br><span class="line">            count[<span class="built_in">get_digit</span>(arr[j], i)]++;</span><br><span class="line">        index[<span class="number">0</span>] = <span class="number">0</span>;                                       <span class="comment">// 位數 0 的偏移量為 0</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; <span class="number">10</span>; j++)                        <span class="comment">// 依序記錄每一位的偏移量</span></span><br><span class="line">            index[j + <span class="number">1</span>] = index[j] + count[j];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; len; j++)                       <span class="comment">// 利用偏移量將元素放置到正確的位置</span></span><br><span class="line">            tmp[index[<span class="built_in">get_digit</span>(arr[j], i)]++] = arr[j];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; len; j++)                       <span class="comment">// 把暫存的陣列回寫</span></span><br><span class="line">            arr[j] = tmp[j];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">delete</span> tmp;                                             <span class="comment">// 清理空間</span></span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<div class="note info"><p>為使程式易讀，建議非關鍵功能獨立成副函式。</p>
+</div>
+
+<div class="note warning"><p>注意引入 cmath 或 math.h 標頭檔，以便使用 ceil、log 與 pow 函數。</p>
+</div>
+
+<div class="note warning"><p>小心隱式型別轉換可能導致的問題。</p>
+</div>
+
+<h1 id="Merge-Sort"><a href="#Merge-Sort" class="headerlink" title="Merge Sort"></a>Merge Sort</h1><p>中文為「合併排序」<br>重要的排序算法，同時也是排序問題最佳算法之一，<br>因為很容易解釋 $O(nlg(n))$ 的關係，似乎常被拿來當教材。</p>
+<p>跟快速排序是相對的存在，且被大量函式庫實作：</p>
+<table>
+<thead>
+<tr>
+<th align="left">使用案例</th>
+<th align="left">排序演算法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Perl 5.8 Default</td>
+<td align="left">合併排序</td>
+</tr>
+<tr>
+<td align="left">Linux Kernel(linked list)</td>
+<td align="left">合併排序</td>
+</tr>
+<tr>
+<td align="left">Java Arrays.sort()</td>
+<td align="left">Tim Sort（源於合併與插入排序）</td>
+</tr>
+<tr>
+<td align="left">Python Default</td>
+<td align="left">Tim Sort（源於合併與插入排序）</td>
+</tr>
+<tr>
+<td align="left">GNU Octave</td>
+<td align="left">Tim Sort（源於合併與插入排序）</td>
+</tr>
+</tbody></table>
+<h2 id="實作-11"><a href="#實作-11" class="headerlink" title="實作"></a>實作</h2><p>下面是遞迴的實作：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/* 合併函數 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">merge</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> *arr1, <span class="type">int</span> *arr2, <span class="type">int</span> len, <span class="type">int</span> len1, <span class="type">int</span> len2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> index1 = <span class="number">0</span>;                                         <span class="comment">// 從第一個子陣列的第 0 個元素開始合併</span></span><br><span class="line">    <span class="type">int</span> index2 = <span class="number">0</span>;                                         <span class="comment">// 從第二個子陣列的第 0 個元素開始合併</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++)                           <span class="comment">// 依序將元素填入合併陣列</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (index1 == len1)                                 <span class="comment">// 如果第一個子陣列已經填完</span></span><br><span class="line">            arr[i] = arr2[index2++];                        <span class="comment">// 把第二個子陣列的元素全部塞給合併陣列</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (index2 == len2)                            <span class="comment">// 如果第二個子陣列已經填完</span></span><br><span class="line">            arr[i] = arr1[index1++];                        <span class="comment">// 把第一個子陣列的元素全部塞給合併陣列</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (arr1[index1] &lt; arr2[index2])               <span class="comment">// 第一個子陣列的元素較小</span></span><br><span class="line">            arr[i] = arr1[index1++];                        <span class="comment">// 把第一個子陣列的元素塞給合併陣列</span></span><br><span class="line">        <span class="keyword">else</span>                                                <span class="comment">// 第二個子陣列的元素較小（或相等）</span></span><br><span class="line">            arr[i] = arr2[index2++];                        <span class="comment">// 把第二個子陣列的元素塞給合併陣列</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"><span class="comment">/* 合併排序 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">merge_sort</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (len &gt; <span class="number">1</span>)                                            <span class="comment">// 如果元素有多個</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> left_len = len / <span class="number">2</span>;                             <span class="comment">// 計算分割後，第一個子陣列的長度</span></span><br><span class="line">        <span class="type">int</span> right_len = len - left_len;                     <span class="comment">// 計算分割後，第二個子陣列的長度</span></span><br><span class="line">        <span class="type">int</span> *left = <span class="keyword">new</span> <span class="type">int</span>[left_len];                      <span class="comment">// 建立第一個子陣列</span></span><br><span class="line">        <span class="type">int</span> *right = <span class="keyword">new</span> <span class="type">int</span>[right_len];                    <span class="comment">// 建立第二個子陣列</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; left_len; i++)                  <span class="comment">// 將元素分配到第一個子陣列</span></span><br><span class="line">            left[i] = arr[i];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = left_len; i &lt; len; i++)                <span class="comment">// 將元素分配到第二個子陣列</span></span><br><span class="line">            right[i - left_len] = arr[i];</span><br><span class="line">        <span class="built_in">merge_sort</span>(left, left_len);                         <span class="comment">// 對第一個子陣列遞迴</span></span><br><span class="line">        <span class="built_in">merge_sort</span>(right, right_len);                       <span class="comment">// 對第二個子陣列遞迴</span></span><br><span class="line">        <span class="built_in">merge</span>(arr, left, right, len, left_len, right_len);  <span class="comment">// 將兩個子陣列合併回傳</span></span><br><span class="line">        <span class="keyword">delete</span> left;                                        <span class="comment">// 清理空間</span></span><br><span class="line">        <span class="keyword">delete</span> right;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<div class="note warning"><p>如果合併函數不使用原始陣列的位置操作，而是另外建立空間，則需要回傳指標。</p>
+</div>
+
+<p>從觀察遞迴的版本可以發現，每次都是由 2 個元素（或 1 個）開始組合，<br>然後逐漸變成 4 個、8 個慢慢增加，正因為排序的關鍵在於合併，<br>也許可以透過迴圈模擬遞迴的過程。</p>
+<p>下面是非遞迴的實作，使用了同樣的合併函數（參考上面）：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/* 整數箝制函數 */</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">clamp</span><span class="params">(<span class="type">int</span> number, <span class="type">int</span> lower_bound, <span class="type">int</span> upper_bound)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (number &gt; upper_bound)                                           <span class="comment">// 如果數字大過上界</span></span><br><span class="line">        <span class="keyword">return</span> upper_bound;                                             <span class="comment">// 讓數字等於上界回傳</span></span><br><span class="line">    <span class="keyword">if</span> (number &lt; lower_bound)                                           <span class="comment">// 如果數字小於下界</span></span><br><span class="line">        <span class="keyword">return</span> lower_bound;                                             <span class="comment">// 讓數字等於下界回傳</span></span><br><span class="line">    <span class="keyword">return</span> number;                                                      <span class="comment">// 數字在範圍內直接回傳</span></span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"><span class="comment">/* 合併排序 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">merge_sort</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> sub_len = <span class="number">2</span>;                                                    <span class="comment">// 由兩兩合併開始</span></span><br><span class="line">    <span class="keyword">while</span> (sub_len &lt;= len * <span class="number">2</span>)                                          <span class="comment">// 直到下個 2^n 停止</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i += sub_len)                          <span class="comment">// 對每個區段進行處理</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> left_len = sub_len / <span class="number">2</span>;                                 <span class="comment">// 取得每區段左半邊的長度</span></span><br><span class="line">            <span class="type">int</span> right_len = sub_len - left_len;                         <span class="comment">// 取得每區段右半邊的長度</span></span><br><span class="line">            <span class="type">int</span> *left = arr + i;                                        <span class="comment">// 取得每區段左半邊的開頭</span></span><br><span class="line">            <span class="type">int</span> *right = left + left_len;                               <span class="comment">// 取得每區段右半邊的開頭</span></span><br><span class="line">            left_len = <span class="built_in">clamp</span>(left_len, <span class="number">0</span>, (arr + len) - left);          <span class="comment">// 處理區段左半邊界問題</span></span><br><span class="line">            right_len = <span class="built_in">clamp</span>(right_len, <span class="number">0</span>, (arr + len) - right);       <span class="comment">// 處理區段右半邊界問題</span></span><br><span class="line">            <span class="type">int</span> *sub_arr = <span class="keyword">new</span> <span class="type">int</span>[sub_len];                            <span class="comment">// 暫時的合併陣列</span></span><br><span class="line">            <span class="built_in">merge</span>(sub_arr, left, right, sub_len, left_len, right_len);  <span class="comment">// 合併左右半邊到暫時的合併陣列</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; sub_len; j++)                           <span class="comment">// 將暫時的合併陣列複製到原陣列</span></span><br><span class="line">                arr[i + j] = sub_arr[j];</span><br><span class="line">            <span class="keyword">delete</span> sub_arr;                                             <span class="comment">// 清理空間</span></span><br><span class="line">        &#125;</span><br><span class="line">        sub_len *= <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<div class="note warning"><p>箝制函數 (clamp) 在 C++17 中有預先定義，請參考 <a target="_blank" rel="noopener" href="http://en.cppreference.com/w/cpp/algorithm/clamp">cppreference std::clamp</a></p>
+</div>
+
+<h1 id="Quick-Sort"><a href="#Quick-Sort" class="headerlink" title="Quick Sort"></a>Quick Sort</h1><p>中文為「快速排序」<br>快速排序可以說是最重要的排序算法，<br>有著 $O(nlg(n))$ 的複雜度，但平均情況下又勝過其他排序。</p>
+<h2 id="實作-12"><a href="#實作-12" class="headerlink" title="實作"></a>實作</h2><p>以下是遞迴版本：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/* 快速排序 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">quick_sort</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (len &gt; <span class="number">1</span>)                                        <span class="comment">// 如果還有元素</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> *pivot = arr;                               <span class="comment">// 選擇一個參考值（這裡選擇陣列開頭）</span></span><br><span class="line">        <span class="type">int</span> *left = arr + <span class="number">1</span>;                            <span class="comment">// 左註標從陣列開頭的右邊一個開始</span></span><br><span class="line">        <span class="type">int</span> *right = arr + len - <span class="number">1</span>;                     <span class="comment">// 右註標從陣列結尾開始</span></span><br><span class="line">        <span class="keyword">while</span> (left &lt; right)                            <span class="comment">// 如果左、右註標還沒重合</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span> (*left &lt; *pivot &amp;&amp; left &lt; right)      <span class="comment">// 左註標尋找大於參考值的元素</span></span><br><span class="line">                left++;</span><br><span class="line">            <span class="keyword">while</span> (*right &gt;= *pivot &amp;&amp; left &lt; right)    <span class="comment">// 右註標尋找小於參考值的元素</span></span><br><span class="line">                right--;</span><br><span class="line">            <span class="keyword">if</span> (left &lt; right)                           <span class="comment">// 如果註標還沒重合就交換元素</span></span><br><span class="line">                <span class="built_in">swap</span>(left, right);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (*left &lt; *pivot)                             <span class="comment">// 檢查左註標的值跟參考值的關係</span></span><br><span class="line">            <span class="built_in">swap</span>(pivot, left);                          <span class="comment">// 如果不符順序把參考值換到左邊</span></span><br><span class="line">        <span class="type">int</span> *start = arr;                               <span class="comment">// 設定序列開頭</span></span><br><span class="line">        <span class="type">int</span> *end = arr + len;                           <span class="comment">// 設定序列結尾</span></span><br><span class="line">        <span class="type">int</span> *center = left;                             <span class="comment">// 中間的註標（左、右註標因重合都可以選）</span></span><br><span class="line">        <span class="built_in">quick_sort</span>(start, center - start);              <span class="comment">// 遞迴左半部分</span></span><br><span class="line">        <span class="built_in">quick_sort</span>(center, end - center);               <span class="comment">// 遞迴右半部分</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>也可以使用堆疊模擬這個過程，下面是非遞迴版本的快速排序：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;utility&gt;</span></span></span><br><span class="line">...</span><br><span class="line"><span class="comment">/* 快速排序 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">quick_sort</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    pair&lt;<span class="type">int</span>*, <span class="type">int</span>*&gt; index;                                 <span class="comment">// 宣告一個暫存區間的註標</span></span><br><span class="line">    stack&lt;pair&lt;<span class="type">int</span>*, <span class="type">int</span>*&gt;&gt; stack;                          <span class="comment">// 宣告一個存放區間的堆疊</span></span><br><span class="line">    <span class="keyword">if</span> (len &lt;= <span class="number">1</span>)                                           <span class="comment">// 根本沒東西可以排</span></span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    stack.<span class="built_in">push</span>(<span class="built_in">make_pair</span>(arr, arr + len - <span class="number">1</span>));              <span class="comment">// 將整段陣列區間放入堆疊</span></span><br><span class="line">    <span class="keyword">while</span> (!stack.<span class="built_in">empty</span>())                                  <span class="comment">// 如果還沒處理完</span></span><br><span class="line">    &#123;</span><br><span class="line">        index = stack.<span class="built_in">top</span>();                                <span class="comment">// 從堆疊中取出待處理的區間</span></span><br><span class="line">        stack.<span class="built_in">pop</span>();                                        <span class="comment">// 從堆疊中刪除待處理的區間</span></span><br><span class="line">        <span class="type">int</span> *pivot = index.first;                           <span class="comment">// 選擇一個參考值（這裡選擇陣列開頭）</span></span><br><span class="line">        <span class="type">int</span> *left = index.first + <span class="number">1</span>;                        <span class="comment">// 左註標從待處理處開頭的右邊一個開始</span></span><br><span class="line">        <span class="type">int</span> *right = index.second;                          <span class="comment">// 右註標從待處理處結尾開始</span></span><br><span class="line">        <span class="keyword">while</span> (left &lt; right)                                <span class="comment">// 如果左、右註標還沒重合</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span> (*left &lt; *pivot &amp;&amp; left &lt; right)          <span class="comment">// 左註標尋找大於參考值的元素</span></span><br><span class="line">                left++;</span><br><span class="line">            <span class="keyword">while</span> (*right &gt;= *pivot &amp;&amp; left &lt; right)        <span class="comment">// 右註標尋找小於參考值的元素</span></span><br><span class="line">                right--;</span><br><span class="line">            <span class="keyword">if</span> (left &lt; right)                               <span class="comment">// 如果註標還沒重合就交換元素</span></span><br><span class="line">                <span class="built_in">swap</span>(left, right);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (*left &lt; *pivot)                                 <span class="comment">// 檢查左註標的值跟參考值的關係</span></span><br><span class="line">            <span class="built_in">swap</span>(pivot, left);                              <span class="comment">// 如果不符順序把參考值換到左邊</span></span><br><span class="line">        <span class="type">int</span> *center = left;                                 <span class="comment">// 中間的註標（左、右註標因重合都可以選）</span></span><br><span class="line">        <span class="keyword">if</span> (index.first &lt; center - <span class="number">1</span>)                       <span class="comment">// 如果左半段未完成</span></span><br><span class="line">            stack.<span class="built_in">push</span>(<span class="built_in">make_pair</span>(index.first, center - <span class="number">1</span>)); <span class="comment">// 將左半段待處理的區間放入堆疊</span></span><br><span class="line">        <span class="keyword">if</span> (center &lt; index.second)                          <span class="comment">// 如果右半段未完成</span></span><br><span class="line">            stack.<span class="built_in">push</span>(<span class="built_in">make_pair</span>(center, index.second));    <span class="comment">// 將右半段待處理的區間放入堆疊</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<div class="note info"><p>非遞迴版的區間註標可以透過 Struct 實作。</p>
+</div>
+
+<div class="note warning"><p>注意引入 stack 或 utility 標頭檔，以便使用 stack 及 pair 物件。</p>
+</div>
+
+<div class="note warning"><p>快速排序的實作有很多細節，可以先在紙上模擬這些步驟以利實作。</p>
+</div>
+
+<h1 id="Binary-Search-Tree"><a href="#Binary-Search-Tree" class="headerlink" title="Binary Search Tree"></a>Binary Search Tree</h1><p>中文為「二元搜尋樹」<br>利用二元樹資料結構的排序方法。</p>
+<p>事實上，只要建立一個二元搜尋樹後，<br>使用中序走訪便可以得到排序完成的結果。</p>
+<h2 id="實作-13"><a href="#實作-13" class="headerlink" title="實作"></a>實作</h2><p>實作時，可以建立先「二元搜尋樹」的類別並實作方法。<br>下面是二元搜尋樹節點的類別：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/* 二元樹的節點類別 */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">BinaryTreeNode</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">BinaryTreeNode</span>(<span class="type">int</span> data);                <span class="comment">// 建構函數</span></span><br><span class="line">    <span class="type">int</span> data;                                <span class="comment">// 儲存的值</span></span><br><span class="line">    BinaryTreeNode *left;                    <span class="comment">// 左子節點</span></span><br><span class="line">    BinaryTreeNode *right;                   <span class="comment">// 右子節點</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 建構函數 */</span></span><br><span class="line">BinaryTreeNode::<span class="built_in">BinaryTreeNode</span>(<span class="type">int</span> data)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">this</span>-&gt;data = data;                       <span class="comment">// 儲存值</span></span><br><span class="line">    <span class="keyword">this</span>-&gt;left = <span class="literal">nullptr</span>;                    <span class="comment">// 初始化左子節點</span></span><br><span class="line">    <span class="keyword">this</span>-&gt;right = <span class="literal">nullptr</span>;                   <span class="comment">// 初始化右子節點</span></span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<div class="note info"><p>節點也可以透過 Struct 實做。</p>
+</div>
+
+<p>雖然有實作過完整的二元樹，<br>但其實排序功能其實不需要太多的方法。</p>
+<p>由於實際上外部調用不需要知道樹根的指標，<br>實作上可以透過重載函數的方法隱藏起來，<br>另外取回排序過的值時，傳入陣列的開頭利用註標及中序走訪依序取回。</p>
+<p>下面是二元樹的類別：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 二元搜尋樹的類別 */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">BinaryTree</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">BinaryTree</span>();                                           <span class="comment">// 建構函數</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">push</span><span class="params">(<span class="type">int</span> data)</span></span>;                                    <span class="comment">// 新增節點（外部調用）</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">gain</span><span class="params">(<span class="type">int</span> *arr)</span></span>;                                    <span class="comment">// 把值依序取回的函數</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    BinaryTreeNode *root;                                   <span class="comment">// 樹根</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">push</span><span class="params">(BinaryTreeNode *root, <span class="type">int</span> data)</span></span>;              <span class="comment">// 新增節點（內部調用）</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">traversal</span><span class="params">(BinaryTreeNode *root, <span class="type">int</span> *arr)</span></span>;         <span class="comment">// 中序走訪（內部調用）</span></span><br><span class="line">    <span class="type">int</span> index;                                              <span class="comment">// 用於把值回存的註標</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 建構函數 */</span></span><br><span class="line">BinaryTree::<span class="built_in">BinaryTree</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">this</span>-&gt;root = <span class="literal">nullptr</span>;                                   <span class="comment">// 初始化樹根</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 新增節點（外部調用） */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BinaryTree::push</span><span class="params">(<span class="type">int</span> data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>-&gt;<span class="built_in">push</span>(<span class="keyword">this</span>-&gt;root, data);                           <span class="comment">// 調用內部新增節點</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 把值依序取回的函數 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BinaryTree::gain</span><span class="params">(<span class="type">int</span> *arr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>-&gt;index = <span class="number">0</span>;                                        <span class="comment">// 初始化註標</span></span><br><span class="line">    <span class="keyword">this</span>-&gt;<span class="built_in">traversal</span>(<span class="keyword">this</span>-&gt;root, arr);                       <span class="comment">// 調用內部中序走訪</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 新增節點（內部調用） */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BinaryTree::push</span><span class="params">(BinaryTreeNode *root, <span class="type">int</span> data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>-&gt;root == <span class="literal">nullptr</span>)                              <span class="comment">// 如果樹為空</span></span><br><span class="line">        <span class="keyword">this</span>-&gt;root = <span class="keyword">new</span> <span class="built_in">BinaryTreeNode</span>(data);              <span class="comment">// 新增節點成為根</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (root-&gt;data &gt; data)                             <span class="comment">// 樹不為空，且值比根的值小</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (root-&gt;left == <span class="literal">nullptr</span>)                          <span class="comment">// 如果左子樹為空</span></span><br><span class="line">            root-&gt;left = <span class="keyword">new</span> <span class="built_in">BinaryTreeNode</span>(data);          <span class="comment">// 新增節點成為左子樹</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">this</span>-&gt;<span class="built_in">push</span>(root-&gt;left, data);                   <span class="comment">// 新增節點到左子樹的某處</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>                                                    <span class="comment">// 樹不為空，且值比根的值大</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (root-&gt;right == <span class="literal">nullptr</span>)                         <span class="comment">// 如果右子樹為空</span></span><br><span class="line">            root-&gt;right = <span class="keyword">new</span> <span class="built_in">BinaryTreeNode</span>(data);         <span class="comment">// 新增節點成為右子樹</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">this</span>-&gt;<span class="built_in">push</span>(root-&gt;right, data);                  <span class="comment">// 新增節點到右子樹的某處</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 中序走訪（內部調用） */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BinaryTree::traversal</span><span class="params">(BinaryTreeNode *root, <span class="type">int</span> *arr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root != <span class="literal">nullptr</span>)                                    <span class="comment">// 樹根有東西才繼續</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (root-&gt;left != <span class="literal">nullptr</span>)                          <span class="comment">// 如果左子樹還有東西</span></span><br><span class="line">            <span class="built_in">traversal</span>(root-&gt;left, arr);                     <span class="comment">// 去左子樹找節點</span></span><br><span class="line">        arr[<span class="keyword">this</span>-&gt;index] = root-&gt;data;                      <span class="comment">// 把值存回去</span></span><br><span class="line">        <span class="keyword">this</span>-&gt;index++;                                      <span class="comment">// 增加註標</span></span><br><span class="line">        <span class="keyword">if</span> (root-&gt;right != <span class="literal">nullptr</span>)                         <span class="comment">// 如果右子樹還有東西</span></span><br><span class="line">            <span class="built_in">traversal</span>(root-&gt;right, arr);                    <span class="comment">// 去右子樹找節點</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>調用的時候就相當簡單了：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/* 二元搜尋樹排序 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">binary_tree_sort</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    BinaryTree tree;                <span class="comment">// 宣告二元搜尋樹</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++)   <span class="comment">// 將陣列的值儲存至二元樹</span></span><br><span class="line">        tree.<span class="built_in">push</span>(arr[i]);</span><br><span class="line">    tree.<span class="built_in">gain</span>(arr);                 <span class="comment">// 取回排序過的值</span></span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<div class="note warning"><p>存在許多封裝資料結構的設計方法；<br>然而這裡的這個方法存在一個瑕疵，當儲存的節點數目跟陣列大小不符時會出錯，<br>但待排序的內容為串列結構時，可能很適合這樣的二元樹排序技巧。</p>
+</div>
+
+<h1 id="Heap-Sort"><a href="#Heap-Sort" class="headerlink" title="Heap Sort"></a>Heap Sort</h1><p>中文為「堆積排序」<br>堆積是完全二元樹，雖然是二元樹但性質與二元搜尋樹不同。<br>作為排序算法使用時，是借助本身的特性來使用，<br>是速度非常快的排序算法。</p>
+<div class="note info"><p>堆積通常使用陣列模擬，而且第 0 個位置通常不用。</p>
+</div>
+
+<h2 id="實作-14"><a href="#實作-14" class="headerlink" title="實作"></a>實作</h2><p>傳統的做法，主要圍繞在建立堆積與取出堆積資料兩個步驟。<br>在建立堆積時，先將資料放在樹葉節點上，然後向上調整；<br>取出資料時，將樹根與樹葉節點交換，然後裁取樹葉。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/* 堆積排序 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">heap_sort</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> *heap = <span class="keyword">new</span> <span class="type">int</span>[len + <span class="number">1</span>];                   <span class="comment">// 宣告堆積</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len + <span class="number">1</span>; i++)               <span class="comment">// 初始化堆積</span></span><br><span class="line">        heap[i] = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> leaf = <span class="number">1</span>;                                   <span class="comment">// 堆積樹葉的位置</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++)                   <span class="comment">// 插入所有的元素</span></span><br><span class="line">    &#123;</span><br><span class="line">        heap[leaf] = arr[i];                        <span class="comment">// 先放在樹葉的位置</span></span><br><span class="line">        <span class="type">int</span> tmp = leaf;                             <span class="comment">// 調整堆積</span></span><br><span class="line">        <span class="keyword">while</span> (heap[tmp / <span class="number">2</span>] &gt; heap[tmp])           <span class="comment">// 如果父節點大於子節點</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">swap</span>(&amp;heap[tmp / <span class="number">2</span>], &amp;heap[tmp]);       <span class="comment">// 交換父節點與子節點</span></span><br><span class="line">            tmp /= <span class="number">2</span>;                               <span class="comment">// 繼續看祖父節點</span></span><br><span class="line">        &#125;</span><br><span class="line">        leaf++;                                     <span class="comment">// 插入完成後樹葉的位置遞增</span></span><br><span class="line">    &#125;</span><br><span class="line">    leaf -= <span class="number">1</span>;                                      <span class="comment">// 調整樹葉的位置到有元素的空間</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++)                   <span class="comment">// 取得所有元素</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">swap</span>(&amp;heap[<span class="number">1</span>], &amp;heap[leaf]);                <span class="comment">// 交換樹根到樹葉的位置</span></span><br><span class="line">        arr[i] = heap[leaf];                        <span class="comment">// 取得樹葉的值</span></span><br><span class="line">        leaf--;                                     <span class="comment">// 裁掉樹葉</span></span><br><span class="line">        <span class="type">int</span> tmp = <span class="number">1</span>;                                <span class="comment">// 調整堆積（從樹根開始）</span></span><br><span class="line">        <span class="keyword">while</span> ((tmp * <span class="number">2</span>) &lt;= leaf)                   <span class="comment">// 如果還有子節點</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> left = tmp * <span class="number">2</span>;                     <span class="comment">// 左子節點的註標</span></span><br><span class="line">            <span class="type">int</span> right = tmp * <span class="number">2</span> + <span class="number">1</span>;                <span class="comment">// 右子節點的註標</span></span><br><span class="line">            <span class="keyword">if</span> (right &gt; leaf)                       <span class="comment">// 右子節點超過範圍</span></span><br><span class="line">                right = left;                       <span class="comment">// 假裝左子節點為右子節點</span></span><br><span class="line">            <span class="type">int</span> target;                             <span class="comment">// 取得較小的節點</span></span><br><span class="line">            <span class="keyword">if</span> (heap[left] &lt; heap[right])           <span class="comment">// 左子節點比較小</span></span><br><span class="line">                target = left;                      <span class="comment">// 往左子節點的方向調整</span></span><br><span class="line">            <span class="keyword">else</span>                                    <span class="comment">// 右子節點比較小</span></span><br><span class="line">                target = right;                     <span class="comment">// 往右子節點的方向調整</span></span><br><span class="line">            <span class="keyword">if</span> (heap[tmp] &gt; heap[target])           <span class="comment">// 子節點比較小</span></span><br><span class="line">                <span class="built_in">swap</span>(&amp;heap[tmp], &amp;heap[target]);    <span class="comment">// 交換子節點到樹根的位置</span></span><br><span class="line">            tmp = target;                           <span class="comment">// 往下一層調整</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">delete</span> heap;                                    <span class="comment">// 清理空間</span></span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>自從上了演算法課後，課程中學到了更精闢的堆積處理技巧：</p>
+<ul>
+<li>獨立出「從指定節點調整堆積」的函數</li>
+<li>直接塞入所有資料到堆積，然後從倒數第二層調整堆積至樹根</li>
+<li>取出資料直接採用覆蓋的方式，而非資料交換</li>
+</ul>
+<p>這個做法大幅度降低了資料在堆積中搬移與交換的時間。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/* 從指定節點調整堆積 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">restore</span><span class="params">(<span class="type">int</span> node, <span class="type">int</span> *heap, <span class="type">int</span> leaf)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span> ((node * <span class="number">2</span>) &lt;= leaf)                  <span class="comment">// 如果還有子節點</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> left = <span class="number">2</span> * node;                    <span class="comment">// 左子節點的註標</span></span><br><span class="line">        <span class="type">int</span> right = <span class="number">2</span> * node + <span class="number">1</span>;               <span class="comment">// 右子節點的註標</span></span><br><span class="line">        <span class="keyword">if</span> (right &gt; leaf)                       <span class="comment">// 右子節點超過範圍</span></span><br><span class="line">            right = left;                       <span class="comment">// 假裝左子節點為右子節點</span></span><br><span class="line">        <span class="type">int</span> target;                             <span class="comment">// 取得較小的節點</span></span><br><span class="line">        <span class="keyword">if</span> (heap[left] &lt; heap[right])           <span class="comment">// 左子節點比較小</span></span><br><span class="line">            target = left;                      <span class="comment">// 往左子節點的方向調整</span></span><br><span class="line">        <span class="keyword">else</span>                                    <span class="comment">// 右子節點比較小</span></span><br><span class="line">            target = right;                     <span class="comment">// 往右子節點的方向調整</span></span><br><span class="line">        <span class="keyword">if</span> (heap[node] &lt; heap[target])          <span class="comment">// 如果子節點比較大</span></span><br><span class="line">            <span class="keyword">break</span>;                              <span class="comment">// 直接結束</span></span><br><span class="line">        <span class="built_in">swap</span>(&amp;heap[node], &amp;heap[target]);       <span class="comment">// 交換子節點到根的位置</span></span><br><span class="line">        node = target;                          <span class="comment">// 往下一層調整</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"><span class="comment">/* 推積排序 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">heap_sort</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> *heap = <span class="keyword">new</span> <span class="type">int</span>[len + <span class="number">1</span>];               <span class="comment">// 宣告堆積</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++)               <span class="comment">// 先把所有資料塞入堆積</span></span><br><span class="line">        heap[i + <span class="number">1</span>] = arr[i];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = (<span class="type">int</span>)(len / <span class="number">2</span>); i &gt;= <span class="number">1</span>; i--)   <span class="comment">// 從倒數第二層開始調整堆積</span></span><br><span class="line">        <span class="built_in">restore</span>(i, heap, len);</span><br><span class="line">    <span class="type">int</span> index = <span class="number">0</span>;                              <span class="comment">// 從堆積回存資料</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = len; i &gt;= <span class="number">1</span>; i--)              <span class="comment">// 對每筆資料</span></span><br><span class="line">    &#123;</span><br><span class="line">        arr[index++] = heap[<span class="number">1</span>];                 <span class="comment">// 從樹根取回資料</span></span><br><span class="line">        heap[<span class="number">1</span>] = heap[i];                      <span class="comment">// 把樹葉移到樹根</span></span><br><span class="line">        <span class="built_in">restore</span>(<span class="number">1</span>, heap, i);                    <span class="comment">// 重新調整堆積</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">delete</span> heap;                                <span class="comment">// 清理空間</span></span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h1 id="Stooge-Sort"><a href="#Stooge-Sort" class="headerlink" title="Stooge Sort"></a>Stooge Sort</h1><p>中文為「臭皮匠排序」<br>《算法導論》思考題中的低效排序算法，<br>雖然算法本身不實用，但是很好的練習題材。</p>
+<p>概念很簡單，從最大的序列開始，如果第一個跟最後一個順序不對則交換，<br>如果序列大於三，則依序對「前2&#x2F;3個元素」、「後2&#x2F;3個元素」、「前2&#x2F;3個元素」，<br>重複使用臭皮匠排序，最後就會排完。</p>
+<div class="note info"><p>wikipedia 的說明簡單明瞭，可參閱 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Stooge_sort">wikipedia: Stooge sort</a></p>
+</div>
+
+<h2 id="實作-15"><a href="#實作-15" class="headerlink" title="實作"></a>實作</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/* 臭皮匠排序 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">stooge_sort</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[<span class="number">0</span>] &gt; arr[len - <span class="number">1</span>])              <span class="comment">// 如果順序不對則交換</span></span><br><span class="line">        <span class="built_in">swap</span>(&amp;arr[<span class="number">0</span>], &amp;arr[len - <span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">if</span> (len &gt;= <span class="number">3</span>)                           <span class="comment">// 序列長度大於 3</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> tmp = (<span class="type">int</span>)(len / <span class="number">3</span>);           <span class="comment">// 分成 3 等份</span></span><br><span class="line">        <span class="built_in">stooge_sort</span>(arr, len - tmp);        <span class="comment">// 前 2/3 個元素排序</span></span><br><span class="line">        <span class="built_in">stooge_sort</span>(arr + tmp, len - tmp);  <span class="comment">// 後 2/3 個元素排序</span></span><br><span class="line">        <span class="built_in">stooge_sort</span>(arr, len - tmp);        <span class="comment">// 前 2/3 個元素排序</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h1 id="Sleep-Sort"><a href="#Sleep-Sort" class="headerlink" title="Sleep Sort"></a>Sleep Sort</h1><p>中文為「睡眠排序」<br>充滿魔性的排序方法，根據數值的大小設定延遲進入陣列的時間。</p>
+<div class="note warning"><p>等待時間的單位越小，越容易給出錯誤的答案。</p>
+</div>
+
+<h2 id="實作-16"><a href="#實作-16" class="headerlink" title="實作"></a>實作</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thread&gt;</span></span></span><br><span class="line">...</span><br><span class="line"><span class="comment">/* 執行序的函數 */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">wait</span><span class="params">(<span class="type">int</span> value, <span class="type">int</span> *arr, <span class="type">int</span> *index)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    this_thread::<span class="built_in">sleep_for</span>(chrono::<span class="built_in">milliseconds</span>(value));    <span class="comment">// 設定延遲時間</span></span><br><span class="line">    arr[*index] = value;                                    <span class="comment">// 讓數值進入陣列</span></span><br><span class="line">    (*index)++;                                             <span class="comment">// 累計註標</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">sleep_sort</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    thread *tasks = <span class="keyword">new</span> thread[len];                        <span class="comment">// 宣告執行緒</span></span><br><span class="line">    <span class="type">int</span> index = <span class="number">0</span>;                                          <span class="comment">// 設定註標</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++)                           <span class="comment">// 為每個元素設定執行緒函數</span></span><br><span class="line">        tasks[i] = <span class="built_in">thread</span>(wait, arr[i], arr, &amp;index);       <span class="comment">// 傳入數值、陣列的位置、註標的位置</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++)                           <span class="comment">// 開始讓每個元素的執行緒函數執行</span></span><br><span class="line">        tasks[i].<span class="built_in">join</span>();</span><br><span class="line">    <span class="keyword">delete</span> tasks;                                           <span class="comment">// 清理空間</span></span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h1 id="Bogo-Sort"><a href="#Bogo-Sort" class="headerlink" title="Bogo Sort"></a>Bogo Sort</h1><p>中文為「猴子排序」<br>簡單的說，就是隨機洗牌，然後檢查是否排好的排序算法。<br>雖然不實用，但是具有特別的教育意義。</p>
+<h2 id="實作-17"><a href="#實作-17" class="headerlink" title="實作"></a>實作</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">bogo_sort</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">srand</span>(<span class="built_in">time_t</span>(<span class="literal">NULL</span>));                        <span class="comment">// 設定亂數種子</span></span><br><span class="line">    <span class="type">bool</span> sorted = <span class="literal">false</span>;                        <span class="comment">// 排序未完成</span></span><br><span class="line">    <span class="keyword">while</span> (sorted == <span class="literal">false</span>)                     <span class="comment">// 如果排序未完成</span></span><br><span class="line">    &#123;</span><br><span class="line">        sorted = <span class="literal">true</span>;                          <span class="comment">// 假設排序完成</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++)           <span class="comment">// 隨機把位置上的元素跟其他元素交換</span></span><br><span class="line">            <span class="built_in">swap</span>(&amp;arr[i], &amp;arr[<span class="built_in">rand</span>() % len]);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; len; i++)           <span class="comment">// 檢查排序是否完成</span></span><br><span class="line">            <span class="keyword">if</span> (arr[i] &lt; arr[i - <span class="number">1</span>])            <span class="comment">// 如果排序沒有完成</span></span><br><span class="line">                sorted = <span class="literal">false</span>;                 <span class="comment">// 假設錯誤</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<div class="note danger"><p>注意不要輸入過大的測資，以免當機。</p>
+</div>
+
+<h1 id="綜合評估"><a href="#綜合評估" class="headerlink" title="綜合評估"></a>綜合評估</h1><table><tr><th>中文名稱</th><th>英文名稱</th><th>最糟複雜度</th><th>最優複雜度</th><th colspan="3">簡介</th></tr><tr><td>氣泡排序</td><td>Bubble Sort</td><td>$O(n^{2})$</td><td>$O(n)$</td><td colspan="3">依序選擇相鄰的元素比較、交換的排序方法</td></tr><tr><td>選擇排序</td><td>Selection Sort</td><td>$O(n^{2})$</td><td>$O(n)$</td><td colspan="3">重複在未排序的區間選擇最小的放到正確的位置</td></tr><tr><td>插入排序</td><td>Insertion Sort</td><td>$O(n^{2})$</td><td>$O(n)$</td><td colspan="3">移動其他元素，並在找到插入點時插入正確的元素</td></tr><tr><td>雞尾酒排序</td><td>Cocktail Sort</td><td>$O(n^{2})$</td><td>$O(n)$</td><td colspan="3">左右來回的氣泡排序</td></tr><tr><td>梳排序</td><td>Comb Sort</td><td>$O(n^{2})$</td><td>$O(nlg(n))$</td><td colspan="3">間距上的元素順序不符則交換，間距逐次遞減</td></tr><tr><td>地精排序</td><td>Gnome Sort</td><td>$O(n^{2})$</td><td>$O(n)$</td><td colspan="3">到未排序的區間透過相鄰交換，將元素換到正確的位置上</td></tr><tr><td>奇偶排序</td><td>Odd-even Sort</td><td>$O(n^{2})$</td><td>$O(n)$ *平行</td><td colspan="3">分奇數位置、偶數位置，分別做氣泡排序</td></tr><tr><td>希爾排序</td><td>Shell Sort</td><td>$O(n^{2})$</td><td>$O(nlg(n))$</td><td colspan="3">對固定間距的元素做插入排序，間距逐次遞減</td></tr><tr><td>桶子排序</td><td>Bucket Sort</td><td>$O(n^{2})$</td><td>-</td><td colspan="3">將元素分群，對不同群做好排序再合併</td></tr><tr><td>計數排序</td><td>Counting Sort</td><td>$O(n+k)$</td><td>-</td><td colspan="3">紀錄每種元素的出現次數，利用出現次數重新排列數字</td></tr><tr><td>基數排序</td><td>Radix Sort</td><td>$O(wn)$</td><td>-</td><td colspan="3">依序對每一位做排序，位數逐次遞增（或遞減）</td></tr><tr><td>合併排序</td><td>Merge Sort</td><td>$O(nlg(n))$</td><td>$O(n)$</td><td colspan="3">將元素分成兩半，直至無法分開後，依照順序合併</td></tr><tr><td>快速排序</td><td>Quick Sort</td><td>$O(n^{2})$</td><td>$O(nlg(n))$</td><td colspan="3">選擇參考元素，將其他元素與其比較並放到其中一邊</td></tr><tr><td>二元搜尋樹</td><td>Binary Search Tree</td><td>$O(n^{2})$</td><td>$O(nlg(n))$</td><td colspan="3">利用資料建立一顆二元搜尋樹後透過中序走訪取得元素</td></tr><tr><td>堆積排序</td><td>Heap Sort</td><td>$O(nlg(n))$</td><td>$O(nlg(n))$</td><td colspan="3">利用資料建立堆積，依序取出堆積的樹根，再調整堆積</td></tr><tr><td>臭皮匠排序</td><td>Stooge Sort</td><td>$O(n^{lg(3)/lg(1.5)})$</td><td>$O(n^{lg(3)/lg(1.5)})$</td><td colspan="3">起始結束位置不對則交換，遞迴調用前、後、前2/3個元素</td></tr><tr><td>睡眠排序</td><td>Sleep Sort</td><td>$O(max(n))$</td><td>$O(max(n))$</td><td colspan="3">利用數值本身的大小讓系統等待，結束等待同時取回元素</td></tr><tr><td>猴子排序</td><td>Bogo Sort</td><td>$O(\infty)$</td><td>$O(n)$</td><td colspan="3">亂數洗牌，直到順序正確為止</td></tr></table>
+
+<h1 id="排序動畫演示"><a href="#排序動畫演示" class="headerlink" title="排序動畫演示"></a>排序動畫演示</h1>
+    <div class="iframe-container" style="width:100%;">
+    <iframe
+        src="https://jsfiddle.net/L1by5kpt/embedded/result,js,html,css/dark"
+        width="100%"
+        height="420px"
+        allowfullscreen="allowfullscreen"
+        loading="lazy"
+        frameborder="0">
+    </iframe>
+    </div>
+    
+
+<h1 id="效能評估演示"><a href="#效能評估演示" class="headerlink" title="效能評估演示"></a>效能評估演示</h1>
+    <div class="iframe-container" style="width:100%;">
+    <iframe
+        src="https://jsfiddle.net/u0pnrwqu/embedded/result,js,html,css/dark"
+        width="100%"
+        height="600px"
+        allowfullscreen="allowfullscreen"
+        loading="lazy"
+        frameborder="0">
+    </iframe>
+    </div>
+    
+
+<h1 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h1><p>參考資料沒有先後關係。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Sorting_algorithm">wikipedia: Sorting algorithm</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Bubble_sort">wikipedia: Bubble sort</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Selection_sort">wikipedia: Selection sort</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Insertion_sort">wikipedia: Insertion sort</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Cocktail_shaker_sort">wikipedia: Cocktail shaker sort</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Comb_sort">wikipedia: Comb sort</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Gnome_sort">wikipedia: Gnome sort</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Odd%E2%80%93even_sort">wikipedia: Odd-even sort</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Shellsort">wikipedia: Shell sort</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Bucket_sort">wikipedia: Bucket sort</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Counting_sort">wikipedia: Counting sort</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Radix_sort">wikipedia: Radix sort</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Merge_sort">wikipedia: Merge sort</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Quicksort">wikipedia: Quicksort</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Tree_sort">wikipedia: Tree sort</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Binary_search_tree">wikipedia: Binary search tree</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Heapsort">wikipedia: Heapsort</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Stooge_sort">wikipedia: Stooge sort</a></li>
+<li><a target="_blank" rel="noopener" href="https://it.wikipedia.org/wiki/Sleep_sort">wikipedia: Sleep sort</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Bogosort">wikipedia: Bogosort</a></li>
+<li><a target="_blank" rel="noopener" href="http://marklin-blog.logdown.com/posts/1910182">排序之桶子排序法(Bucket Sort)</a></li>
+<li><a target="_blank" rel="noopener" href="https://kheresy.wordpress.com/2012/07/06/multi-thread-programming-in-c-thread-p1/">C++ 的多執行序程式開發 Thread：基本使用</a></li>
+<li><a target="_blank" rel="noopener" href="https://liam0205.me/2017/05/16/first-step-on-multithread-programming-of-cxx/">程序员的自我修养（五）：C++ 多线程编程初步</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/kkun/archive/2011/11/23/gnome_sort.html">经典排序算法 - 地精排序Gnome Sort</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/2034712/is-there-any-overhead-for-using-variable-length-arrays">stackoverflow: Is there any overhead for using variable-length arrays?</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/5928699/codejam-2011-solution-for-gorosort">stackoverflow: CodeJam 2011: Solution for Gorosort?</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/9323903/most-efficient-elegant-way-to-clip-a-number">stackoverflow: Most efficient&#x2F;elegant way to clip a number?</a></li>
+<li><a target="_blank" rel="noopener" href="https://news.ycombinator.com/item?id=8798202">Hacker News: Sleep sort</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cplusplus.com/reference/thread/this_thread/sleep_for/">cplusplus: sleep_for</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cplusplus.com/reference/cmath/ceil/">cplusplus: ceil</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cplusplus.com/reference/cmath/pow/">cplusplus: pow</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cplusplus.com/reference/cmath/log/">cplusplus: log</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cplusplus.com/reference/algorithm/swap/">cplusplus: swap</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1124.pdf">ISO&#x2F;IEC 9899 - Programming languages - open-std</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cplusplus.com/forum/beginner/51496/">cplusplus: A little doubt about delete</a></li>
+<li><a target="_blank" rel="noopener" href="http://en.cppreference.com/w/cpp/thread/sleep_for">cppreference: sleep_for</a></li>
+<li><a target="_blank" rel="noopener" href="http://en.cppreference.com/w/cpp/algorithm/clamp">cppreference: clamp</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/merge-sort/">Geeks for Geeks: Merge Sort</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/iterative-merge-sort/">Geeks for Geeks: Iterative Merge Sort</a></li>
+<li><a target="_blank" rel="noopener" href="https://sites.google.com/site/sjdsalg/home">徐熊健@資料結構與演算法 Data Structures and Algorithms</a></li>
+<li><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/TimSort/10279720?fr=aladdin">百度百科: TimSort</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.blogjava.net/xiaomage234/archive/2015/02/26/423059.html">[译]理解TIMSORT, 第一部分：适应性归并排序(ADAPTIVE MERGESORT)</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/9/docs/api/java/util/Arrays.html#sort-java.lang.Object:A-">Oracle Java: Class Arrays</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/linked-list/" rel="prev" title="串列 Linked List">
+                  <i class="fa fa-angle-left"></i> 串列 Linked List
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/gomoku/" rel="next" title="五子棋 Gomoku">
+                  五子棋 Gomoku <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  
+  <div class="comments giscus-container">
+  </div>
+  
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-bomb"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Tinytusnami</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="giscus" type="application/json">{"enable":true,"repo":"tinytsunami/blog","repo_id":"MDEwOlJlcG9zaXRvcnkxMjI3MTEwNTY=","category":"Blog Comments","category_id":"DIC_kwDOB1BsEM4C42Ww","mapping":"pathname","strict":0,"reactions_enabled":1,"emit_metadata":1,"theme":"preferred_color_scheme","lang":"zh-TW","crossorigin":"anonymous","input_position":"top","loading":"lazy"}</script>
+
+<script>
+document.addEventListener('page:loaded', () => {
+  if (!CONFIG.page.comments) return;
+
+  NexT.utils.loadComments('.giscus-container')
+    .then(() => NexT.utils.getScript('https://giscus.app/client.js', {
+      attributes: {
+        async                   : true,
+        crossOrigin             : 'anonymous',
+        'data-repo'             : CONFIG.giscus.repo,
+        'data-repo-id'          : CONFIG.giscus.repo_id,
+        'data-category'         : CONFIG.giscus.category,
+        'data-category-id'      : CONFIG.giscus.category_id,
+        'data-mapping'          : CONFIG.giscus.mapping,
+        'data-strict'           : CONFIG.giscus.strict,
+        'data-reactions-enabled': CONFIG.giscus.reactions_enabled,
+        'data-emit-metadata'    : CONFIG.giscus.emit_metadata,
+        'data-theme'            : CONFIG.giscus.theme,
+        'data-lang'             : CONFIG.giscus.lang,
+        'data-input-position'   : CONFIG.giscus.input_position,
+        'data-loading'          : CONFIG.giscus.loading
+      },
+      parentNode: document.querySelector('.giscus-container')
+    }));
+});
+</script>
+
+</body>
+</html>

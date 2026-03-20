@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.tinytsunami.info","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="這篇文章是《人工智能：一種現代的方法》及 Udacity 上的強化學習課程筆記及其他內容的整理，從馬可爾夫決策過程、價值迭代、策略迭代、Q 學習，最後到深度 Q 網路的思路。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="馬可爾夫決策過程 Markov Decision Process">
+<meta property="og:url" content="https://www.tinytsunami.info/markov-decision-process/index.html">
+<meta property="og:site_name" content="羊羽手札">
+<meta property="og:description" content="這篇文章是《人工智能：一種現代的方法》及 Udacity 上的強化學習課程筆記及其他內容的整理，從馬可爾夫決策過程、價值迭代、策略迭代、Q 學習，最後到深度 Q 網路的思路。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.imgur.com/8g4n6Sv.png">
+<meta property="article:published_time" content="2019-03-28T00:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-20T08:43:52.216Z">
+<meta property="article:author" content="Tinytusnami">
+<meta property="article:tag" content="技術, 獨立遊戲">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/8g4n6Sv.png">
+
+
+<link rel="canonical" href="https://www.tinytsunami.info/markov-decision-process/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://www.tinytsunami.info/markov-decision-process/","path":"/markov-decision-process/","title":"馬可爾夫決策過程 Markov Decision Process"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>馬可爾夫決策過程 Markov Decision Process | 羊羽手札</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">羊羽手札</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Tinytsunami's Blog</p>
+      <img class="custom-logo-image" src="/images/icon.png" alt="羊羽手札">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-game"><a href="https://tinytsunami.itch.io/" rel="section" target="_blank"><i class="fas fa-gamepad fa-fw"></i>game</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A6%AC%E5%8F%AF%E7%88%BE%E5%A4%AB%E6%B1%BA%E7%AD%96"><span class="nav-number">2.</span> <span class="nav-text">馬可爾夫決策</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%8E%A9%E5%85%B7%E5%95%8F%E9%A1%8C"><span class="nav-number">3.</span> <span class="nav-text">玩具問題</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%B0%E5%9C%96%E5%B0%8B%E8%B7%AF"><span class="nav-number">3.1.</span> <span class="nav-text">地圖尋路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B0%A1%E5%8C%96%E7%9A%84%E4%BA%8C%E5%8D%81%E4%B8%80%E9%BB%9E"><span class="nav-number">3.2.</span> <span class="nav-text">簡化的二十一點</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Tinytusnami"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">Tinytusnami</p>
+  <div class="site-description" itemprop="description">羊羽的個人部落格</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/tinytsunami" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;tinytsunami" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/TaipeiTsunami" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;TaipeiTsunami" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/profile.php?id=100000736195394" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;profile.php?id&#x3D;100000736195394" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCtqp9w_uA_LohDm0YXNWqSA" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCtqp9w_uA_LohDm0YXNWqSA" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+          連結
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://blog.cyris.tw/" title="https:&#x2F;&#x2F;blog.cyris.tw" rel="noopener" target="_blank">Cyris's Blog</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://poyu-liao.github.io/blog" title="https:&#x2F;&#x2F;poyu-liao.github.io&#x2F;blog" rel="noopener" target="_blank">Robert's Blog</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/markov-decision-process/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="Tinytusnami">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="羊羽手札">
+      <meta itemprop="description" content="羊羽的個人部落格">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="馬可爾夫決策過程 Markov Decision Process | 羊羽手札">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          馬可爾夫決策過程 Markov Decision Process
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2019-03-28 00:00:00" itemprop="dateCreated datePublished" datetime="2019-03-28T00:00:00Z">2019-03-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/legacy-algorithm/" itemprop="url" rel="index"><span itemprop="name">(legacy) algorithm</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>這篇文章是《人工智能：一種現代的方法》及 Udacity 上的強化學習課程筆記及其他內容的整理，<br>從馬可爾夫決策過程、價值迭代、策略迭代、Q 學習，最後到深度 Q 網路的思路。</p>
+<span id="more"></span>
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>前半年太忙一直沒時間更新 Blog，現在終於有時間寫新文章了 XD</p>
+<p>強化學習（reinforcement learning）一直是非常有趣的主題，跟遊戲設計搭配更是如此。<br>我曾經在 RPG Maker MV 中使用手刻的 3 層全連接神經網路來做 ARPG（動作 RPG）怪物的 AI 設計，<br>雖然效果不是很理想，不過確實可以觀察到怪物可以學習到一些玩家的攻擊模式並且迴避。</p>
+<p>全連接神經網路在分類上是屬於監督學習，而本篇著重於強化學習，<br>強化學習是不透過標籤（label），系統直接由環境中取得資訊來學習的 AI 系統。</p>
+<p>當時初學時，關於 Q 學習的部分其實看不太懂，我後來發現有一系列的途徑去理解，<br>一開始是自己閱讀《人工智能：一種現代的方法》，好不容易看懂（筆者數學不好……），<br>後來在 Udacity 的強化學習課程，又做了一次整理才明白。</p>
+<div class="note info"><p>關於課程請至 <a target="_blank" rel="noopener" href="https://www.udacity.com/course/reinforcement-learning--ud600">Udacity 的課程資訊</a></p>
+</div>
+
+<p>我認為的最佳學習途徑：</p>
+<ul>
+<li>馬可爾夫決策過程（Markov Decision Process, MDP）</li>
+<li>價值迭代（value iteration）與策略迭代（policy iteration）</li>
+<li>Q 學習（Q-learning）</li>
+<li>深度 Q 網路（Deep Q-Network, DQN）</li>
+</ul>
+<p>其中，前兩部分是序列式決策問題（sequential decision problem）的入門，<br>第三部分 Q 學習是關於序列決策的變體，最後深度 Q 網路則是將 Q 學習結合神經網路所誕生的算法。</p>
+<p>本篇是第一部分，重點擺在討論馬可爾夫決策過程與問題建模，<br>至於策略、效用與貝爾曼方程將在下一篇文章解決。</p>
+<div class="note success"><p>這是 DQN 的系列文章，下一篇是 <a href="/value-iteration">價值迭代 Value Iteration</a></p>
+</div>
+
+<div class="note info"><p>於 2019.05.13 更新了部分數學符號的表示</p>
+</div>
+
+<h1 id="馬可爾夫決策"><a href="#馬可爾夫決策" class="headerlink" title="馬可爾夫決策"></a>馬可爾夫決策</h1><p>馬可爾夫決策由下列部分組成：</p>
+<ul>
+<li>狀態集合 $S$</li>
+<li>動作函數 $ACTION: S \mapsto A$ 其中 $A$ 為可執行的動作</li>
+<li>轉移模型 $P(s_{t+1}|s_{t}, a)$ 其中 $s_{t} \in S$ 為當前狀態、$s_{t+1} \in S$ 為下一個狀態，$a \in A$ 為時間 $t$ 時執行的動作</li>
+<li>回報函數 $R(s)$</li>
+</ul>
+<p>其中轉移模型必須滿足馬可爾夫假設（Markov assumption）即「$s_{t+1}$ 的狀態僅受 $s_{t}$ 狀態影響」。</p>
+<div class="note info"><p>動作函數，通常被說是「動作集合」，但在書中公式表達像是「回傳集合的函數」，故在此以函數說明。</p>
+</div>
+
+<h1 id="玩具問題"><a href="#玩具問題" class="headerlink" title="玩具問題"></a>玩具問題</h1><p>筆者的經驗是，初學見到這些符號會水土不服，<br>所以可以先過渡到幾個其他的玩具問題（toy problem）來理解馬可爾夫決策的過程。<br>順便練習把問題定義清楚。</p>
+<h2 id="地圖尋路"><a href="#地圖尋路" class="headerlink" title="地圖尋路"></a>地圖尋路</h2><p>這是《人工智能：一種現代的方法》第 17.1 節序列式決策出現的玩具問題。</p>
+<p>地圖大小寬度為 3、長度為 4，位置 $(2, 2)$ 是一堵牆，<br>寶藏在 $(4, 3)$，陷阱在 $(4, 2)$。電腦從 $(1, 1)$ 開始，每次移動 1 格，移動會消耗 0.04 分，<br>目標是透過探索地圖，找到一個最佳策略來獲得高分。</p>
+<p>很難想像的話，看下面的圖 1。</p>
+<p><img src="https://i.imgur.com/8g4n6Sv.png" alt="圖 1、基本玩具問題"></p>
+<p>對於這個問題來說，建模的四個部分分別為：</p>
+<ul>
+<li>狀態集合，即座標集合 $S &#x3D; \{(x, y)| x \in \{1, 2, 3\}, y \in \{1, 2, 3, 4\} \}$</li>
+<li>動作函數，即在某一座標可以執行的動作 $MOVE: S \mapsto A$ 其中 $A &#x3D; \{\text{up}, \text{left}, \text{right}, \text{down}\}$</li>
+<li>轉移模型，即在某座標、執行某動作後，轉移到下個狀態的機率 $P(s_{t+1}|s_{t}, a_{t})$ 其中 $s_{t}, s_{t+1} \in S$ 且 $a_{t} \in A$</li>
+<li>回報函數，每個位置的得分 $SCORE(s) &#x3D; SCORE(x, y)$</li>
+</ul>
+<p>下面給出一段淺白的描述作為例子。</p>
+<p>目前在某一個座標 $x &#x3D; 1$ 且 $y &#x3D; 3$，所以我的「狀態」是 $s &#x3D; (1, 3) \in S$<br>在這個狀態下，我可以執行的動作為 $MOVE(1, 3) &#x3D; \text{up}, \text{left}, \text{right}, \text{down}$<br>也就是上下左右；如果此時我選擇 $a &#x3D; \text{right} \in A$ 即向右移動。</p>
+<div class="note info"><p>注意這裡的動作函數 $MOVE$ 是「一對多映射」，正因如此，玩家才在某些狀態，可以選擇多種動作。</p>
+</div>
+
+<p>若動作「一定會成功」則轉移模型為：$P((2, 3)|(1, 3), \text{right}) &#x3D; 100\%$<br>至於環境的回報（得分）是：</p>
+
+$SCORE(s) = \left\{\begin{array}{l}
++1 && \text{if } s = (4, 3) \\
+-1 && \text{if } s = (4, 2) \\
+-0.04 && \text{otherwise}
+\end{array}\right .$
+<br/>
+<div class="note info"><p>書中的轉移模型是不確定的。舉例來說，你決定往上移動，只有 80% 的機會成功之類的。</p>
+</div>
+
+<h2 id="簡化的二十一點"><a href="#簡化的二十一點" class="headerlink" title="簡化的二十一點"></a>簡化的二十一點</h2><p>為了更理解「轉移模型」的部分，筆者再針對簡化過後的二十一點（Black Jack）建模，<br>這個簡化過後的規則如下：</p>
+<ul>
+<li>牌面 1、2、3、4、5 每種牌都有無限多張且抽到每一種的機率相等</li>
+<li>牌面 1、2、3、4、5 對應點數為牌面的數字</li>
+<li>每一回合莊家、玩家決定要不要繼續抽牌</li>
+<li>若某回合不抽牌，接下來的回合不能繼續抽牌</li>
+<li>若超過 10 點，則判輸</li>
+<li>若雙方皆超過 10 點，則平手</li>
+<li>若雙方皆小於等於 10 點，則點數大者勝</li>
+<li>所有牌都是明牌（玩家可觀察）</li>
+<li>莊家先抽牌</li>
+</ul>
+<p>如果你覺得規則理解有點困難，請嘗試玩玩看：</p>
+
+    <div class="iframe-container" style="width:100%;">
+    <iframe
+        src="https://jsfiddle.net/d6bues10/embedded/result,js,html,css/dark"
+        width="100%"
+        height="200px"
+        allowfullscreen="allowfullscreen"
+        loading="lazy"
+        frameborder="0">
+    </iframe>
+    </div>
+    
+
+<div class="note info"><p>因為還沒介紹完策略，暫時不將完整的 AI 放出來，這裡的電腦僅是單純的邏輯模擬。</p>
+</div>
+
+<p>對於這個問題來說，建模的四個部分分別為：</p>
+<ul>
+<li>狀態集合，即各種手牌 $s$ 及允許抽牌標誌 $t$ 的集合 $S &#x3D; \{s &#x3D; (c, t) | c \subseteq \{1, 2, 3, 4, 5\},  t \in \{1, 0\}\}$</li>
+<li>動作函數，即每回合可以執行的動作 $ACTION: S \mapsto A$ 其中 $A &#x3D; \{\text{draw}, \text{pass}\}$</li>
+<li>轉移模型，即抽牌後，轉移到下個狀態的機率 $P(s_{t+1}|s_{t}, a_{t})$ 其中 $s_{t}, s_{t+1} \in S, a_{t} \in A$</li>
+<li>回報函數，即一局遊戲的牌面數字 $POINT(s), s \in S$</li>
+</ul>
+<p>我們先看動作函數，對於每一種手牌的狀態，<br>除非已經超過 10 點或曾經放棄抽牌，否則可以繼續抽牌，所以有：</p>
+
+$ACTION(s) = ACTION(c, t) = \left\{\begin{array}{l}
+\text{draw}, \text{pass} && \text{if } t = 1 \text{ and } \sum\limits_{x \in c}x \leq 10 \\
+\text{pass} && \text{if }  t = 0 \text{ or } \sum\limits_{x \in c}x > 10 \\
+\end{array}\right .$
+<br/>
+<p>然後轉移模型此時便不是「確定」的，轉移到不同的狀態是透過機率，<br>比方說目前我有手牌且可抽牌 $s &#x3D; (\{1, 2, 3\}, 1)$ 考慮動作函數有 $ACTION(c, t) &#x3D; \text{draw}, \text{pass}$<br>所以轉移模型，有兩種動作可以選擇：</p>
+<p>若選擇不抽牌，那下回合一定保持原來的手牌，但抽牌標誌變成 0。<br>$P((\{1, 2, 3\}, 0)|(\{1, 2, 3\}, 1), \text{pass}) &#x3D; 100%$</p>
+<p>若選擇抽牌，那下回合增加手牌（每種機率相等），抽牌標誌不變。<br>$P((\{1, 2, 3, 1\}, 1)|(\{1, 2, 3\}, 1), \text{draw}) &#x3D; 20%$（抽到點數 1）<br>$P((\{1, 2, 3, 2\}, 1)|(\{1, 2, 3\}, 1), \text{draw}) &#x3D; 20%$（抽到點數 2）<br>$P((\{1, 2, 3, 3\}, 1)|(\{1, 2, 3\}, 1), \text{draw}) &#x3D; 20%$（抽到點數 3）<br>$P((\{1, 2, 3, 4\}, 1)|(\{1, 2, 3\}, 1), \text{draw}) &#x3D; 20%$（抽到點數 4）<br>$P((\{1, 2, 3, 5\}, 1)|(\{1, 2, 3\}, 1), \text{draw}) &#x3D; 20%$（抽到點數 5）</p>
+<p>不難發現，對於某一種動作，機率和必為 $1$。</p>
+<p>回報函數為牌面點數和，點數和越高越好，而超過 10 點則給予 0 值：</p>
+
+$POINT(s) = POINT(c, t) = \left\{\begin{array}{l}
+\sum\limits_{x \in c}x && \text{if } \sum\limits_{x \in c}x \leq 10 \\
+0 && \text{if } \sum\limits_{x \in c}x > 10 \\
+\end{array}\right .$
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/tinytsunami-update-03/" rel="prev" title="羊羽手札更新歷程 03">
+                  <i class="fa fa-angle-left"></i> 羊羽手札更新歷程 03
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/sheeps-01/" rel="next" title="羊與羊的牧場 01">
+                  羊與羊的牧場 01 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  
+  <div class="comments giscus-container">
+  </div>
+  
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-bomb"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Tinytusnami</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="giscus" type="application/json">{"enable":true,"repo":"tinytsunami/blog","repo_id":"MDEwOlJlcG9zaXRvcnkxMjI3MTEwNTY=","category":"Blog Comments","category_id":"DIC_kwDOB1BsEM4C42Ww","mapping":"pathname","strict":0,"reactions_enabled":1,"emit_metadata":1,"theme":"preferred_color_scheme","lang":"zh-TW","crossorigin":"anonymous","input_position":"top","loading":"lazy"}</script>
+
+<script>
+document.addEventListener('page:loaded', () => {
+  if (!CONFIG.page.comments) return;
+
+  NexT.utils.loadComments('.giscus-container')
+    .then(() => NexT.utils.getScript('https://giscus.app/client.js', {
+      attributes: {
+        async                   : true,
+        crossOrigin             : 'anonymous',
+        'data-repo'             : CONFIG.giscus.repo,
+        'data-repo-id'          : CONFIG.giscus.repo_id,
+        'data-category'         : CONFIG.giscus.category,
+        'data-category-id'      : CONFIG.giscus.category_id,
+        'data-mapping'          : CONFIG.giscus.mapping,
+        'data-strict'           : CONFIG.giscus.strict,
+        'data-reactions-enabled': CONFIG.giscus.reactions_enabled,
+        'data-emit-metadata'    : CONFIG.giscus.emit_metadata,
+        'data-theme'            : CONFIG.giscus.theme,
+        'data-lang'             : CONFIG.giscus.lang,
+        'data-input-position'   : CONFIG.giscus.input_position,
+        'data-loading'          : CONFIG.giscus.loading
+      },
+      parentNode: document.querySelector('.giscus-container')
+    }));
+});
+</script>
+
+</body>
+</html>

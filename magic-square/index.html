@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.tinytsunami.info","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="這個是我們資料結構（Data Structure）的第二次作業，本文紀錄了奇數、雙偶數以及單偶數魔方陣（Magic Square）的做法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="魔方陣 Magic Square">
+<meta property="og:url" content="https://www.tinytsunami.info/magic-square/index.html">
+<meta property="og:site_name" content="羊羽手札">
+<meta property="og:description" content="這個是我們資料結構（Data Structure）的第二次作業，本文紀錄了奇數、雙偶數以及單偶數魔方陣（Magic Square）的做法。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.imgur.com/50hRjKi.png">
+<meta property="og:image" content="https://i.imgur.com/SCB43cG.png">
+<meta property="og:image" content="https://i.imgur.com/Invvg6W.png">
+<meta property="og:image" content="https://i.imgur.com/YweZ4PI.png">
+<meta property="og:image" content="https://i.imgur.com/DK9XvRB.png">
+<meta property="og:image" content="https://i.imgur.com/7xFxDuz.png">
+<meta property="og:image" content="https://i.imgur.com/7xFxDuz.png">
+<meta property="og:image" content="https://i.imgur.com/tq5mSR8.png">
+<meta property="og:image" content="https://i.imgur.com/naerzSE.png">
+<meta property="og:image" content="https://i.imgur.com/sXPLdE7.png">
+<meta property="og:image" content="https://i.imgur.com/bPsDTMt.png">
+<meta property="og:image" content="https://i.imgur.com/CZBPgzy.png">
+<meta property="og:image" content="https://i.imgur.com/totfAHj.png">
+<meta property="og:image" content="https://i.imgur.com/2yCaG9e.png">
+<meta property="og:image" content="https://i.imgur.com/yl17sjK.png">
+<meta property="og:image" content="https://i.imgur.com/k0w6LsS.png">
+<meta property="og:image" content="https://i.imgur.com/pyDJ8bL.png">
+<meta property="og:image" content="https://i.imgur.com/8kVKxGT.png">
+<meta property="og:image" content="https://i.imgur.com/yEXXqu3.png">
+<meta property="og:image" content="https://i.imgur.com/V4dCf8W.png">
+<meta property="article:published_time" content="2016-10-22T00:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-20T08:43:52.219Z">
+<meta property="article:author" content="Tinytusnami">
+<meta property="article:tag" content="技術, 獨立遊戲">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/50hRjKi.png">
+
+
+<link rel="canonical" href="https://www.tinytsunami.info/magic-square/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://www.tinytsunami.info/magic-square/","path":"/magic-square/","title":"魔方陣 Magic Square"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>魔方陣 Magic Square | 羊羽手札</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">羊羽手札</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Tinytsunami's Blog</p>
+      <img class="custom-logo-image" src="/images/icon.png" alt="羊羽手札">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-game"><a href="https://tinytsunami.itch.io/" rel="section" target="_blank"><i class="fas fa-gamepad fa-fw"></i>game</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%AD%94%E6%96%B9%E9%99%A3%E5%AE%9A%E7%BE%A9"><span class="nav-number">1.</span> <span class="nav-text">魔方陣定義</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A5%87%E6%95%B8%E9%AD%94%E6%96%B9%E9%99%A3"><span class="nav-number">2.</span> <span class="nav-text">奇數魔方陣</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text">算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%94%E7%A4%BA"><span class="nav-number">2.2.</span> <span class="nav-text">演示</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9B%99%E5%81%B6%E6%95%B8%E9%AD%94%E6%96%B9%E9%99%A3"><span class="nav-number">3.</span> <span class="nav-text">雙偶數魔方陣</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95-1"><span class="nav-number">3.1.</span> <span class="nav-text">算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%94%E7%A4%BA-1"><span class="nav-number">3.2.</span> <span class="nav-text">演示</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%96%AE%E5%81%B6%E6%95%B8%E9%AD%94%E6%96%B9%E9%99%A3"><span class="nav-number">4.</span> <span class="nav-text">單偶數魔方陣</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95-2"><span class="nav-number">4.1.</span> <span class="nav-text">算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%94%E7%A4%BA-2"><span class="nav-number">4.2.</span> <span class="nav-text">演示</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Tinytusnami"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">Tinytusnami</p>
+  <div class="site-description" itemprop="description">羊羽的個人部落格</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/tinytsunami" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;tinytsunami" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/TaipeiTsunami" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;TaipeiTsunami" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/profile.php?id=100000736195394" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;profile.php?id&#x3D;100000736195394" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCtqp9w_uA_LohDm0YXNWqSA" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCtqp9w_uA_LohDm0YXNWqSA" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+          連結
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://blog.cyris.tw/" title="https:&#x2F;&#x2F;blog.cyris.tw" rel="noopener" target="_blank">Cyris's Blog</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://poyu-liao.github.io/blog" title="https:&#x2F;&#x2F;poyu-liao.github.io&#x2F;blog" rel="noopener" target="_blank">Robert's Blog</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/magic-square/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="Tinytusnami">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="羊羽手札">
+      <meta itemprop="description" content="羊羽的個人部落格">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="魔方陣 Magic Square | 羊羽手札">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          魔方陣 Magic Square
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2016-10-22 00:00:00" itemprop="dateCreated datePublished" datetime="2016-10-22T00:00:00Z">2016-10-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/legacy-algorithm/" itemprop="url" rel="index"><span itemprop="name">(legacy) algorithm</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>這個是我們資料結構（Data Structure）的第二次作業，<br>本文紀錄了<strong>奇數</strong>、<strong>雙偶數</strong>以及<strong>單偶數</strong>魔方陣（Magic Square）的做法。</p>
+<span id="more"></span>
+
+<p>老實說，上課不斷的聯想到太鼓達人的 ★9 曲「魔方陣-サモン・デルタ-」</p>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/UgK1_AflaME" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<h1 id="魔方陣定義"><a href="#魔方陣定義" class="headerlink" title="魔方陣定義"></a>魔方陣定義</h1><p>魔方陣定義是這樣的：</p>
+<ul>
+<li>每一行（Column）的總和</li>
+<li>每一列（Row）的總和</li>
+<li>對角線的總和</li>
+<li>上面每一個值都相等</li>
+</ul>
+<div class="note info"><p>這邊採用了<strong>直行橫列</strong>的說法。</p>
+</div>
+
+<p>比方說圖 1 這樣：<br><img src="https://i.imgur.com/50hRjKi.png" alt="圖 1、$3$ x $3$ 與 4x4 魔方陣例子"></p>
+<p>接下來我會記錄如何製作魔方陣。</p>
+<h1 id="奇數魔方陣"><a href="#奇數魔方陣" class="headerlink" title="奇數魔方陣"></a>奇數魔方陣</h1><p>奇數的魔方陣是魔方陣中比較簡單的一種，構造方式相當容易。<br>正常情況下，給定一個 $n$ 在 $O(n^2)$ 時間複雜度內就可以完成。</p>
+<ul>
+<li>第一列（Row）中間放「1」</li>
+<li>不斷<strong>往左上角移動（走出方格從對面出現）</strong>、放入下一個數字</li>
+<li>如果左上角空間<strong>已有數字，則往下放一格</strong></li>
+</ul>
+<p>以 $3$ x $3$ 魔方陣為例（$n &#x3D; 3$）：</p>
+<p>第一步：如圖 2 在中間上面放「1」</p>
+<p><img src="https://i.imgur.com/SCB43cG.png" alt="圖 2、$3$ x $3$ 魔方陣第 1 步"></p>
+<p>第二步：如圖 3 不斷往左上走。同時累進數字。<br>（這個 1 從上方跑出方陣、於是 2 應該在下面。）</p>
+<p><img src="https://i.imgur.com/Invvg6W.png" alt="圖 3、$3$ x $3$ 魔方陣第 2 步"></p>
+<p>如圖 4 我們接下來不斷重複。</p>
+<p><img src="https://i.imgur.com/YweZ4PI.png" alt="圖 4、$3$ x $3$ 魔方陣第 2 步重複"></p>
+<p>第三步：如圖 5 這個 3 的左上方已經有數字，於是往下放一格。</p>
+<p><img src="https://i.imgur.com/DK9XvRB.png" alt="圖 5、$3$ x $3$ 魔方陣第 3 步"></p>
+<p>依照這個步驟繼續完成。</p>
+<p><img src="https://i.imgur.com/7xFxDuz.png" alt="圖 6、$3$ x $3$ 魔方陣"></p>
+<p>如圖 6 所示，我們最終就得到一個不錯的方陣。</p>
+<h2 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h2><p>只要考慮跑出方陣、以及碰撞到有值的格子就可以了。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">//計算下一步的座標</span></span><br><span class="line">x = (x - <span class="number">1</span> &amp;lt; <span class="number">0</span>)? width : x - <span class="number">1</span>;</span><br><span class="line">y = (y - <span class="number">1</span> &amp;lt; <span class="number">0</span>)? height : y - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//如果下一步有值</span></span><br><span class="line"><span class="keyword">if</span>(!empty(<span class="built_in">map</span>[x][y]))</span><br><span class="line">&#123;</span><br><span class="line">        <span class="comment">//先回到上一步</span></span><br><span class="line">    x = tx;</span><br><span class="line">    y = ty;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//往下移動一格</span></span><br><span class="line">    y = (y + <span class="number">1</span> &amp;gt; height)? <span class="number">0</span> : y + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//確定位置後，填入數值</span></span><br><span class="line"><span class="built_in">map</span>[x][y] = value;</span><br><span class="line"></span><br><span class="line"><span class="comment">//記錄這一步的座標</span></span><br><span class="line">tx = x;</span><br><span class="line">ty = y;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="演示"><a href="#演示" class="headerlink" title="演示"></a>演示</h2>
+    <div class="iframe-container" style="width:100%;">
+    <iframe
+        src="https://jsfiddle.net/yq50092e/embedded/result,js,html,css/dark"
+        width="100%"
+        height="280px"
+        allowfullscreen="allowfullscreen"
+        loading="lazy"
+        frameborder="0">
+    </iframe>
+    </div>
+    
+
+<h1 id="雙偶數魔方陣"><a href="#雙偶數魔方陣" class="headerlink" title="雙偶數魔方陣"></a>雙偶數魔方陣</h1><p>雙偶數指的是 4 的倍數。這類型的魔方陣比奇數更複雜一些。<br>雙偶數的魔方陣的做法：</p>
+<ul>
+<li>先<strong>按照順序填入</strong></li>
+<li>找到<strong>主對角線</strong></li>
+<li>找到<strong>副對角線</strong></li>
+<li>把不在對角線上的值依序取下</li>
+<li>把取下的值從後面<strong>反過來填上</strong></li>
+</ul>
+<p>重點在於，何謂主、副對角線呢？<br>這邊的解釋是，任何可以切割成方格的樣子。</p>
+<p><img src="https://i.imgur.com/7xFxDuz.png" alt="圖 7、$4$ x $4$ 魔方陣（藍色為主對角線）"></p>
+<p><img src="https://i.imgur.com/tq5mSR8.png" alt="圖 8、$8$ x $8$ 魔方陣（藍色為主對角線、紅色為副對角線）"></p>
+<p>從圖 7 與圖 8 就可以看出來，藍色背景的是我所認知的「主對角線」、而紅色背景是「副對角線」。</p>
+<ul>
+<li>當 $n &#x3D; 4$ 時，沒有副對角線。</li>
+<li>當 $n \geq 8$ 時，有副對角線。</li>
+</ul>
+<h2 id="算法-1"><a href="#算法-1" class="headerlink" title="算法"></a>算法</h2><p>最麻煩的是、你如何抓對角線呢？<br>讓我們來仔細觀察看看圖 9：</p>
+<p><img src="https://i.imgur.com/naerzSE.png" alt="圖 9、對角線座標觀察"></p>
+<p>不曉得有沒有發現呢？ 他縱向、橫向的規律是一致的。<br>然後他對角線上的值有這樣的特性：</p>
+<ul>
+<li>位置 $(x, y)$</li>
+<li>如果 $x \mod 4 &#x3D; 0$ 或 $3$ 且 $y \mod 4 &#x3D; 0$ 或 $3$（上方紅色）</li>
+<li>如果 $x \mod 4 &#x3D; 1$ 或 $2$ 且 $y \mod 4 &#x3D; 1$ 或 $2$（上方藍色）</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">//弄個陣列</span></span><br><span class="line"><span class="built_in">array</span> = []</span><br><span class="line"></span><br><span class="line"><span class="comment">//遍歷位置</span></span><br><span class="line"><span class="keyword">for</span>(x is <span class="number">0</span> to width)</span><br><span class="line">    <span class="keyword">for</span>(y is <span class="number">0</span> to height)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//屬於非對角線的話，推入陣列</span></span><br><span class="line">        <span class="keyword">if</span>(belong(x, y))</span><br><span class="line">            <span class="built_in">array</span>.push((x, y));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//翻轉陣列</span></span><br><span class="line"><span class="built_in">array</span>.reverse();</span><br><span class="line"></span><br><span class="line"><span class="comment">//最後填回</span></span><br><span class="line"><span class="keyword">for</span>(x is <span class="number">0</span> to width)</span><br><span class="line">    <span class="keyword">for</span>(y is <span class="number">0</span> to height)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//屬於非對角線的話，從陣列中回填</span></span><br><span class="line">        <span class="keyword">if</span>(belong(x, y))</span><br><span class="line">            (x, y) = <span class="built_in">array</span>.pop();</span><br><span class="line">    &#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>這樣就可以把雙偶數魔方陣完成。</p>
+<h2 id="演示-1"><a href="#演示-1" class="headerlink" title="演示"></a>演示</h2>
+    <div class="iframe-container" style="width:100%;">
+    <iframe
+        src="https://jsfiddle.net/744xrkk1/embedded/result,js,html,css/dark"
+        width="100%"
+        height="280px"
+        allowfullscreen="allowfullscreen"
+        loading="lazy"
+        frameborder="0">
+    </iframe>
+    </div>
+    
+
+<h1 id="單偶數魔方陣"><a href="#單偶數魔方陣" class="headerlink" title="單偶數魔方陣"></a>單偶數魔方陣</h1><p>這是所有方陣中最複雜的。但其也有跡可循。<br>然而我們可以觀察到，它的大小：$n &#x3D; 4k+2$<br>舉例來說：</p>
+<ul>
+<li>$k &#x3D; 1$、$n &#x3D; 4+2 &#x3D; 6$</li>
+<li>$k &#x3D; 2$、$n &#x3D; 8+2 &#x3D; 10$</li>
+<li>…</li>
+</ul>
+<div class="note warning"><p>注意：當 $k &#x3D; 0$ 時，則 $n &#x3D; 2$ 的 2x2 魔方陣並不存在。</p>
+</div>
+
+<p>除了奇數、4 的倍數外、剩下的剛好都是 $4k+2$ 的形式。<br>這種方陣的樣貌大致上呈現，如圖 10 及圖 11 這樣：</p>
+<p><img src="https://i.imgur.com/sXPLdE7.png" alt="圖 10、6x6 魔方陣（$n&#x3D;6$、$k&#x3D;1$）"></p>
+<p><img src="https://i.imgur.com/bPsDTMt.png" alt="圖 11、10x10 魔方陣（$n&#x3D;10$、$k&#x3D;2$）"></p>
+<p>這邊來敘述這種方陣的構成：</p>
+<ul>
+<li>先構造一個 $n &#x2F; 2$ 的魔方陣，作為子方陣</li>
+<li>拼合 4 個子方陣（規則下面會說明）</li>
+<li>透過 $k &#x3D; (n - 2) &#x2F; 4$ 求出 $k$</li>
+<li>搬動方陣內的元素</li>
+</ul>
+<p>我們以 $n &#x3D; 6$ 為例子。<br>首先，我們得構造一個 $3$ x $3$ 的魔方陣，如圖 12：</p>
+<p><img src="https://i.imgur.com/CZBPgzy.png" alt="圖 12、$3$ x $3$ 魔方陣"></p>
+<p>接著我們要拚合子方陣。先看圖 13：</p>
+<p><img src="https://i.imgur.com/totfAHj.png" alt="圖 13、拼合子方陣結構"></p>
+<p>總共會把子方陣複製 4 份貼在 $6$ x $6$ 的方陣中。<br>不過還得加上一個常數：$m \cdot (n &#x2F; 2)^2$</p>
+<ul>
+<li>A 區塊 $m &#x3D; 0$、所以方陣中元素加 $0$</li>
+<li>B 區塊 $m &#x3D; 2$、所以方陣中元素加 $2 \cdot 3^2 &#x3D; 18$</li>
+<li>C 區塊 $m &#x3D; 3$、所以方陣中元素加 $3 \cdot 3^2 &#x3D; 27$</li>
+<li>D 區塊 $m &#x3D; 1$、所以方陣中元素加 $1 \cdot 3^2 &#x3D; 9$</li>
+</ul>
+<p>將其累進拚合後：</p>
+<p><img src="https://i.imgur.com/2yCaG9e.png" alt="圖 14、拼合方陣"></p>
+<p>這樣就拚合了 4 個子方陣成為一個大的 6x6 方陣，如圖 14。<br>不過還沒有完成。我們得搬動一些元素才行。</p>
+<p>接著，透過 $k &#x3D; (n - 2) &#x2F; 4$ 求出 $k$。$n &#x3D; 6$ 代表 $k &#x3D; 1$<br>然後把矩陣分成上下兩塊，如圖 15：</p>
+<p><img src="https://i.imgur.com/yl17sjK.png" alt="圖 15、拼合方陣上下分割"></p>
+<p>搬動元素的規則為：</p>
+<ul>
+<li>上面區塊的左上角 $k$ x $k$ 方陣跟下方換。</li>
+<li>上面區塊的左下角 $k$ x $k$ 方陣跟下方換。</li>
+<li>上面區塊的中間列（Row）從 $k$ 位置向右 $k$ 格跟下方換</li>
+<li>上面矩陣的 $(n&#x2F;2) + \lfloor n&#x2F;4 \rfloor$（也就是右半邊的中間）處向右 $k - 1$ 格跟下方換</li>
+</ul>
+<p>實際標記看看，上面區塊的左上角 $k$ x $k$ 方陣跟下方換（$k &#x3D; 1$），如圖 16：</p>
+<p><img src="https://i.imgur.com/k0w6LsS.png" alt="圖 16、交換左上角區塊"></p>
+<p>上面區塊的左下角 $k$ x $k$ 方陣跟下方換（$k &#x3D; 1$），如圖 17：</p>
+<p><img src="https://i.imgur.com/pyDJ8bL.png" alt="圖 17、交換左下角區塊"></p>
+<p>上面區塊的中間列（Row）從 $k$ 位置（綠框）向右 $k$ 格（藍框）跟下方換（$k &#x3D; 1$），如圖 18：</p>
+<p><img src="https://i.imgur.com/8kVKxGT.png" alt="圖 18、交換中間列區塊"></p>
+<div class="note warning"><p>注意計算綠框向右 $k$ 格時，綠框自己不算是 1 格。</p>
+</div>
+
+<p>上面矩陣的 $(n&#x2F;2) + \lfloor n&#x2F;4 \rfloor$ 處向右 $k - 1$ 格跟下方換，<br>這邊理解一下，雖然看起來很複雜，但 $n&#x2F;2$ 是子方陣的大小、$(n&#x2F;2)&#x2F;2$ 恰為子方陣大小的一半。<br>從綠框處（含）、往右 $0$ 格（藍框、因為是 $0$ 而無法顯示）如圖 19：</p>
+<p><img src="https://i.imgur.com/yEXXqu3.png" alt="圖 19、交換右側直行區塊"></p>
+<div class="note info"><p>您可以在演示區使用 $10$ x $10$ 的魔方陣觀察這一步。</p>
+</div>
+
+<p>這樣最後得到的，如圖 20 就是完好的魔方陣了。</p>
+<p><img src="https://i.imgur.com/V4dCf8W.png" alt="圖 20、$6$ x $6$ 魔方陣"></p>
+<h2 id="算法-2"><a href="#算法-2" class="headerlink" title="算法"></a>算法</h2><p>知道了構造方式、接下來的只是土法煉鋼。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">//生成 nxn 空間</span></span><br><span class="line"><span class="built_in">map</span>[n][n];</span><br><span class="line"></span><br><span class="line"><span class="comment">//奇數方陣大小</span></span><br><span class="line">odd_size = n/<span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//構造奇數方陣</span></span><br><span class="line">odd_magic = magic(odd_size);</span><br><span class="line"></span><br><span class="line"><span class="comment">//組合子方陣</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> x=<span class="number">0</span>; x&amp;lt;odd_size; x++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> y=<span class="number">0</span>; y&amp;lt;odd_size; y++)</span><br><span class="line">    &#123;</span><br><span class="line">            <span class="comment">//組合 A 子方陣</span></span><br><span class="line">        <span class="built_in">map</span>[x][y] = odd_magic[x][y];</span><br><span class="line">        <span class="comment">//組合 B 子方陣</span></span><br><span class="line">        <span class="built_in">map</span>[x+(n/<span class="number">2</span>)][y] = odd_magic[x][y] + <span class="number">2</span>*<span class="built_in">pow</span>(odd_size, <span class="number">2</span>);</span><br><span class="line">        <span class="comment">//組合 C 子方陣</span></span><br><span class="line">        <span class="built_in">map</span>[x][y+(n/<span class="number">2</span>)] = odd_magic[x][y] + <span class="number">3</span>*<span class="built_in">pow</span>(odd_size, <span class="number">2</span>);</span><br><span class="line">        <span class="comment">//組合 D 子方陣</span></span><br><span class="line">        <span class="built_in">map</span>[x+(n/<span class="number">2</span>)][y+(n/<span class="number">2</span>)] = odd_magic[x][y] + <span class="number">1</span>*<span class="built_in">pow</span>(odd_size, <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//計算 k 值</span></span><br><span class="line">k = (n - <span class="number">2</span>)/<span class="number">4</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//交換左上角區塊</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> x=<span class="number">0</span>; x&amp;lt;k; x++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> y=<span class="number">0</span>; y&amp;lt;k; y++)</span><br><span class="line">        swap(<span class="built_in">map</span>[x][y], <span class="built_in">map</span>[x][y+odd_size]);</span><br><span class="line"></span><br><span class="line"><span class="comment">//交換左下角區塊</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> x=<span class="number">0</span>; x&amp;lt;k; x++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> y=<span class="number">0</span>; y&amp;lt;k; y++)</span><br><span class="line">        swap(<span class="built_in">map</span>[x][odd_size-y], <span class="built_in">map</span>[x][n-y]);</span><br><span class="line"></span><br><span class="line"><span class="comment">//交換中間區塊</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> x=<span class="number">0</span>; x&amp;lt;k; x++)</span><br><span class="line">    swap(<span class="built_in">map</span>[k+x][odd_size/<span class="number">2</span>], <span class="built_in">map</span>[k+x][n-(odd_size/<span class="number">2</span>)]);</span><br><span class="line"></span><br><span class="line"><span class="comment">//交換右邊的(k-1)區塊</span></span><br><span class="line">pos = oddsize + (odd_size/<span class="number">2</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> x=pos; x&amp;lt;pos+k<span class="number">-1</span>; x++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> y=<span class="number">0</span>; y&amp;lt;odd_size; y++)</span><br><span class="line">        swap(<span class="built_in">map</span>[x][y], <span class="built_in">map</span>[x][y+odd_size]);</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="演示-2"><a href="#演示-2" class="headerlink" title="演示"></a>演示</h2>
+    <div class="iframe-container" style="width:100%;">
+    <iframe
+        src="https://jsfiddle.net/1samkxs3/embedded/result,js,html,css/dark"
+        width="100%"
+        height="410px"
+        allowfullscreen="allowfullscreen"
+        loading="lazy"
+        frameborder="0">
+    </iframe>
+    </div>
+    
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/stack-and-queue/" rel="next" title="堆疊與佇列 Stack and Queue">
+                  堆疊與佇列 Stack and Queue <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  
+  <div class="comments giscus-container">
+  </div>
+  
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-bomb"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Tinytusnami</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="giscus" type="application/json">{"enable":true,"repo":"tinytsunami/blog","repo_id":"MDEwOlJlcG9zaXRvcnkxMjI3MTEwNTY=","category":"Blog Comments","category_id":"DIC_kwDOB1BsEM4C42Ww","mapping":"pathname","strict":0,"reactions_enabled":1,"emit_metadata":1,"theme":"preferred_color_scheme","lang":"zh-TW","crossorigin":"anonymous","input_position":"top","loading":"lazy"}</script>
+
+<script>
+document.addEventListener('page:loaded', () => {
+  if (!CONFIG.page.comments) return;
+
+  NexT.utils.loadComments('.giscus-container')
+    .then(() => NexT.utils.getScript('https://giscus.app/client.js', {
+      attributes: {
+        async                   : true,
+        crossOrigin             : 'anonymous',
+        'data-repo'             : CONFIG.giscus.repo,
+        'data-repo-id'          : CONFIG.giscus.repo_id,
+        'data-category'         : CONFIG.giscus.category,
+        'data-category-id'      : CONFIG.giscus.category_id,
+        'data-mapping'          : CONFIG.giscus.mapping,
+        'data-strict'           : CONFIG.giscus.strict,
+        'data-reactions-enabled': CONFIG.giscus.reactions_enabled,
+        'data-emit-metadata'    : CONFIG.giscus.emit_metadata,
+        'data-theme'            : CONFIG.giscus.theme,
+        'data-lang'             : CONFIG.giscus.lang,
+        'data-input-position'   : CONFIG.giscus.input_position,
+        'data-loading'          : CONFIG.giscus.loading
+      },
+      parentNode: document.querySelector('.giscus-container')
+    }));
+});
+</script>
+
+</body>
+</html>

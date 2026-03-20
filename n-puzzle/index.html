@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.tinytsunami.info","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="這是人工智慧課程的教學筆記。同時也是學期初上課的內容，因為不太好寫演示所以拖到暑假來完成。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="推盤遊戲  n-puzzle">
+<meta property="og:url" content="https://www.tinytsunami.info/n-puzzle/index.html">
+<meta property="og:site_name" content="羊羽手札">
+<meta property="og:description" content="這是人工智慧課程的教學筆記。同時也是學期初上課的內容，因為不太好寫演示所以拖到暑假來完成。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.imgur.com/90Tj4xL.png">
+<meta property="og:image" content="https://i.imgur.com/HohLNkB.png">
+<meta property="og:image" content="https://i.imgur.com/yTodbyw.png">
+<meta property="og:image" content="https://i.imgur.com/mlYFT87.png">
+<meta property="og:image" content="https://i.imgur.com/LGGN4hg.png">
+<meta property="og:image" content="https://i.imgur.com/zLKI65z.png">
+<meta property="og:image" content="https://i.imgur.com/AY2LFNK.png">
+<meta property="og:image" content="https://i.imgur.com/mlYFT87.png">
+<meta property="og:image" content="https://i.imgur.com/yiUwADa.png">
+<meta property="og:image" content="https://i.imgur.com/rSXUXe2.png">
+<meta property="og:image" content="https://i.imgur.com/OAV074x.png">
+<meta property="og:image" content="https://i.imgur.com/26Nh0U3.png">
+<meta property="og:image" content="https://i.imgur.com/kCedGRl.png">
+<meta property="og:image" content="https://i.imgur.com/hqxmhmA.png">
+<meta property="article:published_time" content="2018-07-21T00:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-20T08:43:52.183Z">
+<meta property="article:author" content="Tinytusnami">
+<meta property="article:tag" content="技術, 獨立遊戲">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/90Tj4xL.png">
+
+
+<link rel="canonical" href="https://www.tinytsunami.info/n-puzzle/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://www.tinytsunami.info/n-puzzle/","path":"/n-puzzle/","title":"推盤遊戲  n-puzzle"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>推盤遊戲  n-puzzle | 羊羽手札</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">羊羽手札</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Tinytsunami's Blog</p>
+      <img class="custom-logo-image" src="/images/icon.png" alt="羊羽手札">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-game"><a href="https://tinytsunami.itch.io/" rel="section" target="_blank"><i class="fas fa-gamepad fa-fw"></i>game</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BB%91%E5%A1%8A%E9%81%8A%E6%88%B2"><span class="nav-number">1.</span> <span class="nav-text">滑塊遊戲</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A6%8F%E5%89%87"><span class="nav-number">1.1.</span> <span class="nav-text">規則</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%A4%E9%9D%A2%E8%88%87%E7%8B%80%E6%85%8B"><span class="nav-number">1.2.</span> <span class="nav-text">盤面與狀態</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%A4%E9%9D%A2%E5%8B%95%E4%BD%9C"><span class="nav-number">1.3.</span> <span class="nav-text">盤面動作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AA%A2%E6%9F%A5%E7%8B%80%E6%85%8B"><span class="nav-number">1.4.</span> <span class="nav-text">檢查狀態</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E7%9A%84%E9%A1%9E%E5%9E%8B"><span class="nav-number">1.5.</span> <span class="nav-text">解的類型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%99%AE%E9%80%9A%E8%A7%A3%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">普通解法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8B%80%E6%85%8B%E6%A8%B9"><span class="nav-number">2.1.</span> <span class="nav-text">狀態樹</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B2%AA%E5%A9%AA%E6%90%9C%E7%B4%A2"><span class="nav-number">2.2.</span> <span class="nav-text">貪婪搜索</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%BB%E8%B7%AF%E7%8B%80%E6%85%8B"><span class="nav-number">2.3.</span> <span class="nav-text">死路狀態</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9A%A8%E6%A9%9F%E7%AD%96%E7%95%A5"><span class="nav-number">2.4.</span> <span class="nav-text">隨機策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%94%E7%A4%BA"><span class="nav-number">2.5.</span> <span class="nav-text">演示</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%80%E5%84%AA%E8%A7%A3%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">最優解法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#A-%E6%90%9C%E7%B4%A2"><span class="nav-number">3.1.</span> <span class="nav-text">A*搜索</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%84%AA%E5%85%88%E4%BD%87%E5%88%97"><span class="nav-number">3.2.</span> <span class="nav-text">優先佇列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%94%E7%A4%BA-1"><span class="nav-number">3.3.</span> <span class="nav-text">演示</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Tinytusnami"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">Tinytusnami</p>
+  <div class="site-description" itemprop="description">羊羽的個人部落格</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/tinytsunami" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;tinytsunami" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/TaipeiTsunami" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;TaipeiTsunami" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/profile.php?id=100000736195394" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;profile.php?id&#x3D;100000736195394" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCtqp9w_uA_LohDm0YXNWqSA" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCtqp9w_uA_LohDm0YXNWqSA" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+          連結
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://blog.cyris.tw/" title="https:&#x2F;&#x2F;blog.cyris.tw" rel="noopener" target="_blank">Cyris's Blog</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://poyu-liao.github.io/blog" title="https:&#x2F;&#x2F;poyu-liao.github.io&#x2F;blog" rel="noopener" target="_blank">Robert's Blog</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/n-puzzle/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="Tinytusnami">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="羊羽手札">
+      <meta itemprop="description" content="羊羽的個人部落格">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="推盤遊戲  n-puzzle | 羊羽手札">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          推盤遊戲  n-puzzle
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2018-07-21 00:00:00" itemprop="dateCreated datePublished" datetime="2018-07-21T00:00:00Z">2018-07-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/legacy-algorithm/" itemprop="url" rel="index"><span itemprop="name">(legacy) algorithm</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>這是人工智慧課程的教學筆記。<br>同時也是學期初上課的內容，因為不太好寫演示所以拖到暑假來完成。</p>
+<span id="more"></span>
+
+<p>原本以為寫起來很簡單，但筆者發現許多地方很難說明清楚，<br>增加了許多圖片輔助理解，也延後了完成的時間……</p>
+<div class="note info"><p>本篇內容與機器學習無關，更屬於早期推理與搜索人工智慧的部分。</p>
+</div>
+
+<h1 id="滑塊遊戲"><a href="#滑塊遊戲" class="headerlink" title="滑塊遊戲"></a>滑塊遊戲</h1><p>開始之前，先來討論遊戲本體。  </p>
+<h2 id="規則"><a href="#規則" class="headerlink" title="規則"></a>規則</h2><p>通常而言，已完成的盤面有 2 種表示方法，就像圖 1 這樣：</p>
+<p><img src="https://i.imgur.com/90Tj4xL.png" alt="圖 1、盤面表示的 2 種方法"></p>
+<p>筆者採用前者這種。</p>
+<p>遊戲的規則很簡單：</p>
+<ul>
+<li>移動空格（即 0 那格）周圍的拼圖到空格上</li>
+<li>移動到拼圖完成（只剩空格那塊不在正確的位置上）</li>
+</ul>
+<p>以程式來講，規則是容易實作的，<br>反而是盤面資料的表示會有很多的考量。</p>
+<p>接下來我們會先討論盤面與狀態的關係，再敘說表示方法。</p>
+<h2 id="盤面與狀態"><a href="#盤面與狀態" class="headerlink" title="盤面與狀態"></a>盤面與狀態</h2><p>所謂的狀態，其實就是指儲存的盤面，盤面可以用各種方式儲存，<br>其實狀態大致上跟盤面是同義的；雖然嚴格說起來，狀態是盤面的抽象表示。</p>
+<p>考慮到 3x3 的盤面，就已經有多種保存的方法：</p>
+<ul>
+<li>儲存陣列</li>
+<li>儲存動態陣列的指標</li>
+<li>儲存某個計算過的數值</li>
+<li>儲存定義的物件</li>
+<li>…</li>
+</ul>
+<p>儲存陣列在高階語言中，相當於額外開一塊記憶體空間，<br>而在 C&#x2F;C++ 中，儲存指標可能要有效率的多。</p>
+<p>計算某個數值的方法，舉例來說可以計算 $V(S) &#x3D; \sum\limits_{i&#x3D;0}^{N^{2}-1} 10^{i}S_{i}$<br>像是 $S &#x3D; [4, 7, 6, 3, 1, 2, 8, 0, 5]$ 就有：</p>
+<p>$V(S) &#x3D; 10^{0}S_{0} + 10^{1}S_{1} + … + 10^{8}S_{8}$<br>$&#x3D; 4 + 70 + 600 + 3000 + 10000 + 200000 + 8000000 + 0 + 500000000 &#x3D; 508213674$</p>
+<p>儲存定義的物件，通常是用於需要中間盤面的時候，<br>而筆者的演示因為需要動畫，所以採用的是這種方式（陣列儲存在物件中）。</p>
+<div class="note danger"><p>儲存特定數值可能不是有效的方法，因為數值較大可能溢位（4x4）</p>
+</div>
+
+<h2 id="盤面動作"><a href="#盤面動作" class="headerlink" title="盤面動作"></a>盤面動作</h2><p>定義好盤面表示法（即狀態）之後，接下來要定義動作。</p>
+<p>由於我們將 2 維陣列以 1 維表示，直觀上來講，<br>若盤面大小為 $N$ 且狀態為 $S_{i}$ 其中 $i$ 為陣列的註標，<br>先定義取得列的函數：</p>
+<p>$row(x) &#x3D; \lfloor\frac{x}{N}\rfloor$</p>
+<p>動作的部分：</p>
+<ul>
+<li>向上移動，即 $swap(S_{i}, S_{i-N})$ 其中 $row(i-N) \geq 0$</li>
+<li>向下移動，即 $swap(S_{i}, S_{i+N})$ 其中 $row(i+N) \leq N-1$</li>
+<li>向左移動，即 $swap(S_{i}, S_{i-1})$ 其中 $row(i) &#x3D; row(i-1)$</li>
+<li>向右移動，即 $swap(S_{i}, S_{i+1})$ 其中 $row(i) &#x3D; row(i+1)$</li>
+</ul>
+<div class="note warning"><p>若將空格視為圖塊，因為只能移動空格，則此處的 $S_{i}$ 必為 $0$</p>
+</div>
+
+<p>舉個例子。</p>
+<p>下面以 $N &#x3D; 3$ 即 3x3 盤面為例，<br>假設此時的 $S &#x3D; [4, 7, 6, 3, 1, 2, 8, 0, 5]$ 畫成圖 2：</p>
+<p><img src="https://i.imgur.com/HohLNkB.png" alt="圖 2、初始盤面"></p>
+<div class="note info"><p>圖的格子中間的數字是儲存的值，而右下角為註標。</p>
+</div>
+
+<p>我們先向下移動，如果不考慮條件，直接移動的話，會變成圖 3：</p>
+<p><img src="https://i.imgur.com/yTodbyw.png" alt="圖 3、向下移動錯誤"></p>
+<p>驗算一下，因為 $S_{7} &#x3D; 0$ 則 $row(7+N) &#x3D; \lfloor\frac{7+3}{3}\rfloor &#x3D; \lfloor\frac{10}{3}\rfloor &#x3D; 3$ 有 $3 \nleq 2$ 代表條件不成立，<br>所以移動失敗，如圖 4：</p>
+<p><img src="https://i.imgur.com/mlYFT87.png" alt="圖 4、向下移動失敗"></p>
+<p>接著向上移動。<br>則 $S_{7} &#x3D; 0$ 因為 $row(7-N) &#x3D; \lfloor\frac{7-3}{3}\rfloor &#x3D; \lfloor\frac{4}{3}\rfloor &#x3D; 1$ 則 $1 \geq 2$ 成立，所以移動成功，如圖 5。<br>做 $swap(state[7], state[4])$ 有：</p>
+<p><img src="https://i.imgur.com/LGGN4hg.png" alt="圖 5、向上移動成功"></p>
+<p>然後我們向右移動，現在 $S_{4} &#x3D; 0$ 的話：<br>$row(4) &#x3D; \lfloor\frac{4}{3}\rfloor &#x3D; 1$<br>$row(4+1) &#x3D; \lfloor\frac{5}{3}\rfloor &#x3D; 1$<br>有 $1 &#x3D; 1$ 成立，所以移動成功，如圖 6。<br>做 $swap(state[4], state[5])$ 有：</p>
+<p><img src="https://i.imgur.com/zLKI65z.png" alt="圖 6、向右移動成功"></p>
+<p>我們最後再向右移動一次，考慮 $S_{5} &#x3D; 0$<br>$row(5) &#x3D; \lfloor\frac{5}{3}\rfloor &#x3D; 1$<br>$row(5+1) &#x3D; \lfloor\frac{6}{3}\rfloor &#x3D; 2$<br>因為 $1 \neq 2$ 所以移動失敗，如圖 7。</p>
+<p>如果錯誤移動，則會變成：</p>
+<p><img src="https://i.imgur.com/AY2LFNK.png" alt="圖 7、向右移動錯誤"></p>
+<p>正確應該是圖 8 的樣子：</p>
+<p><img src="https://i.imgur.com/mlYFT87.png" alt="圖 8、向右移動失敗"></p>
+<p>從上面例子可以看出來，條件只是為了維護空格的正確性。</p>
+<p>注意上下移動時，我們只判斷是否出界，因為 $ S_{i \pm N}$ 保證會與 $S_{i}$ 在同一行上；<br>同理，在左右移動時，僅判斷是否為同一列的原因，在於兩個出界的情況都會換列。</p>
+<div class="note info"><p>為了程式的美觀，可以兩個條件都檢查，不過有些顯得多此一舉。</p>
+</div>
+
+<div class="note warning"><p>行（column）、列（row）是借用矩陣的術語，其實我們使用的是 1 維陣列，並無這個概念。</p>
+</div>
+
+<p>寫成程式，大概長這樣子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/* 檢查範圍 */</span></span><br><span class="line"><span class="title class_">Math</span>.<span class="property">include</span> = <span class="keyword">function</span>(<span class="params">v, a, b</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> v &gt;= a &amp;&amp; v &lt; b;                       <span class="comment">// v 屬於 [a, b) 則為真</span></span><br><span class="line">&#125;;</span><br><span class="line">...</span><br><span class="line"><span class="comment">/* 註標轉換成列 */</span></span><br><span class="line"><span class="keyword">let</span> row = <span class="keyword">function</span>(<span class="params">n, index</span>) &#123;                  <span class="comment">// 這裡將 N 也一併傳入</span></span><br><span class="line">  <span class="keyword">return</span> <span class="title class_">Math</span>.<span class="title function_">floor</span>(index / n);                 <span class="comment">// 計算列數</span></span><br><span class="line">&#125;;</span><br><span class="line">...</span><br><span class="line"><span class="comment">/* 操作動作 */</span></span><br><span class="line"><span class="keyword">let</span> move = <span class="keyword">function</span>(<span class="params">s, a</span>) &#123;                     <span class="comment">// 傳入目前的狀態</span></span><br><span class="line">  <span class="keyword">let</span> nextS = <span class="title class_">Array</span>.<span class="title function_">from</span>(s);                    <span class="comment">// 複製一份狀態</span></span><br><span class="line">  <span class="keyword">let</span> p = s.<span class="title function_">indexOf</span>(<span class="number">0</span>);                         <span class="comment">// 檢查 0 的註標</span></span><br><span class="line">  <span class="keyword">switch</span>(a) &#123;                                   <span class="comment">// 檢查要執行的動作</span></span><br><span class="line">    <span class="keyword">case</span> <span class="variable constant_">ACTIONS</span>.<span class="property">UP</span>:                            <span class="comment">// 向上移動</span></span><br><span class="line">      <span class="keyword">if</span>(<span class="title class_">Math</span>.<span class="title function_">include</span>(<span class="title function_">row</span>(N, p - N), <span class="number">0</span>, N)) &#123;   <span class="comment">// 確認邊界範圍</span></span><br><span class="line">        nextS.<span class="title function_">swap</span>(p, p - N);                   <span class="comment">// 執行交換</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="variable constant_">ACTIONS</span>.<span class="property">RIGHT</span>:                         <span class="comment">// 向右移動</span></span><br><span class="line">      <span class="keyword">if</span>(<span class="title function_">row</span>(N, p) == <span class="title function_">row</span>(N, p + <span class="number">1</span>)) &#123;          <span class="comment">// 檢查列相等</span></span><br><span class="line">        nextS.<span class="title function_">swap</span>(p, p + <span class="number">1</span>);                   <span class="comment">// 執行交換</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="variable constant_">ACTIONS</span>.<span class="property">DOWN</span>:                          <span class="comment">// 向下移動</span></span><br><span class="line">      <span class="keyword">if</span>(<span class="title class_">Math</span>.<span class="title function_">include</span>(<span class="title function_">row</span>(N, p + N), <span class="number">0</span>, N)) &#123;   <span class="comment">// 確認邊界範圍</span></span><br><span class="line">        nextS.<span class="title function_">swap</span>(p, p + N);                   <span class="comment">// 執行交換</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="variable constant_">ACTIONS</span>.<span class="property">LEFT</span>:                          <span class="comment">// 向左移動</span></span><br><span class="line">      <span class="keyword">if</span>(<span class="title function_">row</span>(N, p) == <span class="title function_">row</span>(N, p - <span class="number">1</span>)) &#123;          <span class="comment">// 確認邊界範圍</span></span><br><span class="line">        nextS.<span class="title function_">swap</span>(p, p - <span class="number">1</span>);                   <span class="comment">// 執行交換</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> nextS;                                 <span class="comment">// 回傳下一個狀態</span></span><br><span class="line">&#125;;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="檢查狀態"><a href="#檢查狀態" class="headerlink" title="檢查狀態"></a>檢查狀態</h2><p>對於檢查是否完成的函數，<br>只要狀態在一個陣列中，則比對起來相當容易：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">let</span> state = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>];    <span class="comment">// 初始狀態</span></span><br><span class="line">...</span><br><span class="line"><span class="keyword">let</span> goal = <span class="keyword">function</span>(<span class="params">state</span>) &#123;                <span class="comment">// 檢查結果</span></span><br><span class="line">  <span class="keyword">return</span> state.<span class="title function_">map</span>(<span class="function">(<span class="params">value, index</span>)=&gt;</span>&#123;</span><br><span class="line">      <span class="keyword">return</span> value == index;                <span class="comment">// 檢查對錯</span></span><br><span class="line">  &#125;).<span class="title function_">reduce</span>(<span class="function">(<span class="params">previous, current</span>)=&gt;</span>&#123;          <span class="comment">// 全部正確才正確</span></span><br><span class="line">      <span class="keyword">return</span> previous &amp;&amp; current;           <span class="comment">// 總和結果</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<div class="note info"><p>這個寫法是在 <a href="#%E8%A6%8F%E5%89%87">規則</a> 選擇表示法時確定下來的，不同的表示法有不同的檢查函數。</p>
+</div>
+
+<h2 id="解的類型"><a href="#解的類型" class="headerlink" title="解的類型"></a>解的類型</h2><p>所謂的解分成 2 種：</p>
+<ul>
+<li>普通解</li>
+<li>最優解</li>
+</ul>
+<p>普通解是「不限移動多少步」只要完成盤面就可以；<br>最優解則是限制「一定要在最少步數」完成盤面。</p>
+<p>下面兩個解都會提及。</p>
+<h1 id="普通解法"><a href="#普通解法" class="headerlink" title="普通解法"></a>普通解法</h1><p>普通解法很簡單，但不太實用，<br>因為可能要很多步才能到完成盤面。</p>
+<h2 id="狀態樹"><a href="#狀態樹" class="headerlink" title="狀態樹"></a>狀態樹</h2><p>考慮圖 9 的盤面：</p>
+<p><img src="https://i.imgur.com/yiUwADa.png" alt="圖 9、初始盤面"></p>
+<p>若將其下一步繪製出來，則有圖 10：</p>
+<p><img src="https://i.imgur.com/rSXUXe2.png" alt="圖 10、盤面單層狀態樹"></p>
+<p>這個樣貌的東西，每一個節點都是「狀態」，而整體稱作「狀態樹」<br>我們的目標，則是在這樣的分支中，尋找解答。</p>
+<h2 id="貪婪搜索"><a href="#貪婪搜索" class="headerlink" title="貪婪搜索"></a>貪婪搜索</h2><p>這是一個 2 層的狀態樹，參考圖 11：</p>
+<p><img src="https://i.imgur.com/OAV074x.png" alt="圖 11、盤面兩層狀態樹"></p>
+<p>考慮到圖中狀態 $A &#x3D; D$ 且 $A &#x3D; G$ 代表我們需要紀錄已經存在的狀態，<br>否則可能陷入無窮迴圈（也可能不會，要看初始狀態。）</p>
+<p>貪婪搜索的想法是：「哪一步更好，我就選擇哪一步。」</p>
+<p>那麼，哪一步更好呢？考慮到我們檢查函數：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">let</span> goal = <span class="keyword">function</span>(<span class="params">state</span>) &#123;                <span class="comment">// 檢查結果</span></span><br><span class="line">  <span class="keyword">return</span> state.<span class="title function_">map</span>(<span class="function">(<span class="params">value, index</span>)=&gt;</span>&#123;</span><br><span class="line">      <span class="keyword">return</span> value == index;                <span class="comment">// 檢查對錯</span></span><br><span class="line">  &#125;).<span class="title function_">reduce</span>(<span class="function">(<span class="params">previous, current</span>)=&gt;</span>&#123;          <span class="comment">// 全部正確才正確</span></span><br><span class="line">      <span class="keyword">return</span> previous &amp;&amp; current;           <span class="comment">// 總和結果</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>可以改寫成：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">let</span> h = <span class="keyword">function</span>(<span class="params">state</span>) &#123;                   <span class="comment">// 檢查狀態</span></span><br><span class="line">  <span class="keyword">return</span> state.<span class="title function_">map</span>(<span class="function">(<span class="params">value, index</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (value == <span class="number">0</span>) &#123;                       <span class="comment">// 是否為空格</span></span><br><span class="line">      <span class="keyword">return</span> <span class="number">0</span>;                             <span class="comment">// 空格不算錯位</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;                                  <span class="comment">// 不為空格</span></span><br><span class="line">      <span class="keyword">return</span> value == index ? <span class="number">1</span> : <span class="number">0</span>;        <span class="comment">// 檢查對錯</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;).<span class="title function_">reduce</span>(<span class="function">(<span class="params">previous, current</span>)=&gt;</span>&#123;          <span class="comment">// 累計結果</span></span><br><span class="line">    <span class="keyword">return</span> previous + current;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>如此一來，函數 $h$ 稱作「評估函數」<br>對於某一個狀態，可以評價目前的狀態「有多少錯誤的格子」<br>貪婪的兩層狀態樹，請參考圖 12。</p>
+<p><img src="https://i.imgur.com/26Nh0U3.png" alt="圖 12、貪婪兩層狀態樹"></p>
+<p>狀態 $A$ 在選擇下一個狀態：</p>
+<ul>
+<li>$h(B) &#x3D; 5$</li>
+<li>$h(C) &#x3D; 3$</li>
+</ul>
+<p>所以選擇 $C$ 為下一步。同時，將狀態 $A$ 紀錄下來，<br>好在之後排除 $D$ 與 $G$ 兩個相同的狀態。</p>
+<p>由於狀態 $C$ 下一步選擇評估最佳的 $H$ 並將 $C$ 記錄下來，<br>狀態 $H$ 選擇最佳的 $M$ 為下一步，且狀態 $M$ 選擇最佳的 $P$ 為下一步。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/* 求解盤面 */</span></span><br><span class="line"><span class="keyword">let</span> resolve = <span class="keyword">function</span>(<span class="params">state, h</span>) &#123;                    <span class="comment">// 給定狀態與策略</span></span><br><span class="line">  <span class="keyword">let</span> actions = <span class="title class_">Object</span>.<span class="title function_">keys</span>(<span class="variable constant_">ACTIONS</span>);                 <span class="comment">// 動作列表</span></span><br><span class="line">  <span class="keyword">let</span> bestH = <span class="title class_">Number</span>.<span class="property">MAX_SAFE_INTEGER</span>;                <span class="comment">// 最佳的評價值（先設最大）</span></span><br><span class="line">  <span class="keyword">let</span> bestState = <span class="literal">null</span>;                               <span class="comment">// 最佳的動作</span></span><br><span class="line">  record.<span class="title function_">push</span>(state);                                 <span class="comment">// 將目前狀態紀錄</span></span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> i <span class="keyword">of</span> actions) &#123;                             <span class="comment">// 對所有可執行的動作</span></span><br><span class="line">    <span class="keyword">let</span> nextState = <span class="title function_">move</span>(state, <span class="variable constant_">ACTIONS</span>[i]);          <span class="comment">// 生成下一步</span></span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_">have</span>(record, nextState)) &#123;                    <span class="comment">// 檢查是否在紀錄中</span></span><br><span class="line">      <span class="keyword">if</span>(<span class="title function_">h</span>(nextState) &lt; bestH) &#123;                      <span class="comment">// 評價是目前最佳</span></span><br><span class="line">        bestState = nextState;                        <span class="comment">// 保存最佳動作</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> bestState;                                   <span class="comment">// 回傳下一個狀態</span></span><br><span class="line">&#125;;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+
+<p>坦白說，這個做法很難找到解，<br>不過除了可以使不理解規則的讀者大致知道在做什麼外，<br>也為了其他方法做了事前準備。</p>
+<h2 id="死路狀態"><a href="#死路狀態" class="headerlink" title="死路狀態"></a>死路狀態</h2><p>這個優先選擇最佳的方法，很有可能落入無路可走的狀態，<br>筆者稱之為「死路狀態」，圖 13 為死路狀態的例子。</p>
+<p><img src="https://i.imgur.com/kCedGRl.png" alt="圖 13、死路狀態"></p>
+<p>死路狀態容易發生在角落移動時，<br>因為往角落移動的時候，分支僅為 2 條，其中一條已經被用掉（上一狀態）<br>而若此時，另一條狀態也在先前的紀錄中，則程式便會當機。</p>
+<p>下面列出一個最終出現死路狀態的例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">[<span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">8</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">7</span>]</span><br><span class="line">[<span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">8</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">7</span>]</span><br><span class="line">[<span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">8</span>, <span class="number">0</span>, <span class="number">6</span>, <span class="number">7</span>]</span><br><span class="line">...</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">8</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">7</span>]</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">8</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">7</span>] <span class="comment">// 注意此處</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">8</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">7</span>]</span><br><span class="line">...</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">8</span>, <span class="number">6</span>, <span class="number">3</span>, <span class="number">7</span>, <span class="number">5</span>]</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">8</span>, <span class="number">0</span>, <span class="number">6</span>, <span class="number">3</span>, <span class="number">7</span>, <span class="number">5</span>]</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">8</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">7</span>, <span class="number">5</span>]</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">8</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">7</span>, <span class="number">0</span>]</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<div class="note info"><p>死路狀態例子中，第一分支是 64 步出現的，而第二分支在 182 步，然後在 183 步進入死路狀態。</p>
+</div>
+
+<h2 id="隨機策略"><a href="#隨機策略" class="headerlink" title="隨機策略"></a>隨機策略</h2><p>由死路問題引出了另一個想法是：<br>「一旦搜尋不到更好且沒記錄過的解，則隨機移動一步。」</p>
+<p>畢竟如果只搜索一層，則沒有其他資訊可以用了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/* 求解盤面 */</span></span><br><span class="line"><span class="keyword">let</span> resolve = <span class="keyword">function</span>(<span class="params">state, h</span>) &#123;                    <span class="comment">// 給定狀態與策略</span></span><br><span class="line">  ...</span><br><span class="line">  <span class="comment">/* 貪婪搜索 */</span></span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">if</span>(bestState == <span class="literal">null</span>) &#123;                             <span class="comment">// 如果進入死路狀態</span></span><br><span class="line">    <span class="keyword">let</span> i = <span class="title class_">Math</span>.<span class="title function_">floor</span>(<span class="title class_">Math</span>.<span class="title function_">random</span>()*actions.<span class="property">length</span>); <span class="comment">// 隨機選一步</span></span><br><span class="line">    bestState = <span class="title function_">move</span>(state, <span class="variable constant_">ACTIONS</span>[actions[i]]);     <span class="comment">// 往下一步前進</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> bestState;                                   <span class="comment">// 回傳下一個狀態</span></span><br><span class="line">&#125;;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<div class="note info"><p>隨機是人工智慧的另一個慣用手法，其他例子像是隨機梯度下降（SGD）就用於跳脫局部最佳解。</p>
+</div>
+
+<h2 id="演示"><a href="#演示" class="headerlink" title="演示"></a>演示</h2>
+    <div class="iframe-container" style="width:100%;">
+    <iframe
+        src="https://jsfiddle.net/xz2n3tu1/embedded/result,js,html,css/dark"
+        width="100%"
+        height="430px"
+        allowfullscreen="allowfullscreen"
+        loading="lazy"
+        frameborder="0">
+    </iframe>
+    </div>
+    
+
+<div class="note warning"><p>記憶體會隨記錄狀態而膨脹。本演示有記錄狀態的佇列上限，同時這也代表了可能找不到解。</p>
+</div>
+
+<h1 id="最優解法"><a href="#最優解法" class="headerlink" title="最優解法"></a>最優解法</h1><p>普通的做法需要步數太多了。<br>以至於動畫很難等到他找到解答（雖然筆者在寫文章時看到過幾次……）</p>
+<p>所以我們需要找一個在「狀態樹」中，較短路徑的解答；<br>其中，在狀態樹中，那條最短路徑稱為「最優解」。</p>
+<div class="note info"><p>尋找最優解是一個 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/NP%E5%9B%B0%E9%9A%BE">NP-hard</a> 問題</p>
+</div>
+
+<div class="note warning"><p>最優解的意思不是速度最快，即使可以找到步數很少的解，但程式可能需要搜索很久。</p>
+</div>
+
+<h2 id="A-搜索"><a href="#A-搜索" class="headerlink" title="A*搜索"></a>A*搜索</h2><p>尋找最優解的過程，與先前的 <a href="#%E8%B2%AA%E5%A9%AA%E6%90%9C%E7%B4%A2">貪婪搜索</a> 類似，<br>只不過這次我們會將紀錄過的路徑拿出來使用。</p>
+<p>原本的貪婪搜索是「選擇下一步中，最佳的狀態。」<br>而既然要挑最優解，策略變成「選擇『紀錄狀態』中，最佳的狀態。」</p>
+<p>A* 搜索的策略，將原本的策略變成： $f(s) &#x3D; g(s) + h(s)$<br>其中 $h(s)$ 與原本貪婪搜索的函數一樣；而 $g(s)$ 代表這是第幾層的狀態，<br>狀態樹請參考圖 14。</p>
+<p><img src="https://i.imgur.com/hqxmhmA.png" alt="圖 14、A*狀態樹"></p>
+<p>兩個函數互相平衡的結果：</p>
+<p>如果 $h(S_{a})$ 很棒，但 $g(S_{a})$ 很大（意味著步數很多）<br>則先不急著拓展 $S_{a}$ 狀態，找找看淺層（也就是 $g(s)$ 較小）有沒有解。</p>
+<p>如果 $g(S_{b})$ 很小，但 $h(S_{b})$ 很糟，<br>顯然地，這個 $S_{b}$ 狀態可能距離盤面完成還有很多步，<br>則找找看有沒有 $h(s)$ 比較好的狀態。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/* 求解盤面 */</span></span><br><span class="line"><span class="keyword">let</span> resolve = <span class="keyword">function</span>(<span class="params">state, h</span>) &#123;                                          <span class="comment">// 給定狀態與策略</span></span><br><span class="line">  <span class="keyword">let</span> create = queue.<span class="property">node</span>;                                                  <span class="comment">// 建立優先佇列節點的函數</span></span><br><span class="line">  <span class="keyword">let</span> record = [];                                                          <span class="comment">// 紀錄的陣列</span></span><br><span class="line">  <span class="keyword">let</span> next = [];                                                            <span class="comment">// 下一步的暫存陣列</span></span><br><span class="line">  <span class="keyword">let</span> actions = <span class="title class_">Object</span>.<span class="title function_">keys</span>(<span class="variable constant_">ACTIONS</span>);                                       <span class="comment">// 動作列表</span></span><br><span class="line">  queue.<span class="title function_">insert</span>(<span class="title function_">create</span>(<span class="literal">null</span>, state, <span class="literal">null</span>, <span class="number">0</span>, <span class="title function_">h</span>(state)));                     <span class="comment">// 將初始狀態加入優先佇列</span></span><br><span class="line">  <span class="keyword">while</span>(!queue.<span class="title function_">empty</span>()) &#123;                                                   <span class="comment">// 優先佇列不為空</span></span><br><span class="line">    <span class="keyword">let</span> node = queue.<span class="title function_">get</span>();                                                 <span class="comment">// 從優先佇列取得一個節點</span></span><br><span class="line">    <span class="keyword">let</span> state = node.<span class="property">state</span>;                                                 <span class="comment">// 取得當前節點的狀態</span></span><br><span class="line">    record.<span class="title function_">push</span>(node);                                                      <span class="comment">// 將目前狀態紀錄</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_">goal</span>(state)) &#123;                                                       <span class="comment">// 已經完成</span></span><br><span class="line">      <span class="keyword">return</span> record;                                                        <span class="comment">// 將所有狀態返回（建立動畫）</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> recordStates = record.<span class="title function_">map</span>(<span class="function">(<span class="params">node</span>)=&gt;</span>node.<span class="property">state</span>);                      <span class="comment">// 取得所有紀錄的狀態</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">of</span> actions) &#123;</span><br><span class="line">      <span class="keyword">let</span> action = <span class="variable constant_">ACTIONS</span>[i];</span><br><span class="line">      <span class="keyword">let</span> nextStates = <span class="title function_">move</span>(state, action);                                 <span class="comment">// 生成下一步</span></span><br><span class="line">      <span class="keyword">if</span> (!<span class="title function_">have</span>(recordStates, nextStates)) &#123;                                <span class="comment">// 檢查是否在紀錄中</span></span><br><span class="line">        <span class="keyword">let</span> g = node.<span class="property">g</span> + <span class="number">1</span>;                                                 <span class="comment">// 這步的深度遞增（即下一層）</span></span><br><span class="line">        <span class="keyword">if</span> (g &gt;= maxDeep) &#123;                                                 <span class="comment">// 防止搜索過深（預防當機）</span></span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        queue.<span class="title function_">insert</span>(<span class="title function_">create</span>(node, nextStates, action, g, <span class="title function_">h</span>(nextStates)));   <span class="comment">// 將下一步全部插入優先佇列</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> record;                                                            <span class="comment">// 超出深度時直接把紀錄返回</span></span><br><span class="line">&#125;;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="優先佇列"><a href="#優先佇列" class="headerlink" title="優先佇列"></a>優先佇列</h2><p>A*搜索實作的重點之一是如何實現優先佇列；<br>一個簡單的方法是透過插入排序，在適當的位置插入狀態。</p>
+<div class="note success"><p>請參考：<a href="/sort">排序 Sort</a></p>
+</div>
+
+<p>不過在這裡，我們透過堆積完成優先佇列。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/* 優先佇列 */</span></span><br><span class="line"><span class="keyword">let</span> queue = &#123;</span><br><span class="line">  <span class="attr">heap</span>: [&#123;<span class="attr">f</span>: -<span class="number">1</span>&#125;],</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 清除佇列 */</span></span><br><span class="line">  <span class="attr">clear</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">heap</span> = [&#123;<span class="attr">f</span>: -<span class="number">1</span>&#125;];</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 判斷佇列為空 */</span></span><br><span class="line">  <span class="attr">empty</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> !(<span class="variable language_">this</span>.<span class="property">heap</span>.<span class="property">length</span> &gt; <span class="number">1</span>);</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 重整佇列函數 */</span></span><br><span class="line">  <span class="attr">restore</span>: <span class="keyword">function</span>(<span class="params">node, leaf</span>) &#123;</span><br><span class="line">    <span class="keyword">while</span> ((node * <span class="number">2</span>) &lt;= leaf) &#123;                                            <span class="comment">// 樹的倒數二層之內</span></span><br><span class="line">      <span class="keyword">let</span> left = <span class="number">2</span> * node;                                                  <span class="comment">// 取得左子節點</span></span><br><span class="line">      <span class="keyword">let</span> right = <span class="number">2</span> * node + <span class="number">1</span>;                                             <span class="comment">// 取得右子節點</span></span><br><span class="line">      <span class="keyword">if</span> (right &gt; leaf) &#123;                                                   <span class="comment">// 超出葉子</span></span><br><span class="line">        right = left;                                                       <span class="comment">// 使左、右節點相等</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">let</span> target;                                                           <span class="comment">// 暫存節點</span></span><br><span class="line">      <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">heap</span>[left].<span class="property">f</span> &lt; <span class="variable language_">this</span>.<span class="property">heap</span>[right].<span class="property">f</span>) &#123;                         <span class="comment">// 根據節點的 f(s) 值排序</span></span><br><span class="line">        target = left;                                                      <span class="comment">// 往左子節點去</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span> &#123;</span><br><span class="line">        target = right;                                                     <span class="comment">// 往右子節點去</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">heap</span>[node].<span class="property">f</span> &lt; <span class="variable language_">this</span>.<span class="property">heap</span>[target].<span class="property">f</span>) &#123;                        <span class="comment">// 順序是對的直接跳出</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">heap</span>.<span class="title function_">swap</span>(node, target);                                         <span class="comment">// 往下交換節點</span></span><br><span class="line">      node = target;                                                        <span class="comment">// 前往子節點</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 插入節點 */</span></span><br><span class="line">  <span class="attr">insert</span>: <span class="keyword">function</span>(<span class="params">node</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">heap</span>.<span class="title function_">push</span>(node);                                                   <span class="comment">// 先直接塞進駐列</span></span><br><span class="line">    <span class="keyword">let</span> i;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="variable language_">this</span>.<span class="property">heap</span>.<span class="property">length</span> - <span class="number">1</span>;                                           <span class="comment">// 從葉子開始整理佇列</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">heap</span>[<span class="title class_">Math</span>.<span class="title function_">floor</span>(i / <span class="number">2</span>)].<span class="property">f</span> &gt; node.<span class="property">f</span>;                            <span class="comment">// 根據節點的 f(x) 值處理</span></span><br><span class="line">        i = <span class="title class_">Math</span>.<span class="title function_">floor</span>(i / <span class="number">2</span>)) &#123;                                            <span class="comment">// 往父節點整理</span></span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">heap</span>[i] = <span class="variable language_">this</span>.<span class="property">heap</span>[<span class="title class_">Math</span>.<span class="title function_">floor</span>(i / <span class="number">2</span>)];                          <span class="comment">// 父節點覆寫子節點</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">heap</span>[i] = node;                                                    <span class="comment">// 在正確的位置插入</span></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 取得最小 f(x) 值的節點*/</span></span><br><span class="line">  <span class="attr">get</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> node = <span class="variable language_">this</span>.<span class="property">heap</span>[<span class="number">1</span>];                                                <span class="comment">// 樹根就是最小，取得樹根的值</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">heap</span>[<span class="number">1</span>] = <span class="variable language_">this</span>.<span class="property">heap</span>[<span class="variable language_">this</span>.<span class="property">heap</span>.<span class="property">length</span> - <span class="number">1</span>];                         <span class="comment">// 把樹根移到葉子的位置上</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">heap</span>.<span class="title function_">pop</span>();                                                        <span class="comment">// 把樹葉摘除</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">restore</span>(<span class="number">1</span>, <span class="variable language_">this</span>.<span class="property">heap</span>.<span class="property">length</span> - <span class="number">1</span>);                                  <span class="comment">// 從樹根開始重整堆積</span></span><br><span class="line">    <span class="keyword">return</span> node;                                                            <span class="comment">// 把最小節點回傳</span></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 節點的結構 */</span></span><br><span class="line">  <span class="attr">node</span>: <span class="keyword">function</span>(<span class="params">previous, state, action, g, h</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">previous</span>: previous,                                                   <span class="comment">// 來源的節點</span></span><br><span class="line">      <span class="attr">state</span>: state,                                                         <span class="comment">// 狀態陣列</span></span><br><span class="line">      <span class="attr">action</span>: action,                                                       <span class="comment">// 實行的動作</span></span><br><span class="line">      <span class="attr">g</span>: g,                                                                 <span class="comment">// g(x) 值，紀錄的深度</span></span><br><span class="line">      <span class="attr">f</span>: f                                                                  <span class="comment">// f(x) 值（f = g + h）</span></span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>優先佇列不能取代紀錄陣列，原因是優先佇列會將最小節點丟出去拓展，紀錄會被破壞；<br>反之，如果持續保留最小節點，則根本無法拓展狀態樹。</p>
+<h2 id="演示-1"><a href="#演示-1" class="headerlink" title="演示"></a>演示</h2><p>與上一個演示不同，這個演示給讀者調整參數。<br>參數中最重要的是「Maximum deep」代表可以搜索的深度，<br>有時候解答藏在很深的狀態樹中，根據 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%95%B8%E5%AD%97%E6%8E%A8%E7%9B%A4%E9%81%8A%E6%88%B2">wikipedia: 數字推盤遊戲</a> 的內容；<br>可以得知 3x3 的解，最深會藏在 31 層以內。</p>
+<p>也就是說，當「Maximum deep &#x3D; 31」時，必有解；<br>但至於執行時間可能相當長（瀏覽器可能會當成沒有回應）。</p>
+
+    <div class="iframe-container" style="width:100%;">
+    <iframe
+        src="https://jsfiddle.net/p8ghq1ds/embedded/result,js,html,css/dark"
+        width="100%"
+        height="530px"
+        allowfullscreen="allowfullscreen"
+        loading="lazy"
+        frameborder="0">
+    </iframe>
+    </div>
+    
+
+<div class="note danger"><p>深度很深時，執行速度可能很慢。</p>
+</div>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/html5-android-app-1/" rel="prev" title="HTML5 Cordova Android APP 環境配置">
+                  <i class="fa fa-angle-left"></i> HTML5 Cordova Android APP 環境配置
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/tinytsunami-update-03/" rel="next" title="羊羽手札更新歷程 03">
+                  羊羽手札更新歷程 03 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  
+  <div class="comments giscus-container">
+  </div>
+  
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-bomb"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Tinytusnami</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="giscus" type="application/json">{"enable":true,"repo":"tinytsunami/blog","repo_id":"MDEwOlJlcG9zaXRvcnkxMjI3MTEwNTY=","category":"Blog Comments","category_id":"DIC_kwDOB1BsEM4C42Ww","mapping":"pathname","strict":0,"reactions_enabled":1,"emit_metadata":1,"theme":"preferred_color_scheme","lang":"zh-TW","crossorigin":"anonymous","input_position":"top","loading":"lazy"}</script>
+
+<script>
+document.addEventListener('page:loaded', () => {
+  if (!CONFIG.page.comments) return;
+
+  NexT.utils.loadComments('.giscus-container')
+    .then(() => NexT.utils.getScript('https://giscus.app/client.js', {
+      attributes: {
+        async                   : true,
+        crossOrigin             : 'anonymous',
+        'data-repo'             : CONFIG.giscus.repo,
+        'data-repo-id'          : CONFIG.giscus.repo_id,
+        'data-category'         : CONFIG.giscus.category,
+        'data-category-id'      : CONFIG.giscus.category_id,
+        'data-mapping'          : CONFIG.giscus.mapping,
+        'data-strict'           : CONFIG.giscus.strict,
+        'data-reactions-enabled': CONFIG.giscus.reactions_enabled,
+        'data-emit-metadata'    : CONFIG.giscus.emit_metadata,
+        'data-theme'            : CONFIG.giscus.theme,
+        'data-lang'             : CONFIG.giscus.lang,
+        'data-input-position'   : CONFIG.giscus.input_position,
+        'data-loading'          : CONFIG.giscus.loading
+      },
+      parentNode: document.querySelector('.giscus-container')
+    }));
+});
+</script>
+
+</body>
+</html>
