@@ -4,11 +4,11 @@
 
 # Site
 title: 羊羽手札
-subtitle: Tinytsunami's Blog
-description: 羊羽的個人部落格
-keywords: 技術, 獨立遊戲
+subtitle: Tinytsunami's blog
+description: Tinytsunami's blog
+keywords: tech, game development
 author: Tinytusnami
-language: zh-TW
+language: en
 timezone: UTC
 
 # URL
@@ -23,12 +23,10 @@ pretty_urls:
 # Directory
 source_dir: source
 public_dir: public
-tag_dir: tags
-archive_dir: archives
+archive_dir: notes
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
-skip_render: [game/**]
 
 # Writing
 new_post_name: :title.md # File name of new posts
