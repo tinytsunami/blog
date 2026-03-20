@@ -110,5 +110,5 @@ theme: next
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: git@github.com:tinytsunami/Web-Blog.git
+  repo: git@github.com:tinytsunami/blog.git
   branch: gh-pages
