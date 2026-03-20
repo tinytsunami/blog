@@ -1,0 +1,39 @@
+# _config.next.yml
+#====================================================
+# Theme
+#====================================================
+theme: next
+
+menu:
+  home: / || fa fa-home
+  archives: /archives || fa fa-archive
+
+avatar:
+  url: /images/avatar.png
+
+#====================================================
+# Site
+#====================================================
+title: 羊羽手札
+subtitle: Tinytsunami's Blog
+description: 羊羽的個人部落格
+keywords: 技術, 獨立遊戲
+author: Tinytusnami
+language: zh-TW
+timezone: UTC
+
+#====================================================
+# Giscus
+#====================================================
+comments:
+  active: giscus
+
+giscus:
+  enable: true
+  repo: yourname/your-repo
+  repo_id: R_xxxxx
+  category: General
+  category_id: DIC_xxxxx
+  mapping: pathname
+  reactions_enabled: 1
+  theme: preferred_color_scheme
