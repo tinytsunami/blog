@@ -1,0 +1,520 @@
+//==============================================================
+/* Root */
+//==============================================================
+html.darkmode--activated:root {
+  color-scheme: dark;
+}
+
+//==============================================================
+/* Selection */
+//==============================================================
+::selection {
+  color: #eee;
+  background: #415c85;
+}
+
+//==============================================================
+/* Animation */
+//==============================================================
+.darkmode-layer {
+  transition: all 1s ease !important;
+  mix-blend-mode: normal !important;
+  transform-origin: center !important;
+}
+
+.darkmode-layer--expanded {
+  background: rgba(0,0,0,0) !important;
+  transform-origin: center !important;
+}
+
+//==============================================================
+/* Head Image */
+//==============================================================
+.darkmode--activated .site-author-image {
+  border: none;
+  opacity: 1;
+}
+
+.darkmode--activated .site-author-image:hover {
+  opacity: 1;
+}
+
+//==============================================================
+/* Searcher */
+//==============================================================
+.search-popup #search-result {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.search-popup .search-header {
+  background: #333;
+}
+
+.search-popup .search-icon, .search-popup .popup-btn-close {
+  color: #eee;
+}
+
+.search-popup input.search-input {
+  color: #eee;
+}
+
+.search-popup input.search-input::placeholder {
+  color: #888;
+}
+
+.darkmode--activated .search-popup .search-header {
+  background: #eee;
+}
+
+.darkmode--activated .search-popup .search-icon, 
+.darkmode--activated .search-popup .popup-btn-close {
+  color: #333;
+}
+
+.darkmode--activated .search-popup input.search-input {
+  color: #333;
+}
+
+.darkmode--activated .search-popup input.search-input::placeholder {
+  color: #999;
+}
+
+.darkmode--activated .search-popup {
+  background: #333;
+}
+
+//==============================================================
+/* Page Number */
+//==============================================================
+.pagination .prev, 
+.pagination .next, 
+.pagination .page-number {
+    border-top: 2px solid #eee;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.pagination .page-number.current {
+    background: #575757;
+    border-top-color: #222;
+    color: #fff;
+}
+
+.darkmode--activated .pagination .prev, 
+.darkmode--activated .pagination .next,
+.darkmode--activated .pagination .page-number {
+    border-top: 2px solid #444;
+}
+
+.darkmode--activated .pagination .prev:hover, 
+.darkmode--activated .pagination .next:hover,
+.darkmode--activated .pagination .page-number:hover {
+    border-top: 2px solid #eee;
+}
+
+.darkmode--activated .pagination .page-number.current {
+    background: #ccc;
+    border-top-color: #fff;
+    color: #222;
+}
+
+//==============================================================
+/* History Line */
+//==============================================================
+.darkmode--activated .posts-collapse::before {
+    background: #222;
+}
+
+.darkmode--activated .posts-collapse .collection-title::before {
+    background: #444;
+    border: 1px solid #222;
+}
+
+.darkmode--activated .posts-collapse .post-header::before {
+    background: #444;
+    border: 1px solid #222;
+}
+
+.darkmode--activated .posts-collapse .collection-year::before {
+    background: #444;
+}
+
+//==============================================================
+/* Code block color */
+//==============================================================
+code {
+  color: #0070ff;
+  background: #eeeeee;
+}
+
+.darkmode--activated code {
+    color: #69dbdc;
+    background: #404040 !important;
+}
+
+//==============================================================
+/* Body BG */
+//==============================================================
+body {
+  background: url('/images/background.png');
+  //transition: all 1.2s;
+}
+
+.darkmode--activated body{
+  background: url('/images/background-dark.png');
+  //transition: all 1.2s;
+}
+
+//==============================================================
+// Hr
+//==============================================================
+hr {
+    background-image: repeating-linear-gradient(90deg, #ddd, #ddd 4px, transparent 4px, transparent 8px);
+}
+
+.darkmode--activated hr {
+    background-image: repeating-linear-gradient(90deg, #555, #555 4px, transparent 4px, transparent 8px);
+}
+
+//==============================================================
+/* Darkmode Button */
+//==============================================================
+button.darkmode-toggle::before {
+  content: "🌕";
+}
+
+.darkmode--activated button.darkmode-toggle::before {
+  content: "🌑";
+}
+
+//==============================================================
+/* Banner Color */
+//==============================================================
+.site-brand-container {
+  background: hsl(210deg 20% 25%);
+}
+
+//==============================================================
+/* Note Tag Icon Size */
+//==============================================================
+.post-body .note:not(.no-icon)::before {
+    font-size: 1.2em;
+}
+
+//==============================================================
+/* Head */ 
+//==============================================================
+.post-body {
+  h1, h2 {
+    border-bottom: 1px solid #ccc;
+  }
+
+  h3 {
+    if ($use-seo) {
+      border-bottom: 1px solid #ccc;
+    } else {
+      border-bottom: 1px dotted #ccc;
+    }
+  }
+
+  h4 {
+    if ($use-seo) {
+      border-bottom: 1px dotted #ccc;
+    }
+  }
+}
+
+.darkmode--activated .post-body {
+  h1, h2 {
+    border-bottom: 1px solid #555;
+  }
+
+  h3 {
+    if ($use-seo) {
+      border-bottom: 1px solid #555;
+    } else {
+      border-bottom: 1px dotted #555;
+    }
+  }
+
+  h4 {
+    if ($use-seo) {
+      border-bottom: 1px dotted #555;
+    }
+  }
+}
+
+//==============================================================
+/* Table Style */
+//==============================================================
+table th {
+  border-bottom: 0px;
+  padding: 0px;
+}
+
+table th {
+  padding: 0px 5px;
+  border-top: 1px solid #ccc;
+  border-left: none;
+  border-bottom: 1px solid #ccc;
+  border-right: none;
+}
+
+table td {
+  padding: 0px 5px;
+  border: none;
+}
+
+table tr:last-child {
+  padding: 0px 5px;
+  border-bottom: 1px solid #ccc;
+}
+
+.darkmode--activated table th {
+  border-top: 1px solid #777;
+  border-left: none;
+  border-bottom: 1px solid #777;
+  border-right: none;
+}
+
+.darkmode--activated table td {
+  padding: 0px 5px;
+  border: none;
+}
+
+.darkmode--activated table tr:last-child {
+  padding: 0px 5px;
+  border-bottom: 1px solid #777;
+}
+
+//==============================================================
+/* Git SVG */
+//==============================================================
+.darkmode--activated .gt-ico-github svg {
+  filter: invert(100%);
+}
+
+.darkmode--activated .gt-ico-arrdown svg {
+  filter: invert(100%);
+}
+
+//==============================================================
+/* Code Block */
+//==============================================================
+.darkmode--activated figure table tr:last-child {
+  padding: 0px;
+  border-bottom: none;
+}
+
+.darkmode--activated figure table td {
+  padding: 0px;
+  border-bottom: none;
+}
+
+//==============================================================
+/* Dark Note Tag */
+//==============================================================
+.darkmode--activated .note {
+  background: #7777771a;
+}
+
+.darkmode--activated .note.primary {
+  background: #6f42c11a;
+}
+
+.darkmode--activated .note.info {
+  background: #428bca1a;
+}
+
+.darkmode--activated .note.success {
+  background: #5cb85c1a;
+}
+
+.darkmode--activated .note.warning {
+  background: #f0ad4e1a;
+}
+
+.darkmode--activated .note.danger {
+  background: #d9534f1a;
+}
+
+//==============================================================
+/* Dark Setting Cover */
+//==============================================================
+.darkmode--activated {
+  --body-bg-color: #222 !important;
+  --link-hover-color: #4887ee !important;
+}
+
+//==============================================================
+// Sidebar Navigation Color
+//==============================================================
+$sidebar-nav-hover-color = #4887ee;
+$sidebar-highlight       = #4887ee;
+$link-hover-color        = #4887ee;
+
+:root {
+  --link-hover-color: $link-hover-color;
+}
+
+.back-to-top {
+  &:hover {
+    color: $sidebar-highlight;
+  }
+}
+
+.posts-expand .post-title {
+  if (hexo-config('post_edit.enable')) {
+    .post-edit-link {
+      &:hover {
+        color: $sidebar-highlight;
+      }
+    }
+  }
+}
+
+.sidebar-nav {
+  li {
+    &:hover {
+      color: $sidebar-nav-hover-color;
+    }
+  }
+  .sidebar-nav-active {
+    border-bottom-color: $sidebar-highlight;
+    color: $sidebar-highlight;
+    &:hover {
+      color: $sidebar-highlight;
+    }
+  }
+}
+
+.post-toc {
+  .nav {
+    .active > a {
+      border-bottom-color: $sidebar-highlight;
+      color: $sidebar-highlight;
+    }
+    .active-current > a {
+      color: $sidebar-highlight;
+      &:hover {
+        color: $sidebar-highlight;
+      }
+    }
+  }
+}
+
+.sub-menu {
+  .menu-item {
+    a, span.exturl {
+      &:hover {
+        color: $sidebar-highlight;
+      }
+    }
+  }
+  .menu-item-active a {
+    border-bottom-color: $sidebar-highlight;
+    color: $sidebar-highlight;
+    &:hover {
+      border-bottom-color: $sidebar-highlight;
+    }
+  }
+}
+
+.sidebar-toggle:hover .toggle-line {
+  background: $sidebar-highlight;
+}
+
+//==============================================================
+// GitTalk Setting
+//==============================================================
+.gt-container .gt-comment-content:hover {
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+.darkmode--activated .gt-header-textarea {
+  color: #eee !important;
+  background: #222 !important;
+}
+
+.darkmode--activated .gt-header-textarea:hover {
+  color: #eee !important;
+  background: #222 !important;
+}
+
+.darkmode--activated .gt-btn-preview {
+    background-color: #555 !important;
+    color: #fff !important;
+    border: 1px solid #666 !important;
+}
+
+.darkmode--activated .gt-btn-preview:hover {
+    background-color: #666 !important;
+    color: #fff !important;
+    border: 1px solid #777 !important;
+}
+
+.darkmode--activated .gt-btn-login {
+  border: 1px solid #406090 !important;
+  color: #eee !important;
+  background: #304070 !important;
+}
+
+.darkmode--activated .gt-container .gt-comment-body{
+  color: #eee !important;
+}
+
+.darkmode--activated .markdown-body blockquote {
+  color: #9198a1;
+  border-left: 0.25em solid #333;
+}
+
+.darkmode--activated .gt-container .gt-comment-content {
+  background: #222;
+}
+
+.darkmode--activated .gt-container .gt-comment-admin .gt-comment-content{
+  background: #1b1b1d;
+}
+
+.darkmode--activated .gt-header-preview .markdown-body {
+  color: #eee !important;
+  background: #222 !important;
+}
+
+//==============================================================
+// Hexo-blog-encrypted Setting
+//--------------------------------------------------------------
+// After add simple.html
+//==============================================================
+.hbe-content {
+	font-size: 100% !important;
+	padding: 0 0 4em 0 !important;
+}
+
+.hbe-input {
+	margin: 1em !important;
+	margin: 0em 0em 0em 0.2em !important;
+  width: auto !important;
+}
+
+.hbe-input-blink {
+	padding-top: 0em !important;
+}
+
+.hbe-input-blink::before{
+	padding-top: 0em !important;
+}
+
+.hbe-input-field {
+  padding: 0.5em !important;
+}
+
+.hbe-input-field-blink {
+	color: #999 !important;
+}
+
+.hbe-input-field-blink:focus, .input--filled .hbe-input-field-blink {
+    border-color: $link-hover-color !important;
+}

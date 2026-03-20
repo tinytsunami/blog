@@ -1,0 +1,34 @@
+<script>
+(function() {
+
+  const callback = function() {
+    let html = document.getElementsByTagName('html')[0];
+    //let head = document.getElementsByClassName('site-author-image')[0];
+
+    if (window.darkmode.isActivated()) {  
+      html.setAttribute("class", "darkmode--activated");
+      //head.setAttribute("src", "/images/head-dark.jpg");
+    }
+    else {
+      html.removeAttribute("class");
+      //head.setAttribute("src", "/images/head.jpg");
+    }
+  };
+
+  const config = { attributes: true, childList: false, subtree: false};
+
+  const observer = new MutationObserver((mutationsList, observer) => {
+    for(const mutation of mutationsList) {
+      if (mutation.type === 'attributes') {
+        if (mutation.attributeName === 'class') {
+          callback();
+        }
+      }
+    }
+  });
+
+  observer.observe(document.body, config);
+
+  callback();
+})();
+</script>
