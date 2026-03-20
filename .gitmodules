@@ -1,0 +1,4 @@
+[submodule "themes/crinoid"]
+	path = themes/crinoid
+	url = git@github.com:tinytsunami/hexo-theme-crinoid.git
+	branch = master
