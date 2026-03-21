@@ -1,1229 +1,340 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang=en>
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
-
-<script class="next-config" data-name="main" type="application/json">{"hostname":"www.tinytsunami.info","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
-
-    <meta name="description" content="羊羽的個人部落格">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Tinytsunami&#39;s Notes">
 <meta property="og:type" content="website">
-<meta property="og:title" content="羊羽手札">
+<meta property="og:title" content="Tinytsunami&#39;s Notes">
 <meta property="og:url" content="https://www.tinytsunami.info/page/4/index.html">
-<meta property="og:site_name" content="羊羽手札">
-<meta property="og:description" content="羊羽的個人部落格">
-<meta property="og:locale" content="zh_TW">
+<meta property="og:site_name" content="Tinytsunami&#39;s Notes">
+<meta property="og:description" content="Tinytsunami&#39;s Notes">
+<meta property="og:locale" content="en_US">
 <meta property="article:author" content="Tinytusnami">
-<meta property="article:tag" content="技術, 獨立遊戲">
+<meta property="article:tag" content="tech, game development">
 <meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/icon.png">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/icon.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Tinytsunami&#39;s Notes</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
 
 
-<link rel="canonical" href="https://www.tinytsunami.info/page/4/">
+    <!-- Umami Analytics -->
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-TW","comments":"","permalink":"","path":"page/4/index.html","title":""}</script>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
 
-<script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>羊羽手札</title>
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+    <div class="content index py4 h-card">
+        
+          <header id="header">
+  <a class="u-url u-uid" href="/">
   
-
-
-
-
-
-
-
-
+    
+      <img id="logo" alt class="u-logo" src="/images/logo.png" />
+    
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous" defer></script>
-<script src="/js/utils.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
-<script src="/js/third-party/search/local-search.js" defer></script>
-
-
-
-
-  <script src="/js/third-party/fancybox.js" defer></script>
-
-
-
-  
-
-
-
-
-  
-
-  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
-<script src="/js/third-party/math/mathjax.js" defer></script>
-
-
-
-  <noscript>
-    <link rel="stylesheet" href="/css/noscript.css">
-  </noscript>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="headband"></div>
-
-  <main class="main">
-    <div class="column">
-      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切換導航欄" role="button">
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
+    <div id="title">
+      <h1 class="p-name">Tinytsunami&#39;s Notes</h1>
     </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
-      <h1 class="site-title">羊羽手札</h1>
-      <i class="logo-line"></i>
-    </a>
-      <p class="site-subtitle" itemprop="description">Tinytsunami's Blog</p>
-      <img class="custom-logo-image" src="/images/icon.png" alt="羊羽手札">
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
-        <i class="fa fa-search fa-fw fa-lg"></i>
-    </div>
-  </div>
-</div>
-
-
-
-<nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-game"><a href="https://tinytsunami.itch.io/" rel="section" target="_blank"><i class="fas fa-gamepad fa-fw"></i>game</a></li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
-        </a>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-2x"></i></a>
       </li>
-  </ul>
-</nav>
-
-
-
-  <div class="search-pop-overlay">
-    <div class="popup search-popup">
-      <div class="search-header">
-        <span class="search-icon">
-          <i class="fa fa-search"></i>
-        </span>
-        <div class="search-input-container">
-          <input autocomplete="off" autocapitalize="off" maxlength="80"
-                placeholder="搜尋..." spellcheck="false"
-                type="search" class="search-input">
-        </div>
-        <span class="popup-btn-close" role="button">
-          <i class="fa fa-times-circle"></i>
-        </span>
-      </div>
-      <div class="search-result-container">
-        <div class="search-result-icon">
-          <i class="fa fa-spinner fa-pulse fa-5x"></i>
-        </div>
-      </div>
-    </div>
+      <!--
+     --><li><a href="/">Home</a></li><!--
+   --><!--
+     --><li><a href="/notes/">Notes</a></li><!--
+   --><!--
+     --><li><a href="/search/">Search</a></li><!--
+   -->
+    </ul>
   </div>
-
 </header>
-        
-  
-  <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-toc">
-          文章目錄
-        </li>
-        <li class="sidebar-nav-overview">
-          本站概要
-        </li>
+        
+        <div class="content" itemprop="articleBody">
+
+  <h1 id="about-me">
+    <a href="#about-me" class="headerlink" title="about-me"></a>
+    🐑💨 About Me
+  </h1>
+
+  <div>
+    <img src="/images/head.jpg" style="border-radius:100%; width: 20%; display: block; margin: 0 auto; margin-bottom: 36px;">
+
+    <div style="width: 100%; padding-left: 40px; line-height: 1.2;">
+      <p>I began my journey as an indie game developer using RPG Maker VX. During my school years, I also participated
+        in web design competitions, which sparked my long-standing interest in building my own website 💣</p>
+      <p>Later, I pursued a degree in Computer Science, where I spent much of my free time exploring game-related
+        systems—such as procedural map generation, NPC pathfinding and vision, inventory management, and lighting
+        techniques 🎮</p>
+      <p>As I delved deeper into the field, I came to appreciate how concepts from mathematics and algorithms can be
+        applied to programming to produce elegant and highly effective solutions—particularly in game development ✨</p>
+    </div>
+  </div>
+
+  <h1 id="vsinder">
+    <a href="#vsinder" class="headerlink" title="vsinder"></a>
+    🎲 Vsinder 
+  </h1>
+
+  <figure class="highlight js">
+    <table>
+      <tbody>
+        <tr>
+          <td class="gutter">
+            <pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre>
+          </td>
+          <td class="code">
+            <pre><span class="line"><span class="keyword">const</span> epsilon = <span class="number">1e-4</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> differential = <span class="keyword">function</span>(<span class="params">f</span>) {</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="params">x</span> =&gt;</span> (<span class="title function_">f</span>(x + epsilon) - <span class="title function_">f</span>(x)) / epsilon;</span><br><span class="line">};</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> integral = <span class="keyword">function</span>(<span class="params">f, f0</span>) {</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="params">x</span> =&gt;</span> f0 + [...<span class="title class_">Array</span>(x / epsilon &gt;&gt; <span class="number">0</span>).<span class="title function_">keys</span>()].<span class="title function_">reduce</span>(<span class="function">(<span class="params">s, k</span>) =&gt;</span> {</span><br><span class="line">    <span class="keyword">return</span> s + <span class="title function_">f</span>(x - k * epsilon);</span><br><span class="line">  }, <span class="number">0</span>) * epsilon;</span><br><span class="line">};</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="title function_">f</span> = (<span class="params">x</span>) =&gt; x * x;    <span class="comment">// f(x) = x^2;</span></span><br><span class="line"><span class="keyword">let</span> g = <span class="title function_">differential</span>(f); <span class="comment">// g(x) = 2*x;</span></span><br><span class="line"><span class="keyword">let</span> h = <span class="title function_">integral</span>(g, <span class="number">0</span>);  <span class="comment">// h(x) = x^2;</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">f</span>(<span class="number">2</span>), <span class="title function_">f</span>(<span class="number">4</span>), <span class="title function_">f</span>(<span class="number">6</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">g</span>(<span class="number">2</span>), <span class="title function_">g</span>(<span class="number">4</span>), <span class="title function_">g</span>(<span class="number">6</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">h</span>(<span class="number">2</span>), <span class="title function_">h</span>(<span class="number">4</span>), <span class="title function_">h</span>(<span class="number">6</span>));</span><br></pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </figure>
+
+  <h1 id="journey">
+    <a href="#journey" class="headerlink" title="journey"></a>
+    🌴 Journey
+  </h1>
+  
+  I’ve put a few of my resumes here—there aren’t many, so this will have to do 💣
+
+  <table>
+    <thead>
+      <tr>
+        <th align="left">Name</th>
+        <th align="center">Type</th>
+        <th align="center">Timestamp</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td align="left">
+          Singapore Shopee (Data Engineer)
+        </td>
+        <td align="center">Career</td>
+        <td align="center">Jan 2022 - Mar 2026</td>
+      </tr>
+      <tr>
+        <td align="left">
+          National Collegiate Programming Contest 2rd place 
+          (application software design) 
+          <br/>
+          全國大專電腦軟體設計競賽（應用軟體組）第二名
+        </td>
+        <td align="center">Honor</td>
+        <td align="center">Nov 2018</td>
+      </tr>
+      <tr>
+        <td align="left">
+          National Collegiate Programming Contest honorable mention
+          (application software design)
+          <br/>
+          全國大專電腦軟體設計競賽（應用軟體組）佳作
+        </td>
+        <td align="center">Honor</td>
+        <td align="center">Nov 2017</td>
+      </tr>
+      <tr>
+        <td align="left">
+          National Collegiate Programming Contest 3rd place 
+          (application software design)
+          <br/>
+          全國大專電腦軟體設計競賽（應用軟體組）第三名
+        </td>
+        <td align="center">Honor</td>
+        <td align="center">Nov 2016</td>
+      </tr>
+      <tr>
+        <td align="left">
+          National High School Skills Competition
+          <br/>
+          全國工科技藝競賽志工
+        </td>
+        <td align="center">Volunteer</td>
+        <td align="center">Nov. 2013</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h1 id="history">
+    <a href="#history" class="headerlink" title="history"></a>
+    🚧 Website History
+  </h1>
+
+  From now on, I’ll only post “Update Log” entries when there’s something actually worth talking about.
+
+  <table>
+    <thead>
+      <tr>
+        <th align="left">Description</th>
+        <th align="center">Timestamp</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td align="left">Upgrade version 6 (Hexo/Theme Update)</td>
+        <td align="center">2026.03.21</td>
+      </tr>
+      <tr>
+        <td align="left">Publish "About Me"</td>
+        <td align="center">2022.02.19</td>
+      </tr>
+      <tr>
+        <td align="left">Post "Update log 6"</td>
+        <td align="center">2022.02.12</td>
+      </tr>
+      <tr>
+        <td align="left">Upgrade version 5 (Hexo/Next Update)</td>
+        <td align="center">2022.02.12</td>
+      </tr>
+      <tr>
+        <td align="left">Post "Update log 5"</td>
+        <td align="center">2020.02.25</td>
+      </tr>
+      <tr>
+        <td align="left">Post "Update log 4"</td>
+        <td align="center">2019.04.20</td>
+      </tr>
+      <tr>
+        <td align="left">Upgrade version 4 (Hexo/Next Update)</td>
+        <td align="center">2019.04.20</td>
+      </tr>
+      <tr>
+        <td align="left">Restart updating</td>
+        <td align="center">2019.03.28</td>
+      </tr>
+      <tr>
+        <td align="left">Post "Update log 3"</td>
+        <td align="center">2018.09.24</td>
+      </tr>
+      <tr>
+        <td align="left">Pause updating</td>
+        <td align="center">2018.09.24</td>
+      </tr>
+      <tr>
+        <td align="left">Post "Update log 2"</td>
+        <td align="center">2018.07.01</td>
+      </tr>
+      <tr>
+        <td align="left">Post "Update log 1"</td>
+        <td align="center">2017.02.25</td>
+      </tr>
+      <tr>
+        <td align="left">Upgrade version 3 (Hexo)</td>
+        <td align="center">2017.02.25</td>
+      </tr>
+      <tr>
+        <td align="left">Upgrade version 2 (Vue.js+Express)</td>
+        <td align="center">2017.12.18</td>
+      </tr>
+      <tr>
+        <td align="left">Release version 1 (PHP)</td>
+        <td align="center">2016.10.24</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+        
+        <footer id="footer">
+  <div class="footer-left">
+    CC BY 4.0,
+    
+    
+    2016-2026
+    Tinytusnami
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
       </ul>
-
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-        </div>
-        <!--/noindex-->
-
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Tinytusnami"
-      src="/images/head.jpg">
-  <p class="site-author-name" itemprop="name">Tinytusnami</p>
-  <div class="site-description" itemprop="description">羊羽的個人部落格</div>
-</div>
-<div class="site-state-wrap animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-        <a href="/archives/">
-          <span class="site-state-item-count">46</span>
-          <span class="site-state-item-name">文章</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-          <a href="/categories/">
-        <span class="site-state-item-count">7</span>
-        <span class="site-state-item-name">分類</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author animated">
-      <span class="links-of-author-item">
-        <a href="https://github.com/tinytsunami" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;tinytsunami" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://twitter.com/TaipeiTsunami" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;TaipeiTsunami" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://www.facebook.com/profile.php?id=100000736195394" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;profile.php?id&#x3D;100000736195394" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://www.youtube.com/channel/UCtqp9w_uA_LohDm0YXNWqSA" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCtqp9w_uA_LohDm0YXNWqSA" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
-      </span>
+    </nav>
   </div>
-
-        </div>
-      </div>
-    </div>
-
-    
-    <div class="sidebar-inner sidebar-blogroll">
-      <div class="links-of-blogroll animated">
-        <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
-          連結
-        </div>
-        <ul class="links-of-blogroll-list">
-            <li class="links-of-blogroll-item">
-              <a href="https://blog.cyris.tw/" title="https:&#x2F;&#x2F;blog.cyris.tw" rel="noopener" target="_blank">Cyris's Blog</a>
-            </li>
-            <li class="links-of-blogroll-item">
-              <a href="https://poyu-liao.github.io/blog" title="https:&#x2F;&#x2F;poyu-liao.github.io&#x2F;blog" rel="noopener" target="_blank">Robert's Blog</a>
-            </li>
-        </ul>
-      </div>
-    </div>
-  </aside>
-
+</footer>
 
     </div>
+    <!-- styles -->
 
-    <div class="main-inner index posts-expand">
 
-    
 
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
 
-<div class="post-block">
-  
-  
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/gomoku/">
+    <!-- jquery -->
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.jpg">
-      <meta itemprop="name" content="Tinytusnami">
-    </span>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="羊羽手札">
-      <meta itemprop="description" content="羊羽的個人部落格">
-    </span>
 
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | 羊羽手札">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/gomoku/" class="post-title-link" itemprop="url">五子棋 Gomoku</a>
-        </h2>
 
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
 
-      <time title="創建時間：2018-04-26 00:00:00" itemprop="dateCreated datePublished" datetime="2018-04-26T00:00:00Z">2018-04-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/legacy-algorithm/" itemprop="url" rel="index"><span itemprop="name">(legacy) algorithm</span></a>
-        </span>
-    </span>
+<!-- clipboard -->
 
-  
-</div>
 
-        </div>
-      </header>
+<script src="/js/main.js"></script>
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>五子棋，作為一款家喻戶曉的桌上遊戲，<br>可能是程式新手練習程式、設計遊戲 AI 的好起點。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/gomoku/#more" rel="contents">
-                閱讀全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
+<!-- search -->
 
-    
-    
-    
+<!-- Baidu Analytics -->
 
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
+<!-- Cloudflare Analytics -->
 
+<!-- Disqus Comments -->
 
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/sort/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.jpg">
-      <meta itemprop="name" content="Tinytusnami">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="羊羽手札">
-      <meta itemprop="description" content="羊羽的個人部落格">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | 羊羽手札">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/sort/" class="post-title-link" itemprop="url">排序 Sort</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2018-03-30 21:43:57" itemprop="dateCreated datePublished" datetime="2018-03-30T21:43:57Z">2018-03-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/legacy-algorithm/" itemprop="url" rel="index"><span itemprop="name">(legacy) algorithm</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>排序是演算法最基本內容。</p>
-<p>當初給我這樣印象似乎是網路上某篇文章，雖然已經找不到來源，<br>但隨著瞄過《算法導論》以及上過大學演算法後，這個想法深植心中。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/sort/#more" rel="contents">
-                閱讀全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/linked-list/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.jpg">
-      <meta itemprop="name" content="Tinytusnami">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="羊羽手札">
-      <meta itemprop="description" content="羊羽的個人部落格">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | 羊羽手札">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/linked-list/" class="post-title-link" itemprop="url">串列 Linked List</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2018-03-18 00:00:00" itemprop="dateCreated datePublished" datetime="2018-03-18T00:00:00Z">2018-03-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/legacy-algorithm/" itemprop="url" rel="index"><span itemprop="name">(legacy) algorithm</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>串列是資料結構中，一種重要的資料表達方式，<br>這樣的表達方式可以透過指標來完成。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/linked-list/#more" rel="contents">
-                閱讀全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/linux-screen-display-problem/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.jpg">
-      <meta itemprop="name" content="Tinytusnami">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="羊羽手札">
-      <meta itemprop="description" content="羊羽的個人部落格">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | 羊羽手札">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/linux-screen-display-problem/" class="post-title-link" itemprop="url">Linux 螢幕解析度問題</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2018-03-11 00:00:00" itemprop="dateCreated datePublished" datetime="2018-03-11T00:00:00Z">2018-03-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/legacy-system/" itemprop="url" rel="index"><span itemprop="name">(legacy) system</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>我當初剛裝 Linux 時，被雙螢幕的問題搞了許久，<br>這篇主要是做個解決方案的筆記，以免之後又碰到相同的問題。</p>
-<p>本解決方案來自網路上的資料，我將把參考資料陳列於下方。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/linux-screen-display-problem/#more" rel="contents">
-                閱讀全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/tinytsunami-update-01/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.jpg">
-      <meta itemprop="name" content="Tinytusnami">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="羊羽手札">
-      <meta itemprop="description" content="羊羽的個人部落格">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | 羊羽手札">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/tinytsunami-update-01/" class="post-title-link" itemprop="url">羊羽手札更新歷程 01</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2018-02-25 00:00:00" itemprop="dateCreated datePublished" datetime="2018-02-25T00:00:00Z">2018-02-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/legacy-blog/" itemprop="url" rel="index"><span itemprop="name">(legacy) blog</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>將網站更新成 Hexo 框架。<br>最主要的原因是舊的 Blog 系統當初寫得太急促，而且往往為了嘗試新東西而直接邊學邊做，導致系統問題有點多。<br>在重複考慮之下，決定改成目前的模式。這篇文章接下來寫的，是「羊羽手札」建立到目前為止的雜事以及更新狀況。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/tinytsunami-update-01/#more" rel="contents">
-                閱讀全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/palindrome-process/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.jpg">
-      <meta itemprop="name" content="Tinytusnami">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="羊羽手札">
-      <meta itemprop="description" content="羊羽的個人部落格">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | 羊羽手札">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/palindrome-process/" class="post-title-link" itemprop="url">迴文處理 Palindrome Process</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2017-11-05 00:00:00" itemprop="dateCreated datePublished" datetime="2017-11-05T00:00:00Z">2017-11-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/legacy-algorithm/" itemprop="url" rel="index"><span itemprop="name">(legacy) algorithm</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>之前在弄演算法題目的時候，曾經遇過迴文類的問題，<br>當時並沒有很了解問題的本質跟相關算法，所以都是窮舉。然而有些超時、有些則否。</p>
-<p>後來的某一天又碰到這類的問題，誘發我去把相關的算法看了幾遍。這篇文章算是從中衍伸的筆記。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/palindrome-process/#more" rel="contents">
-                閱讀全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/javascript-file-process/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.jpg">
-      <meta itemprop="name" content="Tinytusnami">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="羊羽手札">
-      <meta itemprop="description" content="羊羽的個人部落格">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | 羊羽手札">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/javascript-file-process/" class="post-title-link" itemprop="url">JavaScript 檔案處理</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2017-11-05 00:00:00" itemprop="dateCreated datePublished" datetime="2017-11-05T00:00:00Z">2017-11-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/legacy-system/" itemprop="url" rel="index"><span itemprop="name">(legacy) system</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>這篇文章的起因是想到過去寫的 JS Demo 多數沒有保留，<br>好不容易，上次在學校弄人工智慧有保留一份帶有檔案處理的。</p>
-<p>所以這篇文章整理了過去做過、<br>未來也可能用在本網誌的演示部份而寫。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/javascript-file-process/#more" rel="contents">
-                閱讀全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/logistic-regression-and-perceptron/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.jpg">
-      <meta itemprop="name" content="Tinytusnami">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="羊羽手札">
-      <meta itemprop="description" content="羊羽的個人部落格">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | 羊羽手札">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/logistic-regression-and-perceptron/" class="post-title-link" itemprop="url">邏輯回歸與感知器 Logistic Regression and Perceptron</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2017-11-02 00:00:00" itemprop="dateCreated datePublished" datetime="2017-11-02T00:00:00Z">2017-11-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/legacy-algorithm/" itemprop="url" rel="index"><span itemprop="name">(legacy) algorithm</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>上一篇介紹的是線性回歸與梯度下降，這一篇將會討論「邏輯回歸與感知器」。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/logistic-regression-and-perceptron/#more" rel="contents">
-                閱讀全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/linear-regression-and-gradient-descent/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.jpg">
-      <meta itemprop="name" content="Tinytusnami">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="羊羽手札">
-      <meta itemprop="description" content="羊羽的個人部落格">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | 羊羽手札">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/linear-regression-and-gradient-descent/" class="post-title-link" itemprop="url">線性回歸與梯度下降 Linear Regression and Gradient Descent</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2017-06-25 00:00:00" itemprop="dateCreated datePublished" datetime="2017-06-25T00:00:00Z">2017-06-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/legacy-algorithm/" itemprop="url" rel="index"><span itemprop="name">(legacy) algorithm</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>這篇是 Coursera 中 Machine Learning 的筆記。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/linear-regression-and-gradient-descent/#more" rel="contents">
-                閱讀全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/differential-trigonometric-functions/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.jpg">
-      <meta itemprop="name" content="Tinytusnami">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="羊羽手札">
-      <meta itemprop="description" content="羊羽的個人部落格">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | 羊羽手札">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/differential-trigonometric-functions/" class="post-title-link" itemprop="url">三角函數的微分</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2017-05-22 00:00:00" itemprop="dateCreated datePublished" datetime="2017-05-22T00:00:00Z">2017-05-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/legacy-math/" itemprop="url" rel="index"><span itemprop="name">(legacy) math</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>總之一個因緣際會複習微積分，所以寫下這篇文章。<br>本篇文章部分要仰賴一些先備知識：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/differential-trigonometric-functions/#more" rel="contents">
-                閱讀全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一頁" aria-label="上一頁" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" title="下一頁" aria-label="下一頁" href="/page/5/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
-</div>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-inner">
-
-  <div class="copyright">
-    &copy; 2018 – 
-    <span itemprop="copyrightYear">2026</span>
-    <span class="with-love">
-      <i class="fa fa-bomb"></i>
-    </span>
-    <span class="author" itemprop="copyrightHolder">Tinytusnami</span>
-  </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
-  </div>
-
-    </div>
-  </footer>
-
-  
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-  </div>
-  <div class="sidebar-dimmer"></div>
-  <div class="back-to-top" role="button" aria-label="回到頂端">
-    <i class="fa fa-arrow-up fa-lg"></i>
-    <span>0%</span>
-  </div>
-
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
-<script class="next-config" data-name="giscus" type="application/json">{"enable":true,"repo":"tinytsunami/blog","repo_id":"MDEwOlJlcG9zaXRvcnkxMjI3MTEwNTY=","category":"Blog Comments","category_id":"DIC_kwDOB1BsEM4C42Ww","mapping":"pathname","strict":0,"reactions_enabled":1,"emit_metadata":1,"theme":"preferred_color_scheme","lang":"zh-TW","crossorigin":"anonymous","input_position":"top","loading":"lazy"}</script>
-
-<script>
-document.addEventListener('page:loaded', () => {
-  if (!CONFIG.page.comments) return;
-
-  NexT.utils.loadComments('.giscus-container')
-    .then(() => NexT.utils.getScript('https://giscus.app/client.js', {
-      attributes: {
-        async                   : true,
-        crossOrigin             : 'anonymous',
-        'data-repo'             : CONFIG.giscus.repo,
-        'data-repo-id'          : CONFIG.giscus.repo_id,
-        'data-category'         : CONFIG.giscus.category,
-        'data-category-id'      : CONFIG.giscus.category_id,
-        'data-mapping'          : CONFIG.giscus.mapping,
-        'data-strict'           : CONFIG.giscus.strict,
-        'data-reactions-enabled': CONFIG.giscus.reactions_enabled,
-        'data-emit-metadata'    : CONFIG.giscus.emit_metadata,
-        'data-theme'            : CONFIG.giscus.theme,
-        'data-lang'             : CONFIG.giscus.lang,
-        'data-input-position'   : CONFIG.giscus.input_position,
-        'data-loading'          : CONFIG.giscus.loading
-      },
-      parentNode: document.querySelector('.giscus-container')
-    }));
-});
-</script>
+<!-- utterances Comments -->
 
 </body>
 </html>

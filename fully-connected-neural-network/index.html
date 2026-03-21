@@ -1,313 +1,182 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang=en>
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
-
-<script class="next-config" data-name="main" type="application/json">{"hostname":"www.tinytsunami.info","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
-
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
     <meta name="description" content="上一篇介紹的是邏輯回歸與感知器，這一篇將會討論「全連接神經網路」。 睽違 2 年的主要原因是覺得網路上關於反向傳播很多人寫了，另外微積分其實我沒有掌握得很完全，所以很猶豫哪時要完成這篇文章。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="全連接神經網路 Fully-Connected Neural Network">
 <meta property="og:url" content="https://www.tinytsunami.info/fully-connected-neural-network/index.html">
-<meta property="og:site_name" content="羊羽手札">
+<meta property="og:site_name" content="Tinytsunami&#39;s Notes">
 <meta property="og:description" content="上一篇介紹的是邏輯回歸與感知器，這一篇將會討論「全連接神經網路」。 睽違 2 年的主要原因是覺得網路上關於反向傳播很多人寫了，另外微積分其實我沒有掌握得很完全，所以很猶豫哪時要完成這篇文章。">
-<meta property="og:locale" content="zh_TW">
+<meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://i.imgur.com/TGmNZoX.png">
 <meta property="og:image" content="https://i.imgur.com/QpM15R6.png">
 <meta property="og:image" content="https://i.imgur.com/zOAQra2.png">
 <meta property="og:image" content="https://i.imgur.com/wPg7VqS.png">
 <meta property="article:published_time" content="2019-07-07T00:00:00.000Z">
-<meta property="article:modified_time" content="2026-03-20T08:43:52.146Z">
+<meta property="article:modified_time" content="2026-03-21T14:39:25.999Z">
 <meta property="article:author" content="Tinytusnami">
-<meta property="article:tag" content="技術, 獨立遊戲">
+<meta property="article:tag" content="tech, game development">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://i.imgur.com/TGmNZoX.png">
-
-
-<link rel="canonical" href="https://www.tinytsunami.info/fully-connected-neural-network/">
-
-
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://www.tinytsunami.info/fully-connected-neural-network/","path":"/fully-connected-neural-network/","title":"全連接神經網路 Fully-Connected Neural Network"}</script>
-
-<script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>全連接神經網路 Fully-Connected Neural Network | 羊羽手札</title>
-  
-
-
-
-
-
-
-
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous" defer></script>
-<script src="/js/utils.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
-<script src="/js/third-party/search/local-search.js" defer></script>
-
-
-
-
-  <script src="/js/third-party/fancybox.js" defer></script>
-
-
-
-  
-
-
-
-
-  
-
-  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
-<script src="/js/third-party/math/mathjax.js" defer></script>
-
-
-
-  <noscript>
-    <link rel="stylesheet" href="/css/noscript.css">
-  </noscript>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="headband"></div>
-
-  <main class="main">
-    <div class="column">
-      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切換導航欄" role="button">
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
-      <p class="site-title">羊羽手札</p>
-      <i class="logo-line"></i>
-    </a>
-      <p class="site-subtitle" itemprop="description">Tinytsunami's Blog</p>
-      <img class="custom-logo-image" src="/images/icon.png" alt="羊羽手札">
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
-        <i class="fa fa-search fa-fw fa-lg"></i>
-    </div>
-  </div>
-</div>
-
-
-
-<nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-game"><a href="https://tinytsunami.itch.io/" rel="section" target="_blank"><i class="fas fa-gamepad fa-fw"></i>game</a></li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
-        </a>
-      </li>
-  </ul>
-</nav>
-
-
-
-  <div class="search-pop-overlay">
-    <div class="popup search-popup">
-      <div class="search-header">
-        <span class="search-icon">
-          <i class="fa fa-search"></i>
-        </span>
-        <div class="search-input-container">
-          <input autocomplete="off" autocapitalize="off" maxlength="80"
-                placeholder="搜尋..." spellcheck="false"
-                type="search" class="search-input">
-        </div>
-        <span class="popup-btn-close" role="button">
-          <i class="fa fa-times-circle"></i>
-        </span>
-      </div>
-      <div class="search-result-container">
-        <div class="search-result-icon">
-          <i class="fa fa-spinner fa-pulse fa-5x"></i>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</header>
+    
+    
+      
         
-  
-  <aside class="sidebar">
+          <link rel="shortcut icon" href="/images/icon.png">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/icon.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>全連接神經網路 Fully-Connected Neural Network</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
 
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-toc">
-          文章目錄
-        </li>
-        <li class="sidebar-nav-overview">
-          本站概要
-        </li>
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
       </ul>
-
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A5%9E%E7%B6%93%E7%B6%B2%E8%B7%AF%E7%B0%A1%E4%BB%8B"><span class="nav-number">2.</span> <span class="nav-text">神經網路簡介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E5%90%91%E5%82%B3%E6%92%AD%E6%BC%94%E7%AE%97%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">前向傳播演算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#X-left-begin-matrix-boldsymbol-x-1-T-boldsymbol-x-2-T-vdots-boldsymbol-x-m-T-end-matrix-right"><span class="nav-number">4.</span> <span class="nav-text">$$X &#x3D;\left[ \begin{matrix}(\boldsymbol{x}^{(1)})^{T} \\(\boldsymbol{x}^{(2)})^{T} \\\vdots               \\(\boldsymbol{x}^{(m)})^{T}\end{matrix} \right]</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#X-Theta-1-left-begin-matrix-boldsymbol-x-1-T-boldsymbol-x-2-T-vdots-boldsymbol-x-m-T-end-matrix-right-left-begin-matrix-Theta-1-1-1-Theta-1-2-1-dots-Theta-1-b-1-Theta-2-1-1-Theta-2-2-1-dots-Theta-2-b-1-vdots-vdots-ddots-vdots-Theta-a-1-1-Theta-a-2-1-dots-Theta-a-b-1-end-matrix-right"><span class="nav-number">5.</span> <span class="nav-text">$$X\Theta^{(1)} &#x3D;\left[ \begin{matrix}(\boldsymbol{x}^{(1)})^{T} \\(\boldsymbol{x}^{(2)})^{T} \\\vdots \\(\boldsymbol{x}^{(m)})^{T}\end{matrix} \right]\left[ \begin{matrix}\Theta_{1, 1}^{(1)} &amp; \Theta_{1, 2}^{(1)} &amp; \dots  &amp; \Theta_{1, b}^{(1)} \\\Theta_{2, 1}^{(1)} &amp; \Theta_{2, 2}^{(1)} &amp; \dots  &amp; \Theta_{2, b}^{(1)} \\\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\\Theta_{a, 1}^{(1)} &amp; \Theta_{a, 2}^{(1)} &amp; \dots  &amp; \Theta_{a, b}^{(1)}\end{matrix} \right]</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#left-begin-matrix-x-1-1-x-2-1-dots-x-n-1-x-1-2-x-2-2-dots-x-n-2-vdots-vdots-ddots-vdots-x-1-m-x-2-m-dots-x-n-m-end-matrix-right-left-begin-matrix-Theta-1-1-1-Theta-1-2-1-dots-Theta-1-b-1-Theta-2-1-1-Theta-2-2-1-dots-Theta-2-b-1-vdots-vdots-ddots-vdots-Theta-a-1-1-Theta-a-2-1-dots-Theta-a-b-1-end-matrix-right"><span class="nav-number">6.</span> <span class="nav-text">\left[ \begin{matrix}x_{1}^{(1)} &amp; x_{2}^{(1)} &amp; \dots &amp; x_{n}^{(1)} \\x_{1}^{(2)} &amp; x_{2}^{(2)} &amp; \dots &amp; x_{n}^{(2)} \\\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\x_{1}^{(m)} &amp; x_{2}^{(m)} &amp; \dots  &amp; x_{n}^{(m)}\end{matrix} \right]\left[ \begin{matrix}\Theta_{1, 1}^{(1)} &amp; \Theta_{1, 2}^{(1)} &amp; \dots &amp; \Theta_{1, b}^{(1)} \\\Theta_{2, 1}^{(1)} &amp; \Theta_{2, 2}^{(1)} &amp; \dots &amp; \Theta_{2, b}^{(1)} \\\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\\Theta_{a, 1}^{(1)} &amp; \Theta_{a, 2}^{(1)} &amp; \dots &amp; \Theta_{a, b}^{(1)}\end{matrix} \right]$$$$</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%8D%E5%90%91%E5%82%B3%E6%92%AD%E6%BC%94%E7%AE%97%E6%B3%95"><span class="nav-number">7.</span> <span class="nav-text">反向傳播演算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#X-left-begin-matrix-boldsymbol-x-1-T-boldsymbol-x-2-T-vdots-boldsymbol-x-m-T-end-matrix-right-1"><span class="nav-number">8.</span> <span class="nav-text">$$X &#x3D;\left[ \begin{matrix}(\boldsymbol{x}^{(1)})^{T} \\(\boldsymbol{x}^{(2)})^{T} \\\vdots               \\(\boldsymbol{x}^{(m)})^{T}\end{matrix} \right]</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Y-left-begin-matrix-boldsymbol-y-1-T-boldsymbol-y-2-T-vdots-boldsymbol-y-m-T-end-matrix-right"><span class="nav-number">9.</span> <span class="nav-text">$$Y &#x3D;\left[ \begin{matrix}(\boldsymbol{y}^{(1)})^{T} \\(\boldsymbol{y}^{(2)})^{T} \\\vdots               \\(\boldsymbol{y}^{(m)})^{T}\end{matrix} \right]</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Sigmoid-%E5%87%BD%E6%95%B8%E5%BE%AE%E5%88%86"><span class="nav-number">9.1.</span> <span class="nav-text">Sigmoid 函數微分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BC%B8%E5%87%BA%E5%B1%A4%E7%9A%84%E8%AA%A4%E5%B7%AE"><span class="nav-number">9.2.</span> <span class="nav-text">輸出層的誤差</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#frac-partial-Cost-Theta-partial-Theta-ij-L-frac-1-2-frac-partial-y-j-phi-a-j-L-2-partial-Theta-ij-L-frac-1-2-frac-partial-y-j-phi-a-j-L-2-partial-y-j-phi-a-j-L-frac-partial-y-j-phi-a-j-L-partial-Theta-ij-L-frac-1-2-frac-partial-y-j-phi-a-j-L-2-partial-y-j-phi-a-j-L-frac-partial-y-j-phi-a-j-L-partial-phi-a-j-L-frac-partial-phi-a-j-L-partial-Theta-ij-L"><span class="nav-number">10.</span> <span class="nav-text">$$\frac{\partial Cost(\Theta) }{\partial\Theta_{ij}^{(L)}} &#x3D; \frac{1}{2}\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2} }{\partial \Theta_{ij}^{(L)}}$$$$ &#x3D; \frac{1}{2} \frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2} }{\partial y_{j} - \phi(a_{j}^{(L)})}\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \Theta_{ij}^{(L)}}$$$$&#x3D; \frac{1}{2}\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2} }{\partial y_{j} - \phi(a_{j}^{(L)})}\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \phi(a_{j}^{(L)})}\frac{\partial \phi(a_{j}^{(L)})}{\partial \Theta_{ij}^{(L)}}$$$$</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9A%B1%E8%97%8F%E5%B1%A4%E7%9A%84%E8%AA%A4%E5%B7%AE"><span class="nav-number">10.1.</span> <span class="nav-text">隱藏層的誤差</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#frac-partial-Cost-Theta-partial-Theta-st-L-1"><span class="nav-number">11.</span> <span class="nav-text">$$\frac{\partial Cost(\Theta) }{\partial\Theta_{st}^{(L-1)}} </span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#frac-partial-Cost-Theta-partial-Theta-st-L-1-1"><span class="nav-number">12.</span> <span class="nav-text">$$\frac{\partial Cost(\Theta) }{\partial\Theta_{st}^{(L-1)}} </span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#frac-1-2-sum-limits-j-left-frac-partial-y-j-phi-a-j-L-2-partial-y-j-phi-a-j-L-frac-partial-y-j-phi-a-j-L-partial-phi-a-j-L-frac-partial-phi-a-j-L-partial-a-j-L-right-frac-partial-a-j-L-partial-Theta-st-L-1"><span class="nav-number">13.</span> <span class="nav-text">\frac{1}{2} \sum\limits_{j} \left[\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2}}{\partial (y_{j} - \phi(a_{j}^{(L)}))}\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \phi(a_{j}^{(L)})}\frac{\partial \phi(a_{j}^{(L)})}{\partial a_{j}^{(L)}}\right]\frac{\partial a_{j}^{(L)}}{\partial\Theta_{st}^{(L-1)}}$$$$</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#frac-1-2-sum-limits-j-left-frac-partial-y-j-phi-a-j-L-2-partial-y-j-phi-a-j-L-frac-partial-y-j-phi-a-j-L-partial-phi-a-j-L-frac-partial-phi-a-j-L-partial-a-j-L-right-frac-partial-sum-limits-k-left-phi-a-k-L-1-Theta-kj-L-right-partial-a-i-L-1-frac-partial-a-i-L-1-partial-Theta-st-L-1"><span class="nav-number">14.</span> <span class="nav-text">\frac{1}{2} \sum\limits_{j} \left[\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2}}{\partial (y_{j} - \phi(a_{j}^{(L)}))}\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \phi(a_{j}^{(L)})}\frac{\partial \phi(a_{j}^{(L)})}{\partial a_{j}^{(L)}}\right]\frac{\partial \sum\limits_{k} \left( \phi(a_{k}^{(L-1)}) \Theta_{kj}^{(L)} \right)}{\partial a_{i}^{(L-1)}}\frac{\partial a_{i}^{(L-1)}}{\partial\Theta_{st}^{(L-1)}}$$$$</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#frac-partial-Cost-Theta-partial-Theta-st-L-1-2"><span class="nav-number">15.</span> <span class="nav-text">$$\frac{\partial Cost(\Theta) }{\partial\Theta_{st}^{(L-1)}} </span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#frac-1-2-sum-limits-j-delta-j-L-frac-partial-sum-limits-k-left-phi-a-k-L-1-Theta-kj-L-right-partial-a-i-L-1-frac-partial-a-i-L-1-partial-Theta-st-L-1"><span class="nav-number">16.</span> <span class="nav-text">\frac{1}{2} \sum\limits_{j} \delta_{j}^{(L)}\frac{\partial \sum\limits_{k} \left( \phi(a_{k}^{(L-1)}) \Theta_{kj}^{(L)} \right)}{\partial a_{i}^{(L-1)}}\frac{\partial a_{i}^{(L-1)}}{\partial\Theta_{st}^{(L-1)}}$$$$</span></a></li></ol></div>
-        </div>
-        <!--/noindex-->
-
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Tinytusnami"
-      src="/images/head.jpg">
-  <p class="site-author-name" itemprop="name">Tinytusnami</p>
-  <div class="site-description" itemprop="description">羊羽的個人部落格</div>
-</div>
-<div class="site-state-wrap animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-        <a href="/archives/">
-          <span class="site-state-item-count">46</span>
-          <span class="site-state-item-name">文章</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-          <a href="/categories/">
-        <span class="site-state-item-count">7</span>
-        <span class="site-state-item-name">分類</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author animated">
-      <span class="links-of-author-item">
-        <a href="https://github.com/tinytsunami" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;tinytsunami" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://twitter.com/TaipeiTsunami" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;TaipeiTsunami" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://www.facebook.com/profile.php?id=100000736195394" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;profile.php?id&#x3D;100000736195394" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://www.youtube.com/channel/UCtqp9w_uA_LohDm0YXNWqSA" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCtqp9w_uA_LohDm0YXNWqSA" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
-      </span>
-  </div>
-
-        </div>
-      </div>
-    </div>
-
-    
-    <div class="sidebar-inner sidebar-blogroll">
-      <div class="links-of-blogroll animated">
-        <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
-          連結
-        </div>
-        <ul class="links-of-blogroll-list">
-            <li class="links-of-blogroll-item">
-              <a href="https://blog.cyris.tw/" title="https:&#x2F;&#x2F;blog.cyris.tw" rel="noopener" target="_blank">Cyris's Blog</a>
-            </li>
-            <li class="links-of-blogroll-item">
-              <a href="https://poyu-liao.github.io/blog" title="https:&#x2F;&#x2F;poyu-liao.github.io&#x2F;blog" rel="noopener" target="_blank">Robert's Blog</a>
-            </li>
-        </ul>
-      </div>
-    </div>
-  </aside>
-
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/preorder-inorder-postorder/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/sheeps-04/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.tinytsunami.info/fully-connected-neural-network/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.tinytsunami.info/fully-connected-neural-network/&text=全連接神經網路 Fully-Connected Neural Network"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.tinytsunami.info/fully-connected-neural-network/&title=全連接神經網路 Fully-Connected Neural Network"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.tinytsunami.info/fully-connected-neural-network/&is_video=false&description=全連接神經網路 Fully-Connected Neural Network"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=全連接神經網路 Fully-Connected Neural Network&body=Check out this article: https://www.tinytsunami.info/fully-connected-neural-network/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.tinytsunami.info/fully-connected-neural-network/&title=全連接神經網路 Fully-Connected Neural Network"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.tinytsunami.info/fully-connected-neural-network/&title=全連接神經網路 Fully-Connected Neural Network"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.tinytsunami.info/fully-connected-neural-network/&title=全連接神經網路 Fully-Connected Neural Network"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.tinytsunami.info/fully-connected-neural-network/&title=全連接神經網路 Fully-Connected Neural Network"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.tinytsunami.info/fully-connected-neural-network/&name=全連接神經網路 Fully-Connected Neural Network&description=&lt;p&gt;上一篇介紹的是邏輯回歸與感知器，這一篇將會討論「全連接神經網路」。&lt;/p&gt;
+&lt;p&gt;睽違 2 年的主要原因是覺得網路上關於反向傳播很多人寫了，&lt;br&gt;另外微積分其實我沒有掌握得很完全，所以很猶豫哪時要完成這篇文章。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.tinytsunami.info/fully-connected-neural-network/&t=全連接神經網路 Fully-Connected Neural Network"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
 
     </div>
-
-    <div class="main-inner post posts-expand">
-
-
-  
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://www.tinytsunami.info/fully-connected-neural-network/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.jpg">
-      <meta itemprop="name" content="Tinytusnami">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="羊羽手札">
-      <meta itemprop="description" content="羊羽的個人部落格">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="全連接神經網路 Fully-Connected Neural Network | 羊羽手札">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          全連接神經網路 Fully-Connected Neural Network
-        </h1>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2019-07-07 00:00:00" itemprop="dateCreated datePublished" datetime="2019-07-07T00:00:00Z">2019-07-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-03-20 08:43:52" itemprop="dateModified" datetime="2026-03-20T08:43:52Z">2026-03-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/legacy-algorithm/" itemprop="url" rel="index"><span itemprop="name">(legacy) algorithm</span></a>
-        </span>
-    </span>
-
-  
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A5%9E%E7%B6%93%E7%B6%B2%E8%B7%AF%E7%B0%A1%E4%BB%8B"><span class="toc-number">2.</span> <span class="toc-text">神經網路簡介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E5%90%91%E5%82%B3%E6%92%AD%E6%BC%94%E7%AE%97%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">前向傳播演算法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%8D%E5%90%91%E5%82%B3%E6%92%AD%E6%BC%94%E7%AE%97%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text">反向傳播演算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Sigmoid-%E5%87%BD%E6%95%B8%E5%BE%AE%E5%88%86"><span class="toc-number">4.1.</span> <span class="toc-text">Sigmoid 函數微分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BC%B8%E5%87%BA%E5%B1%A4%E7%9A%84%E8%AA%A4%E5%B7%AE"><span class="toc-number">4.2.</span> <span class="toc-text">輸出層的誤差</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9A%B1%E8%97%8F%E5%B1%A4%E7%9A%84%E8%AA%A4%E5%B7%AE"><span class="toc-number">4.3.</span> <span class="toc-text">隱藏層的誤差</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
 </div>
 
-        </div>
-      </header>
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        全連接神經網路 Fully-Connected Neural Network
+    </h1>
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody"><p>上一篇介紹的是邏輯回歸與感知器，這一篇將會討論「全連接神經網路」。</p>
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Tinytusnami</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-07-07T00:00:00.000Z" class="dt-published" itemprop="datePublished">2019-07-07</time>
+        
+        (Updated: <time datetime="2026-03-21T14:39:25.999Z" class="dt-updated" itemprop="dateModified">2026-03-21</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/legacy-algorithm/">(legacy) algorithm</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>上一篇介紹的是邏輯回歸與感知器，這一篇將會討論「全連接神經網路」。</p>
 <p>睽違 2 年的主要原因是覺得網路上關於反向傳播很多人寫了，<br>另外微積分其實我沒有掌握得很完全，所以很猶豫哪時要完成這篇文章。</p>
 <span id="more"></span>
 
@@ -333,7 +202,25 @@
 <h1 id="前向傳播演算法"><a href="#前向傳播演算法" class="headerlink" title="前向傳播演算法"></a>前向傳播演算法</h1><p>還記得當初學習「函數」的時候，是怎麼想像函數的嗎？<br>函數是一個機器，你可以給它一個值，它就會給你另一個值。</p>
 <p>現在，全連接神經網路就是那部機器！我們的函數名為 $h_{\Theta}(X)$<br>計算這個函數值的過程，就稱為「前向傳播演算法（forward propagation algorithm）」。</p>
 <p>試想我們輸入為列向量 $\boldsymbol{x}^{T} &#x3D; [x_{1}, x_{2}, …, x_{n}]$ 是一筆具有 $n$ 個特徵的資料，<br>若為第 $j$ 筆，我們表示為 $(\boldsymbol{x}^{(j)})^{T} &#x3D; [x_{1}^{(j)}, x_{2}^{(j)}, …, x_{n}^{(j)}]$<br>當我們有 $m$ 筆資料構成一個批次（batch）時，輸入矩陣為：</p>
-<h1 id="X-left-begin-matrix-boldsymbol-x-1-T-boldsymbol-x-2-T-vdots-boldsymbol-x-m-T-end-matrix-right"><a href="#X-left-begin-matrix-boldsymbol-x-1-T-boldsymbol-x-2-T-vdots-boldsymbol-x-m-T-end-matrix-right" class="headerlink" title="$$X &#x3D;\left[ \begin{matrix}(\boldsymbol{x}^{(1)})^{T} \\(\boldsymbol{x}^{(2)})^{T} \\\vdots               \\(\boldsymbol{x}^{(m)})^{T}\end{matrix} \right]"></a>$$<br>X &#x3D;<br>\left[ \begin{matrix}<br>(\boldsymbol{x}^{(1)})^{T} \\<br>(\boldsymbol{x}^{(2)})^{T} \\<br>\vdots               \\<br>(\boldsymbol{x}^{(m)})^{T}<br>\end{matrix} \right]</h1><p>\left[ \begin{matrix}<br>x_{1}^{(1)} &amp; x_{2}^{(1)} &amp; \dots &amp; x_{n}^{(1)} \\<br>x_{1}^{(2)} &amp; x_{2}^{(2)} &amp; \dots &amp; x_{n}^{(2)} \\<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>x_{1}^{(m)} &amp; x_{2}^{(m)} &amp; \dots  &amp; x_{n}^{(m)}<br>\end{matrix} \right]<br>$$</p>
+<raw>
+$$
+X = 
+\left[ \begin{matrix}
+(\boldsymbol{x}^{(1)})^{T} \\\\
+(\boldsymbol{x}^{(2)})^{T} \\\\
+\vdots               \\\\
+(\boldsymbol{x}^{(m)})^{T}
+\end{matrix} \right]
+=
+\left[ \begin{matrix}
+x_{1}^{(1)} & x_{2}^{(1)} & \dots & x_{n}^{(1)} \\\\
+x_{1}^{(2)} & x_{2}^{(2)} & \dots & x_{n}^{(2)} \\\\
+\vdots & \vdots & \ddots & \vdots \\\\
+x_{1}^{(m)} & x_{2}^{(m)} & \dots  & x_{n}^{(m)}
+\end{matrix} \right]
+$$
+</raw>
+
 <div class="note info"><p>輸入資料的行、列可能相反，只要公式做對應的改變即可。</p>
 </div>
 
@@ -347,7 +234,49 @@
 </div>
 
 <p>彙整一下，舉例來說，第 1 層有：</p>
-<h1 id="X-Theta-1-left-begin-matrix-boldsymbol-x-1-T-boldsymbol-x-2-T-vdots-boldsymbol-x-m-T-end-matrix-right-left-begin-matrix-Theta-1-1-1-Theta-1-2-1-dots-Theta-1-b-1-Theta-2-1-1-Theta-2-2-1-dots-Theta-2-b-1-vdots-vdots-ddots-vdots-Theta-a-1-1-Theta-a-2-1-dots-Theta-a-b-1-end-matrix-right"><a href="#X-Theta-1-left-begin-matrix-boldsymbol-x-1-T-boldsymbol-x-2-T-vdots-boldsymbol-x-m-T-end-matrix-right-left-begin-matrix-Theta-1-1-1-Theta-1-2-1-dots-Theta-1-b-1-Theta-2-1-1-Theta-2-2-1-dots-Theta-2-b-1-vdots-vdots-ddots-vdots-Theta-a-1-1-Theta-a-2-1-dots-Theta-a-b-1-end-matrix-right" class="headerlink" title="$$X\Theta^{(1)} &#x3D;\left[ \begin{matrix}(\boldsymbol{x}^{(1)})^{T} \\(\boldsymbol{x}^{(2)})^{T} \\\vdots \\(\boldsymbol{x}^{(m)})^{T}\end{matrix} \right]\left[ \begin{matrix}\Theta_{1, 1}^{(1)} &amp; \Theta_{1, 2}^{(1)} &amp; \dots  &amp; \Theta_{1, b}^{(1)} \\\Theta_{2, 1}^{(1)} &amp; \Theta_{2, 2}^{(1)} &amp; \dots  &amp; \Theta_{2, b}^{(1)} \\\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\\Theta_{a, 1}^{(1)} &amp; \Theta_{a, 2}^{(1)} &amp; \dots  &amp; \Theta_{a, b}^{(1)}\end{matrix} \right]"></a>$$<br>X\Theta^{(1)} &#x3D;<br>\left[ \begin{matrix}<br>(\boldsymbol{x}^{(1)})^{T} \\<br>(\boldsymbol{x}^{(2)})^{T} \\<br>\vdots \\<br>(\boldsymbol{x}^{(m)})^{T}<br>\end{matrix} \right]<br>\left[ \begin{matrix}<br>\Theta_{1, 1}^{(1)} &amp; \Theta_{1, 2}^{(1)} &amp; \dots  &amp; \Theta_{1, b}^{(1)} \\<br>\Theta_{2, 1}^{(1)} &amp; \Theta_{2, 2}^{(1)} &amp; \dots  &amp; \Theta_{2, b}^{(1)} \\<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>\Theta_{a, 1}^{(1)} &amp; \Theta_{a, 2}^{(1)} &amp; \dots  &amp; \Theta_{a, b}^{(1)}<br>\end{matrix} \right]</h1><h1 id="left-begin-matrix-x-1-1-x-2-1-dots-x-n-1-x-1-2-x-2-2-dots-x-n-2-vdots-vdots-ddots-vdots-x-1-m-x-2-m-dots-x-n-m-end-matrix-right-left-begin-matrix-Theta-1-1-1-Theta-1-2-1-dots-Theta-1-b-1-Theta-2-1-1-Theta-2-2-1-dots-Theta-2-b-1-vdots-vdots-ddots-vdots-Theta-a-1-1-Theta-a-2-1-dots-Theta-a-b-1-end-matrix-right"><a href="#left-begin-matrix-x-1-1-x-2-1-dots-x-n-1-x-1-2-x-2-2-dots-x-n-2-vdots-vdots-ddots-vdots-x-1-m-x-2-m-dots-x-n-m-end-matrix-right-left-begin-matrix-Theta-1-1-1-Theta-1-2-1-dots-Theta-1-b-1-Theta-2-1-1-Theta-2-2-1-dots-Theta-2-b-1-vdots-vdots-ddots-vdots-Theta-a-1-1-Theta-a-2-1-dots-Theta-a-b-1-end-matrix-right" class="headerlink" title="\left[ \begin{matrix}x_{1}^{(1)} &amp; x_{2}^{(1)} &amp; \dots &amp; x_{n}^{(1)} \\x_{1}^{(2)} &amp; x_{2}^{(2)} &amp; \dots &amp; x_{n}^{(2)} \\\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\x_{1}^{(m)} &amp; x_{2}^{(m)} &amp; \dots  &amp; x_{n}^{(m)}\end{matrix} \right]\left[ \begin{matrix}\Theta_{1, 1}^{(1)} &amp; \Theta_{1, 2}^{(1)} &amp; \dots &amp; \Theta_{1, b}^{(1)} \\\Theta_{2, 1}^{(1)} &amp; \Theta_{2, 2}^{(1)} &amp; \dots &amp; \Theta_{2, b}^{(1)} \\\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\\Theta_{a, 1}^{(1)} &amp; \Theta_{a, 2}^{(1)} &amp; \dots &amp; \Theta_{a, b}^{(1)}\end{matrix} \right]$$$$"></a>\left[ \begin{matrix}<br>x_{1}^{(1)} &amp; x_{2}^{(1)} &amp; \dots &amp; x_{n}^{(1)} \\<br>x_{1}^{(2)} &amp; x_{2}^{(2)} &amp; \dots &amp; x_{n}^{(2)} \\<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>x_{1}^{(m)} &amp; x_{2}^{(m)} &amp; \dots  &amp; x_{n}^{(m)}<br>\end{matrix} \right]<br>\left[ \begin{matrix}<br>\Theta_{1, 1}^{(1)} &amp; \Theta_{1, 2}^{(1)} &amp; \dots &amp; \Theta_{1, b}^{(1)} \\<br>\Theta_{2, 1}^{(1)} &amp; \Theta_{2, 2}^{(1)} &amp; \dots &amp; \Theta_{2, b}^{(1)} \\<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>\Theta_{a, 1}^{(1)} &amp; \Theta_{a, 2}^{(1)} &amp; \dots &amp; \Theta_{a, b}^{(1)}<br>\end{matrix} \right]<br>$$<br>$$</h1><p>\left[ \begin{matrix}<br>\sum\limits_{i &#x3D; 1}^{a} x_{i}^{(1)}\Theta_{i, 1}^{(k)} &amp; \sum\limits_{i &#x3D; 1}^{a} x_{i}^{(1)}\Theta_{i, 2}^{(k)} &amp; \dots &amp; \sum\limits_{i &#x3D; 1}^{a} x_{i}^{(1)}\Theta_{i, b}^{(k)} \\<br>\sum\limits_{i &#x3D; 1}^{a} x_{i}^{(2)}\Theta_{i, 1}^{(k)} &amp; \sum\limits_{i &#x3D; 1}^{a} x_{i}^{(2)}\Theta_{i, 2}^{(k)} &amp; \dots &amp; \sum\limits_{i &#x3D; 1}^{a} x_{i}^{(2)}\Theta_{i, b}^{(k)} \\<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>\sum\limits_{i &#x3D; 1}^{a} x_{i}^{(m)}\Theta_{i, 1}^{(k)} &amp; \sum\limits_{i &#x3D; 1}^{a} x_{i}^{(m)}\Theta_{i, 2}^{(k)} &amp; \dots &amp; \sum\limits_{i &#x3D; 1}^{a} x_{i}^{(m)}\Theta_{i, b}^{(k)} \\<br>\end{matrix} \right]<br>$$</p>
+<raw>
+$$
+X\Theta^{(1)} = 
+\left[ \begin{matrix}
+(\boldsymbol{x}^{(1)})^{T} \\\\
+(\boldsymbol{x}^{(2)})^{T} \\\\
+\vdots \\\\
+(\boldsymbol{x}^{(m)})^{T}
+\end{matrix} \right] 
+\left[ \begin{matrix}
+\Theta_{1, 1}^{(1)} & \Theta_{1, 2}^{(1)} & \dots  & \Theta_{1, b}^{(1)} \\\\
+\Theta_{2, 1}^{(1)} & \Theta_{2, 2}^{(1)} & \dots  & \Theta_{2, b}^{(1)} \\\\
+\vdots & \vdots & \ddots & \vdots \\\\
+\Theta_{a, 1}^{(1)} & \Theta_{a, 2}^{(1)} & \dots  & \Theta_{a, b}^{(1)}
+\end{matrix} \right]
+=
+\left[ \begin{matrix}
+x_{1}^{(1)} & x_{2}^{(1)} & \dots & x_{n}^{(1)} \\\\
+x_{1}^{(2)} & x_{2}^{(2)} & \dots & x_{n}^{(2)} \\\\
+\vdots & \vdots & \ddots & \vdots \\\\
+x_{1}^{(m)} & x_{2}^{(m)} & \dots  & x_{n}^{(m)}
+\end{matrix} \right] 
+\left[ \begin{matrix}
+\Theta_{1, 1}^{(1)} & \Theta_{1, 2}^{(1)} & \dots & \Theta_{1, b}^{(1)} \\\\
+\Theta_{2, 1}^{(1)} & \Theta_{2, 2}^{(1)} & \dots & \Theta_{2, b}^{(1)} \\\\
+\vdots & \vdots & \ddots & \vdots \\\\
+\Theta_{a, 1}^{(1)} & \Theta_{a, 2}^{(1)} & \dots & \Theta_{a, b}^{(1)}
+\end{matrix} \right]
+$$
+</raw>
+
+<raw>
+$$
+= 
+\left[ \begin{matrix}
+\sum\limits_{i = 1}^{a} x_{i}^{(1)}\Theta_{i, 1}^{(k)} & \sum\limits_{i = 1}^{a} x_{i}^{(1)}\Theta_{i, 2}^{(k)} & \dots & \sum\limits_{i = 1}^{a} x_{i}^{(1)}\Theta_{i, b}^{(k)} \\\\
+\sum\limits_{i = 1}^{a} x_{i}^{(2)}\Theta_{i, 1}^{(k)} & \sum\limits_{i = 1}^{a} x_{i}^{(2)}\Theta_{i, 2}^{(k)} & \dots & \sum\limits_{i = 1}^{a} x_{i}^{(2)}\Theta_{i, b}^{(k)} \\\\
+\vdots & \vdots & \ddots & \vdots \\\\
+\sum\limits_{i = 1}^{a} x_{i}^{(m)}\Theta_{i, 1}^{(k)} & \sum\limits_{i = 1}^{a} x_{i}^{(m)}\Theta_{i, 2}^{(k)} & \dots & \sum\limits_{i = 1}^{a} x_{i}^{(m)}\Theta_{i, b}^{(k)} \\\\
+\end{matrix} \right]
+$$
+</raw>
+
 <p>這是全部寫出來的情況，雖然看起來有點複雜，<br>但我們仔細觀察注標，可以發現這個矩陣大小關係為：</p>
 <ul>
 <li>$X$ 大小為 $m \times n$</li>
@@ -376,12 +305,61 @@
 </div>
 
 <p>我們重寫一次，當輸入批次共 $m$ 筆資料、每筆資料都有 $n$ 個特徵：</p>
-<h1 id="X-left-begin-matrix-boldsymbol-x-1-T-boldsymbol-x-2-T-vdots-boldsymbol-x-m-T-end-matrix-right-1"><a href="#X-left-begin-matrix-boldsymbol-x-1-T-boldsymbol-x-2-T-vdots-boldsymbol-x-m-T-end-matrix-right-1" class="headerlink" title="$$X &#x3D;\left[ \begin{matrix}(\boldsymbol{x}^{(1)})^{T} \\(\boldsymbol{x}^{(2)})^{T} \\\vdots               \\(\boldsymbol{x}^{(m)})^{T}\end{matrix} \right]"></a>$$<br>X &#x3D;<br>\left[ \begin{matrix}<br>(\boldsymbol{x}^{(1)})^{T} \\<br>(\boldsymbol{x}^{(2)})^{T} \\<br>\vdots               \\<br>(\boldsymbol{x}^{(m)})^{T}<br>\end{matrix} \right]</h1><p>\left[ \begin{matrix}<br>x_{1}^{(1)} &amp; x_{2}^{(1)} &amp; \dots &amp; x_{n}^{(1)} \\<br>x_{1}^{(2)} &amp; x_{2}^{(2)} &amp; \dots &amp; x_{n}^{(2)} \\<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>x_{1}^{(m)} &amp; x_{2}^{(m)} &amp; \dots  &amp; x_{n}^{(m)}<br>\end{matrix} \right]<br>$$</p>
+<raw>
+$$
+X = 
+\left[ \begin{matrix}
+(\boldsymbol{x}^{(1)})^{T} \\\\
+(\boldsymbol{x}^{(2)})^{T} \\\\
+\vdots               \\\\
+(\boldsymbol{x}^{(m)})^{T}
+\end{matrix} \right]
+=
+\left[ \begin{matrix}
+x_{1}^{(1)} & x_{2}^{(1)} & \dots & x_{n}^{(1)} \\\\
+x_{1}^{(2)} & x_{2}^{(2)} & \dots & x_{n}^{(2)} \\\\
+\vdots & \vdots & \ddots & \vdots \\\\
+x_{1}^{(m)} & x_{2}^{(m)} & \dots  & x_{n}^{(m)}
+\end{matrix} \right]
+$$
+</raw>
+
 <p>對應的標籤為 $m$ 筆資料、每筆資料都有 $p$ 個特徵（最後一層神經元數量也會為 $p$）：</p>
-<h1 id="Y-left-begin-matrix-boldsymbol-y-1-T-boldsymbol-y-2-T-vdots-boldsymbol-y-m-T-end-matrix-right"><a href="#Y-left-begin-matrix-boldsymbol-y-1-T-boldsymbol-y-2-T-vdots-boldsymbol-y-m-T-end-matrix-right" class="headerlink" title="$$Y &#x3D;\left[ \begin{matrix}(\boldsymbol{y}^{(1)})^{T} \\(\boldsymbol{y}^{(2)})^{T} \\\vdots               \\(\boldsymbol{y}^{(m)})^{T}\end{matrix} \right]"></a>$$<br>Y &#x3D;<br>\left[ \begin{matrix}<br>(\boldsymbol{y}^{(1)})^{T} \\<br>(\boldsymbol{y}^{(2)})^{T} \\<br>\vdots               \\<br>(\boldsymbol{y}^{(m)})^{T}<br>\end{matrix} \right]</h1><p>\left[ \begin{matrix}<br>y_{1}^{(1)} &amp; y_{2}^{(1)} &amp; \dots &amp; y_{p}^{(1)} \\<br>y_{1}^{(2)} &amp; y_{2}^{(2)} &amp; \dots &amp; y_{p}^{(2)} \\<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>y_{1}^{(m)} &amp; y_{2}^{(m)} &amp; \dots  &amp; y_{p}^{(m)}<br>\end{matrix} \right]<br>$$</p>
+<raw>
+$$
+Y = 
+\left[ \begin{matrix}
+(\boldsymbol{y}^{(1)})^{T} \\\\
+(\boldsymbol{y}^{(2)})^{T} \\\\
+\vdots               \\\\
+(\boldsymbol{y}^{(m)})^{T}
+\end{matrix} \right]
+=
+\left[ \begin{matrix}
+y_{1}^{(1)} & y_{2}^{(1)} & \dots & y_{p}^{(1)} \\\\
+y_{1}^{(2)} & y_{2}^{(2)} & \dots & y_{p}^{(2)} \\\\
+\vdots & \vdots & \ddots & \vdots \\\\
+y_{1}^{(m)} & y_{2}^{(m)} & \dots  & y_{p}^{(m)}
+\end{matrix} \right]
+$$
+</raw>
+
 <p>則我們可以將成本函數寫完整：</p>
-<p>$$<br>Cost(\Theta)<br>&#x3D; \frac{1}{2m} \sum\limits_{i&#x3D;1}^m (Y - \hat{Y})^{2}<br>&#x3D; \frac{1}{2m} \sum\limits_{i&#x3D;1}^m (Y - h_{\Theta}(X))^{2}<br>$$</p>
-<p>$$<br>&#x3D; \frac{1}{2m} \sum\limits_{i&#x3D;1}^m<br>(\left[y_{j}^{(i)}\right] - \left[ h_{\Theta}(X)^{(i)}_{j} \right]  )^{2}<br>$$</p>
+<raw>
+$$
+Cost(\Theta)
+= \frac{1}{2m} \sum\limits_{i=1}^m (Y - \hat{Y})^{2}
+= \frac{1}{2m} \sum\limits_{i=1}^m (Y - h_{\Theta}(X))^{2}
+$$
+</raw>
+
+<raw>
+$$
+= \frac{1}{2m} \sum\limits_{i=1}^m
+(\left[y\_{j}^{(i)}\right] - \left[ h_{\Theta}(X)^{(i)}_{j} \right]  )^{2}
+$$
+</raw>
+
 <p>我們關注的是，當權重 $\Theta$ 改變時，成本 $Cost(\Theta)$ 的變化，<br>假設我們激活函數為 Sigmoid 函數 $\phi(z) &#x3D; \frac{1}{1 + e ^{-z}}$</p>
 <p>接下來，我們要處理每一層的誤差。</p>
 <h2 id="Sigmoid-函數微分"><a href="#Sigmoid-函數微分" class="headerlink" title="Sigmoid 函數微分"></a>Sigmoid 函數微分</h2><p>在開始之前，我們先處理激活函數的微分，這個部分在後面會使用到。</p>
@@ -393,10 +371,49 @@
 <p>如果僅考慮一筆資料的情況，即 $ X &#x3D; (\boldsymbol{x}^{(1)})^{T}$<br>參考圖 3 所示，接著定義：<br>$$<br>a^{(1)} &#x3D; X\Theta^{(1)} &#x3D; (\boldsymbol{x}^{(1)})^{T}\Theta^{(1)} \\<br>a^{(2)} &#x3D; a^{(1)}\Theta^{(2)} \\<br>\vdots \\<br>a^{(L)} &#x3D; a^{(L-1)}\Theta^{(L)}<br>$$</p>
 <p>不難發現，第 $l$ 層的第 $k$ 個神經元的輸出為 $a_{k}^{(l)}$<br>另外總輸出為 $h_{\Theta}(X) &#x3D; \phi(a^{(L)})$<br>同理，第 $k$ 個神經元的輸出為 $\phi(a_{k}^{(L)})$ </p>
 <p>我們觀察第 $L-1$ 層的第 $i$ 個神經元連接到第 $L$ 層第 $j$ 個神經元的權重為 $\Theta_{ij}^{(L)}$<br>所以我們對 $Cost(\Theta)$ 的特定神經元做偏微分有：</p>
-<h1 id="frac-partial-Cost-Theta-partial-Theta-ij-L-frac-1-2-frac-partial-y-j-phi-a-j-L-2-partial-Theta-ij-L-frac-1-2-frac-partial-y-j-phi-a-j-L-2-partial-y-j-phi-a-j-L-frac-partial-y-j-phi-a-j-L-partial-Theta-ij-L-frac-1-2-frac-partial-y-j-phi-a-j-L-2-partial-y-j-phi-a-j-L-frac-partial-y-j-phi-a-j-L-partial-phi-a-j-L-frac-partial-phi-a-j-L-partial-Theta-ij-L"><a href="#frac-partial-Cost-Theta-partial-Theta-ij-L-frac-1-2-frac-partial-y-j-phi-a-j-L-2-partial-Theta-ij-L-frac-1-2-frac-partial-y-j-phi-a-j-L-2-partial-y-j-phi-a-j-L-frac-partial-y-j-phi-a-j-L-partial-Theta-ij-L-frac-1-2-frac-partial-y-j-phi-a-j-L-2-partial-y-j-phi-a-j-L-frac-partial-y-j-phi-a-j-L-partial-phi-a-j-L-frac-partial-phi-a-j-L-partial-Theta-ij-L" class="headerlink" title="$$\frac{\partial Cost(\Theta) }{\partial\Theta_{ij}^{(L)}} &#x3D; \frac{1}{2}\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2} }{\partial \Theta_{ij}^{(L)}}$$$$ &#x3D; \frac{1}{2} \frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2} }{\partial y_{j} - \phi(a_{j}^{(L)})}\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \Theta_{ij}^{(L)}}$$$$&#x3D; \frac{1}{2}\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2} }{\partial y_{j} - \phi(a_{j}^{(L)})}\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \phi(a_{j}^{(L)})}\frac{\partial \phi(a_{j}^{(L)})}{\partial \Theta_{ij}^{(L)}}$$$$"></a>$$<br>\frac{\partial Cost(\Theta) }{\partial\Theta_{ij}^{(L)}}<br> &#x3D; \frac{1}{2}<br>\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2} }{\partial \Theta_{ij}^{(L)}}<br>$$<br>$$<br> &#x3D; \frac{1}{2}<br> \frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2} }{\partial y_{j} - \phi(a_{j}^{(L)})}<br>\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \Theta_{ij}^{(L)}}<br>$$<br>$$<br>&#x3D; \frac{1}{2}<br>\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2} }{\partial y_{j} - \phi(a_{j}^{(L)})}<br>\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \phi(a_{j}^{(L)})}<br>\frac{\partial \phi(a_{j}^{(L)})}{\partial \Theta_{ij}^{(L)}}<br>$$<br>$$</h1><p>\frac{1}{2}<br>\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2}}{\partial (y_{j} - \phi(a_{j}^{(L)}))}<br>\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \phi(a_{j}^{(L)})}<br>\frac{\partial \phi(a_{j}^{(L)})}{\partial a_{j}^{(L)}}<br>\frac{\partial a_{j}^{(L)}}{\partial \Theta_{ij}^{(L)}}<br>$$</p>
+<raw>
+$$
+\frac{\partial Cost(\Theta) }{\partial\Theta_{ij}^{(L)}}
+ = \frac{1}{2} 
+\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2} }{\partial \Theta_{ij}^{(L)}}
+$$
+$$
+ = \frac{1}{2} 
+ \frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2} }{\partial y_{j} - \phi(a_{j}^{(L)})}
+\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \Theta_{ij}^{(L)}}
+$$
+$$
+= \frac{1}{2} 
+\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2} }{\partial y_{j} - \phi(a_{j}^{(L)})}
+\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \phi(a_{j}^{(L)})} 
+\frac{\partial \phi(a_{j}^{(L)})}{\partial \Theta_{ij}^{(L)}} 
+$$
+</raw>
+
+<raw>
+$$
+= 
+\frac{1}{2}
+\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2}}{\partial (y_{j} - \phi(a_{j}^{(L)}))} 
+\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \phi(a_{j}^{(L)})} 
+\frac{\partial \phi(a_{j}^{(L)})}{\partial a_{j}^{(L)}}
+\frac{\partial a_{j}^{(L)}}{\partial \Theta_{ij}^{(L)}} 
+$$
+</raw>
+
 <p>然後我們逐項討論，第一乘項是：</p>
-<p>$$<br>\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2}}{\partial (y_{j} - \phi(a_{j}^{(L)}))} &#x3D; 2(y_{j} - \phi(a_{j}^{(L)}))<br>$$</p>
-<p>$$<br>\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \phi(a_{j}^{(L)})} &#x3D; -1<br>$$</p>
+<raw>
+$$
+\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2}}{\partial (y_{j} - \phi(a_{j}^{(L)}))} = 2(y_{j} - \phi(a_{j}^{(L)}))
+$$
+</raw>
+
+<raw>
+$$
+\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \phi(a_{j}^{(L)})} = -1
+$$
+</raw>
+
 <p>使用 Sigmoid 偏微分的結果：</p>
 <p>$$<br>\frac{\partial \phi(a_{j}^{(L)})}{\partial a_{j}^{(L)}} &#x3D; \phi(a_{j}^{(L)}) \left( 1 - \phi(a_{j}^{(L)}) \right)<br>$$</p>
 <p>然後根據先前連接的定義，即前一層第 $k$ 個（任意的）神經元的輸出，<br>經過權重 $\Theta_{kj}^{(L)}$ 都可以連到輸出層第 $j$ 個神經元：</p>
@@ -414,15 +431,87 @@
 <p><img src="https://i.imgur.com/wPg7VqS.png" alt="圖 4、隱藏層的誤差"></p>
 <p>觀察圖 4 的內容，我們接下來要討論倒數第 2 層（即 $L-1$ 層）的誤差，<br>很顯然地，一樣是對成本函數做偏微分。</p>
 <p>不難發現，最後一層所有的誤差都傳遞到了隱藏層中，<br>可以視作多變數函數的全微分，所以有：</p>
-<h1 id="frac-partial-Cost-Theta-partial-Theta-st-L-1"><a href="#frac-partial-Cost-Theta-partial-Theta-st-L-1" class="headerlink" title="$$\frac{\partial Cost(\Theta) }{\partial\Theta_{st}^{(L-1)}} "></a>$$<br>\frac{\partial Cost(\Theta) }{\partial\Theta_{st}^{(L-1)}} </h1><p>\frac{1}{2} \sum\limits_{j} \left[<br>\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2}}{\partial (y_{j} - \phi(a_{j}^{(L)}))}<br>\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \phi(a_{j}^{(L)})}<br>\frac{\partial \phi(a_{j}^{(L)})}{\partial a_{j}^{(L)}}<br>\right]<br>\frac{\partial a_{j}^{(L)}}{\partial\Theta_{st}^{(L-1)}}<br>$$</p>
+<raw>
+$$
+\frac{\partial Cost(\Theta) }{\partial\Theta_{st}^{(L-1)}} 
+= 
+\frac{1}{2} \sum\limits_{j} \left[
+\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2}}{\partial (y_{j} - \phi(a_{j}^{(L)}))} 
+\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \phi(a_{j}^{(L)})} 
+\frac{\partial \phi(a_{j}^{(L)})}{\partial a_{j}^{(L)}}
+\right]
+\frac{\partial a_{j}^{(L)}}{\partial\Theta_{st}^{(L-1)}}
+$$
+</raw>
+
 <p>直至這一步都是幾乎一樣的，接下來拆開最後一項。</p>
-<h1 id="frac-partial-Cost-Theta-partial-Theta-st-L-1-1"><a href="#frac-partial-Cost-Theta-partial-Theta-st-L-1-1" class="headerlink" title="$$\frac{\partial Cost(\Theta) }{\partial\Theta_{st}^{(L-1)}} "></a>$$<br>\frac{\partial Cost(\Theta) }{\partial\Theta_{st}^{(L-1)}} </h1><h1 id="frac-1-2-sum-limits-j-left-frac-partial-y-j-phi-a-j-L-2-partial-y-j-phi-a-j-L-frac-partial-y-j-phi-a-j-L-partial-phi-a-j-L-frac-partial-phi-a-j-L-partial-a-j-L-right-frac-partial-a-j-L-partial-Theta-st-L-1"><a href="#frac-1-2-sum-limits-j-left-frac-partial-y-j-phi-a-j-L-2-partial-y-j-phi-a-j-L-frac-partial-y-j-phi-a-j-L-partial-phi-a-j-L-frac-partial-phi-a-j-L-partial-a-j-L-right-frac-partial-a-j-L-partial-Theta-st-L-1" class="headerlink" title="\frac{1}{2} \sum\limits_{j} \left[\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2}}{\partial (y_{j} - \phi(a_{j}^{(L)}))}\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \phi(a_{j}^{(L)})}\frac{\partial \phi(a_{j}^{(L)})}{\partial a_{j}^{(L)}}\right]\frac{\partial a_{j}^{(L)}}{\partial\Theta_{st}^{(L-1)}}$$$$"></a>\frac{1}{2} \sum\limits_{j} \left[<br>\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2}}{\partial (y_{j} - \phi(a_{j}^{(L)}))}<br>\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \phi(a_{j}^{(L)})}<br>\frac{\partial \phi(a_{j}^{(L)})}{\partial a_{j}^{(L)}}<br>\right]<br>\frac{\partial a_{j}^{(L)}}{\partial\Theta_{st}^{(L-1)}}<br>$$<br>$$</h1><h1 id="frac-1-2-sum-limits-j-left-frac-partial-y-j-phi-a-j-L-2-partial-y-j-phi-a-j-L-frac-partial-y-j-phi-a-j-L-partial-phi-a-j-L-frac-partial-phi-a-j-L-partial-a-j-L-right-frac-partial-sum-limits-k-left-phi-a-k-L-1-Theta-kj-L-right-partial-a-i-L-1-frac-partial-a-i-L-1-partial-Theta-st-L-1"><a href="#frac-1-2-sum-limits-j-left-frac-partial-y-j-phi-a-j-L-2-partial-y-j-phi-a-j-L-frac-partial-y-j-phi-a-j-L-partial-phi-a-j-L-frac-partial-phi-a-j-L-partial-a-j-L-right-frac-partial-sum-limits-k-left-phi-a-k-L-1-Theta-kj-L-right-partial-a-i-L-1-frac-partial-a-i-L-1-partial-Theta-st-L-1" class="headerlink" title="\frac{1}{2} \sum\limits_{j} \left[\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2}}{\partial (y_{j} - \phi(a_{j}^{(L)}))}\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \phi(a_{j}^{(L)})}\frac{\partial \phi(a_{j}^{(L)})}{\partial a_{j}^{(L)}}\right]\frac{\partial \sum\limits_{k} \left( \phi(a_{k}^{(L-1)}) \Theta_{kj}^{(L)} \right)}{\partial a_{i}^{(L-1)}}\frac{\partial a_{i}^{(L-1)}}{\partial\Theta_{st}^{(L-1)}}$$$$"></a>\frac{1}{2} \sum\limits_{j} \left[<br>\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2}}{\partial (y_{j} - \phi(a_{j}^{(L)}))}<br>\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \phi(a_{j}^{(L)})}<br>\frac{\partial \phi(a_{j}^{(L)})}{\partial a_{j}^{(L)}}<br>\right]<br>\frac{\partial \sum\limits_{k} \left( \phi(a_{k}^{(L-1)}) \Theta_{kj}^{(L)} \right)}{\partial a_{i}^{(L-1)}}<br>\frac{\partial a_{i}^{(L-1)}}{\partial\Theta_{st}^{(L-1)}}<br>$$<br>$$</h1><p>\frac{1}{2} \sum\limits_{j} \delta_{j}^{(L)}<br>\frac{\partial \sum\limits_{k} \left( \phi(a_{k}^{(L-1)}) \Theta_{kj}^{(L)} \right)}{\partial a_{i}^{(L-1)}}<br>\frac{\partial a_{i}^{(L-1)}}{\partial\Theta_{st}^{(L-1)}}<br>$$</p>
+<raw>
+$$
+\frac{\partial Cost(\Theta) }{\partial\Theta_{st}^{(L-1)}} 
+= 
+\frac{1}{2} \sum\limits_{j} \left[
+\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2}}{\partial (y_{j} - \phi(a_{j}^{(L)}))} 
+\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \phi(a_{j}^{(L)})} 
+\frac{\partial \phi(a_{j}^{(L)})}{\partial a_{j}^{(L)}}
+\right]
+\frac{\partial a_{j}^{(L)}}{\partial\Theta_{st}^{(L-1)}}
+$$
+$$
+= 
+\frac{1}{2} \sum\limits_{j} \left[
+\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2}}{\partial (y_{j} - \phi(a_{j}^{(L)}))} 
+\frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \phi(a_{j}^{(L)})} 
+\frac{\partial \phi(a_{j}^{(L)})}{\partial a_{j}^{(L)}}
+\right]
+\frac{\partial \sum\limits_{k} \left( \phi(a_{k}^{(L-1)}) \Theta_{kj}^{(L)} \right)}{\partial a_{i}^{(L-1)}}
+\frac{\partial a_{i}^{(L-1)}}{\partial\Theta_{st}^{(L-1)}}
+$$
+$$
+= 
+\frac{1}{2} \sum\limits_{j} \delta_{j}^{(L)}
+\frac{\partial \sum\limits_{k} \left( \phi(a_{k}^{(L-1)}) \Theta_{kj}^{(L)} \right)}{\partial a_{i}^{(L-1)}}
+\frac{\partial a_{i}^{(L-1)}}{\partial\Theta_{st}^{(L-1)}}
+$$
+</raw>
+
 <p>逐項討論，這裡用了激活函數的結果，<br>注意偏微分，當 $k \neq i$ 的項都被視為常數：</p>
-<p>$$<br>\frac{\partial \sum\limits_{k} \left( \phi(a_{k}^{(L-1)}) \Theta_{kj}^{(L)} \right)}{\partial a_{i}^{(L-1)}}<br>&#x3D; \frac{\partial \phi(a_{i}^{(L-1)}) \Theta_{ij}^{(L)}}{\partial a_{i}^{(L-1)}}<br>$$<br>$$<br>&#x3D; \frac{\partial \phi(a_{i}^{(L-1)})}{\partial a_{i}^{(L-1)}} \Theta_{ij}^{(L)} + \phi(a_{i}^{(L-1)}) \frac{\partial \Theta_{ij}^{(L)}}{\partial a_{i}^{(L-1)}}<br>&#x3D; \Theta_{ij}^{(L)} \phi(a_{i}^{(L-1)}) \left( 1 - \phi(a_{i}^{(L-1)})\right)<br>$$</p>
+<raw>
+$$
+\frac{\partial \sum\limits_{k} \left( \phi(a_{k}^{(L-1)}) \Theta_{kj}^{(L)} \right)}{\partial a_{i}^{(L-1)}}
+= \frac{\partial \phi(a_{i}^{(L-1)}) \Theta_{ij}^{(L)}}{\partial a_{i}^{(L-1)}}
+$$
+$$
+= \frac{\partial \phi(a_{i}^{(L-1)})}{\partial a_{i}^{(L-1)}} \Theta_{ij}^{(L)} + \phi(a_{i}^{(L-1)}) \frac{\partial \Theta_{ij}^{(L)}}{\partial a_{i}^{(L-1)}}
+= \Theta_{ij}^{(L)} \phi(a_{i}^{(L-1)}) \left( 1 - \phi(a_{i}^{(L-1)})\right)
+$$
+</raw>
+
 <p>最後一項，跟輸出層的時候一樣（觀察圖 3 可以得到 $t &#x3D; i$）<br>所以只有 $k &#x3D; s$ 的時候才有值：</p>
-<p>$$<br>\frac{\partial a_{i}^{(L-1)}}{\partial\Theta_{st}^{(L-1)}} &#x3D;<br>\frac{\partial}{\partial \Theta_{st}^{(L-1)}} \left( \sum\limits_{k} \phi(a_{k}^{(L-2)})\Theta_{ki}^{(L-1)} \right) &#x3D;<br>\frac{\partial}{\partial \Theta_{st}^{(L-1)}} \left( \sum\limits_{k} \phi(a_{k}^{(L-2)})\Theta_{kt}^{(L-1)} \right) &#x3D;<br>\phi(a_{s}^{(L-2)})<br>$$</p>
+<raw>
+$$
+\frac{\partial a_{i}^{(L-1)}}{\partial\Theta_{st}^{(L-1)}} = 
+\frac{\partial}{\partial \Theta_{st}^{(L-1)}} \left( \sum\limits_{k} \phi(a_{k}^{(L-2)})\Theta_{ki}^{(L-1)} \right) = 
+\frac{\partial}{\partial \Theta_{st}^{(L-1)}} \left( \sum\limits_{k} \phi(a_{k}^{(L-2)})\Theta_{kt}^{(L-1)} \right) = 
+\phi(a_{s}^{(L-2)})
+$$
+</raw>
+
 <p>同樣地，我們做個總整理：</p>
-<h1 id="frac-partial-Cost-Theta-partial-Theta-st-L-1-2"><a href="#frac-partial-Cost-Theta-partial-Theta-st-L-1-2" class="headerlink" title="$$\frac{\partial Cost(\Theta) }{\partial\Theta_{st}^{(L-1)}} "></a>$$<br>\frac{\partial Cost(\Theta) }{\partial\Theta_{st}^{(L-1)}} </h1><h1 id="frac-1-2-sum-limits-j-delta-j-L-frac-partial-sum-limits-k-left-phi-a-k-L-1-Theta-kj-L-right-partial-a-i-L-1-frac-partial-a-i-L-1-partial-Theta-st-L-1"><a href="#frac-1-2-sum-limits-j-delta-j-L-frac-partial-sum-limits-k-left-phi-a-k-L-1-Theta-kj-L-right-partial-a-i-L-1-frac-partial-a-i-L-1-partial-Theta-st-L-1" class="headerlink" title="\frac{1}{2} \sum\limits_{j} \delta_{j}^{(L)}\frac{\partial \sum\limits_{k} \left( \phi(a_{k}^{(L-1)}) \Theta_{kj}^{(L)} \right)}{\partial a_{i}^{(L-1)}}\frac{\partial a_{i}^{(L-1)}}{\partial\Theta_{st}^{(L-1)}}$$$$"></a>\frac{1}{2} \sum\limits_{j} \delta_{j}^{(L)}<br>\frac{\partial \sum\limits_{k} \left( \phi(a_{k}^{(L-1)}) \Theta_{kj}^{(L)} \right)}{\partial a_{i}^{(L-1)}}<br>\frac{\partial a_{i}^{(L-1)}}{\partial\Theta_{st}^{(L-1)}}<br>$$<br>$$</h1><p>\frac{1}{2} \sum\limits_{j} \delta_{j}^{(L)}<br>\Theta_{ij}^{(L)} \phi(a_{i}^{(L-1)}) \left( 1 - \phi(a_{i}^{(L-1)}) \right) \phi(a_{s}^{(L-2)})<br>$$</p>
+<raw>
+$$
+\frac{\partial Cost(\Theta) }{\partial\Theta_{st}^{(L-1)}} 
+= 
+\frac{1}{2} \sum\limits_{j} \delta_{j}^{(L)}
+\frac{\partial \sum\limits_{k} \left( \phi(a_{k}^{(L-1)}) \Theta_{kj}^{(L)} \right)}{\partial a_{i}^{(L-1)}}
+\frac{\partial a_{i}^{(L-1)}}{\partial\Theta_{st}^{(L-1)}}
+$$
+$$
+= 
+\frac{1}{2} \sum\limits_{j} \delta_{j}^{(L)}
+\Theta_{ij}^{(L)} \phi(a_{i}^{(L-1)}) \left( 1 - \phi(a_{i}^{(L-1)}) \right) \phi(a_{s}^{(L-2)})
+$$
+</raw>
+
 <p>重新定義第 $L-1$ 層第 $t &#x3D; i$ 個神經元的的誤差為：</p>
 <p>$$<br>\delta_{t}^{(L-1)} &#x3D; \left[<br>\left( \sum\limits_{j} \delta_{j}^{(L)} \Theta_{ij}^{(L)} \right)<br>\phi(a_{i}^{(L-1)}) \left( 1 - \phi(a_{i}^{(L-1)}) \right)<br>\right]<br>$$</p>
 <p>所以可以表示為：</p>
@@ -432,106 +521,140 @@
 <div class="note info"><p>從這裡可以發現 $\delta$ 是可以重複利用的，而且誤差是由最後一層，層層向前傳遞。</p>
 </div>
 
-    </div>
+  </div>
+</article>
 
-    
-    
-    
 
-    <footer class="post-footer">
 
         
+          <div id="footer-post-container">
+  <div id="footer-post">
 
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/sheeps-04/" rel="prev" title="羊與羊的草原 04">
-                  <i class="fa fa-angle-left"></i> 羊與羊的草原 04
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/preorder-inorder-postorder/" rel="next" title="前、中及後序 Preorder, Inorder and Postorder">
-                  前、中及後序 Preorder, Inorder and Postorder <i class="fa fa-angle-right"></i>
-                </a>
-            </div>
-          </div>
-    </footer>
-  </article>
-</div>
-
-
-
-
-
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/notes/">Notes</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
 
     
-  
-  <div class="comments giscus-container">
-  </div>
-  
-  
-</div>
-  </main>
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A5%9E%E7%B6%93%E7%B6%B2%E8%B7%AF%E7%B0%A1%E4%BB%8B"><span class="toc-number">2.</span> <span class="toc-text">神經網路簡介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E5%90%91%E5%82%B3%E6%92%AD%E6%BC%94%E7%AE%97%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">前向傳播演算法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%8D%E5%90%91%E5%82%B3%E6%92%AD%E6%BC%94%E7%AE%97%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text">反向傳播演算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Sigmoid-%E5%87%BD%E6%95%B8%E5%BE%AE%E5%88%86"><span class="toc-number">4.1.</span> <span class="toc-text">Sigmoid 函數微分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BC%B8%E5%87%BA%E5%B1%A4%E7%9A%84%E8%AA%A4%E5%B7%AE"><span class="toc-number">4.2.</span> <span class="toc-text">輸出層的誤差</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9A%B1%E8%97%8F%E5%B1%A4%E7%9A%84%E8%AA%A4%E5%B7%AE"><span class="toc-number">4.3.</span> <span class="toc-text">隱藏層的誤差</span></a></li></ol></li></ol>
+      </div>
+    
 
-  <footer class="footer">
-    <div class="footer-inner">
-
-  <div class="copyright">
-    &copy; 2018 – 
-    <span itemprop="copyrightYear">2026</span>
-    <span class="with-love">
-      <i class="fa fa-bomb"></i>
-    </span>
-    <span class="author" itemprop="copyrightHolder">Tinytusnami</span>
-  </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
-  </div>
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.tinytsunami.info/fully-connected-neural-network/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.tinytsunami.info/fully-connected-neural-network/&text=全連接神經網路 Fully-Connected Neural Network"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.tinytsunami.info/fully-connected-neural-network/&title=全連接神經網路 Fully-Connected Neural Network"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.tinytsunami.info/fully-connected-neural-network/&is_video=false&description=全連接神經網路 Fully-Connected Neural Network"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=全連接神經網路 Fully-Connected Neural Network&body=Check out this article: https://www.tinytsunami.info/fully-connected-neural-network/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.tinytsunami.info/fully-connected-neural-network/&title=全連接神經網路 Fully-Connected Neural Network"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.tinytsunami.info/fully-connected-neural-network/&title=全連接神經網路 Fully-Connected Neural Network"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.tinytsunami.info/fully-connected-neural-network/&title=全連接神經網路 Fully-Connected Neural Network"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.tinytsunami.info/fully-connected-neural-network/&title=全連接神經網路 Fully-Connected Neural Network"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.tinytsunami.info/fully-connected-neural-network/&name=全連接神經網路 Fully-Connected Neural Network&description=&lt;p&gt;上一篇介紹的是邏輯回歸與感知器，這一篇將會討論「全連接神經網路」。&lt;/p&gt;
+&lt;p&gt;睽違 2 年的主要原因是覺得網路上關於反向傳播很多人寫了，&lt;br&gt;另外微積分其實我沒有掌握得很完全，所以很猶豫哪時要完成這篇文章。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.tinytsunami.info/fully-connected-neural-network/&t=全連接神經網路 Fully-Connected Neural Network"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
 
     </div>
-  </footer>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    CC BY 4.0,
+    
+    
+    2016-2026
+    Tinytusnami
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
 
   
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-  </div>
-  <div class="sidebar-dimmer"></div>
-  <div class="back-to-top" role="button" aria-label="回到頂端">
-    <i class="fa fa-arrow-up fa-lg"></i>
-    <span>0%</span>
-  </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
 
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
-<script class="next-config" data-name="giscus" type="application/json">{"enable":true,"repo":"tinytsunami/blog","repo_id":"MDEwOlJlcG9zaXRvcnkxMjI3MTEwNTY=","category":"Blog Comments","category_id":"DIC_kwDOB1BsEM4C42Ww","mapping":"pathname","strict":0,"reactions_enabled":1,"emit_metadata":1,"theme":"preferred_color_scheme","lang":"zh-TW","crossorigin":"anonymous","input_position":"top","loading":"lazy"}</script>
 
-<script>
-document.addEventListener('page:loaded', () => {
-  if (!CONFIG.page.comments) return;
+<script src="/js/main.js"></script>
 
-  NexT.utils.loadComments('.giscus-container')
-    .then(() => NexT.utils.getScript('https://giscus.app/client.js', {
-      attributes: {
-        async                   : true,
-        crossOrigin             : 'anonymous',
-        'data-repo'             : CONFIG.giscus.repo,
-        'data-repo-id'          : CONFIG.giscus.repo_id,
-        'data-category'         : CONFIG.giscus.category,
-        'data-category-id'      : CONFIG.giscus.category_id,
-        'data-mapping'          : CONFIG.giscus.mapping,
-        'data-strict'           : CONFIG.giscus.strict,
-        'data-reactions-enabled': CONFIG.giscus.reactions_enabled,
-        'data-emit-metadata'    : CONFIG.giscus.emit_metadata,
-        'data-theme'            : CONFIG.giscus.theme,
-        'data-lang'             : CONFIG.giscus.lang,
-        'data-input-position'   : CONFIG.giscus.input_position,
-        'data-loading'          : CONFIG.giscus.loading
-      },
-      parentNode: document.querySelector('.giscus-container')
-    }));
-});
-</script>
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
 
 </body>
 </html>
