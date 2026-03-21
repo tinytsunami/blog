@@ -34,12 +34,6 @@ global-reset()
 *::-webkit-scrollbar-thumb:active
   background-color: darken($color-scrollbar, 30%)
 
-@keyframes waveMove
-  from
-    background-position 0 100%
-  to
-    background-position -60px 100%
-
 html
   margin: 0
   padding: 0
@@ -79,17 +73,16 @@ body
   a
     color: $color-text
     text-decoration: none
-
-    background-image: wave($underline-width, rgba($color-text, 0.2))
-    background-repeat: repeat-x
-    background-position: 0 calc(100% + 2px);
-    background-size: 120px 8px
-
-    transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1)
-    animation: waveMove 3s linear infinite
+    underscoreWave($underline-width, rgba($color-text, 0.2))
 
     &:hover
-      background-image: wave($underline-width, $color-link)
+      underscoreWave($underline-width, $color-link)
+
+  #nav a
+    padding-bottom: 0
+
+    &:hover 
+      padding-bottom: 0
 
   a.icon
     background: none
@@ -178,9 +171,7 @@ pre
 
 code
   padding: 0 5px
-  border: 1px dotted $color-border
-  border-radius: 2px
-  -webkit-border-radius: 2px
+  underscoreDot($underline-width, $color-border)
 
 .highlight
   overflow-x: auto

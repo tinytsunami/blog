@@ -1,4 +1,16 @@
-wave(width, color)
+@keyframes underscoreWaveMove
+    from
+        background-position 0 100%
+    to
+        background-position -60px 100%
+
+@keyframes underscoreDotMove
+    from
+        background-position 0 100%
+    to
+        background-position -120px 100%
+
+underscoreWave(width, color)
 
     color = replace('#', '%23', s('%s', color))
 
@@ -6,4 +18,26 @@ wave(width, color)
     b = "xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 3 Q 3 0 6 3 T 12 3 T 18 3 T 24 3 T 30 3 T 36 3 T 42 3 T 48 3 T 54 3 T 60 3 T 66 3 T 72 3 T 78 3 T 84 3 T 90 3 T 96 3 T 102 3 T 108 3 T 114 3 T 120 3' "
     c = "stroke='" + color + "' fill='none' stroke-width='" + width + "' /%3E%3C/svg%3E"
 
-    return url(a+b+c)
+    padding-bottom: 4px
+    background-image: url(a+b+c)
+    background-repeat: repeat-x
+    background-position: 0 100%
+    background-size: 120px 8px
+    transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+    animation: underscoreWaveMove 3s linear infinite
+
+underscoreDot(width, color)
+
+    encodedColor = replace('#', '%23', s('%s', color))
+
+    a = "data:image/svg+xml,%3Csvg width='120' height='6' viewBox='0 0 120 6' "
+    b = "xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 3 L120 3' "
+    c = "stroke='" + encodedColor + "' stroke-width='" + width + "' stroke-linecap='round' stroke-dasharray='2 5' fill='none'/%3E%3C/svg%3E"
+    
+    padding-bottom: 4px
+    background-image: url(a+b+c)
+    background-repeat: repeat-x
+    background-position: 0 100%
+    background-size: 120px 6px
+    transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+    animation: underscoreDotMove 6s linear infinite
