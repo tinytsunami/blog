@@ -136,6 +136,76 @@ article
       content: "#"
     underline(10px, $color-link)
 
+.note
+  position: relative
+  width: 100%
+  background: rgba(0, 0, 0, 0.2)
+  padding: 1rem
+  padding-left: 2.5rem
+  margin: 1rem 0
+  border-radius: 3px
+  border-left: 3px solid #eee
+
+.note::before
+  font-size: 1.2rem;
+  left: 0.5rem;
+  position: absolute;
+  top: calc(50% - 0.9rem);
+
+.note.defualt
+  border-left: 3px solid #777
+
+  &:before
+    content: '\f0a9'
+    font-family: 'Font Awesome 6 Free'
+    font-weight: 900
+    color: #777
+
+.note.primary
+  border-left: 3px solid #6f42c1
+
+  &:before
+    content: '\f055'
+    font-family: 'Font Awesome 6 Free'
+    font-weight: 900
+    color: #6f42c1
+
+.note.info
+  border-left: 3px solid #428bca
+
+  &:before
+    content: '\f05a'
+    font-family: 'Font Awesome 6 Free'
+    font-weight: 900
+    color: #428bca
+
+.note.success
+  border-left: 3px solid #5cb85c
+
+  &:before
+    content: '\f058'
+    font-family: 'Font Awesome 6 Free'
+    font-weight: 900
+    color: #5cb85c
+
+.note.warning
+  border-left: 3px solid #f0ad4e
+
+  &:before
+    content: '\f06a'
+    font-family: 'Font Awesome 6 Free'
+    font-weight: 900
+    color: #f0ad4e
+
+.note.danger
+  border-left: 3px solid #d9534f
+
+  &:before
+    content: '\f056'
+    font-family: 'Font Awesome 6 Free'
+    font-weight: 900
+    color: #d9534f
+
 @media (min-width: 480px)
   .article-tag,
   .article-category
