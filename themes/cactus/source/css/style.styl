@@ -4,7 +4,6 @@
 @import "_mixins"
 @import "_extend"
 @import "_fonts"
-@import "_wave"
 
 global-reset()
 
@@ -69,20 +68,15 @@ body
 
   code
     hyphens(manual)
-  
+
   a
     color: $color-text
     text-decoration: none
 
-    background-image: wave($underline-width, rgba($color-text, 0.2))
-    background-repeat: repeat-x
-    background-position: 0 calc(100% + 2px);
-    background-size: 120px 8px
-
-    transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+    underline(5px, $color-text)
 
     &:hover
-      background-image: wave($underline-width, $color-link)
+      background-image: linear-gradient(transparent, transparent 4px, $color-link 4px, $color-link)
 
   a.icon
     background: none
