@@ -1,6 +1,6 @@
 ---
 title: About Me
-type: about
+type: home
 categories: blog
 comments: false
 ---
@@ -45,11 +45,6 @@ comments: false
   }
 </style>
 
-<span id="title_photo">
-
-![](/images/about.jpg)
-
-</span>
 
 # 簡介 Introduction
 
