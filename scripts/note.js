@@ -1,13 +1,14 @@
 'use strict';
 
-function note(args) {
+function note(args, content) {
     const type = args[0] || 'info';
-    return `<div class="note ${type}">`;
+
+    const rendered = hexo.render.renderSync({
+        text: content,
+        engine: 'markdown'
+    });
+
+    return `<div class="note ${type}">${rendered}</div>`;
 }
 
-function endnote(args) {
-    return '</div>';
-}
-
-hexo.extend.tag.register('note', note);
-hexo.extend.tag.register('endnote', endnote);
+hexo.extend.tag.register('note', note, { ends: true });
