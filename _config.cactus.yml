@@ -23,11 +23,6 @@ social_links:
   - icon: github
     link: https://github.com/tinytsunami
 
-posts_overview:
-  show_all_posts: false
-  post_count: 5
-  sort_updated: false
-
 archive:
   sort_updated: false
 
