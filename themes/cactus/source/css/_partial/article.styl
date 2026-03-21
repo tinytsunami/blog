@@ -24,12 +24,24 @@ article
       display: inline
 
   .content
+    h1
+    h2
+      margin-left: 2rem
+
+    h1:before
+      position: absolute
+      left: -2rem
+      color: $color-accent-1
+      content: "#"
+      font-weight: bold
+      font-size: 1.5rem
+
     h2:before
       position: absolute
       top: -4px
-      left: -1rem
+      left: -2rem
       color: $color-accent-1
-      content: "#"
+      content: "##"
       font-weight: bold
       font-size: 1.2rem
 
