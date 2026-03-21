@@ -209,6 +209,7 @@ MusicGame score connect <number>     // 將長音得分數設為 <number> 分
 在指定目錄 `MUSICGAME_FOLDER` 的底下，  
 放置 `music.json` 與  檔案，檔案結構如下所示：
 
+{% codeblock %}
     [
         {
             "name": <樂曲名>,
@@ -222,6 +223,7 @@ MusicGame score connect <number>     // 將長音得分數設為 <number> 分
         },
         ...
     ]
+{% endcodeblock %}
 
 每個大括號的內容都為一首樂曲，而「樂曲編號」是這首樂曲在陣列中的序位，  
 除了樂曲編號不用填寫外，其他欄位的說明如下：

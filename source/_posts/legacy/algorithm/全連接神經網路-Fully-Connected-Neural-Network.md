@@ -62,6 +62,7 @@ mathjax: true
 若為第 $j$ 筆，我們表示為 $(\boldsymbol{x}^{(j)})^{T} = [x_{1}^{(j)}, x_{2}^{(j)}, ..., x_{n}^{(j)}]$
 當我們有 $m$ 筆資料構成一個批次（batch）時，輸入矩陣為：
 
+<raw>
 $$
 X = 
 \left[ \begin{matrix}
@@ -78,6 +79,7 @@ x_{1}^{(2)} & x_{2}^{(2)} & \dots & x_{n}^{(2)} \\\\
 x_{1}^{(m)} & x_{2}^{(m)} & \dots  & x_{n}^{(m)}
 \end{matrix} \right]
 $$
+</raw>
 
 {% note info %}
 輸入資料的行、列可能相反，只要公式做對應的改變即可。
@@ -109,6 +111,7 @@ $$
 
 彙整一下，舉例來說，第 1 層有：
 
+<raw>
 $$
 X\Theta^{(1)} = 
 \left[ \begin{matrix}
@@ -137,6 +140,9 @@ x_{1}^{(m)} & x_{2}^{(m)} & \dots  & x_{n}^{(m)}
 \Theta_{a, 1}^{(1)} & \Theta_{a, 2}^{(1)} & \dots & \Theta_{a, b}^{(1)}
 \end{matrix} \right]
 $$
+</raw>
+
+<raw>
 $$
 = 
 \left[ \begin{matrix}
@@ -146,6 +152,7 @@ $$
 \sum\limits_{i = 1}^{a} x_{i}^{(m)}\Theta_{i, 1}^{(k)} & \sum\limits_{i = 1}^{a} x_{i}^{(m)}\Theta_{i, 2}^{(k)} & \dots & \sum\limits_{i = 1}^{a} x_{i}^{(m)}\Theta_{i, b}^{(k)} \\\\
 \end{matrix} \right]
 $$
+</raw>
 
 這是全部寫出來的情況，雖然看起來有點複雜，
 但我們仔細觀察注標，可以發現這個矩陣大小關係為：
@@ -210,6 +217,7 @@ $$
 
 我們重寫一次，當輸入批次共 $m$ 筆資料、每筆資料都有 $n$ 個特徵：
 
+<raw>
 $$
 X = 
 \left[ \begin{matrix}
@@ -226,9 +234,11 @@ x_{1}^{(2)} & x_{2}^{(2)} & \dots & x_{n}^{(2)} \\\\
 x_{1}^{(m)} & x_{2}^{(m)} & \dots  & x_{n}^{(m)}
 \end{matrix} \right]
 $$
+</raw>
 
 對應的標籤為 $m$ 筆資料、每筆資料都有 $p$ 個特徵（最後一層神經元數量也會為 $p$）：
 
+<raw>
 $$
 Y = 
 \left[ \begin{matrix}
@@ -245,19 +255,24 @@ y_{1}^{(2)} & y_{2}^{(2)} & \dots & y_{p}^{(2)} \\\\
 y_{1}^{(m)} & y_{2}^{(m)} & \dots  & y_{p}^{(m)}
 \end{matrix} \right]
 $$
+</raw>
 
 則我們可以將成本函數寫完整：
 
+<raw>
 $$
 Cost(\Theta)
 = \frac{1}{2m} \sum\limits_{i=1}^m (Y - \hat{Y})^{2}
 = \frac{1}{2m} \sum\limits_{i=1}^m (Y - h_{\Theta}(X))^{2}
 $$
+</raw>
 
+<raw>
 $$
 = \frac{1}{2m} \sum\limits_{i=1}^m
 (\left[y\_{j}^{(i)}\right] - \left[ h_{\Theta}(X)^{(i)}_{j} \right]  )^{2}
 $$
+</raw>
 
 我們關注的是，當權重 $\Theta$ 改變時，成本 $Cost(\Theta)$ 的變化，
 假設我們激活函數為 Sigmoid 函數 $\phi(z) = \frac{1}{1 + e ^{-z}}$
@@ -313,6 +328,7 @@ $$
 我們觀察第 $L-1$ 層的第 $i$ 個神經元連接到第 $L$ 層第 $j$ 個神經元的權重為 $\Theta_{ij}^{(L)}$
 所以我們對 $Cost(\Theta)$ 的特定神經元做偏微分有：
 
+<raw>
 $$
 \frac{\partial Cost(\Theta) }{\partial\Theta_{ij}^{(L)}}
  = \frac{1}{2} 
@@ -329,6 +345,9 @@ $$
 \frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \phi(a_{j}^{(L)})} 
 \frac{\partial \phi(a_{j}^{(L)})}{\partial \Theta_{ij}^{(L)}} 
 $$
+</raw>
+
+<raw>
 $$
 = 
 \frac{1}{2}
@@ -337,16 +356,21 @@ $$
 \frac{\partial \phi(a_{j}^{(L)})}{\partial a_{j}^{(L)}}
 \frac{\partial a_{j}^{(L)}}{\partial \Theta_{ij}^{(L)}} 
 $$
+</raw>
 
 然後我們逐項討論，第一乘項是：
 
+<raw>
 $$
 \frac{\partial (y_{j} - \phi(a_{j}^{(L)}))^{2}}{\partial (y_{j} - \phi(a_{j}^{(L)}))} = 2(y_{j} - \phi(a_{j}^{(L)}))
 $$
+</raw>
 
+<raw>
 $$
 \frac{\partial (y_{j} - \phi(a_{j}^{(L)}))}{\partial \phi(a_{j}^{(L)})} = -1
 $$
+</raw>
 
 使用 Sigmoid 偏微分的結果：
 
@@ -409,6 +433,7 @@ $$
 不難發現，最後一層所有的誤差都傳遞到了隱藏層中，
 可以視作多變數函數的全微分，所以有：
 
+<raw>
 $$
 \frac{\partial Cost(\Theta) }{\partial\Theta_{st}^{(L-1)}} 
 = 
@@ -419,9 +444,11 @@ $$
 \right]
 \frac{\partial a_{j}^{(L)}}{\partial\Theta_{st}^{(L-1)}}
 $$
+</raw>
 
 直至這一步都是幾乎一樣的，接下來拆開最後一項。
 
+<raw>
 $$
 \frac{\partial Cost(\Theta) }{\partial\Theta_{st}^{(L-1)}} 
 = 
@@ -448,10 +475,12 @@ $$
 \frac{\partial \sum\limits_{k} \left( \phi(a_{k}^{(L-1)}) \Theta_{kj}^{(L)} \right)}{\partial a_{i}^{(L-1)}}
 \frac{\partial a_{i}^{(L-1)}}{\partial\Theta_{st}^{(L-1)}}
 $$
+</raw>
 
 逐項討論，這裡用了激活函數的結果，
 注意偏微分，當 $k \neq i$ 的項都被視為常數：
 
+<raw>
 $$
 \frac{\partial \sum\limits_{k} \left( \phi(a_{k}^{(L-1)}) \Theta_{kj}^{(L)} \right)}{\partial a_{i}^{(L-1)}}
 = \frac{\partial \phi(a_{i}^{(L-1)}) \Theta_{ij}^{(L)}}{\partial a_{i}^{(L-1)}}
@@ -460,19 +489,23 @@ $$
 = \frac{\partial \phi(a_{i}^{(L-1)})}{\partial a_{i}^{(L-1)}} \Theta_{ij}^{(L)} + \phi(a_{i}^{(L-1)}) \frac{\partial \Theta_{ij}^{(L)}}{\partial a_{i}^{(L-1)}}
 = \Theta_{ij}^{(L)} \phi(a_{i}^{(L-1)}) \left( 1 - \phi(a_{i}^{(L-1)})\right)
 $$
+</raw>
 
 最後一項，跟輸出層的時候一樣（觀察圖 3 可以得到 $t = i$）
 所以只有 $k = s$ 的時候才有值：
 
+<raw>
 $$
 \frac{\partial a_{i}^{(L-1)}}{\partial\Theta_{st}^{(L-1)}} = 
 \frac{\partial}{\partial \Theta_{st}^{(L-1)}} \left( \sum\limits_{k} \phi(a_{k}^{(L-2)})\Theta_{ki}^{(L-1)} \right) = 
 \frac{\partial}{\partial \Theta_{st}^{(L-1)}} \left( \sum\limits_{k} \phi(a_{k}^{(L-2)})\Theta_{kt}^{(L-1)} \right) = 
 \phi(a_{s}^{(L-2)})
 $$
+</raw>
 
 同樣地，我們做個總整理：
 
+<raw>
 $$
 \frac{\partial Cost(\Theta) }{\partial\Theta_{st}^{(L-1)}} 
 = 
@@ -485,6 +518,7 @@ $$
 \frac{1}{2} \sum\limits_{j} \delta_{j}^{(L)}
 \Theta_{ij}^{(L)} \phi(a_{i}^{(L-1)}) \left( 1 - \phi(a_{i}^{(L-1)}) \right) \phi(a_{s}^{(L-2)})
 $$
+</raw>
 
 重新定義第 $L-1$ 層第 $t = i$ 個神經元的的誤差為：
 
