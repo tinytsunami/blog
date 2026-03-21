@@ -35,7 +35,7 @@ post:
   show_updated: true
 
 copyright:
-  start_year: 2018
+  start_year: 2016
 
 error_404:
   enabled: true
@@ -44,8 +44,8 @@ error_404:
 
 logo:
   enabled: true
-  width: 50
-  height: 50
+  width: 72
+  height: 72
   url: /images/logo.png
   gravatar: false
   grayout: true
