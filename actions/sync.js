@@ -72,7 +72,7 @@ if (DEBUG)
 // Parsing articles
 //==========================================================
 function getIcon(icon) {
-  if (!icon) return null;
+  if (!!!icon) return null;
 
   switch (icon.type) {
     case 'emoji':       return icon.emoji;
@@ -83,7 +83,7 @@ function getIcon(icon) {
 }
 
 function getProperty(prop) {
-    if (!prop) return null;
+    if (!!!prop) return null;
 
     switch (prop.type) {
         case 'title':
@@ -92,8 +92,7 @@ function getProperty(prop) {
         case 'people':           return prop.people[0].name;
         case 'select':           return prop.select?.name || null;
         case 'multi_select':     return prop.multi_select.map(s => s.name);
-        case 'created_time':     return prop.created_time || null;
-        case 'last_edited_time': return prop.last_edited_time || null;
+        case 'date':             return prop.start || null;
         case 'checkbox':         return prop.checkbox;
         case 'emoji':            return prop.emoji;
         default:                 return null;
@@ -107,40 +106,40 @@ async function getContent(id) {
 }
 
 function formatDate(iso) {
-  const d = new Date(iso);
-  const pad = (n) => n.toString().padStart(2, '0');
+    if (!!!iso) return null;
 
-  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} `
-       + `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    const d = new Date(iso);
+    const pad = (n) => n.toString().padStart(2, '0');
+
+    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} `
+         + `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
 }
 
 const slugs = {};
 
 function slugify(str) {
-  return str
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, '') // 移除 emoji / 非字元
-    .replace(/\s+/g, '-')     // 空白變 -
-    .replace(/-+/g, '-');     // 多個 - 合併
+    return str
+           .toLowerCase()
+           .trim()
+           .replace(/[^\w\s-]/g, '') // 移除 emoji / 非字元
+           .replace(/\s+/g, '-')     // 空白變 -
+           .replace(/-+/g, '-');     // 多個 - 合併
 }
 
 const parsed = await Promise.all(
     articles.map(async (article) => {
 
-        // Genreate permalink (use customed or generation-by-title) with uniqueness
-        let permalink = slugify(getProperty(article.properties.permalink));
-        
-        if (!!!permalink || permalink === "")
+        // Genreate permalink (use customed or generation-by-title)
+        let permalink = slugify(getProperty(article.properties.permalink)) ?? 
+                        slugify(getProperty(article.properties.title));
+
+        // Uniquify permalink
+        if (!!!Object.hasOwn(slugs, permalink))
+            slugs[permalink] = 1;
+        else 
         {
-            permalink = slugify(getProperty(article.properties.title));
-            if (!!!Object.hasOwn(slugs, permalink))
-                slugs[permalink] = 1;
-            else 
-            {
-                permalink = `${permalink}-${slugs[permalink]}`
-                slugs[permalink]++;
-            }
+            permalink = `${permalink}-${slugs[permalink]}`
+            slugs[permalink]++;
         }
 
         // Get parsed objects
@@ -150,8 +149,8 @@ const parsed = await Promise.all(
             'permalink': permalink,
             'category':  getProperty(article.properties.category),
             'author':    getProperty(article.properties.author),
-            'created':   formatDate(getProperty(article.properties.created)),
-            'updated':   formatDate(getProperty(article.properties.updated)),
+            'created':   formatDate(getProperty(article.properties.created) ?? article.created_time),
+            'updated':   formatDate(getProperty(article.properties.updated) ?? article.last_edited_time),
             'mathjax':   getProperty(article.properties.mathjax),
             'content':   await getContent(article.id),
         }
@@ -176,6 +175,7 @@ parsed.forEach((p) => {
 
     const post = template.replace('{{ title }}',      (`${p.icon == null ? '' : p.icon} ${p.title}`.trim()))
                          .replace('{{ permalink }}',  (`${p.permalink}/`))
+                         .replace('{{ author }}',     p.author)
                          .replace('{{ category }}',   p.category)
                          .replace('{{ created }}',    p.created)
                          .replace('{{ updated }}',    p.updated)
