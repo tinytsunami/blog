@@ -27,8 +27,8 @@ const n2m = new NotionToMarkdown({
     notionClient: notion,
 });
 
-if (DEBUG)
-    fs.mkdir(path.join(__dirname, '.tmp'))
+if (DEBUG) 
+    fs.mkdirSync('.tmp', { recursive: true });
 
 //==========================================================
 // Collect articles
@@ -164,9 +164,8 @@ if (DEBUG)
 //==========================================================
 // Clear articles
 //==========================================================
-for (const file of fs.readdirSync('source/_posts')) {
-  fs.rmSync(path.join(dir, file), { recursive: true, force: true });
-}
+for (const file of fs.readdirSync('source/_posts'))
+  fs.rmSync(path.join('source/_posts', file), { recursive: true, force: true });
 
 //==========================================================
 // Posted articles
