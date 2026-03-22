@@ -175,7 +175,7 @@ const template = fs.readFileSync('./scaffolds/sync.md', 'utf-8');
 parsed.forEach((p) => {
 
     const post = template.replace('{{ title }}',      (`${p.icon == null ? '' : p.icon} ${p.title}`.trim()))
-                         .replace('{{ permalink }}',  p.permalink)
+                         .replace('{{ permalink }}',  (`${p.permalink}/`))
                          .replace('{{ category }}',   p.category)
                          .replace('{{ created }}',    p.created)
                          .replace('{{ updated }}',    p.updated)
