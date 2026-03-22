@@ -59,7 +59,10 @@ while (true)
     });
 
 
-    articles.push(...res.results);
+    res.results.forEach(article => {
+        console.log(`Get: ${article.url}`);
+        articles.push(article);
+    })
 
     if (!res.has_more) break;
     cursor = res.next_cursor;
@@ -67,8 +70,6 @@ while (true)
 
 if (DEBUG)
     fs.writeFileSync('.tmp/source.json', JSON.stringify(articles, null, 2));
-
-// const articles = JSON.parse(fs.readFileSync('./.tmp/parsed.json', 'utf-8'));
 
 //==========================================================
 // Parsing Attributes
@@ -137,37 +138,44 @@ const noteBlocks = [
 ];
 
 function renderBlock(block) {
-  switch (block.type) {
-    
-    case 'equation':    
-        return `<raw>\n$$\n${block.parent}\n$$\n</raw>\n`;
-
-    case 'callout': {
-
-        let out  = [];
-        let text = block.parent;
-
-        noteBlocks.forEach(noteBlock => {
-            if (text.startsWith(`> ${noteBlock.type}`)) {
-                text = text.replace(`> ${noteBlock.type}`, '');
-                out.push(`{% note ${noteBlock.name} %}`);
-            }
-        });
-
-        text.split('\n> ').forEach(line => out.push(line));
-        out.push('{% endnote %}');
+    switch (block.type) {
         
-        return `${out.join('\n')}\n`;
-    }
+        case 'equation': 
+            return `<raw>\n${block.parent}\n</raw>\n\n`;
 
-    default:
-      return block.parent;
-  }
+        case 'quota': 
+            return `${block.parent}\n\n`;
+
+        case 'callout': {
+
+            let out  = [];
+            let text = block.parent;
+
+            noteBlocks.forEach(noteBlock => {
+                if (text.startsWith(`> ${noteBlock.type}`)) {
+                    text = text.replace(`> ${noteBlock.type}`, '').trimStart();
+                    out.push(`{% note ${noteBlock.name} %}`);
+                }
+            });
+
+            text.split('\n> ').forEach(line => out.push(line));
+            out.push('{% endnote %}');
+            
+            return `${out.join('\n')}\n\n`;
+        }
+
+        case 'bulleted_list_item':
+        case 'numbered_list_item':
+            return `${block.parent}\n`;
+
+        default:
+            return `${block.parent}\n\n`;
+    }
 }
 
 async function getContentMarkdown(id) {
     const blocks = await n2m.pageToMarkdown(id);
-    const md = blocks.map(block => renderBlock(block)).join('\n');
+    const md = blocks.map(block => renderBlock(block)).join('');
     return md;
 }
 
@@ -182,46 +190,41 @@ for (const file of fs.readdirSync('source/_posts'))
 //==========================================================
 const template = fs.readFileSync('./scaffolds/sync.md', 'utf-8');
 
-await Promise.all(
-    articles.forEach(async (article) => {
+articles.forEach(async (article) => {
 
-        // Genreate permalink (use customed or generation-by-title)
-        let permalink = slugify(getProperty(article.properties.permalink)) ?? 
-                        slugify(getProperty(article.properties.title));
+    // Genreate permalink (use customed or generation-by-title)
+    let permalink = slugify(getProperty(article.properties.permalink)) ?? 
+                    slugify(getProperty(article.properties.title));
 
-        // Uniquify permalink
-        if (!!!Object.hasOwn(slugs, permalink))
-            slugs[permalink] = 1;
-        else 
-        {
-            permalink = `${permalink}-${slugs[permalink]}`
-            slugs[permalink]++;
-        }
+    // Uniquify permalink
+    if (!!!Object.hasOwn(slugs, permalink))
+        slugs[permalink] = 1;
+    else 
+    {
+        permalink = `${permalink}-${slugs[permalink]}`
+        slugs[permalink]++;
+    }
 
-        permalink = `${permalink}/`;
+    // Format Attributes
+    const icon      = getIcon(article.icon);
+    const title     = `${icon == null ? '' : icon} ${getProperty(article.properties.title)}`.trim();
+    const category  = getProperty(article.properties.category);
+    const author    = getProperty(article.properties.author);
+    const created   = formatDate(getProperty(article.properties.created) ?? article.created_time);
+    const updated   = formatDate(getProperty(article.properties.updated) ?? article.last_edited_time);
+    const mathjax   = getProperty(article.properties.mathjax);
+    const content   = (await getContentMarkdown(article.id)).replaceAll('$', '$$$$');
 
-        // Format Attributes
-        const icon      = getIcon(article.icon);
-        const title     = `${icon == null ? '' : icon} ${getProperty(article.properties.title)}`.trim();
-        const category  = getProperty(article.properties.category);
-        const author    = getProperty(article.properties.author);
-        const created   = formatDate(getProperty(article.properties.created) ?? article.created_time);
-        const updated   = formatDate(getProperty(article.properties.updated) ?? article.last_edited_time);
-        const mathjax   = getProperty(article.properties.mathjax);
-        const content   = await getContentMarkdown(article.id);
+    // Combine to Post
+    const post = template.replace('{{ title }}',      title)
+                         .replace('{{ permalink }}',  permalink)
+                         .replace('{{ author }}',     author)
+                         .replace('{{ category }}',   category)
+                         .replace('{{ created }}',    created)
+                         .replace('{{ updated }}',    updated)
+                         .replace('{{ mathjax }}',    mathjax)
+                         .replace('{{ content }}',    content)
 
-        // Combine to Post
-        const post = template.replace('{{ title }}',     title)
-                             .replace('{{ permalink }}',  permalink)
-                             .replace('{{ author }}',     author)
-                             .replace('{{ category }}',   category)
-                             .replace('{{ created }}',    created)
-                             .replace('{{ updated }}',    updated)
-                             .replace('{{ mathjax }}',    mathjax)
-                             .replace('{{ content }}',    content)
-
-        fs.writeFileSync(`source/_posts/${p.permalink}.md`, post, 'utf8');
-
-        console.log(`Sync: source/_posts/${p.permalink}.md`);
-    })
-);
+    fs.writeFileSync(`source/_posts/${permalink}.md`, post, 'utf8');
+    console.log(`Sync: source/_posts/${permalink}.md`);
+})
