@@ -5,16 +5,24 @@ import 'dotenv/config';
 
 import fs from 'fs';
 import path from 'path';
+import fetch from 'node-fetch';
+import pLimit from 'p-limit';
+import crypto from 'crypto';
 
 import { Client } from "@notionhq/client";
 import { NotionToMarkdown } from "notion-to-md";
+
+console.log("✅ Sync: import libs done");
 
 //==========================================================
 // Constants
 //==========================================================
 const DEBUG = (process.env.DEBUG === 'true');
+const PARALLEL = 3;
 const NOTION_KEY = process.env.NOTION_KEY;
 const NOTION_DATASOURCE_ID = process.env.NOTION_DATASOURCE_ID;
+
+console.log("✅ Sync: environment variables loaded");
 
 //==========================================================
 // Connect to Notion
@@ -30,10 +38,12 @@ const n2m = new NotionToMarkdown({
 if (DEBUG) 
     fs.mkdirSync('.tmp', { recursive: true });
 
+console.log("✅ Sync: notion/n2m modules loaded");
+
 //==========================================================
-// Collect Articles
+// Collect Sources
 //==========================================================
-let articles = [];
+let sources = [];
 let cursor = undefined;
 
 while (true)
@@ -58,10 +68,11 @@ while (true)
         page_size: 100
     });
 
+    console.log(`✅ Sync: sources pagination (${cursor ?? 0})`);
 
-    res.results.forEach(article => {
-        console.log(`Get: ${article.url}`);
-        articles.push(article);
+    res.results.forEach(source => {
+        console.log(`✅ Sync: sources got ${source.url}`);
+        sources.push(source);
     })
 
     if (!res.has_more) break;
@@ -69,10 +80,12 @@ while (true)
 }
 
 if (DEBUG)
-    fs.writeFileSync('.tmp/source.json', JSON.stringify(articles, null, 2));
+    fs.writeFileSync('.tmp/sources.json', JSON.stringify(sources, null, 2));
+
+console.log("✅ Sync: sources downloaded");
 
 //==========================================================
-// Parsing Attributes
+// Attributes Parser
 //==========================================================
 const slugs = {};
 
@@ -125,8 +138,25 @@ function formatDate(iso) {
          + `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
 }
 
+async function downloadImage(url, filename) {
+    const res = await fetch(url);
+    const buffer = await res.arrayBuffer();
+    fs.writeFileSync(filename, Buffer.from(buffer));
+}
+
+function hash(str) {
+    return crypto.createHash('md5').update(str).digest('hex');
+}
+
+function truncate(str, len) {
+  if (str.length <= len) return str;
+
+  const half = Math.floor((len - 3) / 2);
+  return str.slice(0, half) + '...' + str.slice(-half);
+}
+
 //==========================================================
-// Parsing Blocks
+// Blocks Parser
 //==========================================================
 const noteBlocks = [
     {'type': '🟣', 'name': 'primary'},
@@ -137,7 +167,10 @@ const noteBlocks = [
     {'type': '',   'name': 'default'},
 ];
 
-function renderBlock(block) {
+async function renderBlock(block) {
+
+    // console.log(block);
+
     switch (block.type) {
         
         case 'equation': 
@@ -168,6 +201,24 @@ function renderBlock(block) {
         case 'numbered_list_item':
             return `${block.parent}\n`;
 
+        case 'image':
+            const matches = [...(block.parent).matchAll(/!\[(.*?)\]\((.*?)\)/g)];
+
+            for (const m of matches) {
+                const caption = m[1];
+                const url     = m[2];
+
+                const filename = hash(url)
+                console.log(`✅ Sync: download resource ${caption} (${truncate(url, 28)})`);
+                
+                if (!!!fs.existsSync(`source/images/${filename}.png`))
+                    await downloadImage(url, `source/images/${filename}.png`);
+
+                return `![${caption}](images/${filename}.png)\n\n`;
+            }
+
+            return `(an image missing...)\n\n`;
+        
         default:
             return `${block.parent}\n\n`;
     }
@@ -175,26 +226,18 @@ function renderBlock(block) {
 
 async function getContentMarkdown(id) {
     const blocks = await n2m.pageToMarkdown(id);
-    const md = blocks.map(block => renderBlock(block)).join('');
-    return md;
+    const parts  = await Promise.all(blocks.map(block => renderBlock(block)));
+    return parts.join('');
 }
 
 //==========================================================
-// Clear Articles
+// Parsing Articles
 //==========================================================
-for (const file of fs.readdirSync('source/_posts'))
-    fs.rmSync(path.join('source/_posts', file), { recursive: true, force: true });
-
-//==========================================================
-// Posted Articles
-//==========================================================
-const template = fs.readFileSync('./scaffolds/sync.md', 'utf-8');
-
-articles.forEach(async (article) => {
+const articles = sources.map((source) => {
 
     // Genreate permalink (use customed or generation-by-title)
-    let permalink = slugify(getProperty(article.properties.permalink)) ?? 
-                    slugify(getProperty(article.properties.title));
+    let permalink = slugify(getProperty(source.properties.permalink)) ?? 
+                    slugify(getProperty(source.properties.title));
 
     // Uniquify permalink
     if (!!!Object.hasOwn(slugs, permalink))
@@ -206,25 +249,55 @@ articles.forEach(async (article) => {
     }
 
     // Format Attributes
-    const icon      = getIcon(article.icon);
-    const title     = `${icon == null ? '' : icon} ${getProperty(article.properties.title)}`.trim();
-    const category  = getProperty(article.properties.category);
-    const author    = getProperty(article.properties.author);
-    const created   = formatDate(getProperty(article.properties.created) ?? article.created_time);
-    const updated   = formatDate(getProperty(article.properties.updated) ?? article.last_edited_time);
-    const mathjax   = getProperty(article.properties.mathjax);
-    const content   = (await getContentMarkdown(article.id)).replaceAll('$', '$$$$');
+    const data = {
+        'title':      `${source.icon == null ? '' : getIcon(source.icon)} ${getProperty(source.properties.title)}`.trim(),
+        'permalink':  permalink,
+        'category':   getProperty(source.properties.category),
+        'author':     getProperty(source.properties.author),
+        'created':    formatDate(getProperty(source.properties.created) ?? source.created_time),
+        'updated':    formatDate(getProperty(source.properties.updated) ?? source.last_edited_time),
+        'mathjax':    getProperty(source.properties.mathjax),
+        'content_id': source.id,
+    };
 
-    // Combine to Post
-    const post = template.replace('{{ title }}',      title)
-                         .replace('{{ permalink }}',  permalink)
-                         .replace('{{ author }}',     author)
-                         .replace('{{ category }}',   category)
-                         .replace('{{ created }}',    created)
-                         .replace('{{ updated }}',    updated)
-                         .replace('{{ mathjax }}',    mathjax)
-                         .replace('{{ content }}',    content)
+    console.log(`✅ Sync: attribute parsed (${permalink})`);
+    return data;
+});
 
-    fs.writeFileSync(`source/_posts/${permalink}.md`, post, 'utf8');
-    console.log(`Sync: source/_posts/${permalink}.md`);
-})
+if (DEBUG)
+    fs.writeFileSync('.tmp/articles.json', JSON.stringify(articles, null, 2));
+
+//==========================================================
+// Clear Posts
+//==========================================================
+for (const file of fs.readdirSync('source/_posts'))
+    fs.rmSync(path.join('source/_posts', file), { recursive: true, force: true });
+
+console.log(`✅ Sync: clear source/_posts`);
+
+//==========================================================
+// Generate Posts
+//==========================================================
+const template = fs.readFileSync('./scaffolds/sync.md', 'utf-8');
+const limit = pLimit(PARALLEL);
+
+await Promise.all(
+    articles.map((article) =>
+        limit(async () => {
+
+            const content = (await getContentMarkdown(article.content_id)).replaceAll('$', '$$$$');
+
+            const post = template.replace('{{ title }}',      article.title)
+                                 .replace('{{ permalink }}',  article.permalink)
+                                 .replace('{{ author }}',     article.author)
+                                 .replace('{{ category }}',   article.category)
+                                 .replace('{{ created }}',    article.created)
+                                 .replace('{{ updated }}',    article.updated)
+                                 .replace('{{ mathjax }}',    article.mathjax)
+                                 .replace('{{ content }}',    content)
+
+            fs.writeFileSync(`source/_posts/${article.permalink}.md`, post, 'utf8');
+            console.log(`✅ Sync: output source/_posts/${article.permalink}.md`);
+        })
+    )
+);
