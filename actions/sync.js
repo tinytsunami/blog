@@ -141,7 +141,7 @@ function renderBlock(block) {
     switch (block.type) {
         
         case 'equation': 
-            return `<raw>\n${block.parent}\n</raw>\n\n`;
+            return `{% raw %}\n${block.parent}\n{% endraw %}\n\n`;
 
         case 'quota': 
             return `${block.parent}\n\n`;
