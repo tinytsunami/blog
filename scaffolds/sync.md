@@ -1,6 +1,6 @@
 ---
 title: "{{ title }}"
-permalink: "{{ permalink }}"
+permalink: "{{ permalink }}/"
 author: "{{ author }}"
 categories: 
     - "{{ category }}"
