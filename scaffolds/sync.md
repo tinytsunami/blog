@@ -1,6 +1,7 @@
 ---
 title: "{{ title }}"
 permalink: "{{ permalink }}"
+author: "{{ author }}"
 categories: 
     - "{{ category }}"
 date: {{ created }}
