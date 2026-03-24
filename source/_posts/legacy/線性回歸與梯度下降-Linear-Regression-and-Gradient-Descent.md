@@ -45,7 +45,7 @@ mathjax: true
 
 {% note success %}
 這是 ANN 的系列文章
-下一篇是 {% post_link legacy/algorithm/邏輯回歸與感知器-Logistic-Regression-and-Perceptron %}
+下一篇是 {% permalink logistic-regression-and-perceptron %}
 {% endnote %}
 
 {% note success %}
