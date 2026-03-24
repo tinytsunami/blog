@@ -50,20 +50,6 @@ while (true)
 {
     let res = await notion.dataSources.query({
         data_source_id: NOTION_DATASOURCE_ID,
-        filter: {
-            property: "published",
-            checkbox: { 
-                equals: true 
-            },
-        },
-        archived: false,
-        in_trash: false,
-        sorts: [
-            {
-            property: "created",
-            direction: "descending"
-            }
-        ],
         start_cursor: cursor,
         page_size: 100
     });
@@ -90,7 +76,7 @@ console.log("✅ Sync: sources downloaded");
 const slugs = {};
 
 function slugify(str) {
-    if (!!!str || str === '') return null;
+    if (!str || str === '') return null;
 
     return str
            .toLowerCase()
@@ -101,7 +87,7 @@ function slugify(str) {
 }
 
 function getIcon(icon) {
-  if (!!!icon) return null;
+  if (!icon) return null;
 
   switch (icon.type) {
     case 'emoji':       return icon.emoji;
@@ -112,7 +98,7 @@ function getIcon(icon) {
 }
 
 function getProperty(prop) {
-    if (!!!prop) return null;
+    if (!prop) return null;
 
     switch (prop.type) {
         case 'title':
@@ -129,7 +115,7 @@ function getProperty(prop) {
 }
 
 function formatDate(iso) {
-    if (!!!iso) return null;
+    if (!iso) return null;
 
     const d = new Date(iso);
     const pad = (n) => n.toString().padStart(2, '0');
@@ -211,7 +197,7 @@ async function renderBlock(block) {
                 const filename = hash(url)
                 console.log(`✅ Sync: download resource ${caption} (${truncate(url, 28)})`);
                 
-                if (!!!fs.existsSync(`source/images/${filename}.png`))
+                if (!fs.existsSync(`source/images/${filename}.png`))
                     await downloadImage(url, `source/images/${filename}.png`);
 
                 return `![${caption}](images/${filename}.png)\n\n`;
@@ -231,6 +217,35 @@ async function getContentMarkdown(id) {
 }
 
 //==========================================================
+// File Parser
+//==========================================================
+function findFile(dir, filename) {
+    const files = fs.readdirSync(dir);
+
+    for (const file of files) {
+        const fullPath = path.join(dir, file);
+        const stat = fs.statSync(fullPath);
+
+        if (stat.isDirectory()) {
+            findFileDir(fullPath, filename, result);
+        } else if (file === filename) {
+            return dir;
+        }
+    }
+
+    return null;
+}
+
+function extractUpdated(content) {
+    const match = content.match(/^---[\s\S]*?updated:\s*(.+)$/m);
+    return match ? match[1].trim() : null;
+}
+
+function parseTime(str) {
+    return new Date(str.replace(' ', 'T'));
+}
+
+//==========================================================
 // Parsing Articles
 //==========================================================
 const articles = sources.map((source) => {
@@ -240,7 +255,7 @@ const articles = sources.map((source) => {
                     slugify(getProperty(source.properties.title));
 
     // Uniquify permalink
-    if (!!!Object.hasOwn(slugs, permalink))
+    if (!Object.hasOwn(slugs, permalink))
         slugs[permalink] = 1;
     else 
     {
@@ -248,32 +263,49 @@ const articles = sources.map((source) => {
         slugs[permalink]++;
     }
 
-    // Format Attributes
-    const data = {
-        'title':      `${source.icon == null ? '' : getIcon(source.icon)} ${getProperty(source.properties.title)}`.trim(),
-        'permalink':  permalink,
-        'category':   getProperty(source.properties.category),
-        'author':     getProperty(source.properties.author),
-        'created':    formatDate(getProperty(source.properties.created) ?? source.created_time),
-        'updated':    formatDate(getProperty(source.properties.updated) ?? source.last_edited_time),
-        'mathjax':    getProperty(source.properties.mathjax),
-        'content_id': source.id,
-    };
+    // Get attributes
+    let pageId         = source.id;
+    let title          = `${source.icon == null ? '' : getIcon(source.icon)} ${getProperty(source.properties.title)}`.trim();
+    let category       = getProperty(source.properties.category);
+    let author         = getProperty(source.properties.author);
+    let createDatetime = formatDate(getProperty(source.properties.created) ?? source.created_time);
+    let updateDatetime = formatDate(getProperty(source.properties.updated) ?? source.last_edited_time);
+    let mathjax        = getProperty(source.properties.mathjax);
+    let contentId      = source.id;
+    let isUpdated      = parseTime(extractUpdated(oldFilepath)) <= parseTime(source.properties.last_edited_time);
+    let oldFileDir     = findFile('source/', `${pageId}.md`);
+    let newFileDir     = null;
 
-    console.log(`✅ Sync: attribute parsed (${permalink})`);
-    return data;
+    // Check status
+    if (source.in_trash) 
+        newFileDir = null;
+    else if (source.is_archived) 
+        newFileDir = '_archives/notion/';
+    else if (getProperty(source.properties.published)) 
+        newFileDir = '_posts/notion/';
+    else
+        newFileDir = '_drafts/notion/';
+
+    console.log(`✅ Sync: attribute parsed (${permalink}, ${source.id})`);
+    
+    return {
+        'pageId':         pageId,
+        'title':          title,
+        'permalink':      permalink,
+        'category':       category,
+        'author':         author,
+        'createDatetime': createDatetime,
+        'updateDatetime': updateDatetime,
+        'mathjax':        mathjax,
+        'contentId':      contentId,
+        'oldFileDir':     oldFileDir,
+        'newFileDir':     newFileDir,
+        'isUpdated':      isUpdated
+    };
 });
 
 if (DEBUG)
     fs.writeFileSync('.tmp/articles.json', JSON.stringify(articles, null, 2));
-
-//==========================================================
-// Clear Posts
-//==========================================================
-for (const file of fs.readdirSync('source/_posts'))
-    fs.rmSync(path.join('source/_posts', file), { recursive: true, force: true });
-
-console.log(`✅ Sync: clear source/_posts`);
 
 //==========================================================
 // Generate Posts
@@ -282,22 +314,29 @@ const template = fs.readFileSync('./scaffolds/sync.md', 'utf-8');
 const limit = pLimit(PARALLEL);
 
 await Promise.all(
-    articles.map((article) =>
+    articles
+    .filter(article => article.isUpdated)
+    .map(article =>
         limit(async () => {
+            const content = (await getContentMarkdown(article.contentId)).replaceAll('$', '$$$$');
 
-            const content = (await getContentMarkdown(article.content_id)).replaceAll('$', '$$$$');
+            const post = template.replace('{{ title }}',          article.title)
+                                 .replace('{{ permalink }}',      article.permalink)
+                                 .replace('{{ author }}',         article.author)
+                                 .replace('{{ category }}',       article.category)
+                                 .replace('{{ createDatetime }}', article.createDatetime)
+                                 .replace('{{ updateDatetime }}', article.updateDatetime)
+                                 .replace('{{ mathjax }}',        article.mathjax)
+                                 .replace('{{ content }}',        content);
 
-            const post = template.replace('{{ title }}',      article.title)
-                                 .replace('{{ permalink }}',  article.permalink)
-                                 .replace('{{ author }}',     article.author)
-                                 .replace('{{ category }}',   article.category)
-                                 .replace('{{ created }}',    article.created)
-                                 .replace('{{ updated }}',    article.updated)
-                                 .replace('{{ mathjax }}',    article.mathjax)
-                                 .replace('{{ content }}',    content)
+            const oldFullpath = `${article.oldFileDir}/${article.pageId}.md`;
+            const newFullpath = `${article.newFileDir}/${article.pageId}.md`;
 
-            fs.writeFileSync(`source/_posts/${article.permalink}.md`, post, 'utf8');
-            console.log(`✅ Sync: output source/_posts/${article.permalink}.md`);
+            fs.rmSync(oldFullpath, { recursive: true, force: true });
+            console.log(`✅ Sync: clear ${oldFullpath}`);
+
+            fs.writeFileSync(newFullpath, post, 'utf8');
+            console.log(`✅ Sync: generate ${newFullpath}`);
         })
     )
 );

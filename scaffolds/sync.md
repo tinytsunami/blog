@@ -4,9 +4,10 @@ permalink: "{{ permalink }}/"
 author: "{{ author }}"
 categories: 
     - "{{ category }}"
-date: {{ created }}
-updated: {{ updated }}
+date: {{ createDatetime }}
+updated: {{ updateDatetime }}
 mathjax: {{ mathjax }}
+source: notion
 ---
 
 {{ content }}
