@@ -155,8 +155,6 @@ const noteBlocks = [
 
 async function renderBlock(block) {
 
-    // console.log(block);
-
     switch (block.type) {
         
         case 'equation': 
@@ -191,10 +189,9 @@ async function renderBlock(block) {
             const matches = [...(block.parent).matchAll(/!\[(.*?)\]\((.*?)\)/g)];
 
             for (const m of matches) {
-                const caption = m[1];
-                const url     = m[2];
-
-                const filename = hash(url)
+                const caption  = m[1];
+                const url      = m[2];
+                const filename = hash(block.blockId)
                 console.log(`✅ Sync: download resource ${caption} (${truncate(url, 28)})`);
                 
                 if (!fs.existsSync(`source/images/${filename}.png`))
@@ -227,7 +224,7 @@ function findFile(dir, filename) {
         const stat = fs.statSync(fullPath);
 
         if (stat.isDirectory()) {
-            findFileDir(fullPath, filename, result);
+            findFile(fullPath, filename);
         } else if (file === filename) {
             return dir;
         }
@@ -237,11 +234,13 @@ function findFile(dir, filename) {
 }
 
 function extractUpdated(content) {
+    if (!content) return null;
     const match = content.match(/^---[\s\S]*?updated:\s*(.+)$/m);
     return match ? match[1].trim() : null;
 }
 
 function parseTime(str) {
+    if (!str) return null;
     return new Date(str.replace(' ', 'T'));
 }
 
@@ -272,22 +271,40 @@ const articles = sources.map((source) => {
     let updateDatetime = formatDate(getProperty(source.properties.updated) ?? source.last_edited_time);
     let mathjax        = getProperty(source.properties.mathjax);
     let contentId      = source.id;
-    let isUpdated      = parseTime(extractUpdated(oldFilepath)) <= parseTime(source.properties.last_edited_time);
-    let oldFileDir     = findFile('source/', `${pageId}.md`);
-    let newFileDir     = null;
+
+    // Find .md file directory
+    let oldFileDir = findFile('source/', `${pageId}.md`);
+    let newFileDir = null;
+
+    // Check is it updated? 
+    let oldUpdateDatetime = extractUpdated(`${oldFileDir}/${pageId}.md`);
+    let newUpdateDatetime = source.properties.last_edited_time;
+    let isUpdated = oldUpdateDatetime === null ? true : (parseTime(oldUpdateDatetime) < parseTime(newUpdateDatetime));
 
     // Check status
     if (source.in_trash) 
         newFileDir = null;
     else if (source.is_archived) 
-        newFileDir = '_archives/notion/';
+        newFileDir = 'source/_archives/notion/';
     else if (getProperty(source.properties.published)) 
-        newFileDir = '_posts/notion/';
+        newFileDir = 'source/_posts/notion/';
     else
-        newFileDir = '_drafts/notion/';
+        newFileDir = 'source/_drafts/notion/';
 
-    console.log(`✅ Sync: attribute parsed (${permalink}, ${source.id})`);
-    
+    // Show next action
+    if (oldFileDir === null && newFileDir === null)
+        console.log(`✅ Sync: (${permalink}) be found, but has been deprecated (${pageId})`);
+    else if (oldFileDir === null && newFileDir !== null)
+        console.log(`✅ Sync: (${permalink}) will be created (${pageId})`);
+    else if (oldFileDir !== null && newFileDir === null)
+        console.log(`✅ Sync: (${permalink}) will be removed (${pageId})`);
+    else {
+        if (isUpdated)
+            console.log(`✅ Sync: (${permalink}) will be updated (${pageId})`);
+        else 
+            console.log(`✅ Sync: (${permalink}) won't be updated (${pageId})`);
+    }
+
     return {
         'pageId':         pageId,
         'title':          title,
@@ -332,8 +349,11 @@ await Promise.all(
             const oldFullpath = `${article.oldFileDir}/${article.pageId}.md`;
             const newFullpath = `${article.newFileDir}/${article.pageId}.md`;
 
-            fs.rmSync(oldFullpath, { recursive: true, force: true });
-            console.log(`✅ Sync: clear ${oldFullpath}`);
+            if (fs.existsSync(oldFullpath))
+            {
+                fs.rmSync(oldFullpath, { recursive: true, force: true });
+                console.log(`✅ Sync: clear ${oldFullpath}`);
+            }
 
             fs.writeFileSync(newFullpath, post, 'utf8');
             console.log(`✅ Sync: generate ${newFullpath}`);
