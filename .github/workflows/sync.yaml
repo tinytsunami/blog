@@ -27,6 +27,14 @@ jobs:
           NOTION_KEY: ${{ secrets.NOTION_KEY }}
           NOTION_DATASOURCE_ID: ${{ secrets.NOTION_DATASOURCE_ID }}
 
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add .
+          git commit -m "sync notion content" || echo "No changes"
+          git push
+
       - name: Generate Hexo
         run: |
           npx hexo clean
