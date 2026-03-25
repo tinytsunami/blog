@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Sync Notion → Markdown
-        run: node sync.js
+        run: node actions/sync.js
         env:
           NOTION_KEY: ${{ secrets.NOTION_KEY }}
           NOTION_DATASOURCE_ID: ${{ secrets.NOTION_DATASOURCE_ID }}
