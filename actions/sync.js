@@ -355,6 +355,12 @@ await Promise.all(
                 console.log(`✅ Sync: clear ${oldFullpath}`);
             }
 
+            if (!fs.existsSync(article.newFileDir))
+            {
+                fs.mkdirSync(article.newFileDir, { recursive: true});
+                console.log(`✅ Sync: mkdir ${article.newFileDir}`);
+            }
+
             fs.writeFileSync(newFullpath, post, 'utf8');
             console.log(`✅ Sync: generate ${newFullpath}`);
         })
