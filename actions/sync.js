@@ -144,73 +144,125 @@ function truncate(str, len) {
 //==========================================================
 // Blocks Parser
 //==========================================================
-const noteBlocks = [
-    {'type': '🟣', 'name': 'primary'},
-    {'type': 'ℹ️', 'name': 'info'   },
-    {'type': '✅', 'name': 'success'},
-    {'type': '⚠️', 'name': 'warning'},
-    {'type': '❌', 'name': 'danger' },
-    {'type': '',   'name': 'default'},
-];
+const customBlocks = JSON.parse(fs.readFileSync('./actions/customBlock.json', 'utf-8'));
+
+function _renderCustomBlock(type, content, customBlock) {
+
+    if (type !== customBlock.type) return null;
+
+    const output = [];
+    const lines  = content.split('\n');
+
+    const startRegex = new RegExp(customBlock.startRegex);
+    const lineRegex  = new RegExp(customBlock.lineRegex);
+
+    const startMatch = lines[0].match(startRegex);
+
+    if (startMatch) output.push(startMatch[1]);
+    else return null;
+
+    for (let i = 1; i < lines.length; i++) {
+        const lineMatch = lines[i].match(lineRegex);
+        if (lineMatch) output.push(lineMatch[1]);
+        else return null;
+    }
+
+    return `${customBlock.before}${output.join('\n')}${customBlock.after}`;
+}
+
+function _renderEquation(content) {
+    return `{% raw %}\n${content}\n{% endraw %}\n`;
+}
+
+function _renderQuota(content) {
+    return `${content}\n`;
+}
+
+function _renderCallout(content) {
+    return `${content}\n`;
+}
+
+function _renderListItem(content) {
+    return `${content}\n`;
+}
+
+async function _renderImage(id, content) {
+    const matches = [...(content).matchAll(/!\[(.*?)\]\((.*?)\)/g)];
+
+    for (const m of matches) {
+        const caption  = m[1];
+        const url      = m[2];
+        const filename = hash(id)
+        console.log(`✅ Sync: download resource ${caption} (${truncate(url, 28)})`);
+        
+        if (!fs.existsSync(`source/images/${filename}.png`))
+            await downloadImage(url, `source/images/${filename}.png`);
+
+        return `![${caption}](images/${filename}.png)\n\n`;
+    }
+
+    return `(an image missing...)\n\n`;
+}
+
+function _renderOther(content) {
+    return `${content}\n`;
+}
 
 async function renderBlock(block) {
 
-    switch (block.type) {
-        
-        case 'equation': 
-            return `{% raw %}\n${block.parent}\n{% endraw %}\n\n`;
+    const id      = block.blockId;
+    const type    = block.type;
+    const content = block.parent;
 
-        case 'quota': 
-            return `${block.parent}\n\n`;
-
-        case 'callout': {
-
-            let out  = [];
-            let text = block.parent;
-
-            noteBlocks.forEach(noteBlock => {
-                if (text.startsWith(`> ${noteBlock.type}`)) {
-                    text = text.replace(`> ${noteBlock.type}`, '').trimStart();
-                    out.push(`{% note ${noteBlock.name} %}`);
-                }
-            });
-
-            text.split('\n> ').forEach(line => out.push(line));
-            out.push('{% endnote %}');
-            
-            return `${out.join('\n')}\n\n`;
-        }
-
-        case 'bulleted_list_item':
-        case 'numbered_list_item':
-            return `${block.parent}\n`;
-
-        case 'image':
-            const matches = [...(block.parent).matchAll(/!\[(.*?)\]\((.*?)\)/g)];
-
-            for (const m of matches) {
-                const caption  = m[1];
-                const url      = m[2];
-                const filename = hash(block.blockId)
-                console.log(`✅ Sync: download resource ${caption} (${truncate(url, 28)})`);
-                
-                if (!fs.existsSync(`source/images/${filename}.png`))
-                    await downloadImage(url, `source/images/${filename}.png`);
-
-                return `![${caption}](images/${filename}.png)\n\n`;
-            }
-
-            return `(an image missing...)\n\n`;
-        
-        default:
-            return `${block.parent}\n\n`;
+    for (const customBlock of customBlocks) {
+        const output = _renderCustomBlock(type, content, customBlock);
+        if (output) return output;
     }
+
+    switch (type) {
+        case 'equation':            return _renderEquation(content);
+        case 'quota':               return _renderQuota(content);
+        case 'callout':             return _renderCallout(content);
+        case 'bulleted_list_item':
+        case 'numbered_list_item':  return _renderListItem(content);
+        case 'image':               return (await _renderImage(id, content));
+    }
+
+    return _renderOther(content);
 }
 
-async function getContentMarkdown(id) {
-    const blocks = await n2m.pageToMarkdown(id);
-    const parts  = await Promise.all(blocks.map(block => renderBlock(block)));
-    return parts.join('');
+function insertNewline(previousBlock, currentBlock) {
+    const rules = {
+        'bulleted_list_item, bulleted_list_item': '\n',
+        'numbered_list_item, numbered_list_item': '\n',
+    };
+
+    if (!previousBlock) return '';
+    if (!currentBlock)  return '';
+
+    return rules[`${previousBlock.type}, ${currentBlock.type}`] || '\n\n';
+}
+
+async function parseMarkdown(blocks) {
+    const parts = await Promise.all(
+        blocks
+        .map(async block => ({
+            'type': block.type,
+            'content': (await renderBlock(block)).trim()
+        }))
+    );
+
+    return parts.reduce((accumulate, currentPart) => {
+        const {previousPart, text} = accumulate;
+        const newline = insertNewline(previousPart, currentPart);
+        return {
+            'previousPart': currentPart,
+            'text': `${text}${newline}${currentPart.content}`
+        }
+    }, {
+        'previousPart': null,
+        'text': ''
+    }).text;
 }
 
 //==========================================================
@@ -237,9 +289,9 @@ async function extractUpdated(filename) {
     if (!filename) return null;
 
     if (fs.existsSync(filename)) {
-    const content = fs.readFileSync(filename, 'utf-8');
-    const match = content.match(/^---[\s\S]*?updated:\s*(.+)$/m);
-    return match ? match[1].trim() : null;
+        const content = fs.readFileSync(filename, 'utf-8');
+        const match = content.match(/^---[\s\S]*?updated:\s*(.+)$/m);
+        return match ? match[1].trim() : null;
     }
 
     return null;
@@ -285,7 +337,7 @@ const articles = await Promise.all(
 
     // Check is it updated? 
     let oldUpdateDatetime = await extractUpdated(`${oldFileDir}/${pageId}.md`);
-    let newUpdateDatetime = source.properties.last_edited_time;
+    let newUpdateDatetime = updateDatetime;
     let isUpdated = oldUpdateDatetime === null ? true : (parseTime(oldUpdateDatetime) < parseTime(newUpdateDatetime));
 
     // Check status
@@ -306,6 +358,7 @@ const articles = await Promise.all(
     else if (oldFileDir !== null && newFileDir === null)
         console.log(`✅ Sync: (${permalink}) will be removed (${pageId})`);
     else {
+        console.log(`✅ Sync: (${permalink}) last update time (${oldUpdateDatetime}, ${newUpdateDatetime})`);
         if (isUpdated)
             console.log(`✅ Sync: (${permalink}) will be updated (${pageId})`);
         else 
