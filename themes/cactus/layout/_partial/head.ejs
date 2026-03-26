@@ -12,7 +12,15 @@
         google_plus:    theme.open_graph.google_plus,
     }) %>
     <%- meta(page) %>
-    <% if (theme.favicon) { %>
+    <%
+      const text  = page_title() || '';
+      const match = text && text.match(/^(\p{Extended_Pictographic}(?:\u200D\p{Extended_Pictographic})*)/u);
+      const emoji = match ? match[0] : null;
+      const emojiIcon = emoji_url(emoji);
+    %>
+    <% if (emojiIcon) { %>
+      <link rel="shortcut icon" href="<%= emojiIcon %>">
+    <% } else if (theme.favicon) { %>
       <% if (theme.favicon.desktop) { %>
         <% if (theme.gravatar && (theme.gravatar.email || theme.gravatar.hash) && theme.favicon.desktop.gravatar) { %>
           <% if (theme.gravatar.email) { %>
@@ -48,7 +56,7 @@
       <% } %>
     <% } %>
     <!-- title -->
-    <title><%= page_title() %></title>
+    <title><%= remove_emoji(page_title()) %></title>
     <!-- async scripts -->
     <%- partial('./google_analytics.ejs') %>
     <%- partial('./umami_analytics.ejs') %>
@@ -66,7 +74,7 @@
       <link rel="alternate" href="<%= url_for(theme.rss) %>" title="<%= config.title %>" type="application/atom+xml" />
     <% } %>
 	<!-- mathjax -->
-	<% if (theme.mathjax.enabled) {%>
+	<% if (page_mathjax()) {%>
 		<script type="text/x-mathjax-config">
 		  MathJax.Hub.Config({
 			tex2jax: {
@@ -77,4 +85,6 @@
 		</script>
 		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
 	<% } %>
+  <!-- Twemoji -->
+  <script src="https://cdn.jsdelivr.net/npm/twemoji@14.0.2/dist/twemoji.min.js"></script>
 </head>
