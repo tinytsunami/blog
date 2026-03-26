@@ -235,9 +235,14 @@ function findFile(dir, filename) {
 
 async function extractUpdated(filename) {
     if (!filename) return null;
+
+    if (fs.existsSync(filename)) {
     const content = fs.readFileSync(filename, 'utf-8');
     const match = content.match(/^---[\s\S]*?updated:\s*(.+)$/m);
     return match ? match[1].trim() : null;
+    }
+
+    return null;
 }
 
 function parseTime(str) {
