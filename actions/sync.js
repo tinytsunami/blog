@@ -222,9 +222,9 @@ function findFile(dir, filename) {
     for (const file of files) {
         const fullPath = path.join(dir, file);
         const stat = fs.statSync(fullPath);
-
         if (stat.isDirectory()) {
-            findFile(fullPath, filename);
+            const res = findFile(fullPath, filename);
+            if (res) return res;
         } else if (file === filename) {
             return dir;
         }
@@ -233,8 +233,9 @@ function findFile(dir, filename) {
     return null;
 }
 
-function extractUpdated(content) {
-    if (!content) return null;
+async function extractUpdated(filename) {
+    if (!filename) return null;
+    const content = fs.readFileSync(filename, 'utf-8');
     const match = content.match(/^---[\s\S]*?updated:\s*(.+)$/m);
     return match ? match[1].trim() : null;
 }
@@ -247,7 +248,7 @@ function parseTime(str) {
 //==========================================================
 // Parsing Articles
 //==========================================================
-const articles = sources.map((source) => {
+const articles = sources.map(async (source) => {
 
     // Genreate permalink (use customed or generation-by-title)
     let permalink = slugify(getProperty(source.properties.permalink)) ?? 
@@ -277,7 +278,7 @@ const articles = sources.map((source) => {
     let newFileDir = null;
 
     // Check is it updated? 
-    let oldUpdateDatetime = extractUpdated(`${oldFileDir}/${pageId}.md`);
+    let oldUpdateDatetime = await extractUpdated(`${oldFileDir}/${pageId}.md`);
     let newUpdateDatetime = source.properties.last_edited_time;
     let isUpdated = oldUpdateDatetime === null ? true : (parseTime(oldUpdateDatetime) < parseTime(newUpdateDatetime));
 
