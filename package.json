@@ -13,7 +13,7 @@
     "version": "8.1.1"
   },
   "dependencies": {
-    "@notionhq/client": "^5.14.0",
+    "@notionhq/client": "^5.15.0",
     "dotenv": "^17.3.1",
     "hexo": "^8.0.0",
     "hexo-deployer-git": "^4.0.0",
