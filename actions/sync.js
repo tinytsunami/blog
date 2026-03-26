@@ -253,7 +253,8 @@ function parseTime(str) {
 //==========================================================
 // Parsing Articles
 //==========================================================
-const articles = sources.map(async (source) => {
+const articles = await Promise.all(
+    sources.map(async (source) => {
 
     // Genreate permalink (use customed or generation-by-title)
     let permalink = slugify(getProperty(source.properties.permalink)) ?? 
@@ -325,7 +326,7 @@ const articles = sources.map(async (source) => {
         'newFileDir':     newFileDir,
         'isUpdated':      isUpdated
     };
-});
+}));
 
 if (DEBUG)
     fs.writeFileSync('.tmp/articles.json', JSON.stringify(articles, null, 2));
@@ -333,7 +334,8 @@ if (DEBUG)
 //==========================================================
 // Generate Posts
 //==========================================================
-const template = fs.readFileSync('./scaffolds/sync.md', 'utf-8');
+const template = fs.readFileSync('scaffolds/sync.md', 'utf-8');
+
 const limit = pLimit(PARALLEL);
 
 await Promise.all(
@@ -341,7 +343,8 @@ await Promise.all(
     .filter(article => article.isUpdated)
     .map(article =>
         limit(async () => {
-            const content = (await getContentMarkdown(article.contentId)).replaceAll('$', '$$$$');
+            const blocks  = (await n2m.pageToMarkdown(article.contentId));
+            const content = (await parseMarkdown(blocks)).replaceAll('$', '$$$$');
 
             const post = template.replace('{{ title }}',          article.title)
                                  .replace('{{ permalink }}',      article.permalink)
