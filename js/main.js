@@ -110,4 +110,9 @@ $(document).ready(function() {
       });
     }
   }
+
+  /**
+   * Add placeholder for hexo-encrypt
+   */
+  $("input.hbe-input-field").attr("placeholder", "PASSWORD ↵");
 });

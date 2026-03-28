@@ -1,0 +1,128 @@
+@-moz-keyframes underscoreWave {
+  from {
+    background-position: 0 100%;
+  }
+  to {
+    background-position: -60px 100%;
+  }
+}
+@-webkit-keyframes underscoreWave {
+  from {
+    background-position: 0 100%;
+  }
+  to {
+    background-position: -60px 100%;
+  }
+}
+@-o-keyframes underscoreWave {
+  from {
+    background-position: 0 100%;
+  }
+  to {
+    background-position: -60px 100%;
+  }
+}
+@keyframes underscoreWave {
+  from {
+    background-position: 0 100%;
+  }
+  to {
+    background-position: -60px 100%;
+  }
+}
+@-moz-keyframes underscoreDotMove {
+  from {
+    background-position: 0 100%;
+  }
+  to {
+    background-position: -120px 100%;
+  }
+}
+@-webkit-keyframes underscoreDotMove {
+  from {
+    background-position: 0 100%;
+  }
+  to {
+    background-position: -120px 100%;
+  }
+}
+@-o-keyframes underscoreDotMove {
+  from {
+    background-position: 0 100%;
+  }
+  to {
+    background-position: -120px 100%;
+  }
+}
+@keyframes underscoreDotMove {
+  from {
+    background-position: 0 100%;
+  }
+  to {
+    background-position: -120px 100%;
+  }
+}
+.hbe-input-field {
+  float: none;
+  height: 2rem;
+  padding: 2px;
+  margin-bottom: 0;
+  font-size: 1rem;
+  opacity: 1;
+  caret-shape: block;
+  text-security: square;
+  -webkit-text-security: square;
+  padding-bottom: 4px;
+  background-image: url("data:image/svg+xml,%3Csvg width='120' height='6' viewBox='0 0 120 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 3 L 3 0 L 6 3 L 9 6 L 12 3 L 15 0 L 18 3 L 21 6 L 24 3 L 27 0 L 30 3 L 33 6 L 36 3 L 39 0 L 42 3 L 45 6 L 48 3 L 51 0 L 54 3 L 57 6 L 60 3 L 63 0 L 66 3 L 69 6 L 72 3 L 75 0 L 78 3 L 81 6 L 84 3 L 87 0 L 90 3 L 93 6 L 96 3 L 99 0 L 102 3 L 105 6 L 108 3 L 111 0 L 114 3 L 117 6 L 120 3' stroke='rgba(212,212,237,0.2)' fill='none' stroke-width='2' /%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+  background-size: 120px 8px;
+  transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: underscoreWave 3s linear infinite;
+}
+.hbe-input-field::placeholder {
+  font-size: 1rem;
+  color: rgba(212,212,237,0.2);
+}
+.hbe-input-field:focus {
+  color: #2bdccc;
+  padding-bottom: 4px;
+  background-image: url("data:image/svg+xml,%3Csvg width='120' height='6' viewBox='0 0 120 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 3 L 3 0 L 6 3 L 9 6 L 12 3 L 15 0 L 18 3 L 21 6 L 24 3 L 27 0 L 30 3 L 33 6 L 36 3 L 39 0 L 42 3 L 45 6 L 48 3 L 51 0 L 54 3 L 57 6 L 60 3 L 63 0 L 66 3 L 69 6 L 72 3 L 75 0 L 78 3 L 81 6 L 84 3 L 87 0 L 90 3 L 93 6 L 96 3 L 99 0 L 102 3 L 105 6 L 108 3 L 111 0 L 114 3 L 117 6 L 120 3' stroke='%232bdccc' fill='none' stroke-width='2' /%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+  background-size: 120px 8px;
+  transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: underscoreWave 3s linear infinite;
+}
+.hbe-input-label {
+  display: none;
+}
+.hbe-button {
+  width: 120px;
+  display: block;
+  color: #2bdccc;
+  border-bottom: none;
+  padding: 0;
+  margin-top: 40px;
+  margin-bottom: 0;
+  padding-bottom: 4px;
+  background-image: url("data:image/svg+xml,%3Csvg width='120' height='6' viewBox='0 0 120 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 3 L 3 0 L 6 3 L 9 6 L 12 3 L 15 0 L 18 3 L 21 6 L 24 3 L 27 0 L 30 3 L 33 6 L 36 3 L 39 0 L 42 3 L 45 6 L 48 3 L 51 0 L 54 3 L 57 6 L 60 3 L 63 0 L 66 3 L 69 6 L 72 3 L 75 0 L 78 3 L 81 6 L 84 3 L 87 0 L 90 3 L 93 6 L 96 3 L 99 0 L 102 3 L 105 6 L 108 3 L 111 0 L 114 3 L 117 6 L 120 3' stroke='%232bdccc' fill='none' stroke-width='2' /%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+  background-size: 120px 8px;
+  transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: underscoreWave 3s linear infinite;
+}
+.hbe-button:hover {
+  color: rgba(212,212,237,0.2);
+  padding-bottom: 4px;
+  background-image: url("data:image/svg+xml,%3Csvg width='120' height='6' viewBox='0 0 120 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 3 L 3 0 L 6 3 L 9 6 L 12 3 L 15 0 L 18 3 L 21 6 L 24 3 L 27 0 L 30 3 L 33 6 L 36 3 L 39 0 L 42 3 L 45 6 L 48 3 L 51 0 L 54 3 L 57 6 L 60 3 L 63 0 L 66 3 L 69 6 L 72 3 L 75 0 L 78 3 L 81 6 L 84 3 L 87 0 L 90 3 L 93 6 L 96 3 L 99 0 L 102 3 L 105 6 L 108 3 L 111 0 L 114 3 L 117 6 L 120 3' stroke='rgba(212,212,237,0.2)' fill='none' stroke-width='2' /%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+  background-size: 120px 8px;
+  transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: underscoreWave 3s linear infinite;
+}
+.hbe-button:after {
+  display: none;
+}
