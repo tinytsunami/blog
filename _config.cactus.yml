@@ -58,3 +58,11 @@ favicon:
   apple:
     url: /images/icon.png
     gravatar: false
+
+giscus:
+  enabled: true
+  theme: dark
+  repo_id: MDEwOlJlcG9zaXRvcnkxMjI3MTEwNTY
+  repo_name: tinytsunami/blog
+  category_id: DIC_kwDOB1BsEM4C42Ww
+  category_name: "Blog Comments"
