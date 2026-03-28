@@ -55,11 +55,9 @@ prismjs:
 
 # Security
 encrypt: # hexo-blog-encrypt
-  abstract: 🔒 該文章已加密 Here's something encrypted
-  message: Password
-  theme: simple
-  wrong_pass_message: Password incorrect!
-  wrong_hash_message: Hash wrong!
+  theme: default
+  wrong_pass_message: password incorrect...
+  wrong_hash_message: something wrong...
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
