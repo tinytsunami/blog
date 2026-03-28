@@ -702,6 +702,9 @@ body {
   filter: grayscale(100%);
   -webkit-filter: grayscale(100%);
 }
+#header #hamburger {
+  display: none;
+}
 #header #nav {
   color: #00b2e8;
   letter-spacing: 0.01em;
@@ -732,9 +735,6 @@ body {
   border-color: #00b2e8;
   vertical-align: middle;
 }
-#header #nav ul .icon {
-  display: none;
-}
 #header #nav ul li:last-child {
   margin-right: 0;
   border-right: 0;
@@ -749,6 +749,9 @@ body {
 @media screen and (max-width: 480px) {
   #header {
     margin: 0;
+  }
+  #header a.u-url {
+    float: left;
   }
   #header #title {
     display: table;
@@ -766,43 +769,45 @@ body {
     margin-top: 0;
     margin-right: 8px;
   }
+  #header #hamburger {
+    float: right;
+    color: #00b2e8;
+    display: inline-block;
+    text-align: center;
+    margin-right: 0;
+  }
+  #header #hamburger a[aria-label="Menu"] {
+    display: block;
+    min-width: 40px;
+    min-height: 40px;
+    margin-right: 0;
+  }
+  #header #hamburger a[aria-label="Menu"] i {
+    font-size: 2em;
+  }
+  #header #nav {
+    margin-top: 48px;
+    text-align: center;
+  }
+  #header #nav ul {
+    line-height: 1.5rem;
+  }
+  #header #nav ul a {
+    margin-right: 0;
+  }
   #header #nav ul a:hover {
     background: none;
   }
   #header #nav ul li {
     display: none;
     border-right: 0;
-  }
-  #header #nav ul li.icon {
-    position: absolute;
-    top: 74px;
-    right: 0;
-    display: inline-block;
-    text-align: center;
-    margin-right: 0;
-  }
-  #header #nav ul.responsive {
-    margin-top: 8px;
+    margin: 0 0 8px 0;
   }
   #header #nav ul.responsive li {
     display: block;
   }
-  #header #nav ul a[aria-label="Menu"] {
-    display: block;
-    min-width: 40px;
-    min-height: 40px;
-    margin-right: 0;
-  }
-  #header #nav ul a[aria-label="Menu"] i {
-    font-size: 2em;
-  }
-  #header #nav li:not(:first-child) {
-    padding-top: 1rem;
-    padding-left: 92px;
-    font-size: 1rem;
-  }
   body h1 {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
   }
 }
 #header-post {
