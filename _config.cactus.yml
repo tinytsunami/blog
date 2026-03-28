@@ -44,6 +44,9 @@ logo:
   url: /images/logo.png
   gravatar: false
   grayout: true
+  mobile:
+    width: 40
+    height: 40
 
 favicon:
   desktop:

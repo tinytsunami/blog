@@ -76,15 +76,26 @@ if $logo-grayout
       -webkit-filter: none
 
 @media screen and (max-width: 480px)
+  #header
+    margin: 0
+
   #header #title
     display: table
-    margin-right: 5rem
-    min-height: $logo-height
+    min-height: $logo-mobile-height
     h1
       display: table-cell
       vertical-align: middle
+      font-size: 1.5rem
+      line-height: 1
+
+  #header #logo 
+    width: $logo-mobile-width
+    height: $logo-mobile-height
+    margin-top: 0
+    margin-right: 8px
 
   #header #nav
+
     ul
       a:hover
         background: none
@@ -95,22 +106,33 @@ if $logo-grayout
 
       li.icon
         position: absolute
-        top: 77px
-        right: 1rem
+        top: 74px
+        right: 0
         display: inline-block
         text-align: center
+        margin-right: 0
 
     ul.responsive
+      margin-top: 8px
+
       li
         display: block
     
     ul 
       a[aria-label="Menu"]
-        display: inline-block
-        min-width: 48px
-        min-height: 48px
+        display: block
+        min-width: $logo-mobile-width
+        min-height: $logo-mobile-height
+        margin-right: 0
+
+        i 
+          font-size: 2em
 
     li:not(:first-child)
       padding-top: 1rem
       padding-left: $logo-width + 20px
       font-size: 1rem
+
+  body
+    h1
+      margin-top: 2rem
