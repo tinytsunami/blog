@@ -1,7 +1,7 @@
 ---
 title: RMMZ 插件 - Timi Interpreter 1
 permalink: rmmz-plugin-timi-interpreter-1/
-categories: (legacy) game
+categories: legacy-game
 date: 2023-07-18
 ---
 

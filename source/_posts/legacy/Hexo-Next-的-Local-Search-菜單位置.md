@@ -1,7 +1,7 @@
 ---
 title: Hexo Next 的 Local Search 菜單位置
 permalink: hexo-next-local-search/
-categories: (legacy) system
+categories: legacy-system
 date: 2020-03-24
 mathjax: false
 ---

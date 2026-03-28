@@ -1,7 +1,7 @@
 ---
 title: 推盤遊戲  n-puzzle
 permalink: n-puzzle/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2018-07-21
 mathjax: true
 ---

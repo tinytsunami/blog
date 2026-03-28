@@ -1,7 +1,7 @@
 ---
 title: 堆疊與佇列 Stack and Queue
 permalink: stack-and-queue/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2016-11-12
 mathjax: false
 ---

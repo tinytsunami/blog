@@ -1,7 +1,7 @@
 ---
 title: 牛頓法計算 sqrt 函數
 permalink: newton-method-sqrt/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2021-10-03
 mathjax: true
 ---

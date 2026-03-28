@@ -1,7 +1,7 @@
 ---
 title: 排序 Sort
 permalink: sort/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2018-03-30 21:43:57
 mathjax: true
 ---

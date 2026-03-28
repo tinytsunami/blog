@@ -1,7 +1,7 @@
 ---
 title: RPG Maker MV 教學：入門
 permalink: rpg-maker-mv-tutorial-1/
-categories: (legacy) game
+categories: legacy-game
 date: 2021-02-25
 mathjax: false
 ---

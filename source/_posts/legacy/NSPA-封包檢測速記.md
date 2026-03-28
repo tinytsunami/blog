@@ -1,7 +1,7 @@
 ---
 title: NSPA 封包檢測速記
 permalink: nspa-fast-note/
-categories: (legacy) other
+categories: legacy-other
 date: 2020-08-05
 mathjax: false
 ---

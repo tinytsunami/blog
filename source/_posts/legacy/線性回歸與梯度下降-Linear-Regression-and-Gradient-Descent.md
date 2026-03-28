@@ -1,7 +1,7 @@
 ---
 title: 線性回歸與梯度下降 Linear Regression and Gradient Descent
 permalink: linear-regression-and-gradient-descent/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2017-06-25
 mathjax: true
 ---

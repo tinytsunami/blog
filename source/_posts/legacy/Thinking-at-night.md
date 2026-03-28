@@ -1,7 +1,7 @@
 ---
 title: Thinking at night
 permalink: thinking-at-night/
-categories: (legacy) game
+categories: legacy-game
 date: 2019-11-10
 ---
 

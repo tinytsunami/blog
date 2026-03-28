@@ -1,7 +1,7 @@
 ---
 title: HTML5 Android APP 開發軟體
 permalink: HTML5-Android-APP-2/
-categories: (legacy) system
+categories: legacy-system
 date: 2018-05-06 13:25:54
 mathjax: false
 ---

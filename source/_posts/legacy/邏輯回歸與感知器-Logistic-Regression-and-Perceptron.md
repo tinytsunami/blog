@@ -1,7 +1,7 @@
 ---
 title: 邏輯回歸與感知器 Logistic Regression and Perceptron
 permalink: logistic-regression-and-perceptron/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2017-11-02
 mathjax: true
 ---

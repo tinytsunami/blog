@@ -1,7 +1,7 @@
 ---
 title: 指標 Pointer
 permalink: pointer/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2020-08-04
 mathjax: false
 ---

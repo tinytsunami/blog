@@ -1,7 +1,7 @@
 ---
 title: RMMZ 插件說明
 permalink: rmmz-plugin-common/
-categories: (legacy) game
+categories: legacy-game
 date: 2023-07-18
 ---
 這篇是介紹我的 RPG Maker MZ 插件，基本上是提供給獨立遊戲製作者自由使用。

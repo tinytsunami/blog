@@ -1,7 +1,7 @@
 ---
 title: 圖 Graph
 permalink: graph/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2022-02-12
 mathjax: true
 ---

@@ -1,7 +1,7 @@
 ---
 title: 五子棋 Gomoku
 permalink: gomoku/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2018-04-26
 mathjax: false
 ---

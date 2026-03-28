@@ -1,7 +1,7 @@
 ---
 title: 迴文處理 Palindrome Process
 permalink: palindrome-process/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2017-11-05
 mathjax: true
 ---

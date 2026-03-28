@@ -1,7 +1,7 @@
 ---
 title: 馬可爾夫決策過程 Markov Decision Process
 permalink: markov-decision-process/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2019-03-28
 mathjax: true
 ---

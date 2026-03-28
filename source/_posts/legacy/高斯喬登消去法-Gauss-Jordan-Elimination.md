@@ -1,7 +1,7 @@
 ---
 title: 高斯喬登消去法 Gauss-Jordan Elimination
 permalink: Gauss-Jordan-elimination/
-categories: (legacy) math
+categories: legacy-math
 date: 2018-05-21 21:09:49
 mathjax: false
 ---

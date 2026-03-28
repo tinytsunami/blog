@@ -1,7 +1,7 @@
 ---
 title: 老鼠走迷宮 Mouse Maze
 permalink: mouse-maze/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2016-11-13
 mathjax: true
 ---

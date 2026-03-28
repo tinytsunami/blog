@@ -1,7 +1,7 @@
 ---
 title: 前、中及後序 Preorder, Inorder and Postorder
 permalink: preorder-inorder-postorder/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2019-08-20
 mathjax: false
 ---

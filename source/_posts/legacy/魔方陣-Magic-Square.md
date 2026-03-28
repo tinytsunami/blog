@@ -1,7 +1,7 @@
 ---
 title: 魔方陣 Magic Square
 permalink: magic-square/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2016-10-22
 mathjax: true
 ---

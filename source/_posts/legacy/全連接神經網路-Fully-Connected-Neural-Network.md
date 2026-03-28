@@ -1,7 +1,7 @@
 ---
 title: 全連接神經網路 Fully-Connected Neural Network
 permalink: fully-connected-neural-network/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2019-07-07
 mathjax: true
 ---

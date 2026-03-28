@@ -1,7 +1,7 @@
 ---
 title: K均值算法 K-mean Algorithm
 permalink: k-mean-algorithm/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2017-05-14
 mathjax: true
 ---

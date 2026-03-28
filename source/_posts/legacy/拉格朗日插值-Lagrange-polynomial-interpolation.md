@@ -1,7 +1,7 @@
 ---
 title: 拉格朗日插值 Lagrange polynomial interpolation
 permalink: lagrange-polynomial-interpolation/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2019-10-07
 mathjax: true
 ---

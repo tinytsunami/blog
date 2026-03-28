@@ -1,7 +1,7 @@
 ---
 title: 價值迭代 Value Iteration
 permalink: value-iteration/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2019-05-18
 mathjax: true
 ---

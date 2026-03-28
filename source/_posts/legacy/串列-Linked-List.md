@@ -1,7 +1,7 @@
 ---
 title: 串列 Linked List
 permalink: linked-list/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2018-03-18
 mathjax: false
 ---

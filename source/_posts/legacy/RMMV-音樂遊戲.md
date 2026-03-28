@@ -1,7 +1,7 @@
 ---
 title: RMMV 音樂遊戲
 permalink: rpg-maker-mv-music-game/
-categories: (legacy) blog
+categories: legacy-blog
 date: 2020-01-16
 mathjax: false
 ---

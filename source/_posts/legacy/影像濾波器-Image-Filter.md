@@ -1,7 +1,7 @@
 ---
 title: 影像濾波 Image Filter
 permalink: image-filter/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2020-08-02
 mathjax: true
 ---

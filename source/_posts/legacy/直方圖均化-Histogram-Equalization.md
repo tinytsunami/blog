@@ -1,7 +1,7 @@
 ---
 title: 直方圖均化 Histogram Equalization
 permalink: histogram-equalization/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2020-03-25
 mathjax: true
 ---

@@ -1,7 +1,7 @@
 ---
 title: 分治與分割 Divide and Partition
 permalink: divide-and-partition/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2021-9-20
 mathjax: true
 ---

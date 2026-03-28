@@ -1,7 +1,7 @@
 ---
 title: JavaScript 檔案處理
 permalink: javascript-file-process/
-categories: (legacy) system
+categories: legacy-system
 date: 2017-11-05
 mathjax: false
 ---

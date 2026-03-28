@@ -1,7 +1,7 @@
 ---
 title: 先驗算法 Apriori Algorithm
 permalink: apriori-algorithm/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2017-05-18
 mathjax: true
 ---

@@ -1,7 +1,7 @@
 ---
 title: Linux 螢幕解析度問題
 permalink: linux-screen-display-problem/
-categories: (legacy) system
+categories: legacy-system
 date: 2018-03-11
 mathjax: false
 ---

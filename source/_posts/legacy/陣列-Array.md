@@ -1,7 +1,7 @@
 ---
 title: 陣列 Array
 permalink: array/
-categories: (legacy) algorithm
+categories: legacy-algorithm
 date: 2021-09-21
 mathjax: false
 ---

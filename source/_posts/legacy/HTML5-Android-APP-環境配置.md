@@ -1,7 +1,7 @@
 ---
 title: HTML5 Cordova Android APP 環境配置
 permalink: html5-android-app-1/
-categories: (legacy) system
+categories: legacy-system
 date: 2018-07-02 00:04:23
 mathjax: false
 ---
