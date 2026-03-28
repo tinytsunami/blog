@@ -32,6 +32,9 @@
       filter: grayscale(100%)
       -webkit-filter: grayscale(100%)
 
+  #hamburger
+    display:none
+
   #nav
     color: $color-accent-1
     letter-spacing: .01em
@@ -59,9 +62,6 @@
         border-color: $color-accent-1
         vertical-align: middle
 
-      .icon
-        display: none
-
       li:last-child
         margin-right: 0
         border-right: 0
@@ -79,9 +79,13 @@ if $logo-grayout
   #header
     margin: 0
 
+  #header a.u-url
+    float: left
+
   #header #title
     display: table
     min-height: $logo-mobile-height
+
     h1
       display: table-cell
       vertical-align: middle
@@ -94,31 +98,13 @@ if $logo-grayout
     margin-top: 0
     margin-right: 8px
 
-  #header #nav
+  #header #hamburger
+      float: right
+      color: $color-accent-1
+      display: inline-block
+      text-align: center
+      margin-right: 0
 
-    ul
-      a:hover
-        background: none
-
-      li
-        display: none
-        border-right: 0
-
-      li.icon
-        position: absolute
-        top: 74px
-        right: 0
-        display: inline-block
-        text-align: center
-        margin-right: 0
-
-    ul.responsive
-      margin-top: 8px
-
-      li
-        display: block
-    
-    ul 
       a[aria-label="Menu"]
         display: block
         min-width: $logo-mobile-width
@@ -128,11 +114,28 @@ if $logo-grayout
         i 
           font-size: 2em
 
-    li:not(:first-child)
-      padding-top: 1rem
-      padding-left: $logo-width + 20px
-      font-size: 1rem
+  #header #nav
+    margin-top: $logo-mobile-height + 8px
+    text-align: center
 
+    ul
+      line-height: 1.5rem
+
+      a
+        margin-right: 0
+
+      a:hover
+        background: none
+
+      li
+        display: none
+        border-right: 0
+        margin: 0 0 8px 0
+
+    ul.responsive
+      li
+        display: block
+  
   body
     h1
-      margin-top: 2rem
+      margin-top: 1.5rem
