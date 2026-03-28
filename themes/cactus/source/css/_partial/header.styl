@@ -99,20 +99,23 @@ if $logo-grayout
     margin-right: 8px
 
   #header #hamburger
-      float: right
-      color: $color-accent-1
-      display: inline-block
-      text-align: center
+    float: right
+    color: $color-text
+    display: inline-block
+    text-align: center
+    margin-right: 0
+
+    a[aria-label="Menu"]
+      display: block
+      min-width: $logo-mobile-width
+      min-height: $logo-mobile-height
       margin-right: 0
 
-      a[aria-label="Menu"]
-        display: block
-        min-width: $logo-mobile-width
-        min-height: $logo-mobile-height
-        margin-right: 0
+      i 
+        font-size: 2em
 
-        i 
-          font-size: 2em
+  #header #hamburger.responsive
+    color: $color-accent-1
 
   #header #nav
     margin-top: $logo-mobile-height + 8px

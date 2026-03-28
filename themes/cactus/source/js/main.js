@@ -17,6 +17,7 @@ $(document).ready(function() {
    */
   $("#header > #hamburger").click(function() {
     $("#header > #nav > ul").toggleClass("responsive");
+    $("#header > #hamburger").toggleClass("responsive");
   });
 
 
