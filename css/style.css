@@ -747,14 +747,24 @@ body {
   -webkit-filter: none;
 }
 @media screen and (max-width: 480px) {
+  #header {
+    margin: 0;
+  }
   #header #title {
     display: table;
-    margin-right: 5rem;
-    min-height: 72px;
+    min-height: 40px;
   }
   #header #title h1 {
     display: table-cell;
     vertical-align: middle;
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+  #header #logo {
+    width: 40px;
+    height: 40px;
+    margin-top: 0;
+    margin-right: 8px;
   }
   #header #nav ul a:hover {
     background: none;
@@ -765,23 +775,34 @@ body {
   }
   #header #nav ul li.icon {
     position: absolute;
-    top: 77px;
-    right: 1rem;
+    top: 74px;
+    right: 0;
     display: inline-block;
     text-align: center;
+    margin-right: 0;
+  }
+  #header #nav ul.responsive {
+    margin-top: 8px;
   }
   #header #nav ul.responsive li {
     display: block;
   }
   #header #nav ul a[aria-label="Menu"] {
-    display: inline-block;
-    min-width: 48px;
-    min-height: 48px;
+    display: block;
+    min-width: 40px;
+    min-height: 40px;
+    margin-right: 0;
+  }
+  #header #nav ul a[aria-label="Menu"] i {
+    font-size: 2em;
   }
   #header #nav li:not(:first-child) {
     padding-top: 1rem;
     padding-left: 92px;
     font-size: 1rem;
+  }
+  body h1 {
+    margin-top: 2rem;
   }
 }
 #header-post {
@@ -1848,6 +1869,13 @@ code {
 }
 .highlight .line {
   height: 22px;
+}
+img.emoji {
+  width: 1em;
+  height: 1em;
+  margin: 0 0.05em;
+  vertical-align: -0.1em;
+  max-width: none;
 }
 #header-post #actions {
   direction: ltr !important;

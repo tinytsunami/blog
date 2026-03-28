@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Over the past few days, I’ve been exploring how to sync articles from Notion to my Hexo static blog. The main reason is that editing posts directly in Hexo can get a bit annoying—especially when deali">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🔄 Deploy Notion Article to Hexo (Github Page)">
+<meta property="og:url" content="https://www.tinytsunami.info/deploy-notion-article-to-hexo/index.html">
+<meta property="og:site_name" content="Tinytsunami">
+<meta property="og:description" content="Over the past few days, I’ve been exploring how to sync articles from Notion to my Hexo static blog. The main reason is that editing posts directly in Hexo can get a bit annoying—especially when deali">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-03-24T14:57:00.000Z">
+<meta property="article:modified_time" content="2026-03-26T18:02:00.000Z">
+<meta property="article:author" content="Y. H. Shen">
+<meta property="article:tag" content="tech, game development">
+<meta name="twitter:card" content="summary">
+    
+    
+    
+      <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/twitter/twemoji/assets/72x72/1f504.png">
+    
+    <!-- title -->
+    <title> Deploy Notion Article to Hexo (Github Page)</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+  <!-- Twemoji -->
+  <script src="https://cdn.jsdelivr.net/npm/twemoji@14.0.2/dist/twemoji.min.js"></script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/arch-linux-install-config/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.tinytsunami.info/deploy-notion-article-to-hexo/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.tinytsunami.info/deploy-notion-article-to-hexo/&text=🔄 Deploy Notion Article to Hexo (Github Page)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.tinytsunami.info/deploy-notion-article-to-hexo/&title=🔄 Deploy Notion Article to Hexo (Github Page)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.tinytsunami.info/deploy-notion-article-to-hexo/&is_video=false&description=🔄 Deploy Notion Article to Hexo (Github Page)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=🔄 Deploy Notion Article to Hexo (Github Page)&body=Check out this article: https://www.tinytsunami.info/deploy-notion-article-to-hexo/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.tinytsunami.info/deploy-notion-article-to-hexo/&title=🔄 Deploy Notion Article to Hexo (Github Page)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.tinytsunami.info/deploy-notion-article-to-hexo/&title=🔄 Deploy Notion Article to Hexo (Github Page)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.tinytsunami.info/deploy-notion-article-to-hexo/&title=🔄 Deploy Notion Article to Hexo (Github Page)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.tinytsunami.info/deploy-notion-article-to-hexo/&title=🔄 Deploy Notion Article to Hexo (Github Page)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.tinytsunami.info/deploy-notion-article-to-hexo/&name=🔄 Deploy Notion Article to Hexo (Github Page)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.tinytsunami.info/deploy-notion-article-to-hexo/&t=🔄 Deploy Notion Article to Hexo (Github Page)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Notion-edit-Hexo-publish"><span class="toc-number">1.</span> <span class="toc-text">Notion edit, Hexo publish</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Friction"><span class="toc-number">2.</span> <span class="toc-text">Friction</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Format-Inconsistency"><span class="toc-number">2.1.</span> <span class="toc-text">Format Inconsistency</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Article-Status"><span class="toc-number">2.2.</span> <span class="toc-text">Article Status</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Trade-offs-for-Image-Storage"><span class="toc-number">2.3.</span> <span class="toc-text">Trade-offs for Image Storage</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        🔄 Deploy Notion Article to Hexo (Github Page)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Tinytsunami</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-03-24T14:57:00.000Z" class="dt-published" itemprop="datePublished">2026-03-24</time>
+        
+        (Updated: <time datetime="2026-03-26T18:02:00.000Z" class="dt-updated" itemprop="dateModified">2026-03-26</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/system/">system</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>Over the past few days, I’ve been exploring how to sync articles from Notion to my Hexo static blog. The main reason is that editing posts directly in Hexo can get a bit annoying—especially when dealing with lots of images, URLs, and formatting tags.</p>
+<p>I’ve always used Notion as a kind of “thinking space” where I keep fragments of ideas and drafts. Over time, those pieces start to feel like something more valuable than leaving things unwritten. Even if they’re incomplete, they still represent progress.</p>
+<p>At the same time, there’s an obvious trend: people are writing less themselves in the age of AI-generated content. That makes me feel like it’s even more important to keep writing—however rough or imperfect it may be.</p>
+<h1 id="Notion-edit-Hexo-publish"><a href="#Notion-edit-Hexo-publish" class="headerlink" title="Notion edit, Hexo publish"></a>Notion edit, Hexo publish</h1><p>One simple idea came to mind: since editing in Notion feels so much easier, why not sync those articles directly to my Hexo blog?</p>
+<p>So I set up a small workflow. Using GitHub Actions, I run a script that calls the Notion API and syncs content between the two sides. Along the way, it also converts everything into proper Markdown format. Once that’s done, the usual Hexo CI&#x2F;CD flow takes over and publishes the site.</p>
+<p>It’s nothing too complicated—but it works. A simple and effective workflow, just the way I like it.</p>
+<h1 id="Friction"><a href="#Friction" class="headerlink" title="Friction"></a>Friction</h1><p>While building this workflow, a few issues quickly came up:</p>
+<ul>
+<li>Hexo supports many custom blocks, but Notion’s block types are more limited — they don’t map cleanly one-to-one.</li>
+<li>How should I determine the state of an article? Has it actually been updated, or not?</li>
+<li>What about images? Should I download them into the local folder (and include them in Git), or keep them in external storage?</li>
+</ul>
+<p>None of these problems are particularly hard on their own, but together they create a kind of friction in the workflow. It’s not just about syncing content—it’s about making sure the process stays consistent and predictable over time.</p>
+<h2 id="Format-Inconsistency"><a href="#Format-Inconsistency" class="headerlink" title="Format Inconsistency"></a>Format Inconsistency</h2><p>I tried using <code>notion2md</code> to handle most of the conversion, but many inconsistencies still come from user-defined blocks.</p>
+<ul>
+<li>A <code>callout</code> block in Notion gets converted into a Markdown <code>quote</code> (<code>&gt;</code>).</li>
+<li>A <code>quote</code> block in Notion also becomes a Markdown <code>quote</code>, which makes them indistinguishable after conversion.</li>
+<li>Inline equations in Notion use <code>$...$</code>, while block equations use <code>$$...$$</code>. However, block equations don’t always include proper line breaks, which can cause parsing issues when unexpected newlines are involved.</li>
+<li>Some JavaScript string operations—like <code>replace()</code>—treat <code>$</code> as a special character. That means you often need to escape it as <code>$$</code> just to represent a single <code>$</code>, which can easily break the pipeline if not handled carefully.</li>
+</ul>
+<p>These small inconsistencies add up. It’s not just about converting formats—it’s about preserving meaning across systems that were never designed to fully align.</p>
+<h2 id="Article-Status"><a href="#Article-Status" class="headerlink" title="Article Status"></a>Article Status</h2><p>In Notion, an article can exist in several different states:</p>
+<ul>
+<li>It may be <code>in_trash</code></li>
+<li>It may be <code>archived</code></li>
+<li>Its content may be <code>updated</code> or <code>not updated</code></li>
+<li>Sometimes, it’s simply an unpublished draft</li>
+</ul>
+<p>In the worst case, that gives up to 16 possible combinations. To keep things manageable, I defined a simple priority system:</p>
+<ul>
+<li>If an article is <code>in_trash</code>, remove it.</li>
+<li>If an article is <code>archived</code>, move it to <code>_archives/</code>.</li>
+<li>Since any change in Notion updates the <code>last_edited_time</code>, I treat all changes as <code>updated</code>. So:</li>
+<li>If the <code>published</code> attribute is not checked, treat it as a draft and place it under <code>_draft/</code>.</li>
+</ul>
+<p>This way, instead of handling every possible combination, the logic becomes a simple, predictable flow.</p>
+<h2 id="Trade-offs-for-Image-Storage"><a href="#Trade-offs-for-Image-Storage" class="headerlink" title="Trade-offs for Image Storage"></a><strong>Trade-offs for Image Storage</strong></h2><p>In my previous blog setup, I used external image hosting (e.g. Imgur). Naturally, I first considered continuing with that approach—but in the context of syncing with Notion, things become a bit more complicated.</p>
+<p>Here’s how I broke it down:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Download images from Notion, then upload to external hosting</td>
+<td>Follows the legacy approach and reduces Git repository size</td>
+<td>More complex workflow, and images are not fully under my control</td>
+</tr>
+<tr>
+<td>Download images from Notion and store them locally (tracked by Git)</td>
+<td>Simple workflow, full control over assets</td>
+<td>Increases repository size</td>
+</tr>
+<tr>
+<td>Directly use Notion image URLs</td>
+<td>Simplest approach, no file handling required</td>
+<td>Notion URLs are not stable—they may expire or change, and assets are not under your control</td>
+</tr>
+</tbody></table>
+<p>After weighing these trade-offs, I decided to go with the second option. It’s simpler, more predictable, and gives me full ownership of the content—even if it comes at the cost of a larger Git repository.</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/notes/">Notes</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Notion-edit-Hexo-publish"><span class="toc-number">1.</span> <span class="toc-text">Notion edit, Hexo publish</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Friction"><span class="toc-number">2.</span> <span class="toc-text">Friction</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Format-Inconsistency"><span class="toc-number">2.1.</span> <span class="toc-text">Format Inconsistency</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Article-Status"><span class="toc-number">2.2.</span> <span class="toc-text">Article Status</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Trade-offs-for-Image-Storage"><span class="toc-number">2.3.</span> <span class="toc-text">Trade-offs for Image Storage</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.tinytsunami.info/deploy-notion-article-to-hexo/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.tinytsunami.info/deploy-notion-article-to-hexo/&text=🔄 Deploy Notion Article to Hexo (Github Page)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.tinytsunami.info/deploy-notion-article-to-hexo/&title=🔄 Deploy Notion Article to Hexo (Github Page)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.tinytsunami.info/deploy-notion-article-to-hexo/&is_video=false&description=🔄 Deploy Notion Article to Hexo (Github Page)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=🔄 Deploy Notion Article to Hexo (Github Page)&body=Check out this article: https://www.tinytsunami.info/deploy-notion-article-to-hexo/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.tinytsunami.info/deploy-notion-article-to-hexo/&title=🔄 Deploy Notion Article to Hexo (Github Page)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.tinytsunami.info/deploy-notion-article-to-hexo/&title=🔄 Deploy Notion Article to Hexo (Github Page)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.tinytsunami.info/deploy-notion-article-to-hexo/&title=🔄 Deploy Notion Article to Hexo (Github Page)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.tinytsunami.info/deploy-notion-article-to-hexo/&title=🔄 Deploy Notion Article to Hexo (Github Page)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.tinytsunami.info/deploy-notion-article-to-hexo/&name=🔄 Deploy Notion Article to Hexo (Github Page)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.tinytsunami.info/deploy-notion-article-to-hexo/&t=🔄 Deploy Notion Article to Hexo (Github Page)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    
+    
+    2016-2026
+    Y. H. Shen — CC BY 4.0
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+<script>
+  twemoji.parse(document.body);
+</script>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
