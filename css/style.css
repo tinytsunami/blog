@@ -771,7 +771,7 @@ body {
   }
   #header #hamburger {
     float: right;
-    color: #00b2e8;
+    color: #d4d4ed;
     display: inline-block;
     text-align: center;
     margin-right: 0;
@@ -784,6 +784,9 @@ body {
   }
   #header #hamburger a[aria-label="Menu"] i {
     font-size: 2em;
+  }
+  #header #hamburger.responsive {
+    color: #00b2e8;
   }
   #header #nav {
     margin-top: 48px;
