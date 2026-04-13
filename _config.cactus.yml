@@ -10,6 +10,11 @@ rss: false
 mathjax:
   enabled: true 
 
+mermaid:
+  enable: true
+  theme: "dark"
+  version: "11.14.0"
+
 nav:
   home: /
   articles: /notes/
