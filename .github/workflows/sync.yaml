@@ -33,6 +33,7 @@ jobs:
           git config user.email "github-actions@github.com"
           git add .
           git commit -m "sync notion content" || echo "No changes"
+          git pull origin master --rebase
           git push
 
       - name: Generate Hexo
