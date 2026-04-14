@@ -105,12 +105,16 @@ $base-style
 
   th
     padding: 8px
-    border-bottom: 1px dashed $color-accent-2
     color: $color-accent-2
     font-weight: bold
     font-size: $font-size - 1px
 
   td
     padding: 4px 8px
-    border-bottom: 1px dashed rgba($color-text, 0.2)
     line-height: 1.5
+
+  th:not(.gutter):not(.code)
+    border-bottom: 1px dashed $color-accent-2
+
+  td:not(.gutter):not(.code)
+    border-bottom: 1px dashed rgba($color-text, 0.2)
