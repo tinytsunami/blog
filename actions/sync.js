@@ -252,6 +252,7 @@ async function renderBlock(block) {
             return _renderQuota(content);
         case 'callout':
             return _renderCallout(content, await parseMarkdown(children));
+        case 'to_do':
         case 'bulleted_list_item':
         case 'numbered_list_item':
             return _renderListItem(content, await parseMarkdown(children));
@@ -266,6 +267,7 @@ async function renderBlock(block) {
 
 function insertNewline(previousBlock, currentBlock) {
     const rules = {
+        'to_do, to_do': '\n',
         'bulleted_list_item, bulleted_list_item': '\n',
         'numbered_list_item, numbered_list_item': '\n',
     };
