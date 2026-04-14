@@ -144,30 +144,18 @@ function truncate(str, len) {
 //==========================================================
 // Blocks Parser
 //==========================================================
-const customBlocks = JSON.parse(fs.readFileSync('./actions/customBlock.json', 'utf-8'));
+function _renderCode(content) {
+    const lines = content.split('\n');
+    const lang  = lines[0].slice(3);
+    const codes = lines.slice(1, -1).join('\n');
+    
+    if (lang === 'mermaid')
+        return `${content}\n`; // will output mermaid image (not code)
 
-function _renderCustomBlock(type, content, customBlock) {
+    if (lang !== 'markdown')
+        return `{% codeblock lang:${lang} %}\n${codes}\n{% endcodeblock %}\n`;
 
-    if (type !== customBlock.type) return null;
-
-    const output = [];
-    const lines  = content.split('\n');
-
-    const startRegex = new RegExp(customBlock.startRegex);
-    const lineRegex  = new RegExp(customBlock.lineRegex);
-
-    const startMatch = lines[0].match(startRegex);
-
-    if (startMatch) output.push(startMatch[1]);
-    else return null;
-
-    for (let i = 1; i < lines.length; i++) {
-        const lineMatch = lines[i].match(lineRegex);
-        if (lineMatch) output.push(lineMatch[1]);
-        else return null;
-    }
-
-    return `${customBlock.before}${output.join('\n')}${customBlock.after}`;
+    return `{% codeblock %}\n${codes}\n{% endcodeblock %}\n`;
 }
 
 function _renderEquation(content) {
@@ -178,12 +166,52 @@ function _renderQuota(content) {
     return `${content}\n`;
 }
 
-function _renderCallout(content) {
-    return `${content}\n`;
+function _renderCallout(content, subcontent) {
+
+    const callouts = {
+        'primary': "^> 🟣 (.*)$",
+        'info':    "^> ℹ️ (.*)$",
+        'success': "^> ✅ (.*)$",
+        'warning': "^> ⚠️ (.*)$",
+        'danger':  "^> ❌ (.*)$",
+    };
+
+    const firstLine = content.split('\n')[0];
+
+    for (const [type, regex] of Object.entries(callouts)) {
+
+        const regexObj = new RegExp(regex);
+        const match = firstLine.match(regexObj);
+        
+        if (match) {
+            const lines = [match[1]];
+
+            subcontent.split('\n').forEach(line => {
+                lines.push(line);
+            });
+
+            return `{% note ${type} %}\n${lines.join('\n')}\n{% endnote %}\n`;
+        }
+    }
+
+    const lines = [firstLine.slice(2)];
+
+    subcontent.split('\n').forEach(line => {
+        lines.push(line);
+    });
+
+    return `{% note default %}\n${lines.join('\n')}\n{% endnote %}\n`;
 }
 
-function _renderListItem(content) {
-    return `${content}\n`;
+function _renderListItem(content, subcontent) {
+
+    const lines = [content];
+
+    subcontent.split('\n').forEach(line => {
+        lines.push(`    ${line}`);
+    });
+
+    return `${lines.join('\n')}\n`;
 }
 
 async function _renderImage(id, content) {
@@ -210,22 +238,27 @@ function _renderOther(content) {
 
 async function renderBlock(block) {
 
-    const id      = block.blockId;
-    const type    = block.type;
-    const content = block.parent;
-
-    for (const customBlock of customBlocks) {
-        const output = _renderCustomBlock(type, content, customBlock);
-        if (output) return output;
-    }
+    const id       = block.blockId;
+    const type     = block.type;
+    const content  = block.parent;
+    const children = block.children;
 
     switch (type) {
-        case 'equation':            return _renderEquation(content);
-        case 'quota':               return _renderQuota(content);
-        case 'callout':             return _renderCallout(content);
+        case 'code':
+            return _renderCode(content);
+        case 'equation':
+            return _renderEquation(content);
+        case 'quota':
+            return _renderQuota(content);
+        case 'callout':
+            return _renderCallout(content, await parseMarkdown(children));
         case 'bulleted_list_item':
-        case 'numbered_list_item':  return _renderListItem(content);
-        case 'image':               return (await _renderImage(id, content));
+        case 'numbered_list_item':
+            return _renderListItem(content, await parseMarkdown(children));
+        case 'image':
+            return (await _renderImage(id, content));
+        default:
+            break;
     }
 
     return _renderOther(content);
@@ -396,7 +429,10 @@ await Promise.all(
     .filter(article => article.isUpdated)
     .map(article =>
         limit(async () => {
-            const blocks  = (await n2m.pageToMarkdown(article.contentId));
+            const blocks = (await n2m.pageToMarkdown(article.contentId));
+
+            if (DEBUG) fs.writeFileSync(`.tmp/${article.contentId}.json`, JSON.stringify(blocks, null, 2));
+
             const content = (await parseMarkdown(blocks)).replaceAll('$', '$$$$');
 
             const post = template.replace('{{ title }}',          article.title)
