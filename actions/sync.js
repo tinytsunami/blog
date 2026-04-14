@@ -226,7 +226,7 @@ async function _renderImage(id, content) {
         if (!fs.existsSync(`source/images/${filename}.png`))
             await downloadImage(url, `source/images/${filename}.png`);
 
-        return `![${caption}](images/${filename}.png)\n\n`;
+        return `{% figure "/images/${filename}.png" "${caption}" %}\n\n`
     }
 
     return `(an image missing...)\n\n`;
