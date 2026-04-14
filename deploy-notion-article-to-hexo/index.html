@@ -13,8 +13,8 @@
 <meta property="og:site_name" content="Tinytsunami">
 <meta property="og:description" content="Over the past few days, I’ve been exploring how to sync articles from Notion to my Hexo static blog. The main reason is that editing posts directly in Hexo can get a bit annoying—especially when deali">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2026-03-24T14:57:00.000Z">
-<meta property="article:modified_time" content="2026-03-26T18:02:00.000Z">
+<meta property="article:published_time" content="2026-03-24T22:57:00.000Z">
+<meta property="article:modified_time" content="2026-03-27T02:02:00.000Z">
 <meta property="article:author" content="Tinytsunami">
 <meta property="article:tag" content="tech, game development">
 <meta name="twitter:card" content="summary">
@@ -68,6 +68,8 @@
     <br/>
     <span id="actions">
       <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/rpg-ai-local-translation/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
         <li><a class="icon" aria-label="Next post" href="/arch-linux-install-config/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
@@ -125,9 +127,9 @@
       
     <div class="postdate">
       
-        <time datetime="2026-03-24T14:57:00.000Z" class="dt-published" itemprop="datePublished">2026-03-24</time>
+        <time datetime="2026-03-24T22:57:00.000Z" class="dt-published" itemprop="datePublished">2026-03-24</time>
         
-        (Updated: <time datetime="2026-03-26T18:02:00.000Z" class="dt-updated" itemprop="dateModified">2026-03-26</time>)
+        (Updated: <time datetime="2026-03-27T02:02:00.000Z" class="dt-updated" itemprop="dateModified">2026-03-27</time>)
         
       
     </div>
@@ -237,6 +239,15 @@
 
 
 
+  <script src='https://unpkg.com/mermaid@11.14.0/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({
+        theme: 'dark'
+      });
+    }
+  </script>
+
         
           <div id="footer-post-container">
   <div id="footer-post">
@@ -314,6 +325,7 @@
 <script>
   twemoji.parse(document.body);
 </script>
+
 
     </div>
     <!-- styles -->
