@@ -181,7 +181,11 @@
 <ul>
 <li>If an article is <code>in_trash</code>, remove it.</li>
 <li>If an article is <code>archived</code>, move it to <code>_archives/</code>.</li>
-<li>Since any change in Notion updates the <code>last_edited_time</code>, I treat all changes as <code>updated</code>. So:</li>
+<li>Since any change in Notion updates the <code>last_edited_time</code>, I treat all changes as <code>updated</code>. So:<ul>
+<li>Do nothing if it’s not updated.</li>
+<li>If <code>!in_trash &amp;&amp; !archived &amp;&amp; updated</code>, remove the existing file (if any) and generate a new one.</li>
+</ul>
+</li>
 <li>If the <code>published</code> attribute is not checked, treat it as a draft and place it under <code>_draft/</code>.</li>
 </ul>
 <p>This way, instead of handling every possible combination, the logic becomes a simple, predictable flow.</p>
