@@ -1248,7 +1248,6 @@ article .content h2:before {
 }
 article .content img,
 article .content video {
-  display: block;
   margin: auto;
   max-width: 100%;
   height: auto;
@@ -1416,12 +1415,68 @@ article .content .caption {
   margin: 1.5rem 0;
 }
 .figure img {
-  max-width: 100%;
+  width: 500px;
+  height: auto;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  object-position: center center;
+}
+@supports not (aspect-ratio: 1/1) {
+  .figure img {
+    height: 300px;
+  }
 }
 .figure figcaption {
   font-size: 0.9rem;
   color: #888;
   margin-top: 0.5rem;
+}
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #444;
+  border-radius: 3px;
+  background: #2a2a2a;
+  position: relative;
+  outline: none;
+  vertical-align: middle;
+  margin-top: -3px;
+}
+input[type="checkbox"]:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+input[type="checkbox"]:checked:disabled {
+  background: #333;
+  border-color: #555;
+}
+input[type="checkbox"]:checked:disabled::after {
+  content: '';
+  position: absolute;
+  display: block;
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid #999;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+ul:has(li input[type="checkbox"]) {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  padding: 5px 0;
+}
+li:has(input[type="checkbox"]) {
+  margin: 0;
+  padding: 0;
+  padding: 5px 0;
+}
+table th {
+  white-space: nowrap;
 }
 @media (min-width: 480px) {
   .article-tag,
