@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="This’s a long story… 我來想想看故事要從哪裡說起。 基地建設的構想最早，我在公司的時候，公司內部有弄私人的通訊軟體 SeaTalk。作為一個 Data Engineer，收發各種 Workflows 的消息也是很正常的：什麼 Task Failed、DQC Failed、SLA Miss 之類的。 在最早的時候，這些訊息真的是滿世界跑：  有的訊息送到 SeatTalk 有的訊">
+<meta property="og:type" content="article">
+<meta property="og:title" content="💬 XMPP 與數位基地">
+<meta property="og:url" content="https://www.tinytsunami.info/xmpp-setup/index.html">
+<meta property="og:site_name" content="Tinytsunami">
+<meta property="og:description" content="This’s a long story… 我來想想看故事要從哪裡說起。 基地建設的構想最早，我在公司的時候，公司內部有弄私人的通訊軟體 SeaTalk。作為一個 Data Engineer，收發各種 Workflows 的消息也是很正常的：什麼 Task Failed、DQC Failed、SLA Miss 之類的。 在最早的時候，這些訊息真的是滿世界跑：  有的訊息送到 SeatTalk 有的訊">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-04-22T15:32:00.000Z">
+<meta property="article:modified_time" content="2026-04-22T19:54:00.000Z">
+<meta property="article:author" content="Tinytsunami">
+<meta property="article:tag" content="tech, game development">
+<meta name="twitter:card" content="summary">
+    
+    
+    
+      <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/twitter/twemoji/assets/72x72/1f4ac.png">
+    
+    <!-- title -->
+    <title> XMPP 與數位基地</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+  <!-- Twemoji -->
+  <script src="https://cdn.jsdelivr.net/npm/twemoji@14.0.2/dist/twemoji.min.js"></script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/filco-end/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/tt038qr/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.tinytsunami.info/xmpp-setup/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.tinytsunami.info/xmpp-setup/&text=💬 XMPP 與數位基地"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.tinytsunami.info/xmpp-setup/&title=💬 XMPP 與數位基地"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.tinytsunami.info/xmpp-setup/&is_video=false&description=💬 XMPP 與數位基地"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=💬 XMPP 與數位基地&body=Check out this article: https://www.tinytsunami.info/xmpp-setup/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.tinytsunami.info/xmpp-setup/&title=💬 XMPP 與數位基地"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.tinytsunami.info/xmpp-setup/&title=💬 XMPP 與數位基地"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.tinytsunami.info/xmpp-setup/&title=💬 XMPP 與數位基地"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.tinytsunami.info/xmpp-setup/&title=💬 XMPP 與數位基地"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.tinytsunami.info/xmpp-setup/&name=💬 XMPP 與數位基地&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.tinytsunami.info/xmpp-setup/&t=💬 XMPP 與數位基地"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E5%9C%B0%E5%BB%BA%E8%A8%AD%E7%9A%84%E6%A7%8B%E6%83%B3"><span class="toc-number">1.</span> <span class="toc-text">基地建設的構想</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8-Telegram-%E7%9A%84%E5%88%9D%E5%98%97%E8%A9%A6"><span class="toc-number">2.</span> <span class="toc-text">在 Telegram 的初嘗試</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E6%95%A3%E5%BC%8F%E4%B8%BB%E6%AC%8A"><span class="toc-number">3.</span> <span class="toc-text">分散式主權</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%AB%98%E6%95%B4%E5%90%88%E6%80%A7%E7%9A%84%E6%AC%8A%E8%A1%A1"><span class="toc-number">4.</span> <span class="toc-text">高整合性的權衡</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        💬 XMPP 與數位基地
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Tinytsunami</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-04-22T15:32:00.000Z" class="dt-published" itemprop="datePublished">2026-04-22</time>
+        
+        (Updated: <time datetime="2026-04-22T19:54:00.000Z" class="dt-updated" itemprop="dateModified">2026-04-22</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/system/">system</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>This’s a long story… 我來想想看故事要從哪裡說起。</p>
+<h1 id="基地建設的構想"><a href="#基地建設的構想" class="headerlink" title="基地建設的構想"></a>基地建設的構想</h1><p>最早，我在公司的時候，公司內部有弄私人的通訊軟體 SeaTalk。作為一個 Data Engineer，收發各種 Workflows 的消息也是很正常的：什麼 Task Failed、DQC Failed、SLA Miss 之類的。</p>
+<p>在最早的時候，這些訊息真的是滿世界跑：</p>
+<ul>
+<li>有的訊息送到 SeatTalk</li>
+<li>有的訊息送到 Mattermost</li>
+<li>有的是 Dashboard 內部的 Notification</li>
+<li>有的只發 Email</li>
+<li>…</li>
+</ul>
+<p>同時，某些基礎建設的功能缺失的（自動調資源等等），後來就手刻了一些 Bot 加入到我的一人群組中。隨著時間過去，這些 Bot 數量開始變多，形成了一種小型生態。</p>
+<p>其實不僅僅是工作上。隨著科技公司推出越來越多平台，家人、朋友「常駐」的平台也在改變，現在雖然維持著某些既有的管道。實際上，平台是越來越分散了。</p>
+<p>基於這些觀察，我覺得是時候建立一個「數位基地」的東西，就像當初在工作時做的那樣，只是這次更私人化，整體來說大概是這樣的：</p>
+<ul>
+<li>同步家人、朋友的訊息到一個私人訊息平台</li>
+<li>能處理 Matter 等類似的指令，用來控制智能家具（傳統家電類的洗衣機、烘衣機，興新家電類的掃地機器人）以及控制生產類的 3D Printer、基礎設施類的路由器</li>
+<li>能用 AI 搜索 Hacker News 比較有價值的訊息到群組中</li>
+<li>串接 Yahoo Finance API 獲得金融資訊，必要還可以透過 IBKR API 直接下單</li>
+<li>更重要的是，現在完全可以掛 AI 進群組中（雲端龍蝦）：<ul>
+<li>所有的指令都已經串接成聊天指令、實際上 AI 能做的事情就大幅增加了</li>
+<li>而且，因為是中央訊息控制中心。任何的錯誤，都會「像私訊發到手機上」，就算人在外面，也可以即時遙控（透過聊天命令）</li>
+</ul>
+</li>
+<li>如果有 Network 功能的小模型，專門處理網路訊息搜尋類的任務（避免某些模型偷偷降智，開始胡言亂語；未來還可以避免 UCP 廣告內容入侵）</li>
+</ul>
+<div class="note info"><p><a target="_blank" rel="noopener" href="https://developers.google.com/merchant/ucp">UCP (Universal Commerce Protocol)</a></p>
+</div>
+
+<p>由於 AI 決策存在不確定性，且對 AI 來說，調用腳本的時間成本極低；反之，人類調用腳本的時間成本就高了不少。在這裡，核心的洞見是：<strong>同一個指令，對 AI 與人，應該要是同樣方便才對。</strong></p>
+<p>這樣的話，即使 AI 出錯，人工介入修正也不會承擔過大的成本。</p>
+<h1 id="在-Telegram-的初嘗試"><a href="#在-Telegram-的初嘗試" class="headerlink" title="在 Telegram 的初嘗試"></a>在 Telegram 的初嘗試</h1><p>後來，我花一點時間思考，要把這些龐大、可能還有點敏感的資訊集成到哪個平台上？我的候選有 Discord 跟 Telegram。後來，我選擇 Telegram，理由有二：</p>
+<ul>
+<li>Discord 過於龐大，而 Telegram 更輕巧</li>
+<li>Discord 的平台規則經歷過巨變（只要他想，他可以隨時改變規則）</li>
+<li>Telegram 在自由、低監管方面有聲譽</li>
+</ul>
+<p>所以，過去幾天，我都在與 Telegram Bot 打交道，Bot 很容易建立，很快就建好兩個機器人，只用來轉傳訊息，模擬機器人間的通訊。</p>
+<p>但很快，我發現了一個硬傷：<strong>Telegram 不允許 Bot 接收 Bot 的消息</strong></p>
+<p>儘管一開始我嘗試使用一個 <code>.jsonl</code> 並且加上 <code>fcntl</code> 來模擬消息同步，接收訊息後，使用 pipe（後來改成 shared memory），但很快我就發現：這之後的維護成本絕對超乎想像。</p>
+<h1 id="分散式主權"><a href="#分散式主權" class="headerlink" title="分散式主權"></a>分散式主權</h1><p>接著，我就在尋找其他平台。同時也在思考，能不能把資料收回到自己手裡。所以，後來整體想法變成下面這樣：</p>
+<table>
+<thead>
+<tr>
+<th><strong>現狀（碎片化）</strong></th>
+<th><strong>目標（數位基地）</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>訊息散落在各地</td>
+<td>單一消息來源</td>
+</tr>
+<tr>
+<td>人工查狀態、手動跑腳本</td>
+<td>AI Agent 自動化決策與執行</td>
+</tr>
+<tr>
+<td>依賴第三方平台規則</td>
+<td>分散式主權</td>
+</tr>
+</tbody></table>
+<p>因緣際會，我找到 <a target="_blank" rel="noopener" href="https://matrix.org/">Matrix</a> ，一種分散式的通訊軟體，以及 XMPP（更古老）的通訊協議。然後我先簡單碰了下 Matrix 的客戶端，然後聽 AI 建議，先轉往 XMPP 生態看看。</p>
+<p>主要是因為 Matrix 的集中性還是稍微高一點，這引發了我的顧慮。</p>
+<p>我選擇使用 prosody 作為伺服器，然後把它掛到 GCP 上，然而中間遇到各種容器化導致的憑證失效的坑（外加我網域已經用在 Github Page 上，所以用子網域來處理。）</p>
+<p>經歷各種坑後，這邊我感受 prosody 是未來資料流處理會很麻煩，而且 docker image 的權限處理其實沒有弄的很好（似乎沒有考慮過 podman rootless 情況的等問題，我是 13.0 版），我在那邊東改改 <code>entrypoint.sh</code>，然後再改改 <code>config.cfg.lua</code>。</p>
+<p>由於涉入不深，解法可能不是很漂亮，如果你各位有正在用 <code>prosody</code> + <code>podman</code> 導致 <code>LTS</code> 出問題的話，我的做法是像下面這樣。</p>
+<p>先由宿主機產生 <code>letsencrypt</code> 憑證：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># certbot (venv) 初發簽證</span></span><br><span class="line"><span class="built_in">sudo</span> certbot certonly --authenticator dns-gandi \</span><br><span class="line">     --dns-gandi-credentials /etc/letsencrypt/gandi.ini \</span><br><span class="line">     -d &lt;yourdomain&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Or</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># certbot (venv) 續簽新證</span></span><br><span class="line"><span class="built_in">sudo</span> certbot renew --authenticator dns-gandi \</span><br><span class="line">    --dns-gandi-credentials /etc/letsencrypt/gandi.ini \</span><br><span class="line">    --server https://acme-v02.api.letsencrypt.org/directory</span><br></pre></td></tr></table></figure>
+
+<p>複製憑證進宿主機的目錄（我是放在 <code>prosody/config/certs</code> 對應容器內 <code>/etc/prosody/certs</code>）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> -r -L /etc/letsencrypt/live/&lt;yourdomain&gt;/. \</span><br><span class="line">    ./prosody/config/certs <span class="comment"># 對應的容器內位置是 /etc/prosody/certs</span></span><br></pre></td></tr></table></figure>
+
+<p>然後改權限，因為容器啟動之後，是以 <code>prosody</code> 身份運作，你這邊要確保系統能抓到裡面的憑證：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SUDO_USER=$USER</span><br><span class="line">sudo chown -R $SUDO_USER:$SUDO_USER ./prosody/config/certs/</span><br><span class="line">sudo chmod 644 ./prosody/config/certs/*.pem</span><br><span class="line">sudo chmod 755 ./prosody/config/certs/</span><br></pre></td></tr></table></figure>
+
+<p>原版的 <code>entrypoint.sh</code> 是這樣：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash -e</span></span><br><span class="line"><span class="built_in">set</span> -e</span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢查 data 目錄（預設掛在 /var/lib/prosody）擁有者是誰</span></span><br><span class="line">data_dir_owner=<span class="string">&quot;<span class="subst">$(stat -c %u <span class="string">&quot;/var/lib/prosody/&quot;</span>)</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果 prosody 不是 data 目錄的 owner</span></span><br><span class="line"><span class="comment"># 就讓 prosody 的 UID 變成 owner 的 UID</span></span><br><span class="line"><span class="keyword">if</span> [[ <span class="string">&quot;<span class="subst">$(id -u prosody)</span>&quot;</span> != <span class="string">&quot;<span class="variable">$data_dir_owner</span>&quot;</span> ]]; <span class="keyword">then</span></span><br><span class="line">    <span class="comment"># FIXME this fails if owned by root</span></span><br><span class="line">    usermod -u <span class="string">&quot;<span class="variable">$data_dir_owner</span>&quot;</span> prosody</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 讓 prosody 成為 owner</span></span><br><span class="line"><span class="keyword">if</span> [[ <span class="string">&quot;<span class="subst">$(stat -c %u /var/run/prosody/)</span>&quot;</span> != <span class="string">&quot;<span class="variable">$data_dir_owner</span>&quot;</span> ]]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">chown</span> <span class="string">&quot;<span class="variable">$data_dir_owner</span>&quot;</span> /var/run/prosody/</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>我的想法是，既然你都暴力改 owner 了，那乾脆直接改一改：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash -e</span></span><br><span class="line"><span class="built_in">set</span> -e</span><br><span class="line"></span><br><span class="line"><span class="built_in">chown</span> -R prosody /etc/prosody/     <span class="comment"># 對應宿主機的 config 目錄</span></span><br><span class="line"><span class="built_in">chown</span> -R prosody /var/lib/prosody/ <span class="comment"># 對應宿主機的 data 目錄</span></span><br><span class="line"><span class="built_in">chown</span> -R prosody /var/run/prosody/</span><br><span class="line"></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>原始碼的 BUG 註解，應該是這樣的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># FIXME this fails if owned by root</span></span><br><span class="line">usermod -u <span class="string">&quot;<span class="variable">$data_dir_owner</span>&quot;</span> prosody</span><br></pre></td></tr></table></figure>
+
+<p>當憑證檔案 <code>xxx.pem</code> 的擁有者是 <code>root</code> 時，被宿主機映射進容器。這一行想要把 <code>prosody</code> 改成 <code>UID=0</code> 就出錯了（因為 <code>UID=0</code> 只能是 <code>root</code>）。</p>
+<p>可是我的做法比較粗暴：我直接複製憑證，然後改憑證的 owner，映射進容器後，owner 一律改成 <code>prosody</code> 就可以解。</p>
+<p>本地測試，可以使用這些方便的指令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 建立 localhost 的憑證，產生好之後放進宿主機目錄</span></span><br><span class="line">mkcert localhost <span class="string">&quot;*.localhost&quot;</span> localhost 127.0.0.1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 啟動 prosody 後，檢查憑證是不是正常</span></span><br><span class="line">openssl s_client -connect localhost:5222 -starttls xmpp</span><br><span class="line"></span><br><span class="line"><span class="comment"># 類似 watch 的 podman 看 log 訊息的指令</span></span><br><span class="line">podman-compose logs -f --<span class="built_in">tail</span> 30</span><br></pre></td></tr></table></figure>
+
+<h1 id="高整合性的權衡"><a href="#高整合性的權衡" class="headerlink" title="高整合性的權衡"></a>高整合性的權衡</h1><p>架設時，能體會到 XMPP 的古老氣味（不是批評，而是彷彿「推開石門後，原始草原映入眼簾」的那種感覺。）</p>
+<blockquote>
+<p>I-330 帶著 D-503 來到保留古代文物的「古宅」（Ancient House），打開了一個隱藏在地板下的密道。兩人沿著幽暗潮濕的地下通道一路前行，最終從綠牆外的地面鑽了出來。— 《我們》葉夫根尼·扎米亞京</p>
+</blockquote>
+<p>但又想到，如果整合性太差，未來數據沒辦法串在一起的話，那「數位基地」就得打「一堆補丁」，那下雨的時候，恐怕就會到處漏水了。</p>
+<p>這時 Matrix 的現代性又有點吸引我。</p>
+<p>總之，我打算回來架架看 Matrix 再做決定。</p>
+
+  </div>
+</article>
+
+
+
+    <div class="blog-post-comments">
+        <script src="https://giscus.app/client.js"
+                data-repo="tinytsunami/blog"
+                data-repo-id="MDEwOlJlcG9zaXRvcnkxMjI3MTEwNTY"
+                data-category="Blog Comments"
+                data-category-id="DIC_kwDOB1BsEM4C42Ww"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="bottom"
+                data-theme="dark"
+                data-lang="en"
+                data-loading="lazy"
+                crossorigin="anonymous"
+                async>
+        </script>
+    </div>
+
+
+
+  <script src='https://unpkg.com/mermaid@11.14.0/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({
+        theme: 'dark'
+      });
+    }
+  </script>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/notes/">Notes</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E5%9C%B0%E5%BB%BA%E8%A8%AD%E7%9A%84%E6%A7%8B%E6%83%B3"><span class="toc-number">1.</span> <span class="toc-text">基地建設的構想</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8-Telegram-%E7%9A%84%E5%88%9D%E5%98%97%E8%A9%A6"><span class="toc-number">2.</span> <span class="toc-text">在 Telegram 的初嘗試</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E6%95%A3%E5%BC%8F%E4%B8%BB%E6%AC%8A"><span class="toc-number">3.</span> <span class="toc-text">分散式主權</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%AB%98%E6%95%B4%E5%90%88%E6%80%A7%E7%9A%84%E6%AC%8A%E8%A1%A1"><span class="toc-number">4.</span> <span class="toc-text">高整合性的權衡</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.tinytsunami.info/xmpp-setup/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.tinytsunami.info/xmpp-setup/&text=💬 XMPP 與數位基地"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.tinytsunami.info/xmpp-setup/&title=💬 XMPP 與數位基地"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.tinytsunami.info/xmpp-setup/&is_video=false&description=💬 XMPP 與數位基地"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=💬 XMPP 與數位基地&body=Check out this article: https://www.tinytsunami.info/xmpp-setup/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.tinytsunami.info/xmpp-setup/&title=💬 XMPP 與數位基地"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.tinytsunami.info/xmpp-setup/&title=💬 XMPP 與數位基地"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.tinytsunami.info/xmpp-setup/&title=💬 XMPP 與數位基地"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.tinytsunami.info/xmpp-setup/&title=💬 XMPP 與數位基地"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.tinytsunami.info/xmpp-setup/&name=💬 XMPP 與數位基地&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.tinytsunami.info/xmpp-setup/&t=💬 XMPP 與數位基地"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    
+    
+    2016-2026
+    Tinytsunami — CC BY 4.0
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+<script>
+  twemoji.parse(document.body);
+</script>
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+<link rel="stylesheet" href="/css/encrypt.css">
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

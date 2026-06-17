@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="前陣子，3D Printer 的噴嘴堵住了，就決定維修、順便紀錄下。估計是啞光 PLA 材料過於黏稠、外加機台老化導致的。 拆卸與檢查我的 3D 列印機型號是 Flashforge Creator Pro 這是一個老機型。 首先拆裝上面的「加熱模組」，除了側邊的材料風扇外，每個加熱噴嘴都由最長的兩根 M3 六角螺絲鎖付，從外到內分別為：  風扇 散熱片 進料口與支架（下方是加熱頭、K-type M">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🗿 3D Printer 維修">
+<meta property="og:url" content="https://www.tinytsunami.info/3d-printer-repair/index.html">
+<meta property="og:site_name" content="Tinytsunami">
+<meta property="og:description" content="前陣子，3D Printer 的噴嘴堵住了，就決定維修、順便紀錄下。估計是啞光 PLA 材料過於黏稠、外加機台老化導致的。 拆卸與檢查我的 3D 列印機型號是 Flashforge Creator Pro 這是一個老機型。 首先拆裝上面的「加熱模組」，除了側邊的材料風扇外，每個加熱噴嘴都由最長的兩根 M3 六角螺絲鎖付，從外到內分別為：  風扇 散熱片 進料口與支架（下方是加熱頭、K-type M">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.tinytsunami.info/images/44f4fcea118bd8a597cd17072483646c.png">
+<meta property="og:image" content="https://www.tinytsunami.info/images/4967a1a78e5830a447c8aa4138aaae26.png">
+<meta property="og:image" content="https://www.tinytsunami.info/images/f8f8c3aa5d7c1d658faf7cab4a5de20a.png">
+<meta property="article:published_time" content="2026-05-01T16:42:00.000Z">
+<meta property="article:modified_time" content="2026-05-03T09:32:00.000Z">
+<meta property="article:author" content="Tinytsunami">
+<meta property="article:tag" content="tech, game development">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.tinytsunami.info/images/44f4fcea118bd8a597cd17072483646c.png">
+    
+    
+    
+      <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/twitter/twemoji/assets/72x72/1f5ff.png">
+    
+    <!-- title -->
+    <title> 3D Printer 維修</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+  <!-- Twemoji -->
+  <script src="https://cdn.jsdelivr.net/npm/twemoji@14.0.2/dist/twemoji.min.js"></script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2026-usa-travelogue/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/filco-end/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.tinytsunami.info/3d-printer-repair/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.tinytsunami.info/3d-printer-repair/&text=🗿 3D Printer 維修"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.tinytsunami.info/3d-printer-repair/&title=🗿 3D Printer 維修"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.tinytsunami.info/3d-printer-repair/&is_video=false&description=🗿 3D Printer 維修"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=🗿 3D Printer 維修&body=Check out this article: https://www.tinytsunami.info/3d-printer-repair/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.tinytsunami.info/3d-printer-repair/&title=🗿 3D Printer 維修"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.tinytsunami.info/3d-printer-repair/&title=🗿 3D Printer 維修"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.tinytsunami.info/3d-printer-repair/&title=🗿 3D Printer 維修"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.tinytsunami.info/3d-printer-repair/&title=🗿 3D Printer 維修"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.tinytsunami.info/3d-printer-repair/&name=🗿 3D Printer 維修&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.tinytsunami.info/3d-printer-repair/&t=🗿 3D Printer 維修"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8B%86%E5%8D%B8%E8%88%87%E6%AA%A2%E6%9F%A5"><span class="toc-number">1.</span> <span class="toc-text">拆卸與檢查</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%B0%E6%A7%8B%E6%83%B3%EF%BC%9A%E6%94%B9%E8%A3%9D%E7%A8%8B%E9%9B%B7%E5%B0%84%E5%88%87%E5%89%B2"><span class="toc-number">2.</span> <span class="toc-text">新構想：改裝程雷射切割</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        🗿 3D Printer 維修
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Tinytsunami</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-05-01T16:42:00.000Z" class="dt-published" itemprop="datePublished">2026-05-01</time>
+        
+        (Updated: <time datetime="2026-05-03T09:32:00.000Z" class="dt-updated" itemprop="dateModified">2026-05-03</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/3d-print/">3d-print</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>前陣子，3D Printer 的噴嘴堵住了，就決定維修、順便紀錄下。估計是啞光 PLA 材料過於黏稠、外加機台老化導致的。</p>
+<h1 id="拆卸與檢查"><a href="#拆卸與檢查" class="headerlink" title="拆卸與檢查"></a>拆卸與檢查</h1><p>我的 3D 列印機型號是 <code>Flashforge Creator Pro</code> 這是一個老機型。</p>
+<p>首先拆裝上面的「加熱模組」，除了側邊的材料風扇外，每個加熱噴嘴都由最長的兩根 M3 六角螺絲鎖付，從外到內分別為：</p>
+<ul>
+<li>風扇</li>
+<li>散熱片</li>
+<li>進料口與支架（下方是加熱頭、K-type M4 熱電偶）</li>
+<li>進料馬達</li>
+</ul>
+
+        <figure class="figure">
+            <img src="/images/44f4fcea118bd8a597cd17072483646c.png" alt="拆裝後特別混亂（有很多機器內部的微小列印廢料）">
+            <figcaption>拆裝後特別混亂（有很多機器內部的微小列印廢料）</figcaption>
+        </figure>
+
+
+        <figure class="figure">
+            <img src="/images/4967a1a78e5830a447c8aa4138aaae26.png" alt="加熱頭、右邊長型的是加熱棒、下面有一個 M4 K-type 熱電偶">
+            <figcaption>加熱頭、右邊長型的是加熱棒、下面有一個 M4 K-type 熱電偶</figcaption>
+        </figure>
+
+<h1 id="新構想：改裝程雷射切割"><a href="#新構想：改裝程雷射切割" class="headerlink" title="新構想：改裝程雷射切割"></a>新構想：改裝程雷射切割</h1><p>換新加熱噴嘴的時候，我在想「其實兩個噴嘴、我常常只用其中一個，是否能換成其他功能？」</p>
+<p>所以我打開底板，內部可以清晰看到大致結構：</p>
+<ul>
+<li>24V 直流電源</li>
+<li>MightyBoard（主板）</li>
+<li>馬達驅動板（6 片、含 XYZ 三軸 + 雙噴頭進料馬達）</li>
+<li>2 根熱電偶線</li>
+<li>2 根加熱棒線</li>
+<li>2 根風扇線</li>
+</ul>
+
+        <figure class="figure">
+            <img src="/images/f8f8c3aa5d7c1d658faf7cab4a5de20a.png" alt="Flashforge Creator Pro 底板電路">
+            <figcaption>Flashforge Creator Pro 底板電路</figcaption>
+        </figure>
+
+<p>韌體的行為是這樣的：</p>
+<ul>
+<li>開始列印時，檢查噴頭溫度。如果低於目標，則加熱；反之等待降溫（開啟風扇）</li>
+<li>列印過程中，可以設定風扇是否開啟</li>
+</ul>
+<p>如果要把副噴頭改成雷射切割的話，先不考慮改韌體。那麼就需要：</p>
+<ul>
+<li>讓 K-type 熱電偶輸出固定電源，騙過韌體，讓韌體以為已經達到目標溫度</li>
+<li>然後我們可以把馬達驅動板（<code>E305283 StepDrv v2.1</code>）偷換成自己的中間板</li>
+</ul>
+<p>接腳可以這麼設定：</p>
+<table>
+<thead>
+<tr>
+<th>設備</th>
+<th>PIN</th>
+<th>原位置</th>
+<th>原接入</th>
+<th>原功能</th>
+<th>新位置</th>
+<th>新接入</th>
+<th>新功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>熱電偶</td>
+<td>2</td>
+<td>加熱塊上（以 M4 螺絲鎖付）</td>
+<td>MightyBoard 主版</td>
+<td>偵測溫度</td>
+<td>懸置</td>
+<td>中間板</td>
+<td>啟動時：提供詐騙電壓，讓韌體以為溫度已經可以運作。停止時：提供 0V 電壓，讓韌體以為已經冷卻。</td>
+</tr>
+<tr>
+<td>加熱棒</td>
+<td>2</td>
+<td>加熱塊上</td>
+<td>MightyBoard 主版</td>
+<td>加熱噴嘴</td>
+<td>撤除</td>
+<td>N&#x2F;A</td>
+<td>N&#x2F;A</td>
+</tr>
+<tr>
+<td>風扇</td>
+<td>2</td>
+<td>進料馬達前</td>
+<td>MightyBoard 主版</td>
+<td>噴嘴散熱</td>
+<td>雷射模組上</td>
+<td>MightyBoard 主版</td>
+<td>提供雷射模組散熱。（控制邏輯同噴嘴散熱）</td>
+</tr>
+<tr>
+<td>進料馬達</td>
+<td>4</td>
+<td>加熱架上</td>
+<td>MightyBoard 主版</td>
+<td>進料</td>
+<td>撤除</td>
+<td>N&#x2F;A</td>
+<td>N&#x2F;A</td>
+</tr>
+<tr>
+<td>驅動板</td>
+<td>16</td>
+<td>主版上</td>
+<td>MightyBoard 主版</td>
+<td>驅動馬達</td>
+<td>撤除</td>
+<td>N&#x2F;A</td>
+<td>N&#x2F;A</td>
+</tr>
+</tbody></table>
+<p>由於驅動版跟主版是對接的，可以直接把「原 PIN」當成主版的輸入來看，然後我們直接考慮中間板輸出去匹配雷射模組就好。中間板與進料馬達的轉換：</p>
+<table>
+<thead>
+<tr>
+<th>原 PIN 定義</th>
+<th>原 PIN 功能</th>
+<th>新 PIN 定義</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DIR</td>
+<td>馬達方向</td>
+<td>雷射 PWM 訊號控制</td>
+</tr>
+<tr>
+<td>STEP</td>
+<td>馬達步進脈衝</td>
+<td>雷射 PWM 訊號控制</td>
+</tr>
+<tr>
+<td>~SLP</td>
+<td>驅動板睡眠模式</td>
+<td>N&#x2F;A</td>
+</tr>
+<tr>
+<td>~RST</td>
+<td>驅動板復位</td>
+<td>中間板復位</td>
+</tr>
+<tr>
+<td>VREF</td>
+<td>馬達參考電位</td>
+<td>N&#x2F;A</td>
+</tr>
+<tr>
+<td>MS2</td>
+<td>馬達微步解析度</td>
+<td>N&#x2F;A</td>
+</tr>
+<tr>
+<td>MS1</td>
+<td>馬達微步解析度</td>
+<td>N&#x2F;A</td>
+</tr>
+<tr>
+<td>~EN</td>
+<td>馬達使能線</td>
+<td>雷射 PWM 訊號控制</td>
+</tr>
+<tr>
+<td>GND</td>
+<td>驅動板地</td>
+<td>中間板地</td>
+</tr>
+<tr>
+<td>5V</td>
+<td>驅動板電源</td>
+<td>中間板電源</td>
+</tr>
+<tr>
+<td>1B</td>
+<td>馬達控制線</td>
+<td>N&#x2F;A</td>
+</tr>
+<tr>
+<td>1A</td>
+<td>馬達控制線</td>
+<td>N&#x2F;A</td>
+</tr>
+<tr>
+<td>2A</td>
+<td>馬達控制線</td>
+<td>N&#x2F;A</td>
+</tr>
+<tr>
+<td>2B</td>
+<td>馬達控制線</td>
+<td>N&#x2F;A</td>
+</tr>
+<tr>
+<td>GND</td>
+<td>馬達地</td>
+<td>雷射模組地</td>
+</tr>
+<tr>
+<td>VMOT</td>
+<td>馬達電源（24V）</td>
+<td>降壓成 12V 給雷射模組電源</td>
+</tr>
+</tbody></table>
+<p>其中，雷射 PWM 訊號強度：</p>
+<ul>
+<li>當 EN &#x3D; 0 且 DIR &#x3D; 1 才運作</li>
+<li>設定出絲速度 10mm&#x2F;s、出絲量 100% 時的 STEP 頻率為 PWM &#x3D; 10%</li>
+<li>設定出絲速度 100mm&#x2F;s、出絲量 100% 時的 STEP 頻率為 PWM &#x3D; 100%</li>
+<li>PWM &#x3D; clamp(PWM, 10%, 100%)</li>
+</ul>
+<p>電路板可能還要再實驗才能畫出來了。由於完全兼容韌體與硬體，還需要把上蓋重新翻新，預計還得新建模，不過這樣就省去了許多麻煩（可以直接把雷射模組鎖上去）。</p>
+
+  </div>
+</article>
+
+
+
+    <div class="blog-post-comments">
+        <script src="https://giscus.app/client.js"
+                data-repo="tinytsunami/blog"
+                data-repo-id="MDEwOlJlcG9zaXRvcnkxMjI3MTEwNTY"
+                data-category="Blog Comments"
+                data-category-id="DIC_kwDOB1BsEM4C42Ww"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="bottom"
+                data-theme="dark"
+                data-lang="en"
+                data-loading="lazy"
+                crossorigin="anonymous"
+                async>
+        </script>
+    </div>
+
+
+
+  <script src='https://unpkg.com/mermaid@11.14.0/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({
+        theme: 'dark'
+      });
+    }
+  </script>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/notes/">Notes</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8B%86%E5%8D%B8%E8%88%87%E6%AA%A2%E6%9F%A5"><span class="toc-number">1.</span> <span class="toc-text">拆卸與檢查</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%B0%E6%A7%8B%E6%83%B3%EF%BC%9A%E6%94%B9%E8%A3%9D%E7%A8%8B%E9%9B%B7%E5%B0%84%E5%88%87%E5%89%B2"><span class="toc-number">2.</span> <span class="toc-text">新構想：改裝程雷射切割</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.tinytsunami.info/3d-printer-repair/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.tinytsunami.info/3d-printer-repair/&text=🗿 3D Printer 維修"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.tinytsunami.info/3d-printer-repair/&title=🗿 3D Printer 維修"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.tinytsunami.info/3d-printer-repair/&is_video=false&description=🗿 3D Printer 維修"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=🗿 3D Printer 維修&body=Check out this article: https://www.tinytsunami.info/3d-printer-repair/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.tinytsunami.info/3d-printer-repair/&title=🗿 3D Printer 維修"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.tinytsunami.info/3d-printer-repair/&title=🗿 3D Printer 維修"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.tinytsunami.info/3d-printer-repair/&title=🗿 3D Printer 維修"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.tinytsunami.info/3d-printer-repair/&title=🗿 3D Printer 維修"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.tinytsunami.info/3d-printer-repair/&name=🗿 3D Printer 維修&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.tinytsunami.info/3d-printer-repair/&t=🗿 3D Printer 維修"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    
+    
+    2016-2026
+    Tinytsunami — CC BY 4.0
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+<script>
+  twemoji.parse(document.body);
+</script>
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+<link rel="stylesheet" href="/css/encrypt.css">
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

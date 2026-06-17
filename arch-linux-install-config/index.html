@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="這篇文章是前陣子，因為一直被 Window 搞，一下要我升級 Window 11、一下把我系統的 Ubuntu GRUB 蓋掉，後來實在受不了，乾脆安裝 Arch Linux 一勞永逸（欸？），所作的筆記。 1 開機過程 主機板上有一個關鍵硬體：SPI Flash Memory（取代 EEROM），裡面存著 UEFI（Unified Extensible Firmware Interface）韌體">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🔼 Arch Linux - 安裝 &amp; 配置">
+<meta property="og:url" content="https://www.tinytsunami.info/arch-linux-install-config/index.html">
+<meta property="og:site_name" content="Tinytsunami">
+<meta property="og:description" content="這篇文章是前陣子，因為一直被 Window 搞，一下要我升級 Window 11、一下把我系統的 Ubuntu GRUB 蓋掉，後來實在受不了，乾脆安裝 Arch Linux 一勞永逸（欸？），所作的筆記。 1 開機過程 主機板上有一個關鍵硬體：SPI Flash Memory（取代 EEROM），裡面存著 UEFI（Unified Extensible Firmware Interface）韌體">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.tinytsunami.info/images/c24ee4df07d7db3c06259e53de85421a.png">
+<meta property="og:image" content="https://www.tinytsunami.info/images/975436de447b5e050c4d87cc1319d404.png">
+<meta property="article:published_time" content="2026-01-04T12:52:00.000Z">
+<meta property="article:modified_time" content="2026-05-14T18:03:00.000Z">
+<meta property="article:author" content="Tinytsunami">
+<meta property="article:tag" content="tech, game development">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.tinytsunami.info/images/c24ee4df07d7db3c06259e53de85421a.png">
+    
+    
+    
+      <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/twitter/twemoji/assets/72x72/1f53c.png">
+    
+    <!-- title -->
+    <title> Arch Linux - 安裝 &amp; 配置</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+  <!-- Twemoji -->
+  <script src="https://cdn.jsdelivr.net/npm/twemoji@14.0.2/dist/twemoji.min.js"></script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/deploy-notion-article-to-hexo/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/rmmz-plugin-common/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.tinytsunami.info/arch-linux-install-config/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.tinytsunami.info/arch-linux-install-config/&text=🔼 Arch Linux - 安裝 &amp; 配置"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.tinytsunami.info/arch-linux-install-config/&title=🔼 Arch Linux - 安裝 &amp; 配置"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.tinytsunami.info/arch-linux-install-config/&is_video=false&description=🔼 Arch Linux - 安裝 &amp; 配置"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=🔼 Arch Linux - 安裝 &amp; 配置&body=Check out this article: https://www.tinytsunami.info/arch-linux-install-config/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.tinytsunami.info/arch-linux-install-config/&title=🔼 Arch Linux - 安裝 &amp; 配置"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.tinytsunami.info/arch-linux-install-config/&title=🔼 Arch Linux - 安裝 &amp; 配置"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.tinytsunami.info/arch-linux-install-config/&title=🔼 Arch Linux - 安裝 &amp; 配置"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.tinytsunami.info/arch-linux-install-config/&title=🔼 Arch Linux - 安裝 &amp; 配置"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.tinytsunami.info/arch-linux-install-config/&name=🔼 Arch Linux - 安裝 &amp; 配置&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.tinytsunami.info/arch-linux-install-config/&t=🔼 Arch Linux - 安裝 &amp; 配置"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E9%96%8B%E6%A9%9F%E9%81%8E%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">1 開機過程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E7%B3%BB%E7%B5%B1%E5%AE%89%E8%A3%9D"><span class="toc-number">2.</span> <span class="toc-text">2 系統安裝</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E5%AE%A2%E8%A3%BD%E5%8C%96"><span class="toc-number">3.</span> <span class="toc-text">3 客製化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E6%9B%B4%E6%96%B0-Pacman-%E5%BA%AB"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 更新 Pacman 庫</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E5%AE%89%E8%A3%9D%E9%A1%AF%E5%8D%A1%E9%A9%85%E5%8B%95"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 安裝顯卡驅動</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-%E5%AE%89%E8%A3%9D%E5%9C%96%E5%BD%A2%E7%95%8C%E9%9D%A2"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 安裝圖形界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-%E9%9F%B3%E6%95%88%E9%A9%85%E5%8B%95"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 音效驅動</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5-%E4%B8%AD%E6%96%87%E8%BC%B8%E5%85%A5%E6%B3%95"><span class="toc-number">3.5.</span> <span class="toc-text">3.5 中文輸入法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-6-%E5%AE%89%E8%A3%9D%E5%AD%97%E5%9E%8B"><span class="toc-number">3.6.</span> <span class="toc-text">3.6 安裝字型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-7-%E5%AE%89%E8%A3%9D-Chrome-%E8%88%87-Chromium"><span class="toc-number">3.7.</span> <span class="toc-text">3.7 安裝 Chrome 與 Chromium</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-8-%E8%9E%A2%E5%B9%95%E6%88%AA%E5%9C%96%E8%A8%AD%E5%AE%9A"><span class="toc-number">3.8.</span> <span class="toc-text">3.8 螢幕截圖設定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-9-WebApp-%E7%9A%84-D-Bus-%E5%BB%B6%E9%81%B2%E5%95%8F%E9%A1%8C"><span class="toc-number">3.9.</span> <span class="toc-text">3.9 WebApp 的 D-Bus 延遲問題</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        🔼 Arch Linux - 安裝 &amp; 配置
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">undefined</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-01-04T12:52:00.000Z" class="dt-published" itemprop="datePublished">2026-01-04</time>
+        
+        (Updated: <time datetime="2026-05-14T18:03:00.000Z" class="dt-updated" itemprop="dateModified">2026-05-14</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/system/">system</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>這篇文章是前陣子，因為一直被 Window 搞，一下要我升級 Window 11、一下把我系統的 Ubuntu GRUB 蓋掉，後來實在受不了，乾脆安裝 Arch Linux 一勞永逸（欸？），所作的筆記。</p>
+<h1 id="1-開機過程"><a href="#1-開機過程" class="headerlink" title="1 開機過程"></a>1 開機過程</h1><ul>
+<li>主機板上有一個關鍵硬體：SPI Flash Memory（取代 EEROM），裡面存著 UEFI（Unified Extensible Firmware Interface）韌體界面（取代 BIOS） 跟 NVRAM（Non-volatile random-access memory）。</li>
+<li>如果是首次開機，UEFI 韌體會去翻 NVRAM 會找不到資料，然後就會掃描所有硬碟 GPT（GUID Partition Table, i.e. LBA 0-33），找找看有沒有分區是 GUID 為 <code>C12A7328-F81F-11D2-BA4B-00A0C93EC93B</code> 固定值的，這代表該分區是 EFI 分區（i.e. ESP），格式通常為 FAT16&#x2F;32（微軟遺產之一），然後 UEFI 韌體會掛載這個分區，接下來去找固定位置 <code>/EFI/BOOT/BOOTX64.efi</code> 檔案（PE 格式的可執行檔，微軟遺產之二）。</li>
+<li><code>.efi</code> 檔案負責接手後面的事情：也就是把作業系統喚醒。</li>
+<li>當然，若 NVRAM 已經有紀錄的話，就可以直接找到具體 <code>.efi</code> 檔案的位置：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">efibootmgr -v</span><br><span class="line"><span class="comment"># Boot0001* arch HD(1,GPT,65c...d27,0x800,0x100000)/File(\EFI\arch\grubx64.efi)</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果硬碟很多、很大，然後 CR2032 電池（即水銀電池）又失效的話，有可能 UEFI 就每次開機都找不到啟動目錄（因為 NVRAM 找不到的關係）。水銀電池負責給 NVRAM 供電的。</li>
+</ul>
+<hr>
+<h1 id="2-系統安裝"><a href="#2-系統安裝" class="headerlink" title="2 系統安裝"></a>2 系統安裝</h1><p>以 USB 開機後，依序處理下面事項：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 檢查開機模式是 UEFI: 看看有沒有檔案</span></span><br><span class="line"><span class="built_in">ls</span> /sys/firmware/efi/efivars </span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置連線界面</span></span><br><span class="line">iwctl </span><br><span class="line"></span><br><span class="line"><span class="comment"># 系統時間調整</span></span><br><span class="line">timedatectl set-ntp <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢查硬碟列表，找到類似 /dev/nvme0n1 或 sata 的東西</span></span><br><span class="line">lsblk</span><br><span class="line"></span><br><span class="line"><span class="comment"># 硬碟分割（注意細節）</span></span><br><span class="line">cfdisk /dev/nvme0n1</span><br></pre></td></tr></table></figure>
+
+<p>現代硬碟分割大致上只要兩個區域：</p>
+<p>接下來，操作格式化：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 格式化</span></span><br><span class="line">mkfs.ext4 /dev/nvme0n1p2 <span class="comment"># Root Partition</span></span><br><span class="line">mkfs.fat -F 32 /dev/nvme0n1p1 <span class="comment"># EFI Partition</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 掛載</span></span><br><span class="line">mount /dev/nvme0n1p2 /mnt <span class="comment"># Root Partition</span></span><br><span class="line">mount --<span class="built_in">mkdir</span> /dev/nvme0n1p1 /mnt/boot <span class="comment"># EFI Partition</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>把東西塞進去（安裝）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">pacstrap -K /mnt base linux linux-firmware base-devel vim git networkmanager</span><br><span class="line"><span class="comment"># base           基本工具 (ls, cp, pacman 等等)</span></span><br><span class="line"><span class="comment"># linux          Linux 核心</span></span><br><span class="line"><span class="comment"># linux-firmware Linux 韌體包</span></span><br><span class="line"><span class="comment"># base-devel     開發工具（gcc, make 等等）</span></span><br><span class="line"><span class="comment"># vim            編輯器（可以換成 vi, nano 等等）</span></span><br><span class="line"><span class="comment"># git            版本控制器</span></span><br><span class="line"><span class="comment"># networkmanager 開機自動處理網路的軟體</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>設定開機掛載硬碟（配置 UUID, Universally unique identifier）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">genfstab -U /mnt &gt;&gt; /mnt/etc/fstab <span class="comment"># 配置</span></span><br><span class="line"><span class="built_in">cat</span> /mnt/etc/fstab <span class="comment"># 檢查</span></span><br></pre></td></tr></table></figure>
+
+<p>至於 <code>/mnt/etc/fstab</code> 裡面應該長這樣：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># /dev/nvme0n1p2</span></span><br><span class="line">UUID=a1b2c3d4...   /           ext4    rw,relatime    0 1</span><br><span class="line"><span class="comment"># /dev/nvme0n1p1</span></span><br><span class="line">UUID=E1F2-G3H4     /boot       vfat    rw,relatime... 0 2</span><br></pre></td></tr></table></figure>
+
+<p>目前狀態：開機能找到硬碟，但「無法啟動系統」（未處理 GRUB 的 EFI 檔案）</p>
+<p>用指令進入 Arch 中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arch-chroot /mnt</span><br></pre></td></tr></table></figure>
+
+<p>現在開始，我們就已經是在用 Arch 系統了。</p>
+<p>然後進行一系列基本處理：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 設定 Root 密碼</span></span><br><span class="line">passwd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 設定電腦名稱</span></span><br><span class="line"><span class="built_in">echo</span> XXXX &gt; /etc/hostname</span><br><span class="line"></span><br><span class="line"><span class="comment"># 設定時區（by symnolic link）</span></span><br><span class="line"><span class="built_in">ln</span> -sf /usr/share/zoneinfo/Asia/Singapore /etc/localtime</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把軟體時鐘寫入硬體時鐘</span></span><br><span class="line">hwclock --systohc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 設定語系（或是 vim /etc/locale.gen 把 en_US.UTF-8 UTF-8 註解取消）</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;en_US.UTF-8 UTF-8&quot;</span> &gt;&gt; /etc/locale.gen</span><br><span class="line"></span><br><span class="line"><span class="comment"># 產生語系檔案</span></span><br><span class="line">locale-gen</span><br><span class="line"></span><br><span class="line"><span class="comment"># 設定主系統語言</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;LANG=en_US.UTF-8&quot;</span> &gt; /etc/locale.conf</span><br></pre></td></tr></table></figure>
+
+
+
+<p>創一個預設 <code>sudo</code> 使用者（通常不用 Root 活動）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安裝 sudo</span></span><br><span class="line">pacman -S <span class="built_in">sudo</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立使用者（-m 建家目錄、-G 群組）</span></span><br><span class="line">useradd -m -G wheel &lt;名稱&gt;</span><br><span class="line"><span class="comment"># 傳統 BSD 系統中，SUDO 群組叫 wheel (Big Wheel)</span></span><br><span class="line"><span class="comment"># 現代 Debian 系統，SUDO 群組叫 sudo</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 設定密碼</span></span><br><span class="line">passwd &lt;名稱&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 開放 wheel 權限</span></span><br><span class="line">visudo <span class="comment"># 或 EDITOR=vim visudo（用指定編輯器）</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>接下來處理 GRUB 開機引導程式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安裝開機微碼（CPU 指令的補丁）</span></span><br><span class="line">pacman -S intel-ucode</span><br><span class="line"><span class="comment"># 或 AMD 用 pacman -S amd-ucode</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 安裝工具</span></span><br><span class="line">pacman -S grub efibootmgr</span><br><span class="line"><span class="comment"># grub：開機管理工具</span></span><br><span class="line"><span class="comment"># efibootmgr：負責改主機板上的 NVRAM</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 把 ESP 寫入 NVRAM 中（需要 efibootmgr）</span></span><br><span class="line">grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB</span><br><span class="line"></span><br><span class="line"><span class="comment"># 產生開機選單</span></span><br><span class="line">grub-mkconfig -o /boot/grub/grub.cfg</span><br></pre></td></tr></table></figure>
+
+
+
+<p>所有配置都已經完成，現在可以重新啟動（記得最後一步要拔掉 USB）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exit</span>           <span class="comment"># 離開系統，回到 USB 開機碟</span></span><br><span class="line">umount -R /mnt <span class="comment"># 安全解掛載</span></span><br><span class="line">reboot         <span class="comment"># 記得拔掉 USB</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="3-客製化"><a href="#3-客製化" class="headerlink" title="3 客製化"></a>3 客製化</h1><p>接下來就比較客製化的內容了，不太影響系統穩定度，只影響好不好用。</p>
+<h2 id="3-1-更新-Pacman-庫"><a href="#3-1-更新-Pacman-庫" class="headerlink" title="3.1 更新 Pacman 庫"></a>3.1 更新 Pacman 庫</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -Syyu</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-2-安裝顯卡驅動"><a href="#3-2-安裝顯卡驅動" class="headerlink" title="3.2 安裝顯卡驅動"></a>3.2 安裝顯卡驅動</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安裝 Nvidia 顯卡</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S nvidia nvidia-utils nvidia-settings lib32-nvidia-utils</span><br><span class="line"><span class="comment"># nvidia             核心驅動</span></span><br><span class="line"><span class="comment"># nvidia-utils       核心工具（e.g. nvidia-smi 等等）</span></span><br><span class="line"><span class="comment"># nvidia-settings    圖形化設定工具</span></span><br><span class="line"><span class="comment"># lib32-nvidia-utils 相依性配合工具（如果要玩 Steam 則必要）</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 修改 GRUB 檔案</span></span><br><span class="line"><span class="comment"># 加入 nvidia-drm.modeset=1 到 GRUB_CMDLINE_LINUX_DEFAULT</span></span><br><span class="line"><span class="comment"># 例如：GRUB_CMDLINE_LINUX_DEFAULT=&quot;loglevel=3 quiet nvidia-drm.modeset=1&quot;</span></span><br><span class="line">vim /etc/default/grub</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改早期模組</span></span><br><span class="line"><span class="comment"># 加入 nvidia 到 MODULES 中</span></span><br><span class="line"><span class="comment"># 例如：MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)</span></span><br><span class="line">vim /etc/mkinitcpio.conf</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> grub-mkconfig -o /boot/grub/grub.cfg <span class="comment"># 更新 GRUB</span></span><br><span class="line"><span class="built_in">sudo</span> mkinitcpio -P <span class="comment"># 更新 initramfs</span></span><br></pre></td></tr></table></figure>
+
+<p>可能遭遇的問題，如果找不到 Nvidia 的話：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 直接翻庫表，看看哪些可用</span></span><br><span class="line">pacman -Sl extra | grep nvidia</span><br><span class="line"><span class="comment"># extra hip-runtime-nvidia 7.1.1-1</span></span><br><span class="line"><span class="comment"># extra libnvidia-container 1.18.2-1</span></span><br><span class="line"><span class="comment"># extra libva-nvidia-driver 0.0.15-1</span></span><br><span class="line"><span class="comment"># extra nvidia-cg-toolkit 3.1-8</span></span><br><span class="line"><span class="comment"># extra nvidia-container-toolkit 1.18.2-1</span></span><br><span class="line"><span class="comment"># extra nvidia-open 590.48.01-9</span></span><br><span class="line"><span class="comment"># extra nvidia-open-dkms 590.48.01-2</span></span><br><span class="line"><span class="comment"># extra nvidia-open-lts 1:590.48.01-9</span></span><br><span class="line"><span class="comment"># extra nvidia-prime 1.0-5</span></span><br><span class="line"><span class="comment"># extra nvidia-settings 590.48.01-1</span></span><br><span class="line"><span class="comment"># extra nvidia-utils 590.48.01-2</span></span><br><span class="line"><span class="comment"># extra opencl-nvidia 590.48.01-2</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-3-安裝圖形界面"><a href="#3-3-安裝圖形界面" class="headerlink" title="3.3 安裝圖形界面"></a>3.3 安裝圖形界面</h2><p>之前在寫文章漏掉這一塊，現在補回。這裡以 KDE 生態（<code>KDE-Plasma</code>）為主，另一個是 GNOME，可以自選。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安裝 Plasma 核心與必備工具</span></span><br><span class="line">pacman -S plasma-meta sddm konsole dolphin</span><br><span class="line"><span class="comment"># plasma-meta             KDE Plasma 桌面核心</span></span><br><span class="line"><span class="comment"># sddm                    KDE 登入介面</span></span><br><span class="line"><span class="comment"># konsole                 KDE 的終端機</span></span><br><span class="line"><span class="comment"># dolphin                 KDE 的檔案管理員</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 啟動 sddm 讓開機自動進入圖形登入界面</span></span><br><span class="line">systemctl <span class="built_in">enable</span> sddm</span><br></pre></td></tr></table></figure>
+
+<p>弄好就可以重新啟動進入圖形界面了。</p>
+<h2 id="3-4-音效驅動"><a href="#3-4-音效驅動" class="headerlink" title="3.4 音效驅動"></a>3.4 音效驅動</h2><p>這個比較簡單：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安裝驅動</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pavucontrol plasma-pa</span><br><span class="line"><span class="comment"># pipewire        核心服務</span></span><br><span class="line"><span class="comment"># pipewire-audio  讓 Pipewire 處理所有音訊流程</span></span><br><span class="line"><span class="comment"># pipewire-alsa   相容於舊的 ALSA 介面（底層驅動）</span></span><br><span class="line"><span class="comment"># pipewire-pulse  建立一個偽裝的 PulseAudio 伺服器，讓 Chrome、Discord 等軟體能正常發聲</span></span><br><span class="line"><span class="comment"># wireplumber     負責決定哪個裝置該出聲、調整音量</span></span><br><span class="line"><span class="comment"># plasma-pa       KDE 右下角小圖示</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 設定開機自動啟動</span></span><br><span class="line">systemctl --user <span class="built_in">enable</span> --now pipewire.service pipewire-pulse.service wireplumber.service</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-5-中文輸入法"><a href="#3-5-中文輸入法" class="headerlink" title="3.5 中文輸入法"></a>3.5 中文輸入法</h2><p>中文輸入法在 Arch 裡面，還有字型的問題。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安裝中文輸入法</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S fcitx5 fcitx5-chewing fcitx5-configtool fcitx5-qt fcitx5-gtk</span><br><span class="line"><span class="comment"># fcitx5            包含主程式與 GTK/Qt 的支援模組</span></span><br><span class="line"><span class="comment"># fcitx5-chewing    新酷音輸入法（如果你習慣注音）</span></span><br><span class="line"><span class="comment"># fcitx5-configtool 圖形化設定介面</span></span><br><span class="line"><span class="comment"># fcitx5-qt         處理 Qt 邏輯選字框（因為 KDE 桌面是 Qt）</span></span><br><span class="line"><span class="comment"># fcitx5-gtk        處理 GTK 邏輯選字框（因為 GNOME 桌面是 GTK，如果永遠不用 GTK 軟體的話不必要）</span></span><br></pre></td></tr></table></figure>
+
+<p>然後編輯 <code>/etc/environment</code> 插入下面幾行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GTK_IM_MODULE=fcitx</span><br><span class="line">QT_IM_MODULE=fcitx</span><br><span class="line">XMODIFIERS=@im=fcitx</span><br><span class="line">SDL_IM_MODULE=fcitx</span><br><span class="line">GLFW_IM_MODULE=fcitx</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-6-安裝字型"><a href="#3-6-安裝字型" class="headerlink" title="3.6 安裝字型"></a>3.6 安裝字型</h2><p>Arch 什麼都不提供，建議至少思源+文泉譯：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S noto-fonts-cjk adobe-source-han-sans-otc-fonts adobe-source-han-serif-otc-fonts</span><br><span class="line"><span class="comment"># noto-fonts-cjk                   Google 開源的字體，涵蓋簡、繁、日、韓，相容性最強</span></span><br><span class="line"><span class="comment"># adobe-source-han-sans-otc-fonts  Adobe 版的開源黑體，思源黑體，字形處理非常細膩，適合系統 UI</span></span><br><span class="line"><span class="comment"># adobe-source-han-serif-otc-fonts 思源宋體，適合閱讀長篇文章，字體帶有襯線，很有書卷感</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> pacman -S wqy-zenhei wqy-microhei</span><br><span class="line"><span class="comment"># wqy-zenhei    文泉驛正黑，最經典的代表作</span></span><br><span class="line"><span class="comment"># wqy-microhei  文泉驛微米黑，基於 Google 的 Droid Sans Fallback 修改而來</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> pacman -S ttf-jetbrains-mono-nerd ttf-cascadia-code-nerd</span><br><span class="line"><span class="comment"># ttf-jetbrains-mono-nerd  寫程式字體，字間距與高度經過特別優化</span></span><br><span class="line"><span class="comment"># ttf-cascadia-code-nerd   微軟開發的字體，帶有連字效果（例如 != 會合體成 $\neq$）</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> pacman -S ttf-inter noto-fonts-emoji</span><br><span class="line"><span class="comment"># ttf-inter         現代 UI 字體，很多國外科技公司的網頁預設</span></span><br><span class="line"><span class="comment"># noto-fonts-emoji  解決 Discord 或網頁上 Emoji 變方塊的問題</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> pacman -S otf-latin-modern</span><br><span class="line"><span class="comment"># otf-latin-modern  數學字體，由 LATEX 衍生，這是 Latin Modern 的 OpenType 版本</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-7-安裝-Chrome-與-Chromium"><a href="#3-7-安裝-Chrome-與-Chromium" class="headerlink" title="3.7 安裝 Chrome 與 Chromium"></a>3.7 安裝 Chrome 與 Chromium</h2><p>不推薦 Chromium 的原因是不支援自動同步。</p>
+<p>由於 Arch 官方沒收錄官方版 Google Chrome，所以最好自己編譯：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下載並編譯</span></span><br><span class="line">git <span class="built_in">clone</span> https://aur.archlinux.org/google-chrome.git</span><br><span class="line"><span class="built_in">cd</span> google-chrome</span><br><span class="line">makepkg -si</span><br></pre></td></tr></table></figure>
+
+<p>關閉 KWallet 密碼管理（導致啟動很慢）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 設定檔加入一行</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;--password-store=basic&quot;</span> &gt;&gt; ~/.config/chrome-flags.conf</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-8-螢幕截圖設定"><a href="#3-8-螢幕截圖設定" class="headerlink" title="3.8 螢幕截圖設定"></a>3.8 螢幕截圖設定</h2><ul>
+<li>設定 Spectacle 讓行為跟 Window 相同使用（ <code>Window+Shift+S</code> 來直接螢幕截圖到 Clipboard）</li>
+<li>配置：儲存 + 複製圖片到 Clipboard</li>
+<li>然後快捷建：Reassign <code>Meta+Shift+S</code> 到 Capture Rectangular Region 而不是 Launch Spectacle。</li>
+</ul>
+
+        <figure class="figure">
+            <img src="/images/c24ee4df07d7db3c06259e53de85421a.png" alt="image.png">
+            <figcaption>image.png</figcaption>
+        </figure>
+
+
+        <figure class="figure">
+            <img src="/images/975436de447b5e050c4d87cc1319d404.png" alt="image.png">
+            <figcaption>image.png</figcaption>
+        </figure>
+
+<h2 id="3-9-WebApp-的-D-Bus-延遲問題"><a href="#3-9-WebApp-的-D-Bus-延遲問題" class="headerlink" title="3.9 WebApp 的 D-Bus 延遲問題"></a>3.9 WebApp 的 D-Bus 延遲問題</h2><p>所有的 WebApp 啟動的時候，都會去調用 KWallet (KDE) 來想要保存密碼（這是源自於瀏覽器的習慣。）<br>但是安裝的時候預設是不啟用 Kwallet 的，直接補裝進去就好，我建議就用 KWallet 來保存，其實 Windows 也是這麼做的（只是方法有些不同。）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 啟用 Kwallet</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S kwallet kwalletmanager kwallet-pam</span><br><span class="line"><span class="comment"># kwallet        預設核心（儲存密碼用）</span></span><br><span class="line"><span class="comment"># kwalletmanager 它的 GUI 管理界面</span></span><br><span class="line"><span class="comment"># kwallet-pam    讓你登入的時候順便解鎖（類似 Windows）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 打開 GUI 設定，新建一個 wallet</span></span><br><span class="line"><span class="comment"># 名稱必須是 &quot;kdewallet&quot; (如果希望 no pop-up window 的話，kwallet-pam 固定用的名稱)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置 kwallet-pam 加入下面兩行</span></span><br><span class="line"><span class="built_in">sudo</span> vim /etc/pam.d/login</span><br><span class="line"><span class="comment"># auth       optional     pam_kwallet5.so</span></span><br><span class="line"><span class="comment"># session    optional     pam_kwallet5.so auto_start</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果要停用：加入 --password-store=basic 到指定應用程式（這裡以 vscoduim 為例）</span></span><br><span class="line">vim ~/.config/codium-flags.conf</span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+
+
+
+    <div class="blog-post-comments">
+        <script src="https://giscus.app/client.js"
+                data-repo="tinytsunami/blog"
+                data-repo-id="MDEwOlJlcG9zaXRvcnkxMjI3MTEwNTY"
+                data-category="Blog Comments"
+                data-category-id="DIC_kwDOB1BsEM4C42Ww"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="bottom"
+                data-theme="dark"
+                data-lang="en"
+                data-loading="lazy"
+                crossorigin="anonymous"
+                async>
+        </script>
+    </div>
+
+
+
+  <script src='https://unpkg.com/mermaid@11.14.0/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({
+        theme: 'dark'
+      });
+    }
+  </script>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/notes/">Notes</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E9%96%8B%E6%A9%9F%E9%81%8E%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">1 開機過程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E7%B3%BB%E7%B5%B1%E5%AE%89%E8%A3%9D"><span class="toc-number">2.</span> <span class="toc-text">2 系統安裝</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E5%AE%A2%E8%A3%BD%E5%8C%96"><span class="toc-number">3.</span> <span class="toc-text">3 客製化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E6%9B%B4%E6%96%B0-Pacman-%E5%BA%AB"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 更新 Pacman 庫</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E5%AE%89%E8%A3%9D%E9%A1%AF%E5%8D%A1%E9%A9%85%E5%8B%95"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 安裝顯卡驅動</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-%E5%AE%89%E8%A3%9D%E5%9C%96%E5%BD%A2%E7%95%8C%E9%9D%A2"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 安裝圖形界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-%E9%9F%B3%E6%95%88%E9%A9%85%E5%8B%95"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 音效驅動</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5-%E4%B8%AD%E6%96%87%E8%BC%B8%E5%85%A5%E6%B3%95"><span class="toc-number">3.5.</span> <span class="toc-text">3.5 中文輸入法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-6-%E5%AE%89%E8%A3%9D%E5%AD%97%E5%9E%8B"><span class="toc-number">3.6.</span> <span class="toc-text">3.6 安裝字型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-7-%E5%AE%89%E8%A3%9D-Chrome-%E8%88%87-Chromium"><span class="toc-number">3.7.</span> <span class="toc-text">3.7 安裝 Chrome 與 Chromium</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-8-%E8%9E%A2%E5%B9%95%E6%88%AA%E5%9C%96%E8%A8%AD%E5%AE%9A"><span class="toc-number">3.8.</span> <span class="toc-text">3.8 螢幕截圖設定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-9-WebApp-%E7%9A%84-D-Bus-%E5%BB%B6%E9%81%B2%E5%95%8F%E9%A1%8C"><span class="toc-number">3.9.</span> <span class="toc-text">3.9 WebApp 的 D-Bus 延遲問題</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.tinytsunami.info/arch-linux-install-config/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.tinytsunami.info/arch-linux-install-config/&text=🔼 Arch Linux - 安裝 &amp; 配置"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.tinytsunami.info/arch-linux-install-config/&title=🔼 Arch Linux - 安裝 &amp; 配置"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.tinytsunami.info/arch-linux-install-config/&is_video=false&description=🔼 Arch Linux - 安裝 &amp; 配置"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=🔼 Arch Linux - 安裝 &amp; 配置&body=Check out this article: https://www.tinytsunami.info/arch-linux-install-config/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.tinytsunami.info/arch-linux-install-config/&title=🔼 Arch Linux - 安裝 &amp; 配置"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.tinytsunami.info/arch-linux-install-config/&title=🔼 Arch Linux - 安裝 &amp; 配置"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.tinytsunami.info/arch-linux-install-config/&title=🔼 Arch Linux - 安裝 &amp; 配置"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.tinytsunami.info/arch-linux-install-config/&title=🔼 Arch Linux - 安裝 &amp; 配置"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.tinytsunami.info/arch-linux-install-config/&name=🔼 Arch Linux - 安裝 &amp; 配置&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.tinytsunami.info/arch-linux-install-config/&t=🔼 Arch Linux - 安裝 &amp; 配置"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    
+    
+    2016-2026
+    Tinytsunami — CC BY 4.0
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+<script>
+  twemoji.parse(document.body);
+</script>
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+<link rel="stylesheet" href="/css/encrypt.css">
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
