@@ -15,7 +15,7 @@
   "dependencies": {
     "@notionhq/client": "^5.16.0",
     "dotenv": "^17.4.0",
-    "hexo": "^8.0.0",
+    "hexo": "^8.1.2",
     "hexo-blog-encrypt": "3.1.9",
     "hexo-deployer-git": "^4.0.0",
     "hexo-filter-mermaid-diagrams": "^1.0.5",
