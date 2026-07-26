@@ -14,7 +14,7 @@
 <meta property="og:description" content="「如果它看起來像鴨子、游泳像鴨子、叫聲像鴨子，那麼它可能就是隻鴨子。」—— 鴨子測試  綠野仙蹤在創業領域中，有一個東西叫做「綠野仙蹤 MVP」（Wizard of Oz MVP），意思是：表面看起來像是能自己運行的網站、程式系統，但背地裡全是人工操作的。其目的可能是蒐集商業資料、或是期初降低成本。 經過了許多年，我後來發現所謂的自動化，必須是先有人工，然後反覆做類似的事情，再把這些「反覆」提煉">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2026-07-26T16:38:00.000Z">
-<meta property="article:modified_time" content="2026-07-26T18:20:00.000Z">
+<meta property="article:modified_time" content="2026-07-26T18:27:00.000Z">
 <meta property="article:author" content="Tinytsunami">
 <meta property="article:tag" content="tech, game development">
 <meta name="twitter:card" content="summary">
@@ -100,7 +100,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B6%A0%E9%87%8E%E4%BB%99%E8%B9%A4"><span class="toc-number">1.</span> <span class="toc-text">綠野仙蹤</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%B4%A8%E5%AD%90%E5%88%92%E6%B0%B4"><span class="toc-number">2.</span> <span class="toc-text">鴨子划水</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%B4%A8%E5%AD%90%E5%88%92%E6%B0%B4%E5%88%92%E4%B8%8A%E5%A4%A9"><span class="toc-number">3.</span> <span class="toc-text">鴨子划水划上天</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%95%9F%E7%A4%BA"><span class="toc-number">4.</span> <span class="toc-text">啟示</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B6%A0%E9%87%8E%E4%BB%99%E8%B9%A4"><span class="toc-number">1.</span> <span class="toc-text">綠野仙蹤</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%B4%A8%E5%AD%90%E5%88%92%E6%B0%B4"><span class="toc-number">2.</span> <span class="toc-text">鴨子划水</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%B4%A8%E5%AD%90%E5%88%92%E6%B0%B4%E5%88%92%E4%B8%8A%E5%A4%A9"><span class="toc-number">3.</span> <span class="toc-text">鴨子划水划上天</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%B4%A8%E5%AD%90%E7%9A%84%E5%95%9F%E7%A4%BA"><span class="toc-number">4.</span> <span class="toc-text">鴨子的啟示</span></a></li></ol>
       </div>
     
   </span>
@@ -127,7 +127,7 @@
       
         <time datetime="2026-07-26T16:38:00.000Z" class="dt-published" itemprop="datePublished">2026-07-26</time>
         
-        (Updated: <time datetime="2026-07-26T18:20:00.000Z" class="dt-updated" itemprop="dateModified">2026-07-26</time>)
+        (Updated: <time datetime="2026-07-26T18:27:00.000Z" class="dt-updated" itemprop="dateModified">2026-07-26</time>)
         
       
     </div>
@@ -176,15 +176,15 @@
 <div class="note info"><p>鴨子在水面上看起來平靜優雅的游泳，但水面下的腳蹼會瘋狂的打水。</p>
 </div>
 
-<h1 id="鴨子划水划上天"><a href="#鴨子划水划上天" class="headerlink" title="鴨子划水划上天"></a>鴨子划水划上天</h1><p>以上面那個例子來說，最終結果是需要把「鴨子划水」的過程給自動化。數年之後的分野，在於資料蒐集，有沒有做資料蒐集，將會導致兩種不同的結果：</p>
+<h1 id="鴨子划水划上天"><a href="#鴨子划水划上天" class="headerlink" title="鴨子划水划上天"></a>鴨子划水划上天</h1><p>以上面那個例子來說，最終結果是需要把「鴨子划水」的過程給自動化。數年之後的分野，在於資料蒐集。對於一個系統來說，有沒有做資料蒐集，將會導致兩種完全不同的結果：</p>
 <ul>
 <li>第一種，每次都人工搞，做一單是一單，沒有做資料蒐集與整理，於是持續划水，直到有一天鴨子老了，划不動了，那就沉水裡了。</li>
 <li>第二種，人工做了很多單，清楚知道哪些工廠能做什麼、不能做什麼，手裡有這份資料，開始分析資料，並在網站端引入自動化機制，也許把不合規的圖紙刪掉、自動媒合能做的工廠等等。</li>
 </ul>
 <p>直到某一天，你發現你的平台不再需要划水，自己就能飛了！你只需要對平台跟系統做基礎維護，邊際成本低到幾乎為零（或同樣規格下的極低水平），所以平台很容易在這個階段持續做大、做強。</p>
-<p>當然了，蒐集並整理資料肯定也是大麻煩，特別是非純軟體的產業，可能需要深刻的數值化能力。（其實純軟體業背後也是大麻煩，只是應該會更側重清理，而不是數值化。）</p>
-<h1 id="啟示"><a href="#啟示" class="headerlink" title="啟示"></a>啟示</h1><p>鴨子上天的祕密，就藏在資料裡。</p>
-<p>因為資料需要解決的是落地的問題，所以邏輯上不可能跳過人力的挖掘，憑空產生的資料是無法讓商業模式跑通的。可以這麼說，資料就是真實世界摩擦力的碎屑，需要不斷挖掘才能產生一些些的塵埃，累積多了就能從塵埃中發現黃金。</p>
+<p>當然了，蒐集並整理資料肯定也是大麻煩，特別是非純軟體的產業，可能需要深刻的數值化能力。（其實純軟體業背後也是大麻煩，只是會更側重清理，而不是數值化。）</p>
+<h1 id="鴨子的啟示"><a href="#鴨子的啟示" class="headerlink" title="鴨子的啟示"></a>鴨子的啟示</h1><p>鴨子上天的祕密，就藏在資料裡。</p>
+<p>因為資料需要解決的是落地的問題，所以邏輯上不可能跳過人力的挖掘，憑空產生的資料是無法讓商業模式跑通的，可以這麼說：資料就是真實世界摩擦力的碎屑，需要不斷挖掘才能多少產生一些的塵埃，累積多了之後，就能從塵埃中發現黃金。</p>
 <p>在今天的世界中，許多人覺得 AI 就像神明，但 AI 可以利用資料，卻不能取代現實世界中資料的累積，因此也無法憑空理解真實世界的摩擦。這也是為什麼純 AI 創業很容易失敗，但把 AI 整合進「鴨子」中，卻是個天大的好主意，誰不喜歡具有頂級智慧、又勤勞划水的鴨子呢？</p>
 <p>當然，如果你的商業模式本身就是用數位服務換取資料，那又是另一條路了，不過這就是另一篇文章的主題了。</p>
 
@@ -242,7 +242,7 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B6%A0%E9%87%8E%E4%BB%99%E8%B9%A4"><span class="toc-number">1.</span> <span class="toc-text">綠野仙蹤</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%B4%A8%E5%AD%90%E5%88%92%E6%B0%B4"><span class="toc-number">2.</span> <span class="toc-text">鴨子划水</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%B4%A8%E5%AD%90%E5%88%92%E6%B0%B4%E5%88%92%E4%B8%8A%E5%A4%A9"><span class="toc-number">3.</span> <span class="toc-text">鴨子划水划上天</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%95%9F%E7%A4%BA"><span class="toc-number">4.</span> <span class="toc-text">啟示</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B6%A0%E9%87%8E%E4%BB%99%E8%B9%A4"><span class="toc-number">1.</span> <span class="toc-text">綠野仙蹤</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%B4%A8%E5%AD%90%E5%88%92%E6%B0%B4"><span class="toc-number">2.</span> <span class="toc-text">鴨子划水</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%B4%A8%E5%AD%90%E5%88%92%E6%B0%B4%E5%88%92%E4%B8%8A%E5%A4%A9"><span class="toc-number">3.</span> <span class="toc-text">鴨子划水划上天</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%B4%A8%E5%AD%90%E7%9A%84%E5%95%9F%E7%A4%BA"><span class="toc-number">4.</span> <span class="toc-text">鴨子的啟示</span></a></li></ol>
       </div>
     
 
