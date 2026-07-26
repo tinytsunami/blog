@@ -104,7 +104,7 @@ function getProperty(prop) {
         case 'title':
         case 'rich_text':        return prop[prop.type].map(t => t.plain_text).join('');
         case 'number':           return prop.number;
-        case 'people':           return prop.people[0].name;
+        case 'people':           return prop.people[0].id;
         case 'select':           return prop.select?.name || null;
         case 'multi_select':     return prop.multi_select.map(s => s.name);
         case 'date':             return prop.start || null;
@@ -112,6 +112,10 @@ function getProperty(prop) {
         case 'emoji':            return prop.emoji;
         default:                 return null;
     }
+}
+
+async function getUsername(user_id) {
+    return notion.users.retrieve({ user_id: user_id });
 }
 
 function formatDate(iso) {
@@ -360,7 +364,7 @@ const articles = await Promise.all(
     let pageId         = source.id;
     let title          = `${source.icon == null ? '' : getIcon(source.icon)} ${getProperty(source.properties.title)}`.trim();
     let category       = getProperty(source.properties.category);
-    let author         = getProperty(source.properties.author);
+    let author         = (await getUsername(getProperty(source.properties.author)))['name'];
     let createDatetime = formatDate(getProperty(source.properties.created) ?? source.created_time);
     let updateDatetime = formatDate(getProperty(source.properties.updated) ?? source.last_edited_time);
     let mathjax        = getProperty(source.properties.mathjax);
