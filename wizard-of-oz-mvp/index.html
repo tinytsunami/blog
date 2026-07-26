@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="「如果它看起來像鴨子、游泳像鴨子、叫聲像鴨子，那麼它可能就是隻鴨子。」—— 鴨子測試  綠野仙蹤在創業領域中，有一個東西叫做「綠野仙蹤 MVP」（Wizard of Oz MVP），意思是：表面看起來像是能自己運行的網站、程式系統，但背地裡全是人工操作的。其目的可能是蒐集商業資料、或是期初降低成本。 經過了許多年，我後來發現所謂的自動化，必須是先有人工，然後反覆做類似的事情，再把這些「反覆」提煉">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🦆 鴨子的啟示">
+<meta property="og:url" content="https://www.tinytsunami.info/wizard-of-oz-mvp/index.html">
+<meta property="og:site_name" content="Tinytsunami">
+<meta property="og:description" content="「如果它看起來像鴨子、游泳像鴨子、叫聲像鴨子，那麼它可能就是隻鴨子。」—— 鴨子測試  綠野仙蹤在創業領域中，有一個東西叫做「綠野仙蹤 MVP」（Wizard of Oz MVP），意思是：表面看起來像是能自己運行的網站、程式系統，但背地裡全是人工操作的。其目的可能是蒐集商業資料、或是期初降低成本。 經過了許多年，我後來發現所謂的自動化，必須是先有人工，然後反覆做類似的事情，再把這些「反覆」提煉">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-07-26T16:38:00.000Z">
+<meta property="article:modified_time" content="2026-07-26T17:45:00.000Z">
+<meta property="article:author" content="Tinytsunami">
+<meta property="article:tag" content="tech, game development">
+<meta name="twitter:card" content="summary">
+    
+    
+    
+      <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/twitter/twemoji/assets/72x72/1f986.png">
+    
+    <!-- title -->
+    <title> 鴨子的啟示</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+  <!-- Twemoji -->
+  <script src="https://cdn.jsdelivr.net/npm/twemoji@14.0.2/dist/twemoji.min.js"></script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2026-oversea-relocation/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.tinytsunami.info/wizard-of-oz-mvp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.tinytsunami.info/wizard-of-oz-mvp/&text=🦆 鴨子的啟示"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.tinytsunami.info/wizard-of-oz-mvp/&title=🦆 鴨子的啟示"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.tinytsunami.info/wizard-of-oz-mvp/&is_video=false&description=🦆 鴨子的啟示"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=🦆 鴨子的啟示&body=Check out this article: https://www.tinytsunami.info/wizard-of-oz-mvp/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.tinytsunami.info/wizard-of-oz-mvp/&title=🦆 鴨子的啟示"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.tinytsunami.info/wizard-of-oz-mvp/&title=🦆 鴨子的啟示"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.tinytsunami.info/wizard-of-oz-mvp/&title=🦆 鴨子的啟示"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.tinytsunami.info/wizard-of-oz-mvp/&title=🦆 鴨子的啟示"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.tinytsunami.info/wizard-of-oz-mvp/&name=🦆 鴨子的啟示&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.tinytsunami.info/wizard-of-oz-mvp/&t=🦆 鴨子的啟示"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B6%A0%E9%87%8E%E4%BB%99%E8%B9%A4"><span class="toc-number">1.</span> <span class="toc-text">綠野仙蹤</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%B4%A8%E5%AD%90%E5%88%92%E6%B0%B4"><span class="toc-number">2.</span> <span class="toc-text">鴨子划水</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%B4%A8%E5%AD%90%E5%88%92%E6%B0%B4%E5%88%92%E4%B8%8A%E5%A4%A9"><span class="toc-number">3.</span> <span class="toc-text">鴨子划水划上天</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%95%9F%E7%A4%BA"><span class="toc-number">4.</span> <span class="toc-text">啟示</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        🦆 鴨子的啟示
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">undefined</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-07-26T16:38:00.000Z" class="dt-published" itemprop="datePublished">2026-07-26</time>
+        
+        (Updated: <time datetime="2026-07-26T17:45:00.000Z" class="dt-updated" itemprop="dateModified">2026-07-26</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/null/">null</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <blockquote>
+<p>「如果它看起來像鴨子、游泳像鴨子、叫聲像鴨子，那麼它可能就是隻鴨子。」—— 鴨子測試</p>
+</blockquote>
+<h1 id="綠野仙蹤"><a href="#綠野仙蹤" class="headerlink" title="綠野仙蹤"></a>綠野仙蹤</h1><p>在創業領域中，有一個東西叫做「綠野仙蹤 MVP」（Wizard of Oz MVP），意思是：表面看起來像是能自己運行的網站、程式系統，但背地裡全是人工操作的。其目的可能是蒐集商業資料、或是期初降低成本。</p>
+<p>經過了許多年，我後來發現所謂的自動化，必須是先有人工，然後反覆做類似的事情，再把這些「反覆」提煉出來做成 SOP 或是自動化系統。</p>
+<p>一旦發生順序錯位，那麼下場就是沒用戶：因為平台需要用戶來幫他吸引更多用戶，但一開始沒有用戶，自然也就完全沒有新用戶加入，這就是「冷啟動困局」。</p>
+<h1 id="鴨子划水"><a href="#鴨子划水" class="headerlink" title="鴨子划水"></a>鴨子划水</h1><p>台灣並沒有一個完整的 B2B 媒合平台（像中國的阿里），跟成熟的半導體不同，大多數工廠都是各自為政，特別是零散的小工廠，這導致品牌方找不到製造工廠、工廠也找不到訂單。</p>
+<p>在這個例子裡，如果你想弄一個「供應鏈媒合平台」的話，很多學生（包含年輕時代的我）都會這樣想：「先弄一個網站（或自動化系統），然後就會有用戶！」→ 但這是錯的。</p>
+<p>我們來思考一下「媒合網站」實際上要做什麼：</p>
+<ul>
+<li>幫品牌公司（A 方）找工廠</li>
+<li>幫工廠（B 方）找訂單</li>
+<li>媒合網站撮合 A 與 B 並從中賺取手續費</li>
+<li>媒合網站需要低成本、低摩擦</li>
+</ul>
+<p>那一個真正合理的做法是：</p>
+<ul>
+<li>弄網站，後面接簡單的表單</li>
+<li>品牌方填寫需求表單（前提是市場痛點真實存在，而你是他們唯一的數位入口）</li>
+<li>鴨子划水（用純人力拿著圖紙跟訂單，去找工廠媒合）</li>
+<li>完工交件並蒐集工廠的資料</li>
+<li>最後慢慢把整個鴨子划水的流程給自動化</li>
+</ul>
+<p>實際上，摩擦力並非不存在，而是在「鴨子划水」階段被「人工化解」了！</p>
+<p>對品牌方來說，他們只看到一個精美的 Web 網站（即使背後是 Google 表單、或是連 CSS 都沒有的 HTML 網站），然後下單得到成品。</p>
+<p>反之，對工廠方來說，也不需要什麼「導入數位系統」啥的，只要人工接洽就好了。</p>
+<div class="note info"><p>鴨子在水面上看起來平靜優雅的游泳，但水面下的腳蹼會瘋狂的打水。</p>
+</div>
+
+<h1 id="鴨子划水划上天"><a href="#鴨子划水划上天" class="headerlink" title="鴨子划水划上天"></a>鴨子划水划上天</h1><p>以上面那個例子來說，最終結果是需要把「鴨子划水」的過程給自動化。數年之後的分野，在於資料蒐集，有沒有做資料蒐集，將會導致兩種不同的結果：</p>
+<ul>
+<li>第一種，每次都人工搞，做一單是一單，沒有做資料蒐集與整理，於是持續划水，直到有一天鴨子老了，划不動了，那就沉水裡了。</li>
+<li>第二種，人工做了很多單，清楚知道哪些工廠能做什麼、不能做什麼，手裡有這份資料，開始分析資料，並在網站端引入自動化機制，也許把不合規的圖紙刪掉、自動媒合能做的工廠等等。</li>
+</ul>
+<p>直到某一天，你發現你的平台不再需要划水，自己就能飛了！你只需要對平台跟系統做基礎維護，邊際成本低到幾乎為零（或同樣規格下的極低水平），所以平台很容易在這個階段持續做大、做強。</p>
+<p>當然了，蒐集並整理資料肯定也是大麻煩，特別是非純軟體的產業，可能需要深刻的數值化能力。（其實純軟體業背後也是大麻煩，只是應該會更側重清理，而不是數值化。）</p>
+<h1 id="啟示"><a href="#啟示" class="headerlink" title="啟示"></a>啟示</h1><p>鴨子上天的祕密，就藏在資料裡。</p>
+<p>因為資料需要解決的是落地的問題，所以邏輯上不可能跳過人力的挖掘，憑空產生的資料是無法讓商業模式跑通的。可以這麼說，資料就是真實世界摩擦力的碎屑，需要不斷挖掘才能產生一些些的塵埃，累積多了就能從塵埃中發現黃金。</p>
+<p>在今天的世界中，許多人覺得 AI 就像神明，但 AI 可以利用資料，卻不能取代現實世界中資料的累積，因此也無法憑空理解真實世界的摩擦。這也是為什麼純 AI 創業很容易失敗，但把 AI 整合進「鴨子」中，卻是個天大的好主意，誰不喜歡具有頂級智慧、又勤勞划水的鴨子呢？</p>
+<p>當然，如果你的商業模式本身就是用數位服務換取資料，那又是另一條路了，不過這就是另一篇文章的主題了。</p>
+
+  </div>
+</article>
+
+
+
+    <div class="blog-post-comments">
+        <script src="https://giscus.app/client.js"
+                data-repo="tinytsunami/blog"
+                data-repo-id="MDEwOlJlcG9zaXRvcnkxMjI3MTEwNTY"
+                data-category="Blog Comments"
+                data-category-id="DIC_kwDOB1BsEM4C42Ww"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="bottom"
+                data-theme="dark"
+                data-lang="en"
+                data-loading="lazy"
+                crossorigin="anonymous"
+                async>
+        </script>
+    </div>
+
+
+
+  <script src='https://unpkg.com/mermaid@11.14.0/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({
+        theme: 'dark'
+      });
+    }
+  </script>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/notes/">Notes</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B6%A0%E9%87%8E%E4%BB%99%E8%B9%A4"><span class="toc-number">1.</span> <span class="toc-text">綠野仙蹤</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%B4%A8%E5%AD%90%E5%88%92%E6%B0%B4"><span class="toc-number">2.</span> <span class="toc-text">鴨子划水</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%B4%A8%E5%AD%90%E5%88%92%E6%B0%B4%E5%88%92%E4%B8%8A%E5%A4%A9"><span class="toc-number">3.</span> <span class="toc-text">鴨子划水划上天</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%95%9F%E7%A4%BA"><span class="toc-number">4.</span> <span class="toc-text">啟示</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.tinytsunami.info/wizard-of-oz-mvp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.tinytsunami.info/wizard-of-oz-mvp/&text=🦆 鴨子的啟示"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.tinytsunami.info/wizard-of-oz-mvp/&title=🦆 鴨子的啟示"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.tinytsunami.info/wizard-of-oz-mvp/&is_video=false&description=🦆 鴨子的啟示"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=🦆 鴨子的啟示&body=Check out this article: https://www.tinytsunami.info/wizard-of-oz-mvp/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.tinytsunami.info/wizard-of-oz-mvp/&title=🦆 鴨子的啟示"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.tinytsunami.info/wizard-of-oz-mvp/&title=🦆 鴨子的啟示"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.tinytsunami.info/wizard-of-oz-mvp/&title=🦆 鴨子的啟示"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.tinytsunami.info/wizard-of-oz-mvp/&title=🦆 鴨子的啟示"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.tinytsunami.info/wizard-of-oz-mvp/&name=🦆 鴨子的啟示&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.tinytsunami.info/wizard-of-oz-mvp/&t=🦆 鴨子的啟示"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    
+    
+    2016-2026
+    Tinytsunami — CC BY 4.0
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+<script>
+  twemoji.parse(document.body);
+</script>
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+<link rel="stylesheet" href="/css/encrypt.css">
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
